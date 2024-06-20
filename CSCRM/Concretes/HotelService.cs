@@ -4,6 +4,7 @@ using CSCRM.Models.ResponseTypes;
 using CSCRM.Models;
 using CSCRM.ViewModels.HotelVMs;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace CSCRM.Concretes
 {
@@ -21,6 +22,9 @@ namespace CSCRM.Concretes
 
             try
             {
+                List<string> hotelNamesInDB = await _context.Hotels.Where(h=>h.IsDeleted==false).Select(h => h.Name).ToListAsync();
+                if(hotelNamesInDB.Any(hn=>hn.ToLower()==addHotelVM.Name.Trim().ToLower()))
+                    return new BaseResponse { Message = $"Hotel {addHotelVM.Name} is already exists", StatusCode = "201", Success = false };
                 
                 Hotel newHotel = new Hotel 
                 { Name = addHotelVM.Name,
@@ -32,7 +36,20 @@ namespace CSCRM.Concretes
                 };
                 await _context.Hotels.AddAsync(newHotel);
                 await _context.SaveChangesAsync();
-                return new BaseResponse { Data = newHotel, Message = "Hotel Created Successfully", StatusCode = "201", Success = true };
+                List<GetHotelVM> hotels = await _context.Hotels
+                                                        .Where(h => h.IsDeleted == false)
+                                                        .Select(h => new GetHotelVM
+                                                        {
+                                                            Id = h.Id,
+                                                            Name = h.Name,
+                                                            SinglePrice = h.SinglePrice,
+                                                            DoublePrice = h.DoublePrice,
+                                                            TriplePrice = h.TriplePrice,
+                                                            ContactPerson = h.ContactPerson,
+                                                            ContactNumber = h.ContactNumber,
+                                                        })
+                                                        .ToListAsync();
+                return new BaseResponse { Data = hotels, Message = "Hotel Created Successfully", StatusCode = "201", Success = true };
 
 
             }
@@ -47,8 +64,6 @@ namespace CSCRM.Concretes
 
         public async Task<BaseResponse> GetAllHotelsAsync()
         {
-            
-
             try
             {
                 List<GetHotelVM> hotels = await _context.Hotels
@@ -81,14 +96,26 @@ namespace CSCRM.Concretes
             }
         }
 
+        public async Task<BaseResponse> RemoveHotelAsync(int hotelId)
+        {
+            Hotel deletingHotel = await _context.Hotels.FirstOrDefaultAsync(h => h.Id == hotelId && h.IsDeleted==false);
+            if (deletingHotel == null) { return new BaseResponse { Success = false, Message="Hotel Could Not Found", StatusCode="404" }; }
+
+            deletingHotel.IsDeleted = true;
+            await _context.SaveChangesAsync();
+            return new BaseResponse { Success = true, Message = $"Hotel {deletingHotel.Name} is deleted successfully. " };
+
+        }
         public Task<BaseResponse> GetHotelByIdAsync(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<BaseResponse> RemoveHotelAsync()
+        public async Task EditHotelByIdAsync(int hotelId)
         {
-            throw new NotImplementedException();
+            Hotel hotel = await _context.Hotels.FirstOrDefaultAsync(ho => ho.Id == hotelId);
+            hotel.Name = "NewName";
+           await _context.SaveChangesAsync();
         }
     }
 }

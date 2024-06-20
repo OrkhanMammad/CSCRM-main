@@ -49,7 +49,6 @@ namespace CSCRM.Controllers
                     return View(signInVM);
                 }
 
-
                 Microsoft.AspNetCore.Identity.SignInResult signInResult = await _signInManager.PasswordSignInAsync(appUser, signInVM.Password, true, false);
 
 
@@ -68,27 +67,21 @@ namespace CSCRM.Controllers
                 return View(signInVM);
             }
             catch (Exception ex) {
-
+                ModelState.AddModelError("", "Error Occured");
                 return View(signInVM);
 
             }
-
-
-               
-
-
-
         }
-        
+
         //[HttpGet]
-        //public async Task CreateNewAccount() 
+        //public async Task CreateNewAccount()
         //{
-        //    //await _roleManager.CreateAsync(new IdentityRole("Developer"));
-        //    AppUser user = new AppUser { Email="Orkhanvm@gmail.com", UserName="Orkhan123", Name = "Orkhan", SurName="Mammadli" };
-        //   await _userManager.CreateAsync(user,"Orkhan6991");
+        //    await _roleManager.CreateAsync(new IdentityRole("Developer"));
+        //    AppUser user = new AppUser { Email = "Orkhanvm@gmail.com", UserName = "Orkhan123", Name = "Orkhan", SurName = "Mammadli" };
+        //    await _userManager.CreateAsync(user, "Orkhan6991");
         //    await _userManager.AddToRoleAsync(user, "Developer");
-        
-        
+
+
         //}
     }
 }

@@ -8,7 +8,7 @@ namespace CSCRM.Areas.Manage.Controllers
 
 
     [Area("Manage")]
-    [Authorize(Roles = "Developer")]
+    //[Authorize(Roles = "Developer")]
     public class HotelController : Controller
     {
         readonly IHotelService _hotelService;
@@ -38,11 +38,19 @@ namespace CSCRM.Areas.Manage.Controllers
         public async Task<IActionResult> AddNewHotel([FromBody]AddHotelVM addHotelVM)
         {
             var result = await _hotelService.AddHotelAsync(addHotelVM);
-           return result.Success == true ? PartialView("_HotelPartialView",result.Data) : PartialView("_ErrorView");
+           return result.Success == true ? PartialView("_HotelPartialView",result.Data) : PartialView("_ErrorView",result.Message);
 
 
         }
 
+        [HttpGet]
+
+        public async Task EditHotelAsync()
+        {
+            await _hotelService.EditHotelByIdAsync(3);
+        }
+        
+       
 
 
     }

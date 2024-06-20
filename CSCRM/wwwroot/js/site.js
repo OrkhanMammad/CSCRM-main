@@ -5,7 +5,6 @@
     const triplePrice = document.getElementById('add-hotel-trplprc-input').value;
     const contactName = document.getElementById('add-hotel-contactName-input').value;
     const contactPhone = document.getElementById('add-hotel-contactPhone-input').value;
-    console.log(name);
     if (!name) {
         alert('Name field cannot be empty.');
         return;
@@ -22,14 +21,33 @@
             DoublePrice: parseFloat(doublePrice),
             TriplePrice: parseFloat(triplePrice),
             ContactPerson: contactName,
-            ContactPhone: contactPhone
+            ContactNumber: contactPhone
         })
     })
-        .then(response => {
-            if (response.ok) {
-                window.location.reload();
-            } else {
-                alert('Error adding hotel.');
-            }
+        .then(res => {
+            return res.text();
+        })
+        .then(data => {
+            console.log(data)
+            document.getElementById('hotels-page-content').innerHTML = data
+            
+            /*$('hotels-page-content').html(data)*/
         });
+}
+
+function deleteHotel() {
+    
+    const confirmDelete = confirm('Are you sure you want to delete this hotel?');
+    if (confirmDelete) {
+        fetch('/manage/hotel/EditHotelAsync')
+            .then(res => {
+                return res.text();
+            })
+            .then(data => {
+                console.log(data)
+                document.getElementById('hotels-page-content').innerHTML = data
+
+                /*$('hotels-page-content').html(data)*/
+            });
+    }
 }

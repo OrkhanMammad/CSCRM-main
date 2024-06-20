@@ -7,7 +7,8 @@ namespace CSCRM.Abstractions
     {
         Task<BaseResponse> GetAllHotelsAsync();
         Task<BaseResponse> AddHotelAsync(AddHotelVM addHotelVM);
-        Task<BaseResponse> RemoveHotelAsync();
+        Task<BaseResponse> RemoveHotelAsync(int hotelId);
         Task<BaseResponse> GetHotelByIdAsync(int id);
+        Task EditHotelByIdAsync(int hotelId);
     }
 }
