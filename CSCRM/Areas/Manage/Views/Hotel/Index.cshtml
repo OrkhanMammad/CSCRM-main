@@ -1,0 +1,6 @@
+﻿@using CSCRM.ViewModels.HotelVMs;
+@model List<GetHotelVM>;
+
+<div class="hotels-page-content">
+   @await Html.PartialAsync("_HotelPartialView", Model);
+</div>

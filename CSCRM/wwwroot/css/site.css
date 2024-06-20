@@ -1,0 +1,1532 @@
+
+
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+}
+
+
+/* NAVBAR STARTS HERE
+ NAVBAR STARTS HERE
+ NAVBAR STARTS HERE
+ NAVBAR STARTS HERE */
+
+.navbar {
+    width: 200px;
+    height: 100vh;
+    background-color: #2c3e50;
+    padding-top: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow-y: auto;
+}
+
+.navbar-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.navbar-item {
+    padding: 15px;
+}
+
+    .navbar-item a {
+        text-decoration: none;
+        color: #ecf0f1;
+        display: block;
+    }
+
+        .navbar-item a:hover {
+            background-color: #34495e;
+            color: white;
+        }
+
+
+
+
+
+/* HOTELS PAGE STARTS HERE
+HOTELS PAGE STARTS HERE
+HOTELS PAGE STARTS HERE
+HOTELS PAGE STARTS HERE */
+
+
+.HotelsPageHead {
+    text-align: center;
+    font-size: 50px;
+}
+
+.hotels-page-content {
+    margin-left: 220px;
+    padding: 20px;
+    flex-grow: 1;
+}
+
+.hotels-page-container {
+    margin-top: 20px;
+}
+
+.hotels-page-hotels-table {
+    width: 100%;
+    max-width:1100px;
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 18px;
+    text-align: left;
+}
+
+    .hotels-page-hotels-table th,
+    .hotels-page-hotels-table td {
+        padding: 12px 15px;
+        text-align: center;
+        font-size:16px;
+    }
+
+.hotels-page-hotels-thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    text-align: left;
+    font-weight: bold;
+}
+
+.hotels-page-hotels-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+    .hotels-page-hotels-table tbody tr:nth-of-type(even) {
+        background-color: #f3f3f3;
+    }
+
+    .hotels-page-hotels-table tbody tr:last-of-type {
+        border-bottom: 2px solid #009879;
+    }
+
+.hotels-page-hotels-btn {
+    padding: 5px 10px;
+    margin: 0 5px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+}
+
+.hotels-page-hotels-btn-primary {
+    background-color: #007bff;
+    color: white;
+}
+
+    .hotels-page-hotels-btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+.hotels-page-hotels-btn-danger {
+    background-color: #dc3545;
+    color: white;
+}
+
+    .hotels-page-hotels-btn-danger:hover {
+        background-color: #c82333;
+    }
+
+.hotels-page-hotels-add-container {
+    margin-top: 40px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 1060px;
+}
+
+    .hotels-page-hotels-add-container h3 {
+        margin-bottom: 20px;
+        font-size: 24px;
+        color: #333;
+        text-align: center;
+    }
+
+.hotels-add {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.hotels-page-add-hotel-input {
+    flex: 1;
+    padding: 10px;
+    margin: 0 10px;
+    font-size: 12px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    width:10%;
+}
+
+.hotels-page-hotels-btn-add {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+}
+
+    .hotels-page-hotels-btn-add:hover {
+        background-color: #218838;
+    }
+
+
+
+
+/* COMPANIES PAGE STARTS HERE
+ COMPANIES PAGE STARTS HERE
+ COMPANIES PAGE STARTS HERE
+ COMPANIES PAGE STARTS HERE */
+
+.companies-page-content {
+    margin-left: 220px;
+    padding: 20px;
+    flex-grow: 1;
+}
+
+.CompaniesPageHead {
+    text-align: center;
+    font-size: 50px;
+}
+
+.companies-page-container {
+    margin-top: 20px;
+}
+
+.companies-page-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 18px;
+    text-align: left;
+}
+
+    .companies-page-table th,
+    .companies-page-table td {
+        padding: 12px 15px;
+        text-align: center;
+    }
+
+.companies-page-thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    text-align: left;
+    font-weight: bold;
+}
+
+.companies-page-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+    .companies-page-table tbody tr:nth-of-type(even) {
+        background-color: #f3f3f3;
+    }
+
+    .companies-page-table tbody tr:last-of-type {
+        border-bottom: 2px solid #009879;
+    }
+
+.companies-page-companies-btn {
+    padding: 5px 10px;
+    margin: 0 5px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+}
+
+.companies-page-companies-btn-primary {
+    background-color: #007bff;
+    color: white;
+}
+
+    .companies-page-companies-btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+.companies-page-companies-btn-danger {
+    background-color: #dc3545;
+    color: white;
+}
+
+    .companies-page-companies-btn-danger:hover {
+        background-color: #c82333;
+    }
+
+.companies-add-container {
+    margin-top: 40px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+    .companies-add-container h3 {
+        margin-bottom: 20px;
+        font-size: 24px;
+        color: #333;
+        text-align: center;
+    }
+
+.companies-add {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.companies-page-add-company-input {
+    flex: 1;
+    padding: 10px;
+    margin: 0 10px;
+    font-size: 16px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.companies-page-companies-btn-add {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+}
+
+    .companies-page-companies-btn-add:hover {
+        background-color: #218838;
+    }
+
+
+
+/* CAR TYPES PAGE STARTS HERE
+ CAR TYPES PAGE STARTS HERE
+ CAR TYPES PAGE STARTS HERE
+ CAR TYPES PAGE STARTS HERE */
+
+.cartypes-page-content {
+    margin-left: 220px;
+    padding: 20px;
+    flex-grow: 1;
+}
+
+.CarTypesPageHead {
+    text-align: center;
+    font-size: 50px;
+}
+
+.cartypes-container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+/* .cartypes-list-container,
+ .cartypes-add-container {
+     width: 45%;
+ } */
+
+.cartypes-list-container h3,
+.cartypes-add-container h3 {
+    margin-bottom: 10px;
+    font-size: 24px;
+    color: #333;
+    text-align: center;
+}
+
+.cartypes-add {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.carTypes-Page-cartypes-input {
+    padding: 10px;
+    margin: 0 10px;
+    font-size: 16px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.cartypes-btn {
+    padding: 10px 20px;
+    margin-left: 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.cartypes-btn-add:hover {
+    background-color: #218838;
+}
+
+.cartypes-list-container,
+.cartypes-add-container {
+    margin-top: 20px;
+}
+
+.cartypes-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+    .cartypes-list li {
+        background-color: #f9f9f9;
+        border: 1px solid #dddddd;
+        border-radius: 5px;
+        padding: 10px;
+        margin-bottom: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+
+
+
+
+
+/* TOURS PAGE STARTS HERE
+ TOURS PAGE STARTS HERE
+ TOURS PAGE STARTS HERE
+ TOURS PAGE STARTS HERE */
+
+
+.tours-page-content {
+    margin-left: 220px;
+    padding: 20px;
+    flex-grow: 1;
+}
+
+.ToursPageHead {
+    text-align: center;
+    font-size: 50px;
+}
+
+.tours-container {
+    margin-top: 20px;
+}
+
+.tours-page-tours-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 18px;
+    text-align: left;
+}
+
+    .tours-page-tours-table th,
+    .tours-page-tours-table td {
+        padding: 12px 15px;
+        text-align: center;
+    }
+
+.tours-page-tours-thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    text-align: left;
+    font-weight: bold;
+}
+
+.tours-page-tours-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+    .tours-page-tours-table tbody tr:nth-of-type(even) {
+        background-color: #f3f3f3;
+    }
+
+    .tours-page-tours-table tbody tr:last-of-type {
+        border-bottom: 2px solid #009879;
+    }
+
+.tours-page-tours-btn {
+    padding: 5px 10px;
+    margin: 0 5px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+}
+
+.tours-page-tours-btn-primary {
+    background-color: #007bff;
+    color: white;
+}
+
+    .tours-page-tours-btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+.tours-page-tours-btn-danger {
+    background-color: #dc3545;
+    color: white;
+}
+
+    .tours-page-tours-btn-danger:hover {
+        background-color: #c82333;
+    }
+
+.tours-add-container {
+    margin-top: 40px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+    .tours-add-container h3 {
+        margin-bottom: 20px;
+        font-size: 24px;
+        color: #333;
+        text-align: center;
+    }
+
+.tours-add {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tours-input {
+    flex: 1;
+    padding: 10px;
+    margin: 0 10px;
+    font-size: 16px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.tours-page-tours-btn-add {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+}
+
+    .tours-page-tours-btn-add:hover {
+        background-color: #218838;
+    }
+
+.tours-page-tours-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 18px;
+    text-align: left;
+    table-layout: fixed;
+    /* İkinci adım: Tablo genişliğini sabitleme */
+}
+
+    .tours-page-tours-table th,
+    .tours-page-tours-table td {
+        padding: 12px 15px;
+        word-wrap: break-word;
+        /* İlk adım: Uzun kelimelerin satır sonunda kesilmesi */
+    }
+
+
+
+
+
+/* TOURS BY CAR PAGE STARTS HERE
+ TOURS BY CAR PAGE STARTS HERE
+ TOURS BY CAR PAGE STARTS HERE
+ TOURS BY CAR PAGE STARTS HERE */
+
+
+.tourbycar-page-content {
+    margin-left: 220px;
+    padding: 20px;
+    flex-grow: 1;
+}
+
+
+.trsByCrTypsPageHead {
+    text-align: center;
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+.tour-car-types-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+    .tour-car-types-thead th,
+    .tour-car-types-table td {
+        padding: 10px;
+        text-align: center;
+    }
+
+        .tour-car-types-thead th:first-child {
+            text-align: left;
+        }
+
+    .tour-car-types-thead th,
+    .tour-car-types-table td {
+        border: 1px solid #ddd;
+    }
+
+.tour-car-types-thead th {
+    background-color: #f2f2f2;
+}
+
+.tour-car-types-thead th,
+.tour-car-types-table td {
+    font-size: 16px;
+}
+
+    .tour-car-types-table td:first-child {
+        font-weight: bold;
+        text-align: left;
+    }
+
+.add-tour-container {
+    margin-top: 30px;
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+    .add-tour-container h3 {
+        margin-bottom: 15px;
+        font-size: 24px;
+        color: #333;
+        text-align: center;
+    }
+
+.add-tour-form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.tour-input {
+    flex: 1;
+    padding: 10px;
+    margin-bottom: 15px;
+    font-size: 16px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.add-tour-btn {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+    .add-tour-btn:hover {
+        background-color: #218838;
+    }
+
+
+.edit-tourbycar-btn,
+.delete-tourbycar-btn {
+    padding: 8px 12px;
+    margin-right: 5px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.edit-tourbycar-btn {
+    background-color: #3498db;
+    color: #fff;
+}
+
+    .edit-tourbycar-btn:hover {
+        background-color: #2980b9;
+    }
+
+.delete-tourbycar-btn {
+    background-color: #e74c3c;
+    color: #fff;
+}
+
+    .delete-tourbycar-btn:hover {
+        background-color: #c0392b;
+    }
+
+
+
+/* CLIENTS PAGE STARTS HERE
+ CLIENTS PAGE STARTS HERE
+ CLIENTS PAGE STARTS HERE
+ CLIENTS PAGE STARTS HERE */
+.clients-page-content {
+    margin-left: 220px;
+    padding: 20px;
+    flex-grow: 1;
+}
+
+.ClientsPageHead {
+    text-align: center;
+    font-size: 50px;
+}
+
+.clients-page-container {
+    margin-top: 20px;
+}
+
+.clients-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 18px;
+    text-align: left;
+}
+
+    .clients-table th,
+    .clients-table td {
+        padding: 12px 15px;
+        text-align: center;
+    }
+
+.clients-page-thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    text-align: left;
+    font-weight: bold;
+}
+
+.clients-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+    .clients-table tbody tr:nth-of-type(even) {
+        background-color: #f3f3f3;
+    }
+
+    .clients-table tbody tr:last-of-type {
+        border-bottom: 2px solid #009879;
+    }
+
+.clients-page-clients-btn {
+    padding: 5px 10px;
+    margin: 0 5px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+}
+
+.clients-page-clients-btn-primary {
+    background-color: #007bff;
+    color: white;
+}
+
+    .clients-page-clients-btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+.clients-page-clients-btn-danger {
+    background-color: #dc3545;
+    color: white;
+}
+
+    .clients-page-clients-btn-danger:hover {
+        background-color: #c82333;
+    }
+
+.clients-page-clients-btn-services {
+    background-color: #28a745;
+    color: white;
+}
+
+    .clients-page-clients-btn-services:hover {
+        background-color: #28a745;
+    }
+
+.clients-add-container {
+    margin-top: 40px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+    .clients-add-container h3 {
+        margin-bottom: 20px;
+        font-size: 24px;
+        color: #333;
+        text-align: center;
+    }
+
+.clients-add {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.clients-input {
+    flex: 1;
+    padding: 10px;
+    margin: 0 10px;
+    font-size: 16px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.clients-page-clients-btn-add {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+}
+
+    .clients-page-clients-btn-add:hover {
+        background-color: #218838;
+    }
+
+
+
+
+
+
+
+/* EDIT CLIENT INFO STARTS HERE
+ EDIT CLIENT INFO STARTS HERE
+ EDIT CLIENT INFO STARTS HERE
+ EDIT CLIENT INFO STARTS HERE */
+
+
+.edit-client-info-page-content {
+    margin-left: 220px;
+    padding: 20px;
+    flex-grow: 1;
+}
+
+.EditClientInfoPageHead {
+    text-align: center;
+    font-size: 50px;
+}
+
+.edit-client-info-container {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+    .edit-client-info-container h3 {
+        margin-bottom: 20px;
+        font-size: 24px;
+        color: #333;
+        text-align: center;
+    }
+
+.edit-client-info-form {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.edit-clientInfo-client-input {
+    padding: 10px;
+    margin: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    flex: 1;
+    min-width: 150px;
+}
+
+.edit-clientInfoPg-client-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px;
+}
+
+.edit-clientInfoPg-client-btn-update {
+    background-color: #007bff;
+}
+
+    .edit-clientInfoPg-client-btn-update:hover {
+        background-color: #0056b3;
+    }
+
+
+
+
+/* EDIT HOTEL PAGE STARTS HERE
+EDIT HOTEL PAGE STARTS HERE
+EDIT HOTEL PAGE STARTS HERE
+EDIT HOTEL PAGE STARTS HERE */
+
+
+.hotel-edit-page-content {
+    margin-left: 220px;
+    padding: 20px;
+    flex-grow: 1;
+}
+
+.hotel-edit-page-container {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.hotel-edit-page-title {
+    text-align: center;
+    font-size: 30px;
+}
+
+.hotel-edit-page-hotel-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 18px;
+    text-align: left;
+}
+
+    .hotel-edit-page-hotel-table th,
+    .hotel-edit-page-hotel-table td {
+        padding: 12px 15px;
+        text-align: center;
+    }
+
+.hotel-edit-page-hotel-thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.hotel-edit-page-hotel-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+    .hotel-edit-page-hotel-table tbody tr:nth-of-type(even) {
+        background-color: #f3f3f3;
+    }
+
+    .hotel-edit-page-hotel-table tbody tr:last-of-type {
+        border-bottom: 2px solid #009879;
+    }
+
+.hotel-edit-page-select {
+    font-size: 18px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.hotel-edit-page-input {
+    font-size: 18px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-align: center;
+    width: 150px;
+}
+
+.hotel-edit-page-hotel-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 150px;
+}
+
+.hotel-edit-page-hotel-btn-primary {
+    background-color: #007bff;
+}
+
+    .hotel-edit-page-hotel-btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+
+
+
+
+/* EDIT COMPANY PAGE STARTS HERE
+EDIT COMPANY PAGE STARTS HERE
+EDIT COMPANY PAGE STARTS HERE
+EDIT COMPANY PAGE STARTS HERE */
+
+.company-edit-page-content {
+    margin-left: 220px;
+    padding: 20px;
+    flex-grow: 1;
+}
+
+.company-edit-page-container {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.company-edit-page-title {
+    text-align: center;
+    font-size: 30px;
+}
+
+.company-edit-page-company-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 18px;
+    text-align: left;
+}
+
+    .company-edit-page-company-table th,
+    .company-edit-page-company-table td {
+        padding: 12px 15px;
+        text-align: center;
+        width: 80px;
+    }
+
+.company-edit-page-company-thead tr {
+    background-color: #009879; /* Different color for company table */
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.company-edit-page-company-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+    .company-edit-page-company-table tbody tr:nth-of-type(even) {
+        background-color: #f3f3f3;
+    }
+
+    .company-edit-page-company-table tbody tr:last-of-type {
+        border-bottom: 2px solid #4CAF50; /* Match the thead color */
+    }
+
+.company-edit-page-input {
+    font-size: 13px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 150px;
+    text-align: center;
+}
+
+.company-edit-page-company-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.company-edit-page-company-btn-primary {
+    background-color: #007bff;
+}
+
+    .company-edit-page-company-btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+
+/* EDIT TOUR BY CAR TYPE PAGE STARTS HERE
+EDIT TOUR BY CAR TYPE PAGE STARTS HERE
+EDIT TOUR BY CAR TYPE PAGE STARTS HERE
+EDIT TOUR BY CAR TYPE PAGE STARTS HERE */
+
+.tourCarType-edit-page-content {
+    margin-left: 220px;
+    padding: 20px;
+    flex-grow: 1;
+}
+
+.tourCarType-edit-page-container {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tourCarType-edit-page-title {
+    text-align: center;
+    font-size: 30px;
+}
+
+.tourCarType-edit-page-tour-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 18px;
+    text-align: left;
+}
+
+    .tourCarType-edit-page-tour-table th,
+    .tourCarType-edit-page-tour-table td {
+        padding: 12px 4px;
+        text-align: center;
+    }
+
+.tourCarType-edit-page-tour-thead tr {
+    background-color: #007bff;
+    color: #ffffff;
+    text-align: left;
+    font-weight: bold;
+}
+
+.tourCarType-edit-page-tour-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+    .tourCarType-edit-page-tour-table tbody tr:nth-of-type(even) {
+        background-color: #f3f3f3;
+    }
+
+    .tourCarType-edit-page-tour-table tbody tr:last-of-type {
+        border-bottom: 2px solid #007bff;
+    }
+
+.tourCarType-edit-page-input {
+    font-size: 15px;
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+.tourCarType-edit-page-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    text-decoration: none;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+.tourCarType-edit-page-btn-primary {
+    background-color: #007bff;
+    color: white;
+}
+
+    .tourCarType-edit-page-btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+
+
+
+
+
+
+
+/* CLIENTSERVICES STARTS HERE
+CLIENTSERVICES STARTS HERE
+CLIENTSERVICES STARTS HERE
+CLIENTSERVICES STARTS HERE */
+
+
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+.client-services-page-content {
+    margin-left: 220px;
+    padding: 20px;
+    flex-grow: 1;
+}
+
+
+.client-info {
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    width: 300px;
+}
+
+    .client-info h3 {
+        margin-bottom: 10px;
+    }
+
+.client-details p {
+    margin: 5px 0;
+}
+
+.hotel-service-section,
+.tour-service-section {
+    margin-bottom: 40px;
+}
+
+    .hotel-service-section h2,
+    .tour-service-section h2 {
+        text-align: center;
+        font-size: 30px;
+        margin-bottom: 20px;
+    }
+
+.services-hotel-services-list,
+.services-tour-services-list {
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    margin-bottom: 20px;
+}
+
+    .services-hotel-services-list h3,
+    .services-tour-services-list h3 {
+        margin-bottom: 10px;
+    }
+
+    .services-hotel-services-list table,
+    .services-tour-services-list table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .services-hotel-services-list th,
+    .services-tour-services-list th,
+    .services-hotel-services-list td,
+    .services-tour-services-list td {
+        padding: 10px;
+        border: 1px solid #ddd;
+        text-align: left;
+    }
+
+    .services-hotel-services-list th,
+    .services-tour-services-list th {
+        background-color: #f0f0f0;
+    }
+
+    .services-hotel-services-list td a.edit-link,
+    .services-tour-services-list td a.edit-link {
+        color: #007bff;
+        text-decoration: none;
+        margin-right: 10px;
+    }
+
+        .services-hotel-services-list td a.edit-link:hover,
+        .services-tour-services-list td a.edit-link:hover {
+            text-decoration: underline;
+        }
+
+    .services-hotel-services-list td button.delete-btn,
+    .services-tour-services-list td button.delete-btn {
+        padding: 5px 10px;
+        color: white;
+        background-color: #dc3545;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+        .services-hotel-services-list td button.delete-btn:hover,
+        .services-tour-services-list td button.delete-btn:hover {
+            background-color: #c82333;
+        }
+
+.services-hotel-add-new,
+.services-tour-add-new {
+    margin-top: 20px;
+}
+
+.hotel-add-form,
+.tour-add-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.hotel-input,
+.tour-input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.hotel-btn,
+.tour-btn {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+    .hotel-btn:hover,
+    .tour-btn:hover {
+        background-color: #0056b3;
+    }
+
+/* Hotel Services Table */
+.services-hotel-services-list th {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+}
+
+.services-hotel-services-list td {
+    border-bottom: 1px solid #ddd;
+    padding: 10px;
+}
+
+    .services-hotel-services-list td button {
+        padding: 8px 12px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+        .services-hotel-services-list td button.edit-btn {
+            background-color: #007bff;
+        }
+
+        .services-hotel-services-list td button.delete-btn {
+            background-color: #dc3545;
+        }
+
+/* Tour Services Table */
+.services-tour-services-list th {
+    background-color: #28a745;
+    color: white;
+    padding: 10px;
+}
+
+.services-tour-services-list td {
+    border-bottom: 1px solid #ddd;
+    padding: 10px;
+}
+
+    .services-tour-services-list td button {
+        padding: 8px 12px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+/* Add New Service Section */
+.services-add-new {
+    margin-top: 20px;
+}
+
+    .services-add-new input[type="text"],
+    .services-add-new input[type="number"] {
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .services-add-new button {
+        padding: 10px 20px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+        .services-add-new button:hover {
+            background-color: #218838;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+/* EDIT HOTEL SERVICE OF CLIENT STARTS HERE
+EDIT HOTEL SERVICE OF CLIENT STARTS HERE
+EDIT HOTEL SERVICE OF CLIENT STARTS HERE
+EDIT HOTEL SERVICE OF CLIENT STARTS HERE */
+
+
+.edit-hotel-service-content {
+    margin-left: 220px;
+    padding: 20px;
+    flex-grow: 1;
+}
+
+
+.EditHotelServicePageHead {
+    text-align: center;
+    font-size: 50px;
+}
+
+.client-info {
+    margin-bottom: 20px;
+}
+
+.client-details {
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.edit-hotel-service-container {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+    .edit-hotel-service-container h3 {
+        margin-bottom: 20px;
+        font-size: 24px;
+        color: #333;
+        text-align: center;
+    }
+
+.edit-hotel-service {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.edit-hotel-service-input {
+    padding: 10px;
+    margin: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    flex: 1;
+    min-width: 150px;
+}
+
+.service-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    background-color: #218838;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px;
+}
+
+    .service-btn:hover {
+        background-color: #218838;
+    }
+
+
+
+
+/* EDIT TOUR SERVICE STARTS HERE
+ EDIT TOUR SERVICE STARTS HERE
+ EDIT TOUR SERVICE STARTS HERE
+ EDIT TOUR SERVICE STARTS HERE */
+
+.EditTourServiceContent {
+    margin-left: 220px;
+    padding: 20px;
+    flex-grow: 1;
+}
+
+
+.EditTourServicePageHead {
+    text-align: center;
+    font-size: 50px;
+}
+
+.EditTourServiceClientInfo {
+    margin-bottom: 20px;
+}
+
+.EditTourServiceClientDetails {
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.EditTourServiceContainer {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+    .EditTourServiceContainer h3 {
+        margin-bottom: 20px;
+        font-size: 24px;
+        color: #333;
+        text-align: center;
+    }
+
+.EditTourService {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.EditTourServiceInput {
+    padding: 10px;
+    margin: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    flex: 1;
+    min-width: 150px;
+}
+
+.EditTourServiceBtn {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    background-color: #218838;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px;
+}
+
+    .EditTourServiceBtn:hover {
+        background-color: #218838;
+    }

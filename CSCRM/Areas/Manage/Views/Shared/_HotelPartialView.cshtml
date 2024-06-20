@@ -1,0 +1,51 @@
+﻿@using CSCRM.ViewModels.HotelVMs;
+@model List<GetHotelVM>;
+<h2 class="HotelsPageHead">Hotels</h2>
+
+<div class="hotels-page-container">
+    <table class="hotels-page-hotels-table">
+        <thead class="hotels-page-hotels-thead">
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Single Price</th>
+                <th scope="col">Double Price</th>
+                <th scope="col">Triple Price</th>
+                <th scope="col">Contact Person</th>
+                <th scope="col">Contact Phone</th>
+                <th scope="col">Actions</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (GetHotelVM hotel in Model)
+            {
+                <tr>
+                    <td>@hotel.Name</td>
+                    <td>@hotel.SinglePrice</td>
+                    <td>@hotel.DoublePrice</td>
+                    <td>@hotel.TriplePrice</td>
+                    <td>@hotel.ContactPerson</td>
+                    <td>@hotel.ContactNumber</td>
+                    <td>
+                        <a href='edithotel.html' class="hotels-page-hotels-btn hotels-page-hotels-btn-primary">Edit</a>
+                        <button onclick="deleteHotel()" class="hotels-page-hotels-btn hotels-page-hotels-btn-danger">Delete</button>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+
+    <div class="hotels-page-hotels-add-container">
+        <h3>Add New Hotel</h3>
+        <div class="hotels-add">
+            <input type="text" id="add-hotel-name-input" placeholder="Name" class="hotels-page-add-hotel-input" />
+            <input type="number" id="add-hotel-snglprc-input" placeholder="Single Price" class="hotels-page-add-hotel-input" />
+            <input type="number" id="add-hotel-dblprc-input" placeholder="Double Price" class="hotels-page-add-hotel-input" />
+            <input type="number" id="add-hotel-trplprc-input" placeholder="Triple Price" class="hotels-page-add-hotel-input" />
+            <input type="text" id="add-hotel-contactName-input" placeholder="Contact Name" class="hotels-page-add-hotel-input" />
+            <input type="text" id="add-hotel-contactPhone-input" placeholder="Contact Phone" class="hotels-page-add-hotel-input" />
+            <button onclick="addHotel()" class="hotels-page-hotels-btn hotels-page-hotels-btn-add">Add New Hotel</button>
+        </div>
+    </div>
+</div>
