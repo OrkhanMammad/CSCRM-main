@@ -1007,20 +1007,15 @@ EDIT HOTEL PAGE STARTS HERE */
         border-bottom: 2px solid #009879;
     }
 
-.hotel-edit-page-select {
-    font-size: 18px;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
+.hotel-edit-page-select,
 .hotel-edit-page-input {
-    font-size: 18px;
+    font-size: 16px;
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
     text-align: center;
-    width: 150px;
+    width: 100%;
+    max-width: 150px;
 }
 
 .hotel-edit-page-hotel-btn {
@@ -1030,7 +1025,8 @@ EDIT HOTEL PAGE STARTS HERE */
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    width: 150px;
+    width: 100%;
+    max-width: 150px;
 }
 
 .hotel-edit-page-hotel-btn-primary {
@@ -1040,6 +1036,56 @@ EDIT HOTEL PAGE STARTS HERE */
     .hotel-edit-page-hotel-btn-primary:hover {
         background-color: #0056b3;
     }
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .navbar {
+        height: auto;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    .navbar-list {
+        flex-direction: column;
+    }
+
+    .hotel-edit-page-content {
+        margin-left: 0;
+    }
+
+    .hotel-edit-page-hotel-table thead {
+        display: none;
+    }
+
+    .hotel-edit-page-hotel-table tbody,
+    .hotel-edit-page-hotel-table tr,
+    .hotel-edit-page-hotel-table td {
+        display: block;
+        width: 100%;
+    }
+
+    .hotel-edit-page-hotel-table td {
+        text-align: right;
+        padding-left: 50%;
+        position: relative;
+    }
+
+        .hotel-edit-page-hotel-table td::before {
+            content: attr(data-label);
+            position: absolute;
+            left: 0;
+            width: 50%;
+            padding-left: 15px;
+            font-weight: bold;
+            text-align: left;
+        }
+
+    .hotel-edit-page-input,
+    .hotel-edit-page-hotel-btn {
+        max-width: none;
+        margin: 5px 0;
+    }
+}
 
 
 

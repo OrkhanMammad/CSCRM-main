@@ -16,6 +16,16 @@ namespace CSCRM.Concretes
             _context = context;
         }
 
+        private void HotelEditor(Hotel hotel, EditHotelVM updatedHotel)
+        {
+            hotel.Name= updatedHotel.Name;
+            hotel.TriplePrice= updatedHotel.TriplePrice;
+            hotel.DoublePrice= updatedHotel.DoublePrice;
+            hotel.SinglePrice= updatedHotel.SinglePrice;
+            hotel.ContactPerson= updatedHotel.ContactPerson;
+            hotel.ContactNumber= updatedHotel.ContactNumber;
+        }
+
         public async Task<BaseResponse> AddHotelAsync(AddHotelVM addHotelVM)
         {
 
@@ -98,24 +108,140 @@ namespace CSCRM.Concretes
 
         public async Task<BaseResponse> RemoveHotelAsync(int hotelId)
         {
-            Hotel deletingHotel = await _context.Hotels.FirstOrDefaultAsync(h => h.Id == hotelId && h.IsDeleted==false);
-            if (deletingHotel == null) { return new BaseResponse { Success = false, Message="Hotel Could Not Found", StatusCode="404" }; }
+            try
+            {
+                Hotel deletingHotel = await _context.Hotels.FirstOrDefaultAsync(h => h.Id == hotelId && h.IsDeleted == false);
+                if (deletingHotel == null) { return new BaseResponse { Success = false, Message = "Hotel Could Not Found", StatusCode = "404" }; }
 
-            deletingHotel.IsDeleted = true;
-            await _context.SaveChangesAsync();
-            return new BaseResponse { Success = true, Message = $"Hotel {deletingHotel.Name} is deleted successfully. " };
+                deletingHotel.IsDeleted = true;
+                await _context.SaveChangesAsync();
+                List<GetHotelVM> hotels = await _context.Hotels
+                                                       .Where(h => h.IsDeleted == false)
+                                                       .Select(h => new GetHotelVM
+                                                       {
+                                                           Id = h.Id,
+                                                           Name = h.Name,
+                                                           SinglePrice = h.SinglePrice,
+                                                           DoublePrice = h.DoublePrice,
+                                                           TriplePrice = h.TriplePrice,
+                                                           ContactPerson = h.ContactPerson,
+                                                           ContactNumber = h.ContactNumber,
+                                                       })
+                                                       .ToListAsync();
+                return new BaseResponse { Success = true, Message = $"Hotel {deletingHotel.Name} is deleted successfully.", Data = hotels };
+            }
+
+            catch(Exception ex) { return new BaseResponse { Success = false, StatusCode = "500", Message = "Hotel Could Not Deleted Successfully" }; }
+
+            
 
         }
-        public Task<BaseResponse> GetHotelByIdAsync(int id)
+        public async Task<BaseResponse> GetHotelByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                Hotel hotelEntity = await _context.Hotels.FirstOrDefaultAsync(h => h.IsDeleted == false && h.Id == id);
+                if (hotelEntity == null)
+                {
+                    return new BaseResponse { Message = "Hotel Could Not Found", StatusCode = "404", Success = false, Data = new EditHotelVM() };
+                }
+
+                EditHotelVM hotelForEdit = new EditHotelVM
+                {
+                    Id = hotelEntity.Id,
+                    Name = hotelEntity.Name,
+                    SinglePrice = hotelEntity.SinglePrice,
+                    DoublePrice = hotelEntity.DoublePrice,
+                    TriplePrice = hotelEntity.TriplePrice,
+                    ContactPerson = hotelEntity.ContactPerson,
+                    ContactNumber = hotelEntity.ContactNumber
+                };
+                return new BaseResponse { Success = true, Data = hotelForEdit, StatusCode = "201" };
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse { Success = false, Data = new GetHotelVM(), StatusCode = "500", Message="Unhandled error occured" };
+            }
         }
 
-        public async Task EditHotelByIdAsync(int hotelId)
+        public async Task<BaseResponse> EditHotelAsync(EditHotelVM hotel)
         {
-            Hotel hotel = await _context.Hotels.FirstOrDefaultAsync(ho => ho.Id == hotelId);
-            hotel.Name = "NewName";
-           await _context.SaveChangesAsync();
+            try
+            {
+               
+                if (hotel == null || hotel.Id <= 0)
+                {
+                    return new BaseResponse
+                    {
+                        Success = false,
+                        Message = "Invalid hotel ID.",
+                        StatusCode = "400",
+                        Data = hotel
+                    };
+                }
+
+                
+                Hotel editHotel = await _context.Hotels.FirstOrDefaultAsync(h => h.Id == hotel.Id);
+                if (editHotel == null)
+                {
+                    return new BaseResponse
+                    {
+                        Success = false,
+                        Message = "Hotel not found.",
+                        StatusCode = "404",
+                        Data = hotel
+                    };
+                }
+
+                
+                if (string.IsNullOrWhiteSpace(hotel.Name))
+                {
+                    return new BaseResponse
+                    {
+                        Success = false,
+                        Message = "Hotel name cannot be empty.",
+                        StatusCode = "400",
+                        Data = hotel
+                    };
+                }
+
+               
+                HotelEditor(editHotel, hotel);
+                await _context.SaveChangesAsync();
+
+
+                Hotel hotelEntity = await _context.Hotels
+                                                       .FirstOrDefaultAsync(h => h.IsDeleted == false && h.Id == editHotel.Id);
+                
+                    EditHotelVM hotelEdited = new EditHotelVM
+                    {
+                        Id = hotelEntity.Id,
+                        Name = hotelEntity.Name,
+                        SinglePrice = hotelEntity.SinglePrice,
+                        DoublePrice = hotelEntity.DoublePrice,
+                        TriplePrice = hotelEntity.TriplePrice,
+                        ContactPerson = hotelEntity.ContactPerson,
+                        ContactNumber = hotelEntity.ContactNumber
+                    };
+
+                    return new BaseResponse
+                    {
+                        Data = hotelEdited,
+                        Message = "Hotel updated successfully.",
+                        Success = true,
+                        StatusCode = "200"
+                    };        
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse
+                {
+                    Success = false,
+                    Message = "An unhandled exception occurred.",
+                    StatusCode = "500"
+                };
+            }
         }
+
     }
 }

@@ -27,7 +27,7 @@
                     <td>@hotel.ContactPerson</td>
                     <td>@hotel.ContactNumber</td>
                     <td>
-                        <a href='edithotel.html' class="hotels-page-hotels-btn hotels-page-hotels-btn-primary">Edit</a>
+                        <a asp-action="EditHotel" asp-controller="Hotel" asp-area="Manage" asp-route-hotelId="@hotel.Id" class="hotels-page-hotels-btn hotels-page-hotels-btn-primary">Edit</a>
                         <button onclick="deleteHotel(@hotel.Id)" class="hotels-page-hotels-btn hotels-page-hotels-btn-danger">Delete</button>
                     </td>
                 </tr>

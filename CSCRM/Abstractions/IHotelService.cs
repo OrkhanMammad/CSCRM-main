@@ -9,6 +9,6 @@ namespace CSCRM.Abstractions
         Task<BaseResponse> AddHotelAsync(AddHotelVM addHotelVM);
         Task<BaseResponse> RemoveHotelAsync(int hotelId);
         Task<BaseResponse> GetHotelByIdAsync(int id);
-        Task EditHotelByIdAsync(int hotelId);
+        Task<BaseResponse> EditHotelAsync(EditHotelVM hotel);
     }
 }

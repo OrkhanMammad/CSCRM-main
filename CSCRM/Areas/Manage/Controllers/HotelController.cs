@@ -34,23 +34,42 @@ namespace CSCRM.Areas.Manage.Controllers
 
         }
 
+        [HttpGet]
+        public async Task<IActionResult> EditHotel(int hotelId)//int hotelId)
+        {
+            var result = await _hotelService.GetHotelByIdAsync(hotelId);
+            return View(result);
+        }
+
         [HttpPost]
-        public async Task<IActionResult> AddNewHotel([FromBody]AddHotelVM addHotelVM)
+        public async Task<IActionResult> EditHotel([FromBody]EditHotelVM editHotelVM)
+        {
+            var result = await _hotelService.EditHotelAsync(editHotelVM);
+            return PartialView("_EditHotelPartialView",result);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> AddNewHotel([FromBody] AddHotelVM addHotelVM)
         {
             var result = await _hotelService.AddHotelAsync(addHotelVM);
-           return result.Success == true ? PartialView("_HotelPartialView",result.Data) : PartialView("_ErrorView",result.Message);
+            return result.Success == true ? PartialView("_HotelPartialView", result.Data) : PartialView("_ErrorView", result.Message);
 
 
         }
 
-        [HttpGet]
-
-        public async Task EditHotelAsync()
+        [HttpPost]
+        public async Task<IActionResult> DeleteHotel(int hotelId)
         {
-            await _hotelService.EditHotelByIdAsync(3);
+            var result = await _hotelService.RemoveHotelAsync(hotelId);
+            if (result.Success)
+                return PartialView("_HotelPartialView", result.Data);
+            else
+                return PartialView("_ErrorView", result.Message);
         }
-        
+
        
+
 
 
     }
