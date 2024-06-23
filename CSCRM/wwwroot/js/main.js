@@ -1,5 +1,4 @@
-﻿
-window.onload = function () {
+﻿window.onload = function () {
     if (performance.navigation.type === 2) {
         location.reload();
     }
@@ -105,7 +104,7 @@ function updateHotel(Id) {
 function deleteCompany(companyId) {
     const confirmDelete = confirm('Are you sure you want to delete this company?');
     if (confirmDelete) {
-        fetch(`/manage/company/DeleteCompany?companyId=${companyId}`, {
+        fetch(`/manage/company/DeleteCompany?hotelId=${companyId}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -155,7 +154,7 @@ function addCompany() {
         });
 }
 
-function editCompany(Id) {
+function updateCompany(Id) {
     const name = document.getElementById('company-edit-name-input').value;
     const address = document.getElementById('company-edit-address-input').value;
     const email = document.getElementById('company-edit-email-input').value;
@@ -175,92 +174,17 @@ function editCompany(Id) {
             Id: Id,
             Name: name,
             Address: address,
-            Email: email,
-            Phone:phone
+            Email=email,
+            Phone=phone
         })
     })
         .then(res => {
             return res.text();
         })
         .then(data => {
-           
+            console.log(data)
             document.getElementById('company-edit-page-content').innerHTML = data
-
-            
-        });
-}
-
-
-
-let itineraryCount = 1;
-
-function addItineraryInput() {
-    const itineraryInputs = document.getElementById('add-itineraryInputs');
-    const input = document.createElement('input');
-    input.type = 'text';
-    input.name = `itinerary${itineraryCount}`;
-    input.placeholder = 'Itinerary';
-    input.className = 'tours-input';
-    itineraryInputs.appendChild(input);
-    itineraryCount++;
-}
-
-function addTour() {
-    const name = document.getElementById('add-tourName-input').value;
-    const itineraries = [];
-
-    for (let i = 1; i < itineraryCount; i++) {
-        const itineraryInput = document.getElementsByName(`itinerary${i}`)[0];
-        if (itineraryInput.value.trim() !== '') {
-            itineraries.push(itineraryInput.value.trim());
-        }
-    }
-
-    console.log(itineraries)
-
-    if (!name || itineraries.length === 0) {
-        alert('All fields are required.');
-        return;
-    }
-
-    itineraryCount = 1;
-    
-    fetch('/manage/tour/AddNewTour', {
-         method: 'POST',
-         headers: {
-             'Content-Type': 'application/json'
-         },
-         body: JSON.stringify({
-             Name: name,
-             Itineraries: itineraries
-         })
-     })
-        .then(res => {
-            return res.text();
-        })
-        .then(data => {
-
-            document.getElementById('tours-page-content').innerHTML = data
 
             /*$('hotels-page-content').html(data)*/
         });
-}
-
-function deleteTour(tourId) {
-    const confirmDelete = confirm('Are you sure you want to delete this tour?');
-    if (confirmDelete) {
-        fetch(`/manage/Tour/DeleteTour?tourId=${tourId}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-            .then(res => res.text())
-            .then(data => {
-                console.log(data);
-                document.getElementById('tours-page-content').innerHTML = data;
-
-                /*$('hotels-page-content').html(data)*/
-            });
-    }
 }

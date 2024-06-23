@@ -1,0 +1,50 @@
+﻿@using CSCRM.Models.ResponseTypes;
+@model BaseResponse;
+
+
+<h2 class="CompaniesPageHead">Companies</h2>
+<span style="color: @(Model.Success ? "green" : "red"); font-weight:600">@Model.Message</span>
+<div class="companies-page-container">
+    <table class="companies-page-table">
+        <thead class="companies-page-thead">
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Address</th>
+                <th scope="col">Phone Number</th>
+                <th scope="col">Email</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var company in Model.Data)
+            {
+                <tr>
+                    <td>@company.Name</td>
+                    <td>@company.Address</td>
+                    <td>@company.Phone</td>
+                    <td>@company.Email</td>
+                    <td>
+                        <a asp-action="EditCompany" asp-controller="company" asp-area="manage" asp-route-companyId="@company.Id" class="companies-page-companies-btn companies-page-companies-btn-primary">Edit</a>
+                        <button onclick="deleteCompany(@company.Id)"
+                                class="companies-page-companies-btn companies-page-companies-btn-danger">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+            }
+
+
+        </tbody>
+    </table>
+
+    <div class="companies-add-container">
+        <h3>Add New Company</h3>
+        <div class="companies-add">
+            <input type="text" id="add-companyName-input" placeholder="Name" class="companies-page-add-company-input" />
+            <input type="text" id="add-company-address-input" placeholder="Address" class="companies-page-add-company-input" />
+            <input type="tel" id="add-company-phone-input" placeholder="Phone Number" class="companies-page-add-company-input" />
+            <input type="email" id="add-company-Email-input" placeholder="Email" class="companies-page-add-company-input" />
+            <button onclick="addCompany()" class="companies-page-companies-btn companies-page-companies-btn-add">Add New Company</button>
+        </div>
+    </div>
+</div>

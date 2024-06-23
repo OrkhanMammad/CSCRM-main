@@ -1,0 +1,50 @@
+﻿@using CSCRM.Models.ResponseTypes;
+@model BaseResponse;
+
+<h2 class="ToursPageHead">Tours</h2>
+<span style="color: @(Model.Success ? "green" : "red"); font-weight:600">@Model.Message</span>
+
+<div class="tours-container">
+    <table class="tours-page-tours-table">
+        <thead class="tours-page-tours-thead">
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Itineraries</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var tour in Model.Data)
+            {
+                <tr>
+                    <td>@tour.Name</td>
+                    <td>
+                        <ul>
+                            @foreach (var itinerary in tour.Itineraries)
+                            {
+                                <li style="text-align: left; font-size: 15px;">
+                                    @itinerary.Description
+                                </li>
+                            }
+                        </ul>
+                    </td>
+                    <td>
+                        <a href='edittour.html' class="tours-page-tours-btn tours-page-tours-btn-primary">Edit</a>
+                        <button onclick="deleteTour(@tour.Id)" class="tours-page-tours-btn tours-page-tours-btn-danger">Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="tours-add-container">
+        <h3>Add New Tour</h3>
+        <div class="tours-add">
+            <input type="text" id="add-tourName-input" placeholder="Name" class="tours-input" />
+            <div id="add-itineraryInputs"></div>
+            <button onclick="addItineraryInput()" class="tours-page-tours-btn tours-page-tours-btn-add">Add Itinerary</button>
+            <button onclick="addTour()" class="tours-page-tours-btn tours-page-tours-btn-add">Add New Tour</button>
+        </div>
+    </div>
+</div>

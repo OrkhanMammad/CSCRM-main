@@ -1,0 +1,30 @@
+﻿@using CSCRM.Models.ResponseTypes;
+@model BaseResponse;
+
+
+<div class="company-edit-page-container">
+    <h3 class="company-edit-page-title">Edit Company</h3>
+    <span style="color: @(Model.Success ? "green" : "red"); font-weight:600">@Model.Message</span>
+    <table class="company-edit-page-company-table">
+        <thead class="company-edit-page-company-thead">
+            <tr>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><input id="company-edit-name-input" type="text" class="company-edit-page-input" value="@Model.Data.Name"></td>
+                <td><input id="company-edit-address-input" type="text" class="company-edit-page-input" value="@Model.Data.Address"></td>
+                <td><input id="company-edit-email-input" type="text" class="company-edit-page-input" value="@Model.Data.Email"></td>
+                <td><input id="company-edit-phone-input" type="text" class="company-edit-page-input" value="@Model.Data.Phone"></td>
+                <td>
+                    <button onclick="editCompany(@Model.Data.Id)" id="updateCompanyBtn" class="company-edit-page-company-btn company-edit-page-company-btn-primary">Update Company</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

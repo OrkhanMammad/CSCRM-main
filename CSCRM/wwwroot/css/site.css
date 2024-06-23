@@ -37,6 +37,7 @@ NAVBAR STARTS HERE */
         text-decoration: none;
         color: #ecf0f1;
         display: block;
+        font-weight:700;
     }
 
         .navbar-item a:hover {
