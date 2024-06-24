@@ -1,0 +1,47 @@
+﻿<div class="clients-page-content">
+    <h2 class="ClientsPageHead">Clients</h2>
+    <div class="clients-page-search-container">
+        <input type="text" id="client-searchInput" placeholder="Search by Code or Name" class="client-search-Input"
+               onkeyup="searchClients()" />
+    </div>
+    <div class="clients-page-container">
+        <table class="clients-table">
+            <thead class="clients-page-thead">
+                <tr>
+                    <th scope="col">Code</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Surname</th>
+                    <th scope="col">Phone</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                    <td>12345</td>
+                    <td>John</td>
+                    <td>Doe</td>
+                    <td>555-1234</td>
+                    <td>
+                        <a asp-action="GetClientServices" asp-controller="client" asp-area="manage" class="clients-page-clients-btn clients-page-clients-btn-services">Services</a>
+                        <a href='EditClientInfo.html' class="clients-page-clients-btn clients-page-clients-btn-primary">Edit Personal Info</a>
+                        <button onclick="deleteClient()" class="clients-page-clients-btn clients-page-clients-btn-danger">Delete</button>
+                    </td>
+                </tr>
+                <!-- Add more client rows dynamically -->
+
+            </tbody>
+        </table>
+
+        <div class="clients-add-container">
+            <h3>Add New Client</h3>
+            <div class="clients-add">
+                <input type="text" id="add-clientCode-input" placeholder="Code" class="clients-input" />
+                <input type="text" id="add-clientName-input" placeholder="Name" class="clients-input" />
+                <input type="text" id="add-clientSurname-input" placeholder="Surname" class="clients-input" />
+                <input type="text" id="add-clientPhone-input" placeholder="Phone" class="clients-input" />
+                <button onclick="addClient()" class="clients-page-clients-btn clients-page-clients-btn-add">Add New Client</button>
+            </div>
+        </div>
+    </div>
+</div>

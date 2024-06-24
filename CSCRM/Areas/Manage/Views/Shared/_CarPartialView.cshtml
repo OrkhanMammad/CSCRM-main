@@ -1,0 +1,27 @@
+﻿@using CSCRM.Models.ResponseTypes;
+@model BaseResponse;
+
+
+<h2 class="CarTypesPageHead">Car Types</h2>
+<span style="color: @(Model.Success ? "green" : "red"); font-weight:600">@Model.Message</span>
+<div class="cartypes-container">
+    <div class="cartypes-list-container">
+        <h3>Car Type List</h3>
+        <ul class="cartypes-list" id="carTypeList">
+            <!-- Car types will be dynamically added here -->
+            @foreach (var car in Model.Data)
+            {
+                <li>@car.Name - Capacity: @car.Capacity</li>
+            }
+        </ul>
+    </div>
+
+    <div class="cartypes-add-container">
+        <h3>Add New Car Type</h3>
+        <div class="cartypes-add">
+            <input type="text" id="add-carTypeName-input" placeholder="Name" class="carTypes-Page-cartypes-input" />
+            <input type="number" id="add-carTypeCapacity-input" placeholder="Capacity" class="carTypes-Page-cartypes-input" />
+            <button onclick="addCarType()" class="cartypes-btn cartypes-btn-add">Add New Car Type</button>
+        </div>
+    </div>
+</div>

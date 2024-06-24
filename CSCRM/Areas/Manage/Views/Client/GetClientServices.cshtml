@@ -1,0 +1,129 @@
+﻿<div class="client-services-page-content">
+    <div class="client-info">
+        <h3>Client Info</h3>
+        <div class="client-details">
+            <p><strong>Code:</strong> <span id="clientCode">12345</span></p>
+            <p><strong>Name:</strong> <span id="clientName">John</span></p>
+            <p><strong>Surname:</strong> <span id="clientSurname">Doe</span></p>
+            <p><strong>Phone:</strong> <span id="clientPhone">555-1234</span></p>
+        </div>
+    </div>
+
+    <div class="hotel-service-section">
+        <h2>Hotel Services</h2>
+
+        <div class="services-hotel-services-list">
+            <h3>Existing Hotel Services</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Hotel Name</th>
+                        <th>Room Type</th>
+                        <th>Room Count</th>
+                        <th>Days</th>
+                        <th>Date From</th>
+                        <th>Date To</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Existing hotel services will be listed here -->
+                    <tr>
+                        <td>Atlas Hotel</td>
+                        <td>Single</td>
+                        <td>2</td>
+                        <td>5</td>
+                        <td>2023-06-10</td>
+                        <td>2023-06-15</td>
+                        <td>
+                            <a href="#" class="edit-link">Edit</a>
+                            <button class="delete-btn">Delete</button>
+                        </td>
+                    </tr>
+                    <!-- More rows as needed -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="services-hotel-add-new">
+            <h3>Add New Hotel Service</h3>
+            <div class="hotel-add-form">
+                <select id="newHotelName" class="hotel-input">
+                    <option value="" disabled selected>Select Hotel</option>
+                    <option value="Atlas Hotel">Atlas Hotel</option>
+                    <option value="Oasis Resort">Oasis Resort</option>
+                    <option value="Sunset Inn">Sunset Inn</option>
+                </select>
+                <select id="newRoomTypeName" class="hotel-input">
+                    <option value="" disabled selected>Select Room Type</option>
+                    <option value="Single">Single</option>
+                    <option value="Double">Double</option>
+                    <option value="Suite">Suite</option>
+                </select>
+                <input type="number" id="newRoomCount" placeholder="Room Count" class="hotel-input" />
+                <input type="number" id="newDays" placeholder="Days" class="hotel-input" />
+                <input type="date" id="newDateFrom" class="hotel-input" />
+                <input type="date" id="newDateTo" class="hotel-input" />
+                <button class="hotel-btn">Add Hotel Service</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="tour-service-section">
+        <h2>Tour Services</h2>
+
+        <div class="services-tour-services-list">
+            <h3>Existing Tour Services</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tour Name</th>
+                        <th>Car Type</th>
+                        <th>Guide</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Existing tour services will be listed here -->
+                    <tr>
+                        <td>City Tour</td>
+                        <td>SUV</td>
+                        <td>Yes</td>
+                        <td>2023-06-12</td>
+                        <td>
+                            <a href="#" class="edit-link">Edit</a>
+                            <button class="delete-btn">Delete</button>
+                        </td>
+                    </tr>
+                    <!-- More rows as needed -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="services-tour-add-new">
+            <h3>Add New Tour Service</h3>
+            <div class="tour-add-form">
+                <select id="newTourName" class="tour-input">
+                    <option value="" disabled selected>Select Tour</option>
+                    <option value="City Tour">City Tour</option>
+                    <option value="Mountain Trip">Mountain Trip</option>
+                    <option value="Beach Tour">Beach Tour</option>
+                </select>
+                <select id="newCarTypeName" class="tour-input">
+                    <option value="" disabled selected>Select Car Type</option>
+                    <option value="Sedan">Sedan</option>
+                    <option value="SUV">SUV</option>
+                    <option value="Van">Van</option>
+                </select>
+                <select id="newGuide" class="tour-input">
+                    <option value="" disabled selected>Guide</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+                <input type="date" id="newTourDate" class="tour-input" />
+                <button class="tour-btn">Add Tour Service</button>
+            </div>
+        </div>
+    </div>
+</div>

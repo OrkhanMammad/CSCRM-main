@@ -192,6 +192,9 @@ function editCompany(Id) {
 
 
 
+
+
+
 let itineraryCount = 1;
 
 function addItineraryInput() {
@@ -264,3 +267,42 @@ function deleteTour(tourId) {
             });
     }
 }
+
+
+
+
+
+
+function addCarType() {
+    const name = document.getElementById('add-carTypeName-input').value;
+    const capacity = document.getElementById('add-carTypeCapacity-input').value;
+
+    if (!name || !capacity) {
+        alert('All fields are required.');
+        return;
+    }
+
+    
+
+    // Burada eklenti için gerekli API isteği yapılabilir, fetch kullanılabilir.
+    fetch('/manage/car/AddNewCar', {
+         method: 'POST',
+         headers: {
+             'Content-Type': 'application/json'
+         },
+         body: JSON.stringify({
+             Name: name,
+             Capacity: parseInt(capacity)
+         })
+     })
+        .then(res => {
+            return res.text();
+        })
+        .then(data => {
+
+            document.getElementById('cartypes-page-content').innerHTML = data
+
+            /*$('hotels-page-content').html(data)*/
+        });
+}
+
