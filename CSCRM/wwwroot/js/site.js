@@ -102,6 +102,10 @@ function updateHotel(Id) {
         });
 }
 
+
+
+
+
 function deleteCompany(companyId) {
     const confirmDelete = confirm('Are you sure you want to delete this company?');
     if (confirmDelete) {
@@ -195,6 +199,9 @@ function editCompany(Id) {
 
 
 
+
+
+
 let itineraryCount = 1;
 
 function addItineraryInput() {
@@ -273,6 +280,77 @@ function deleteTour(tourId) {
 
 
 
+
+let editItineraryCount = -3;
+
+edit_itinerary_inputs = document.getElementsByClassName('tour-edit-page-itinerary-input')
+for (let input in edit_itinerary_inputs) {
+    editItineraryCount += 1;
+}
+console.log(editItineraryCount)
+
+
+function addEditItineraryInput() {
+    const itineraryInputs = document.getElementById('edit-itineraryInputs');
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.name = `edit-itinerary-${editItineraryCount}`;
+    input.placeholder = 'Itinerary';
+    input.className = 'tour-edit-page-input';
+    itineraryInputs.appendChild(input);
+
+    editItineraryCount++;
+}
+
+function updateTour(Id) {
+    const name = document.getElementById('edit-tourName-input').value;
+    const itineraries = [];
+
+    for (let i = 0; i < editItineraryCount; i++) {
+        const itineraryInput = document.getElementsByName(`edit-itinerary-${i}`)[0];
+        if (itineraryInput && itineraryInput.value.trim() !== '') {
+            itineraries.push(itineraryInput.value.trim());
+        }
+    }
+    console.log(itineraries)
+
+    if (!name || itineraries.length === 0) {
+        alert('All fields are required.');
+        return;
+    }
+
+    console.log(name, itineraries);
+
+    editItineraryCount = -3;
+
+    fetch('/manage/tour/EditTour', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            Id: Id,
+            Name: name,
+            Itineraries: itineraries
+        })
+    })
+        .then(res => {
+            return res.text();
+        })
+        .then(data => {
+
+            document.getElementById('tour-edit-page-content').innerHTML = data
+
+            /*$('hotels-page-content').html(data)*/
+        });
+    
+}
+
+
+
+
+
+
 function addCarType() {
     const name = document.getElementById('add-carTypeName-input').value;
     const capacity = document.getElementById('add-carTypeCapacity-input').value;
@@ -305,4 +383,60 @@ function addCarType() {
             /*$('hotels-page-content').html(data)*/
         });
 }
+
+function deleteCar(carId) {
+    const confirmDelete = confirm('Are you sure you want to delete this car?');
+    if (confirmDelete) {
+        fetch(`/manage/car/DeleteCar?carId=${carId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(res => res.text())
+            .then(data => {
+                console.log(data);
+                document.getElementById('cartypes-page-content').innerHTML = data;
+
+                /*$('hotels-page-content').html(data)*/
+            });
+    }
+}
+
+
+function editCar(Id) {
+    const name = document.getElementById('car-edit-name-input').value;
+    const capacity = document.getElementById('car-edit-capacity-input').value;
+
+
+    if (!name) {
+        alert('Name field cannot be empty.');
+        return;
+    }
+
+    fetch('/manage/car/EditCar', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            Id: Id,
+            Name: name,
+            Capacity: capacity
+        })
+    })
+        .then(res => {
+            return res.text();
+        })
+        .then(data => {
+
+            document.getElementById('car-type-edit-page-content').innerHTML = data
+
+
+        });
+}
+
+
+
+
 

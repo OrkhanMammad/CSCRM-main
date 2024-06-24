@@ -39,5 +39,20 @@ namespace CSCRM.Areas.Manage.Controllers
             return PartialView("_TourPartialView", result);
         }
 
+
+        [HttpGet]
+        public async Task<IActionResult> EditTour(int tourId)
+        {
+            var result = await _tourService.GetTourByIdAsync(tourId);
+            return View(result);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditTour([FromBody] EditTourVM tourVM)
+        {
+            var result = await _tourService.EditTourAsync(tourVM);
+            return PartialView("_EditTourPartialView", result);
+        }
+
     }
 }

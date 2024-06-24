@@ -2,11 +2,10 @@
 using CSCRM.DataAccessLayers;
 using CSCRM.Models;
 using CSCRM.Models.ResponseTypes;
-using CSCRM.ViewModels.CompanyVMs;
-using CSCRM.ViewModels.HotelVMs;
 using CSCRM.ViewModels.ItineraryVMS;
 using CSCRM.ViewModels.TourVMs;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace CSCRM.Concretes
 {
@@ -17,53 +16,10 @@ namespace CSCRM.Concretes
         {
                     _context = context;
         }
-        public async Task<BaseResponse> GetAllToursAsync()
+
+        private async Task<List<GetTourVM>> GetToursAsync()
         {
-            try
-            {
-               List<GetTourVM> tours = await _context.Tours
-                                                     .Where(c => c.IsDeleted == false)
-                                                     .Include(t => t.Itineraries)
-                                                     .Select(c => new GetTourVM
-                                                     {
-                                                         Id = c.Id,
-                                                         Name = c.Name,
-                                                         Itineraries = c.Itineraries.Select(i => new GetItineraryVM
-                                                         {
-                                                             Id = i.Id,
-                                                             Description = i.Description,
-                                                         }).ToList()
-                                                     })
-                                                     .ToListAsync();
-
-
-                if (tours.Count() == 0)
-                {
-                    return new BaseResponse { Data = new List<GetTourVM>(), Message = "No tour found", Success = true, StatusCode = "200" };
-                }
-                else
-                {
-                    return new BaseResponse { Data = tours, Success = true, StatusCode = "201" };
-
-                }
-
-            }
-            catch (Exception ex)
-            {
-                return new BaseResponse { StatusCode = "404", Message = "Unhandled error occured", Success = false, Data= new List<GetTourVM>() };
-            }
-
-        }
-        public async Task<BaseResponse> RemoveTourAsync(int tourId)
-        {
-            try
-            {
-                Tour deletingTour = await _context.Tours.FirstOrDefaultAsync(h => h.Id == tourId && h.IsDeleted == false);
-                if (deletingTour == null) { return new BaseResponse { Success = false, Message = "Tour Could Not Found", StatusCode = "404" }; }
-                
-                deletingTour.IsDeleted = true;
-                await _context.SaveChangesAsync();
-                List<GetTourVM> tours = await _context.Tours
+                                 return await _context.Tours
                                                       .Where(c => c.IsDeleted == false)
                                                       .Include(t => t.Itineraries)
                                                       .Select(c => new GetTourVM
@@ -77,76 +33,68 @@ namespace CSCRM.Concretes
                                                           }).ToList()
                                                       })
                                                       .ToListAsync();
+        }
+        public async Task<BaseResponse> GetAllToursAsync()
+        {
+            try
+            {
+               List<GetTourVM> tours = await GetToursAsync();
+
+
+                if (!tours.Any())
+                {
+                    return new BaseResponse { Data = new List<GetTourVM>(), Message = "No tour found", Success = true, StatusCode = "200" };
+                }
+                else
+                {
+                    return new BaseResponse { Data = tours, Success = true, StatusCode = "200" };
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse { StatusCode = "500", Message = "Unhandled error occured", Success = false, Data= new List<GetTourVM>() };
+            }
+
+        }
+        public async Task<BaseResponse> RemoveTourAsync(int tourId)
+        {
+            try
+            {
+                Tour deletingTour = await _context.Tours.FirstOrDefaultAsync(h => h.Id == tourId && h.IsDeleted == false);
+                if (deletingTour == null) { return new BaseResponse { Success = false, Message = "Tour Could Not Found", StatusCode = "404", Data=new List<GetTourVM>() }; }
+                
+                deletingTour.IsDeleted = true;
+                await _context.SaveChangesAsync();
+
+                List<GetTourVM> tours = await GetToursAsync();
 
                 return new BaseResponse { Success = true, Message = $"Tour {deletingTour.Name} is deleted successfully.", Data = tours };
             }
 
             catch (Exception ex)
             {
-                List<GetTourVM> tours = await _context.Tours
-                                                     .Where(c => c.IsDeleted == false)
-                                                     .Include(t => t.Itineraries)
-                                                     .Select(c => new GetTourVM
-                                                     {
-                                                         Id = c.Id,
-                                                         Name = c.Name,
-                                                         Itineraries = c.Itineraries.Select(i => new GetItineraryVM
-                                                         {
-                                                             Id = i.Id,
-                                                             Description = i.Description,
-                                                         }).ToList()
-                                                     })
-                                                     .ToListAsync();
-
-                return new BaseResponse { Success = false, StatusCode = "500", Message = "Tour Could Not Deleted Successfully", Data=tours }; 
+                return new BaseResponse { Success = false, StatusCode = "500", Message = "Tour Could Not Deleted Successfully, Unhandled error occured", Data=new List<GetTourVM>() }; 
             }
-
-
-
         }
-
         public async Task<BaseResponse> AddTourAsync(AddTourVM tourVM)
         {
             try
             {
                 if (string.IsNullOrEmpty(tourVM.Name))
                 {
-                    List<GetTourVM> toursInDb = await _context.Tours
-                                                    .Where(c => c.IsDeleted == false)
-                                                    .Include(t => t.Itineraries)
-                                                    .Select(c => new GetTourVM
-                                                    {
-                                                        Id = c.Id,
-                                                        Name = c.Name,
-                                                        Itineraries = c.Itineraries.Select(i => new GetItineraryVM
-                                                        {
-                                                            Id = i.Id,
-                                                            Description = i.Description,
-                                                        }).ToList()
-                                                    })
-                                                    .ToListAsync();
-                    return new BaseResponse { Message = $"Tour Name can not be empty", StatusCode = "201", Success = false, Data = toursInDb };
+                    List<GetTourVM> toursInDb = await GetToursAsync();
+
+                    return new BaseResponse { Message = $"Tour Name can not be empty", StatusCode = "200", Success = false, Data = toursInDb };
 
                 }
 
                 List<string> tourNamesInDB = await _context.Tours.Where(h => h.IsDeleted == false).Select(h => h.Name).ToListAsync();
                 if (tourNamesInDB.Any(hn => hn.ToLower() == tourVM.Name.Trim().ToLower()))
                 {
-                    List<GetTourVM> toursInDb = await _context.Tours
-                                                   .Where(c => c.IsDeleted == false)
-                                                   .Include(t => t.Itineraries)
-                                                   .Select(c => new GetTourVM
-                                                   {
-                                                       Id = c.Id,
-                                                       Name = c.Name,
-                                                       Itineraries = c.Itineraries.Select(i => new GetItineraryVM
-                                                       {
-                                                           Id = i.Id,
-                                                           Description = i.Description,
-                                                       }).ToList()
-                                                   })
-                                                   .ToListAsync();
-                    return new BaseResponse { Message = $"Tour {tourVM.Name} is already exists", StatusCode = "201", Success = false, Data = toursInDb };
+                    List<GetTourVM> toursInDb = await GetToursAsync();
+                    return new BaseResponse { Message = $"Tour {tourVM.Name} is already exists", StatusCode = "200", Success = false, Data = toursInDb };
                 }
 
                 Tour newTour = new Tour
@@ -163,44 +111,149 @@ namespace CSCRM.Concretes
 
                 await _context.Tours.AddAsync(newTour);
                 await _context.SaveChangesAsync();
-                List<GetTourVM> tours = await _context.Tours
-                                                    .Where(c => c.IsDeleted == false)
-                                                    .Include(t => t.Itineraries)
-                                                    .Select(c => new GetTourVM
-                                                    {
-                                                        Id = c.Id,
-                                                        Name = c.Name,
-                                                        Itineraries = c.Itineraries.Select(i => new GetItineraryVM
-                                                        {
-                                                            Id = i.Id,
-                                                            Description = i.Description,
-                                                        }).ToList()
-                                                    })
-                                                    .ToListAsync();
+
+                List<GetTourVM> tours = await GetToursAsync();
+
                 return new BaseResponse { Data = tours, Message = "Tour Created Successfully", StatusCode = "201", Success = true };
+            }
+            catch (Exception ex)
+            {              
+                return new BaseResponse { Message = "Tour Could Not Created Successfully, Unhadled error occured", StatusCode = "500", Success = false, Data=new List<GetTourVM>() };
+            }
+        }
+        public async Task<BaseResponse> GetTourByIdAsync(int tourId)
+        {
+            try
+            {
+                Tour tourEntity = await _context.Tours.FirstOrDefaultAsync(h => h.IsDeleted == false && h.Id == tourId);
+                if (tourEntity == null)
+                {
+                    return new BaseResponse { Message = "Tour Could Not Found by Its Property", StatusCode = "404", Success = false, Data = new EditTourVM() };
+                }
+
+                List<string> itinerariesOfTour = await _context.Itineraries.Where(i => i.TourId == tourId).Select(i => i.Description )
+                .ToListAsync();
+                if (itinerariesOfTour == null || itinerariesOfTour.Count == 0)
+                {
+                  itinerariesOfTour= new List<string>();
+                }
 
 
+
+                EditTourVM tourForEdit = new EditTourVM
+                {
+                    Id = tourEntity.Id,
+                    Name = tourEntity.Name,
+                    Itineraries=itinerariesOfTour,
+                };
+                return new BaseResponse { Success = true, Data = tourForEdit, StatusCode = "200" };
             }
             catch (Exception ex)
             {
-                List<GetTourVM> tours = await _context.Tours
-                                                .Where(c => c.IsDeleted == false)
-                                                .Include(t => t.Itineraries)
-                                                .Select(c => new GetTourVM
-                                                {
-                                                    Id = c.Id,
-                                                    Name = c.Name,
-                                                    Itineraries = c.Itineraries.Select(i => new GetItineraryVM
-                                                    {
-                                                        Id = i.Id,
-                                                        Description = i.Description,
-                                                    }).ToList()
-                                                })
-                                                .ToListAsync();
-                return new BaseResponse { Message = "Tour Could Not Created Successfully, Unhadled error occured", StatusCode = "500", Success = false, Data=tours };
-
+                return new BaseResponse { Success = false, Data = new EditTourVM(), StatusCode = "500", Message = "Unhandled error occured" };
             }
         }
+        public async Task<BaseResponse> EditTourAsync(EditTourVM tour)
+        {
+            if (tour == null || tour.Id <= 0)
+            {
+                return new BaseResponse
+                {
+                    Success = false,
+                    Message = "Invalid tour ID.",
+                    StatusCode = "400",
+                    Data = tour
+                };
+            }
+
+            if (string.IsNullOrWhiteSpace(tour.Name))
+            {
+                return new BaseResponse
+                {
+                    Success = false,
+                    Message = "Tour name cannot be empty.",
+                    StatusCode = "400",
+                    Data = tour
+                };
+            }
+
+            try
+            {
+                Tour editTour = await _context.Tours.FirstOrDefaultAsync(c => c.Id == tour.Id && !c.IsDeleted);
+                if (editTour == null)
+                {
+                    return new BaseResponse
+                    {
+                        Success = false,
+                        Message = "Tour not found.",
+                        StatusCode = "404",
+                        Data = tour
+                    };
+                }                
+
+               
+                using (var transaction = await _context.Database.BeginTransactionAsync())
+                {
+                    try
+                    {
+                       
+                        List<Itinerary> itineraries = await _context.Itineraries.Where(i => i.TourId == tour.Id).ToListAsync();
+                        _context.RemoveRange(itineraries);
+
+                       
+                        editTour.Name = tour.Name;
+
+                        List<Itinerary> newItineraries = tour.Itineraries.Select(itinerary => new Itinerary
+                        {
+                            Description = itinerary,
+                            TourId = tour.Id
+                        }).ToList();
+
+                        await _context.Itineraries.AddRangeAsync(newItineraries);
+                        await _context.SaveChangesAsync();
+
+                        
+                        await transaction.CommitAsync();
+                    }
+                    catch
+                    {
+                        
+                        await transaction.RollbackAsync();
+                        throw;
+                    }
+                }
+
+               
+                var updatedTour = await _context.Tours
+                    .Where(t => t.Id == tour.Id && !t.IsDeleted)
+                    .Select(t => new EditTourVM
+                    {
+                        Id = t.Id,
+                        Name = t.Name,
+                        Itineraries = t.Itineraries.Select(i => i.Description).ToList()
+                    }).FirstOrDefaultAsync();
+
+                return new BaseResponse
+                {
+                    Data = updatedTour,
+                    Message = "Tour updated successfully.",
+                    Success = true,
+                    StatusCode = "200"
+                };
+            }
+            catch (Exception ex)
+            {
+                
+                return new BaseResponse
+                {
+                    Data = tour,
+                    Success = false,
+                    Message = "An unhandled exception occurred.",
+                    StatusCode = "500"
+                };
+            }
+        }
+
 
     }
 }

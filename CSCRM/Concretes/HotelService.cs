@@ -26,6 +26,23 @@ namespace CSCRM.Concretes
             hotel.ContactNumber= updatedHotel.ContactNumber;
         }
 
+        private async Task<List<GetHotelVM>> GetHotelsAsync()
+        {
+            return await _context.Hotels
+                                                        .Where(h => h.IsDeleted == false)
+                                                        .Select(h => new GetHotelVM
+                                                        {
+                                                            Id = h.Id,
+                                                            Name = h.Name,
+                                                            SinglePrice = h.SinglePrice,
+                                                            DoublePrice = h.DoublePrice,
+                                                            TriplePrice = h.TriplePrice,
+                                                            ContactPerson = h.ContactPerson,
+                                                            ContactNumber = h.ContactNumber,
+                                                        })
+                                                        .ToListAsync();
+        }
+
         public async Task<BaseResponse> AddHotelAsync(AddHotelVM addHotelVM)
         {
 
@@ -34,7 +51,7 @@ namespace CSCRM.Concretes
             {
                 List<string> hotelNamesInDB = await _context.Hotels.Where(h=>h.IsDeleted==false).Select(h => h.Name).ToListAsync();
                 if(hotelNamesInDB.Any(hn=>hn.ToLower()==addHotelVM.Name.Trim().ToLower()))
-                    return new BaseResponse { Message = $"Hotel {addHotelVM.Name} is already exists", StatusCode = "201", Success = false };
+                    return new BaseResponse { Message = $"Hotel {addHotelVM.Name} is already exists", StatusCode = "201", Success = true };
                 
                 Hotel newHotel = new Hotel 
                 { Name = addHotelVM.Name,
@@ -46,26 +63,15 @@ namespace CSCRM.Concretes
                 };
                 await _context.Hotels.AddAsync(newHotel);
                 await _context.SaveChangesAsync();
-                List<GetHotelVM> hotels = await _context.Hotels
-                                                        .Where(h => h.IsDeleted == false)
-                                                        .Select(h => new GetHotelVM
-                                                        {
-                                                            Id = h.Id,
-                                                            Name = h.Name,
-                                                            SinglePrice = h.SinglePrice,
-                                                            DoublePrice = h.DoublePrice,
-                                                            TriplePrice = h.TriplePrice,
-                                                            ContactPerson = h.ContactPerson,
-                                                            ContactNumber = h.ContactNumber,
-                                                        })
-                                                        .ToListAsync();
+                List<GetHotelVM> hotels = await GetHotelsAsync();
+
                 return new BaseResponse { Data = hotels, Message = "Hotel Created Successfully", StatusCode = "201", Success = true };
 
 
             }
             catch (Exception ex)
             {
-                return new BaseResponse { Message = "Hotel Could Not Created Successfully", StatusCode = "500", Success = false };
+                return new BaseResponse { Message = "Hotel Could Not Created Successfully", StatusCode = "500", Success = false, Data= new List<GetHotelVM>() };
 
             }
 
@@ -76,26 +82,14 @@ namespace CSCRM.Concretes
         {
             try
             {
-                List<GetHotelVM> hotels = await _context.Hotels
-                                                        .Where(h => h.IsDeleted == false)
-                                                        .Select(h => new GetHotelVM
-                                                        {
-                                                            Id = h.Id,
-                                                            Name = h.Name,
-                                                            SinglePrice = h.SinglePrice,
-                                                            DoublePrice = h.DoublePrice,
-                                                            TriplePrice = h.TriplePrice,
-                                                            ContactPerson = h.ContactPerson,
-                                                            ContactNumber = h.ContactNumber,
-                                                        })
-                                                        .ToListAsync();
-                if (hotels.Count() == 0)
+                List<GetHotelVM> hotels = await GetHotelsAsync();
+                if (!hotels.Any())
                 {
                     return new BaseResponse { Data = new List<GetHotelVM>(), Message = "No hotel found", Success = true, StatusCode = "200" };
                 }
                 else
                 {
-                    return new BaseResponse { Data = hotels, Message = "Hotels are sent", Success = true, StatusCode = "201" };
+                    return new BaseResponse { Data = hotels, Success = true, StatusCode = "201" };
 
                 }
 
@@ -115,26 +109,11 @@ namespace CSCRM.Concretes
 
                 deletingHotel.IsDeleted = true;
                 await _context.SaveChangesAsync();
-                List<GetHotelVM> hotels = await _context.Hotels
-                                                       .Where(h => h.IsDeleted == false)
-                                                       .Select(h => new GetHotelVM
-                                                       {
-                                                           Id = h.Id,
-                                                           Name = h.Name,
-                                                           SinglePrice = h.SinglePrice,
-                                                           DoublePrice = h.DoublePrice,
-                                                           TriplePrice = h.TriplePrice,
-                                                           ContactPerson = h.ContactPerson,
-                                                           ContactNumber = h.ContactNumber,
-                                                       })
-                                                       .ToListAsync();
+                List<GetHotelVM> hotels = await GetHotelsAsync();
                 return new BaseResponse { Success = true, Message = $"Hotel {deletingHotel.Name} is deleted successfully.", Data = hotels };
             }
 
             catch(Exception ex) { return new BaseResponse { Success = false, StatusCode = "500", Message = "Hotel Could Not Deleted Successfully" }; }
-
-            
-
         }
         public async Task<BaseResponse> GetHotelByIdAsync(int id)
         {
@@ -235,7 +214,7 @@ namespace CSCRM.Concretes
             catch (Exception ex)
             {
                 return new BaseResponse
-                {
+                {  Data=hotel,
                     Success = false,
                     Message = "An unhandled exception occurred.",
                     StatusCode = "500"

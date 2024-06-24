@@ -7,5 +7,8 @@ namespace CSCRM.Abstractions
     {
         Task<BaseResponse> GetAllCarsAsync();
         Task<BaseResponse> AddCarAsync(AddCarVM carVM);
+        Task<BaseResponse> RemoveCarAsync(int carId);
+        Task<BaseResponse> GetCarByIdAsync(int carId);
+        Task<BaseResponse> EditCarAsync(EditCarVM car);
     }
 }

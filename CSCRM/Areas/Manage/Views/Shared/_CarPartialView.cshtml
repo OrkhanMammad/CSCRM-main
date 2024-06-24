@@ -4,24 +4,37 @@
 
 <h2 class="CarTypesPageHead">Car Types</h2>
 <span style="color: @(Model.Success ? "green" : "red"); font-weight:600">@Model.Message</span>
-<div class="cartypes-container">
-    <div class="cartypes-list-container">
-        <h3>Car Type List</h3>
-        <ul class="cartypes-list" id="carTypeList">
-            <!-- Car types will be dynamically added here -->
-            @foreach (var car in Model.Data)
-            {
-                <li>@car.Name - Capacity: @car.Capacity</li>
-            }
-        </ul>
-    </div>
 
-    <div class="cartypes-add-container">
+<div class="cartypes-page-container">
+    <table class="cartypes-page-cartypes-table">
+        <thead class="cartypes-page-cartypes-thead">
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Capacity</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var car in Model.Data)
+            {
+                <tr>
+                    <td>@car.Name</td>
+                    <td>@car.Capacity</td>
+                    <td>
+                        <a asp-controller="car" asp-action="EditCar" asp-area="manage" asp-route-carId="@car.Id" class="cartypes-page-cartypes-btn cartypes-page-cartypes-btn-primary">Edit</a>
+                        <button onclick="deleteCar(@car.Id)" class="cartypes-page-cartypes-btn cartypes-page-cartypes-btn-danger">Delete</button>
+                    </td>
+                </tr>
+            }                       
+        </tbody>
+    </table>
+
+    <div class="cartypes-page-cartypes-add-container">
         <h3>Add New Car Type</h3>
         <div class="cartypes-add">
-            <input type="text" id="add-carTypeName-input" placeholder="Name" class="carTypes-Page-cartypes-input" />
-            <input type="number" id="add-carTypeCapacity-input" placeholder="Capacity" class="carTypes-Page-cartypes-input" />
-            <button onclick="addCarType()" class="cartypes-btn cartypes-btn-add">Add New Car Type</button>
+            <input type="text" id="add-carTypeName-input" placeholder="Name" class="cartypes-page-add-cartypes-input" />
+            <input type="number" id="add-carTypeCapacity-input" placeholder="Capacity" class="cartypes-page-add-cartypes-input" />
+            <button onclick="addCarType()" class="cartypes-page-cartypes-btn cartypes-page-cartypes-btn-add">Add New Car Type</button>
         </div>
     </div>
 </div>

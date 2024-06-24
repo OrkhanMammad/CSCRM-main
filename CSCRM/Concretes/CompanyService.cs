@@ -23,7 +23,6 @@ namespace CSCRM.Concretes
             company.Email = updatedCompany.Email;
             company.Phone = updatedCompany.Phone;
         }
-
         public async Task<BaseResponse> AddCompanyAsync(AddCompanyVM companyVM)
         {
             try
@@ -92,7 +91,6 @@ namespace CSCRM.Concretes
 
             }
         }
-
         public async Task<BaseResponse> GetAllCompaniesAsync()
         {
             try
@@ -128,7 +126,6 @@ namespace CSCRM.Concretes
 
 
         }
-
         public async Task<BaseResponse> RemoveCompanyAsync(int companyId)
         {
             try
@@ -158,7 +155,6 @@ namespace CSCRM.Concretes
 
 
         }
-
         public async Task<BaseResponse> GetCompanyByIdAsync(int companyId)
         {
             try
@@ -184,8 +180,6 @@ namespace CSCRM.Concretes
                 return new BaseResponse { Success = false, Data = new EditCompanyVM(), StatusCode = "500", Message = "Unhandled error occured" };
             }
         }
-
-
         public async Task<BaseResponse> EditCompanyAsync(EditCompanyVM company)
         {
             try

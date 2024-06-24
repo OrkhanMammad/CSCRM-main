@@ -1,0 +1,39 @@
+﻿@using CSCRM.Models.ResponseTypes
+@model BaseResponse
+
+<div class="tour-edit-page-container">
+    <h3 class="tour-edit-page-title">Edit Tour</h3>
+    <span style="color: @(Model.Success ? "green" : "red"); font-weight:600">@Model.Message</span>
+    <table class="tour-edit-page-tour-table">
+        <thead class="tour-edit-page-tour-thead">
+            <tr>
+
+                <th>Tour Name</th>
+                <th>Itineraries</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><input type="text" id="edit-tourName-input" value="@Model.Data.Name" class="tour-edit-page-input"></td>
+                <td>
+                    <div id="edit-itineraryInputs">
+                        @{
+                            short itineraryIndex = 0;
+                        }
+                        @foreach (var itinerary in Model.Data.Itineraries)
+                        {
+                            <input type="text" name="edit-itinerary-@itineraryIndex" value="@itinerary" class="tour-edit-page-input tour-edit-page-itinerary-input">
+                            itineraryIndex++;
+                        }
+
+                    </div>
+                    <button style="margin-top: 20px" onclick="addEditItineraryInput()" class="tour-edit-page-tour-btn tour-edit-page-tour-btn-add">Add Itinerary</button>
+                </td>
+                <td>
+                    <button onclick="updateTour(@Model.Data.Id)" class="tour-edit-page-tour-btn tour-edit-page-tour-btn-primary">Update Tour</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,29 @@
+﻿@using CSCRM.Models.ResponseTypes;
+@model BaseResponse;
+
+<div class="car-type-edit-page-container">
+    <h3 class="car-type-edit-page-title">Edit Car Type</h3>
+    <span style="color: @(Model.Success ? "green" : "red"); font-weight:600">@Model.Message</span>
+    <table class="car-type-edit-page-car-type-table">
+        <thead class="car-type-edit-page-car-type-thead">
+            <tr>
+                <th>Name</th>
+                <th>Capacity</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><input type="text" id="car-edit-name-input" class="car-type-edit-page-input" value="@Model.Data.Name"></td>
+                <td><input type="number" id="car-edit-capacity-input" class="car-type-edit-page-input" value="@Model.Data.Capacity"></td>
+                <td>
+                    <button onclick="editCar(@Model.Data.Id)" id="updateCarTypeBtn"
+                            class="car-type-edit-page-car-type-btn car-type-edit-page-car-type-btn-primary">
+                        Update
+                        Car Type
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

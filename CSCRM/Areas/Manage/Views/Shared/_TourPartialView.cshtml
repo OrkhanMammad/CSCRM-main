@@ -30,7 +30,7 @@
                         </ul>
                     </td>
                     <td>
-                        <a href='edittour.html' class="tours-page-tours-btn tours-page-tours-btn-primary">Edit</a>
+                        <a asp-action="EditTour" asp-controller="Tour" asp-area="Manage" asp-route-tourId="@tour.Id" class="tours-page-tours-btn tours-page-tours-btn-primary">Edit</a>
                         <button onclick="deleteTour(@tour.Id)" class="tours-page-tours-btn tours-page-tours-btn-danger">Delete</button>
                     </td>
                 </tr>

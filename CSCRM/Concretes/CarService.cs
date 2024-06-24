@@ -19,11 +19,10 @@ namespace CSCRM.Concretes
             _context = context;   
         }
 
-        public async Task<BaseResponse> GetAllCarsAsync()
+
+        private async Task<List<GetCarVM>> GetCarsAsync()
         {
-            try
-            {
-                List<GetCarVM> cars = await _context.CarTypes.Where(c => c.IsDeleted == false)
+            return await _context.CarTypes.Where(c => c.IsDeleted == false)
                                                         .Select(c => new GetCarVM
                                                         {
                                                             Id = c.Id,
@@ -32,10 +31,21 @@ namespace CSCRM.Concretes
 
                                                         })
                                                         .ToListAsync();
+        }
 
+        private void CarEditor(CarType car, EditCarVM updatedCar)
+        {
+            car.Name = updatedCar.Name;
+            car.Capacity = updatedCar.Capacity;
+           
+        }
 
-
-                if (cars.Count() == 0)
+        public async Task<BaseResponse> GetAllCarsAsync()
+        {
+            try
+            {
+                List<GetCarVM> cars = await GetCarsAsync();
+                if (!cars.Any())
                 {
                     return new BaseResponse { Data = new List<GetCarVM>(), Message = "No car found", Success = true, StatusCode = "200" };
                 }
@@ -58,16 +68,8 @@ namespace CSCRM.Concretes
             {
                 if (string.IsNullOrEmpty(carVM.Name))
                 {
-                    List<GetCarVM> carsInDb = await _context.CarTypes
-                                                    .Where(c => c.IsDeleted == false)
-                                                    .Select(c => new GetCarVM
-                                                    {
-                                                        Id = c.Id,
-                                                        Name = c.Name,
-                                                        Capacity = c.Capacity,
-                                                        
-                                                    })
-                                                    .ToListAsync();
+                    List<GetCarVM> carsInDb = await GetCarsAsync();
+
                     return new BaseResponse { Message = $"Car Type Name can not be empty", StatusCode = "201", Success = false, Data = carsInDb };
 
                 }
@@ -75,16 +77,8 @@ namespace CSCRM.Concretes
                 List<string> carNamesInDB = await _context.CarTypes.Where(h => h.IsDeleted == false).Select(h => h.Name).ToListAsync();
                 if (carNamesInDB.Any(hn => hn.ToLower() == carVM.Name.Trim().ToLower()))
                 {
-                    List<GetCarVM> carsInDb = await _context.CarTypes
-                                                     .Where(c => c.IsDeleted == false)
-                                                     .Select(c => new GetCarVM
-                                                     {
-                                                         Id = c.Id,
-                                                         Name = c.Name,
-                                                         Capacity = c.Capacity,
+                    List<GetCarVM> carsInDb = await GetCarsAsync();
 
-                                                     })
-                                                     .ToListAsync();
                     return new BaseResponse { Message = $"Car {carVM.Name} is already exists", StatusCode = "201", Success = false, Data = carsInDb };
                 }
 
@@ -99,35 +93,137 @@ namespace CSCRM.Concretes
 
                 await _context.CarTypes.AddAsync(newCar);
                 await _context.SaveChangesAsync();
-                List<GetCarVM> cars = await _context.CarTypes
-                                                     .Where(c => c.IsDeleted == false)
-                                                     .Select(c => new GetCarVM
-                                                     {
-                                                         Id = c.Id,
-                                                         Name = c.Name,
-                                                         Capacity = c.Capacity,
 
-                                                     })
-                                                     .ToListAsync();
+                List<GetCarVM> cars = await GetCarsAsync();
                 return new BaseResponse { Data = cars, Message = "Car Type Created Successfully", StatusCode = "201", Success = true };
 
 
             }
             catch (Exception ex)
             {
-                List<GetCarVM> cars = await _context.CarTypes
-                                                    .Where(c => c.IsDeleted == false)
-                                                    .Select(c => new GetCarVM
-                                                    {
-                                                        Id = c.Id,
-                                                        Name = c.Name,
-                                                        Capacity = c.Capacity,
 
-                                                    })
-                                                    .ToListAsync();
-                return new BaseResponse { Message = "Car Type Could Not Created Successfully, Unhadled error occured", StatusCode = "500", Success = false, Data = cars };
+                return new BaseResponse { Message = "Car Type Could Not Created Successfully, Unhadled error occured", StatusCode = "500", Success = false, Data = new List<GetCarVM>() };
 
             }
         }
+
+        public async Task<BaseResponse> RemoveCarAsync(int carId)
+        {
+            try
+            {
+                CarType deletingCar = await _context.CarTypes.FirstOrDefaultAsync(h => h.Id == carId && h.IsDeleted == false);
+                if (deletingCar == null) { return new BaseResponse { Success = false, Message = "Car Could Not Found By Its Property", StatusCode = "404" }; }
+
+                deletingCar.IsDeleted = true;
+                await _context.SaveChangesAsync();
+                List<GetCarVM> cars = await GetCarsAsync();
+
+                return new BaseResponse { Success = true, Message = $"Car {deletingCar.Name} is deleted successfully.", Data = cars };
+            }
+
+            catch (Exception ex)
+            {
+                return new BaseResponse { Success = false, StatusCode = "500", Message = "Car Could Not Deleted Successfully, Unhandled error occured", Data = new List<GetCarVM>() };
+            }
+        }
+
+        public async Task<BaseResponse> GetCarByIdAsync(int carId)
+        {
+            try
+            {
+                CarType carEntity = await _context.CarTypes.FirstOrDefaultAsync(h => h.IsDeleted == false && h.Id == carId);
+                if (carEntity == null)
+                {
+                    return new BaseResponse { Message = "Car Could Not Found by Its Property", StatusCode = "404", Success = false, Data = new EditCarVM() };
+                }
+
+                EditCarVM carForEdit = new EditCarVM
+                {
+                    Id = carEntity.Id,
+                    Name = carEntity.Name,
+                    Capacity= carEntity.Capacity,
+                };
+                return new BaseResponse { Success = true, Data = carForEdit, StatusCode = "201" };
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse { Success = false, Data = new EditCarVM(), StatusCode = "500", Message = "Unhandled error occured" };
+            }
+        }
+
+        public async Task<BaseResponse> EditCarAsync(EditCarVM car)
+        {
+            if (car == null || car.Id <= 0)
+            {
+                return new BaseResponse
+                {
+                    Success = false,
+                    Message = "Invalid car ID.",
+                    StatusCode = "400",
+                    Data = car
+                };
+            }
+
+            try
+            {
+                CarType editCar = await _context.CarTypes.FirstOrDefaultAsync(c => c.Id == car.Id && c.IsDeleted==false);
+                if (editCar == null)
+                {
+                    return new BaseResponse
+                    {
+                        Success = false,
+                        Message = "Car not found.",
+                        StatusCode = "404",
+                        Data = car
+                    };
+                }
+
+
+                if (string.IsNullOrWhiteSpace(car.Name))
+                {
+                    return new BaseResponse
+                    {
+                        Success = false,
+                        Message = "Car name cannot be empty.",
+                        StatusCode = "400",
+                        Data = car
+                    };
+                }
+
+
+                CarEditor(editCar, car);
+                await _context.SaveChangesAsync();
+
+
+                CarType carEntity = await _context.CarTypes
+                                                       .FirstOrDefaultAsync(h => h.IsDeleted == false && h.Id == editCar.Id);
+
+                EditCarVM carEdited = new EditCarVM
+                {
+                    Id = carEntity.Id,
+                    Name = carEntity.Name,
+                    Capacity = carEntity.Capacity,
+                };
+
+                return new BaseResponse
+                {
+                    Data = carEdited,
+                    Message = "Car updated successfully.",
+                    Success = true,
+                    StatusCode = "200"
+                };
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse
+                {
+                    Data = new EditCarVM(),
+                    Success = false,
+                    Message = "An unhandled exception occurred.",
+                    StatusCode = "500"
+                };
+            }
+        }
+
     }
 }
