@@ -4,7 +4,9 @@ using CSCRM.Models;
 using CSCRM.Models.ResponseTypes;
 using CSCRM.ViewModels.CompanyVMs;
 using CSCRM.ViewModels.HotelVMs;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace CSCRM.Concretes
 {
@@ -23,42 +25,38 @@ namespace CSCRM.Concretes
             company.Email = updatedCompany.Email;
             company.Phone = updatedCompany.Phone;
         }
+
+        private async Task<List<GetCompanyVM>> GetCompaniesAsync()
+        {
+            return await _context.Companies
+                                           .Where(h => h.IsDeleted == false)
+                                           .Select(h => new GetCompanyVM
+                                                        {
+                                                            Id = h.Id,
+                                                            Name = h.Name,
+                                                            Phone = h.Phone,
+                                                            Email = h.Email,
+                                                            Address = h.Address,
+                                                        })
+                                           .ToListAsync();
+
+        }
         public async Task<BaseResponse> AddCompanyAsync(AddCompanyVM companyVM)
         {
             try
             {
                 if (string.IsNullOrEmpty(companyVM.Name))
                 {
-                    List<GetCompanyVM> companiesInDb = await _context.Companies
-                                                        .Where(h => h.IsDeleted == false)
-                                                        .Select(h => new GetCompanyVM
-                                                        {
-                                                            Id = h.Id,
-                                                            Name = h.Name,
-                                                            Phone = h.Phone,
-                                                            Email = h.Email,
-                                                            Address = h.Address,
-                                                        })
-                                                        .ToListAsync();
-                    return new BaseResponse { Message = $"Company Name can not be empty", StatusCode = "201", Success = false, Data = companiesInDb };
-
+                    List<GetCompanyVM> companiesInDb = await GetCompaniesAsync();
+                    return new BaseResponse { Message = $"Company Name can not be empty", StatusCode = "400", Success = false, Data = companiesInDb };
                 }
 
-                List<string> companyNamesInDB = await _context.Companies.Where(h => h.IsDeleted == false).Select(h => h.Name).ToListAsync();
-                if (companyNamesInDB.Any(hn => hn.ToLower() == companyVM.Name.Trim().ToLower()))
+                bool companyExists = await _context.Companies.AnyAsync(h => h.IsDeleted == false && h.Name.ToLower() == companyVM.Name.Trim().ToLower());
+                
+                if (companyExists)
                 {
-                    List<GetCompanyVM> companiesInDb = await _context.Companies
-                                                        .Where(h => h.IsDeleted == false)
-                                                        .Select(h => new GetCompanyVM
-                                                        {
-                                                            Id = h.Id,
-                                                            Name = h.Name,
-                                                            Phone = h.Phone,
-                                                            Email = h.Email,
-                                                            Address = h.Address,
-                                                        })
-                                                        .ToListAsync();
-                    return new BaseResponse { Message = $"Company {companyVM.Name} is already exists", StatusCode = "201", Success = false, Data=companiesInDb };
+                    List<GetCompanyVM> companiesInDb = await GetCompaniesAsync();
+                    return new BaseResponse { Message = $"Company {companyVM.Name} is already exists", StatusCode = "409", Success = false, Data=companiesInDb };
                 }
 
                 Company newCompany = new Company
@@ -70,17 +68,7 @@ namespace CSCRM.Concretes
                 };
                 await _context.Companies.AddAsync(newCompany);
                 await _context.SaveChangesAsync();
-                List<GetCompanyVM> companies = await _context.Companies
-                                                        .Where(h => h.IsDeleted == false)
-                                                        .Select(h => new GetCompanyVM
-                                                        {
-                                                            Id = h.Id,
-                                                            Name = h.Name,
-                                                            Phone = h.Phone,
-                                                            Email = h.Email,
-                                                            Address= h.Address,
-                                                        })
-                                                        .ToListAsync();
+                List<GetCompanyVM> companies = await GetCompaniesAsync();
                 return new BaseResponse { Data = companies, Message = "Company Created Successfully", StatusCode = "201", Success = true };
 
 
@@ -88,71 +76,39 @@ namespace CSCRM.Concretes
             catch (Exception ex)
             {
                 return new BaseResponse { Message = "Company Could Not Created Successfully, Unhadled error occured", StatusCode = "500", Success = false };
-
             }
         }
         public async Task<BaseResponse> GetAllCompaniesAsync()
         {
             try
             {
-                List<GetCompanyVM> companies = await _context.Companies
-                                                        .Where(c => c.IsDeleted == false)
-                                                        .Select(c => new GetCompanyVM
-                                                        {
-                                                            Id = c.Id,
-                                                            Name = c.Name,
-                                                            Address = c.Address,
-                                                            Email = c.Email,
-                                                            Phone = c.Phone                                                            
-                                                        })
-                                                        .ToListAsync();
-
-
-                if (companies.Count() == 0)
-                {
-                    return new BaseResponse { Data = new List<GetHotelVM>(), Message = "No company found", Success = true, StatusCode = "200" };
-                }
-                else
-                {
-                    return new BaseResponse { Data = companies, Success = true, StatusCode = "201" };
-
-                }
+                List<GetCompanyVM> companies = await GetCompaniesAsync();
+                return companies.Any()
+                ? new BaseResponse { Data = companies, Success = true, StatusCode = "200" }
+                : new BaseResponse { Data = new List<GetCompanyVM>(), Message = "No company found", Success = true, StatusCode = "200" };
 
             }
             catch (Exception ex)
             {
-                return new BaseResponse { StatusCode = "404", Message = "Unhandled error occured", Success = false };
+                return new BaseResponse { StatusCode = "404", Message = "Unhandled error occured", Success = false, Data=new List<GetCompanyVM>() };
             }
-
-
         }
         public async Task<BaseResponse> RemoveCompanyAsync(int companyId)
         {
             try
             {
                 Company deletingCompany = await _context.Companies.FirstOrDefaultAsync(h => h.Id == companyId && h.IsDeleted == false);
-                if (deletingCompany == null) { return new BaseResponse { Success = false, Message = "Company Could Not Found", StatusCode = "404" }; }
+                if (deletingCompany == null)
+                    return new BaseResponse { Success = false, Message = "Company Could Not Found", StatusCode = "404", Data= new List<GetCompanyVM>() }; 
 
                 deletingCompany.IsDeleted = true;
                 await _context.SaveChangesAsync();
-                List<GetCompanyVM> companies = await _context.Companies
-                                                       .Where(h => h.IsDeleted == false)
-                                                       .Select(h => new GetCompanyVM
-                                                       {
-                                                           Id = h.Id,
-                                                           Name = h.Name,
-                                                          Address = h.Address,
-                                                          Email = h.Email,
-                                                          Phone = h.Phone
-                                                       })
-                                                       .ToListAsync();
+                List<GetCompanyVM> companies = await GetCompaniesAsync();
 
                 return new BaseResponse { Success = true, Message = $"Company {deletingCompany.Name} is deleted successfully.", Data = companies };
             }
 
             catch (Exception ex) { return new BaseResponse { Success = false, StatusCode = "500", Message = "Company Could Not Deleted Successfully" }; }
-
-
 
         }
         public async Task<BaseResponse> GetCompanyByIdAsync(int companyId)
@@ -161,9 +117,8 @@ namespace CSCRM.Concretes
             {
                 Company companyEntity = await _context.Companies.FirstOrDefaultAsync(h => h.IsDeleted == false && h.Id == companyId);
                 if (companyEntity == null)
-                {
-                    return new BaseResponse { Message = "Company Could Not Found", StatusCode = "404", Success = false, Data = new EditCompanyVM() };
-                }
+                return new BaseResponse { Message = "Company Could Not Found", StatusCode = "404", Success = false, Data = new EditCompanyVM() };
+                
 
                 EditCompanyVM companyForEdit = new EditCompanyVM
                 {
@@ -186,7 +141,6 @@ namespace CSCRM.Concretes
             {
 
                 if (company == null || company.Id <= 0)
-                {
                     return new BaseResponse
                     {
                         Success = false,
@@ -194,12 +148,11 @@ namespace CSCRM.Concretes
                         StatusCode = "400",
                         Data = company
                     };
-                }
+                
 
 
                 Company editCompany = await _context.Companies.FirstOrDefaultAsync(c => c.Id == company.Id);
                 if (editCompany == null)
-                {
                     return new BaseResponse
                     {
                         Success = false,
@@ -207,11 +160,10 @@ namespace CSCRM.Concretes
                         StatusCode = "404",
                         Data = company
                     };
-                }
+                
 
 
                 if (string.IsNullOrWhiteSpace(company.Name))
-                {
                     return new BaseResponse
                     {
                         Success = false,
@@ -219,7 +171,7 @@ namespace CSCRM.Concretes
                         StatusCode = "400",
                         Data = company
                     };
-                }
+                
 
 
                 CompanyEditor(editCompany, company);
@@ -227,7 +179,7 @@ namespace CSCRM.Concretes
 
 
                 Company companyEntity = await _context.Companies
-                                                       .FirstOrDefaultAsync(h => h.IsDeleted == false && h.Id == editCompany.Id);
+                                                                .FirstOrDefaultAsync(h => h.IsDeleted == false && h.Id == editCompany.Id);
 
                 EditCompanyVM companyEdited = new EditCompanyVM
                 {

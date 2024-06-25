@@ -12,6 +12,7 @@ namespace CSCRM.DataAccessLayers
         public DbSet<Itinerary> Itineraries { get; set; }
         public DbSet<Tour> Tours { get; set; }
         public DbSet<CarType> CarTypes { get; set; }
+        public DbSet<TourByCarType> TourByCarTypes { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
