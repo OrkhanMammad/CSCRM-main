@@ -8,5 +8,7 @@
         public CarType CarType { get; set; }
 
         public int CarTypeId { get; set; }
+
+        public decimal Price { get; set; }
     }
 }

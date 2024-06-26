@@ -45,6 +45,7 @@ namespace CSCRM.Concretes
         {
             try
             {
+
                 if (string.IsNullOrEmpty(companyVM.Name))
                 {
                     List<GetCompanyVM> companiesInDb = await GetCompaniesAsync();
@@ -75,7 +76,7 @@ namespace CSCRM.Concretes
             }
             catch (Exception ex)
             {
-                return new BaseResponse { Message = "Company Could Not Created Successfully, Unhadled error occured", StatusCode = "500", Success = false };
+                return new BaseResponse { Message = "Company Could Not Created Successfully, Unhadled error occured", StatusCode = "500", Success = false, Data=new List<GetCompanyVM>() };
             }
         }
         public async Task<BaseResponse> GetAllCompaniesAsync()
@@ -108,7 +109,7 @@ namespace CSCRM.Concretes
                 return new BaseResponse { Success = true, Message = $"Company {deletingCompany.Name} is deleted successfully.", Data = companies };
             }
 
-            catch (Exception ex) { return new BaseResponse { Success = false, StatusCode = "500", Message = "Company Could Not Deleted Successfully" }; }
+            catch (Exception ex) { return new BaseResponse { Success = false, StatusCode = "500", Message = "Company Could Not Deleted Successfully", Data= new List<GetCompanyVM>() }; }
 
         }
         public async Task<BaseResponse> GetCompanyByIdAsync(int companyId)
@@ -149,8 +150,6 @@ namespace CSCRM.Concretes
                         Data = company
                     };
                 
-
-
                 Company editCompany = await _context.Companies.FirstOrDefaultAsync(c => c.Id == company.Id);
                 if (editCompany == null)
                     return new BaseResponse
@@ -161,8 +160,6 @@ namespace CSCRM.Concretes
                         Data = company
                     };
                 
-
-
                 if (string.IsNullOrWhiteSpace(company.Name))
                     return new BaseResponse
                     {
@@ -195,7 +192,7 @@ namespace CSCRM.Concretes
                     Data = companyEdited,
                     Message = "Company updated successfully.",
                     Success = true,
-                    StatusCode = "200"
+                    StatusCode = "203"
                 };
             }
             catch (Exception ex)

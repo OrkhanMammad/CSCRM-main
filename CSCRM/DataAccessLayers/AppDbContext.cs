@@ -23,6 +23,11 @@ namespace CSCRM.DataAccessLayers
                 entity.Property(e => e.DoublePrice).HasColumnType("decimal(18, 2)");
                 entity.Property(e => e.TriplePrice).HasColumnType("decimal(18, 2)");
             });
+            modelBuilder.Entity<TourByCarType>(entity =>
+            {
+                entity.Property(e => e.Price).HasColumnType("decimal(18, 2)");
+                
+            });
         }
     }
 }

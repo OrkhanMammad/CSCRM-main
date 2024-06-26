@@ -4,6 +4,7 @@ using CSCRM.Models;
 using CSCRM.Models.ResponseTypes;
 using CSCRM.ViewModels.ItineraryVMS;
 using CSCRM.ViewModels.TourVMs;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 
@@ -12,9 +13,11 @@ namespace CSCRM.Concretes
     public class TourService : ITourService
     {
         readonly AppDbContext _context;
-        public TourService(AppDbContext context)
+        readonly UserManager<AppUser> _userManager;
+        public TourService(AppDbContext context, UserManager<AppUser> userManager)
         {
                     _context = context;
+            _userManager = userManager;
         }
 
         private async Task<List<GetTourVM>> GetToursAsync()
@@ -41,15 +44,10 @@ namespace CSCRM.Concretes
                List<GetTourVM> tours = await GetToursAsync();
 
 
-                if (!tours.Any())
-                {
-                    return new BaseResponse { Data = new List<GetTourVM>(), Message = "No tour found", Success = true, StatusCode = "200" };
-                }
-                else
-                {
-                    return new BaseResponse { Data = tours, Success = true, StatusCode = "200" };
-
-                }
+                return tours.Any()
+                ? new BaseResponse { Data = tours, Success = true, StatusCode = "200" }
+                : new BaseResponse { Data = new List<GetTourVM>(), Message = "No tour found", Success = true, StatusCode = "200" };
+               
 
             }
             catch (Exception ex)
@@ -58,14 +56,16 @@ namespace CSCRM.Concretes
             }
 
         }
-        public async Task<BaseResponse> RemoveTourAsync(int tourId)
+        public async Task<BaseResponse> RemoveTourAsync(int tourId, AppUser appUser)
         {
             try
             {
                 Tour deletingTour = await _context.Tours.FirstOrDefaultAsync(h => h.Id == tourId && h.IsDeleted == false);
                 if (deletingTour == null) { return new BaseResponse { Success = false, Message = "Tour Could Not Found", StatusCode = "404", Data=new List<GetTourVM>() }; }
-                
+
+
                 deletingTour.IsDeleted = true;
+                deletingTour.DeletedBy = appUser.Name + " " + appUser.SurName;        
                 await _context.SaveChangesAsync();
 
                 List<GetTourVM> tours = await GetToursAsync();

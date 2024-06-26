@@ -1,6 +1,7 @@
-﻿@using CSCRM.ViewModels.HotelVMs;
-@model List<GetHotelVM>;
+﻿@using CSCRM.Models.ResponseTypes;
+@model BaseResponse;
 <h2 class="HotelsPageHead">Hotels</h2>
+<span style="color: @(Model.Success ? "green" : "red"); font-weight:600">@Model.Message</span>
 
 <div class="hotels-page-container">
     <table class="hotels-page-hotels-table">
@@ -17,7 +18,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (GetHotelVM hotel in Model)
+            @foreach (GetHotelVM hotel in Model.Data)
             {
                 <tr>
                     <td>@hotel.Name</td>

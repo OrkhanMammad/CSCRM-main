@@ -50,9 +50,13 @@ namespace CSCRM.Concretes
             try
             {
                 List<string> hotelNamesInDB = await _context.Hotels.Where(h=>h.IsDeleted==false).Select(h => h.Name).ToListAsync();
-                if(hotelNamesInDB.Any(hn=>hn.ToLower()==addHotelVM.Name.Trim().ToLower()))
-                    return new BaseResponse { Message = $"Hotel {addHotelVM.Name} is already exists", StatusCode = "201", Success = true };
-                
+                if (hotelNamesInDB.Any(hn => hn.ToLower() == addHotelVM.Name.Trim().ToLower()))
+                {
+                    List<GetHotelVM> hotelsInDb = await GetHotelsAsync();
+                    return new BaseResponse { Message = $"Hotel {addHotelVM.Name} is already exists", StatusCode = "201", Success = true, Data=hotelsInDb };
+
+                }
+
                 Hotel newHotel = new Hotel 
                 { Name = addHotelVM.Name,
                     SinglePrice = addHotelVM.SinglePrice,
@@ -83,20 +87,14 @@ namespace CSCRM.Concretes
             try
             {
                 List<GetHotelVM> hotels = await GetHotelsAsync();
-                if (!hotels.Any())
-                {
-                    return new BaseResponse { Data = new List<GetHotelVM>(), Message = "No hotel found", Success = true, StatusCode = "200" };
-                }
-                else
-                {
-                    return new BaseResponse { Data = hotels, Success = true, StatusCode = "201" };
-
-                }
-
+                return hotels.Any()
+                ?new BaseResponse { Data = hotels, Success = true, StatusCode = "201" }
+                :new BaseResponse { Data = new List<GetHotelVM>(), Message = "No hotel found", Success = true, StatusCode = "200" };
             }
             catch (Exception ex)
             {
-                return new BaseResponse { StatusCode = "404", Message = ex.Message, Success = false };
+                return new BaseResponse { StatusCode = "500", Message = "Unhandled Error Occured", Success = false, Data = new List<GetHotelVM>() };
+
             }
         }
 
@@ -105,15 +103,23 @@ namespace CSCRM.Concretes
             try
             {
                 Hotel deletingHotel = await _context.Hotels.FirstOrDefaultAsync(h => h.Id == hotelId && h.IsDeleted == false);
-                if (deletingHotel == null) { return new BaseResponse { Success = false, Message = "Hotel Could Not Found", StatusCode = "404" }; }
+                if (deletingHotel == null) 
+                {
+                    List<GetHotelVM> hotelsInDb = await GetHotelsAsync();
+                    return new BaseResponse { Success = false, Message = "Hotel Could Not Found", StatusCode = "404", Data=hotelsInDb }; 
+                
+                }
 
                 deletingHotel.IsDeleted = true;
                 await _context.SaveChangesAsync();
                 List<GetHotelVM> hotels = await GetHotelsAsync();
-                return new BaseResponse { Success = true, Message = $"Hotel {deletingHotel.Name} is deleted successfully.", Data = hotels };
+                return new BaseResponse { Success = true, Message = $"Hotel {deletingHotel.Name} is deleted successfully.", Data = hotels, StatusCode="203" };
             }
 
-            catch(Exception ex) { return new BaseResponse { Success = false, StatusCode = "500", Message = "Hotel Could Not Deleted Successfully" }; }
+            catch(Exception ex) 
+            { 
+                return new BaseResponse { Success = false, StatusCode = "500", Message = "Hotel Could Not Deleted Successfully", Data=new List<GetHotelVM>() }; 
+            }
         }
         public async Task<BaseResponse> GetHotelByIdAsync(int id)
         {
@@ -139,7 +145,7 @@ namespace CSCRM.Concretes
             }
             catch (Exception ex)
             {
-                return new BaseResponse { Success = false, Data = new GetHotelVM(), StatusCode = "500", Message="Unhandled error occured" };
+                return new BaseResponse { Success = false, Data = new EditHotelVM(), StatusCode = "500", Message="Unhandled error occured" };
             }
         }
 
@@ -147,7 +153,7 @@ namespace CSCRM.Concretes
         {
             try
             {
-               
+                
                 if (hotel == null || hotel.Id <= 0)
                 {
                     return new BaseResponse

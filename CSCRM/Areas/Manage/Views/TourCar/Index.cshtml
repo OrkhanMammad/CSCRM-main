@@ -1,0 +1,80 @@
+﻿<div class="tourbycar-page-content">
+    <h2 class="trsByCrTypsPageHead">Tours By Car Types</h2>
+
+    <div class="tour-car-types-table-container">
+        <table class="tour-car-types-table">
+            <thead class="tour-car-types-thead">
+                <tr>
+                    <th></th>
+                    <th>Compact</th>
+                    <th>Sedan</th>
+                    <th>SUV</th>
+                    <th>Van</th>
+                    <th>Compact</th>
+                    <th>Sedan</th>
+                    <th>SUV</th>
+                    <th>Van</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Tour 1</td>
+                    <td>$100</td>
+                    <td>$120</td>
+                    <td>$150</td>
+                    <td>$200</td>
+                    <td>$100</td>
+                    <td>$120</td>
+                    <td>$150</td>
+                    <td>$200</td>
+                    <td>
+                        <a href="editTourByCarPage.html" class="edit-tourbycar-btn">Edit</a>
+                        <button class="delete-tourbycar-btn">Delete</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Tour 2</td>
+                    <td>$90</td>
+                    <td>$110</td>
+                    <td>$140</td>
+                    <td>$190</td>
+                    <td>$90</td>
+                    <td>$110</td>
+                    <td>$140</td>
+                    <td>$190</td>
+                    <td>
+                        <a href="editTourByCarPage.html" class="edit-tourbycar-btn">Edit</a>
+                        <button class="delete-tourbycar-btn">Delete</button>
+                    </td>
+                </tr>
+                <!-- Diğer turlar buraya eklenebilir -->
+            </tbody>
+        </table>
+    </div>
+
+    <div class="add-tour-container">
+        <h3>Add New Tour By Car Type</h3>
+        <div class="add-tour-form">
+            <select id="tourSelect" class="tour-input" required>
+                <option value="">Select Tour</option>
+                <option value="">GOBUSTAN</option>
+                <option value="">GABALA</option>
+                <!-- Tur isimleri buraya dinamik olarak yüklenecek -->
+            </select>
+            <input type="number" id="compactPrice" name="compactPrice" placeholder="Compact Price"
+                   class="tour-input" required />
+            <input type="number" id="compactPrice" name="compactPrice" placeholder="Compact Price"
+                   class="tour-input" required />
+            <input type="number" id="compactPrice" name="compactPrice" placeholder="Compact Price"
+                   class="tour-input" required />
+            <input type="number" id="sedanPrice" name="sedanPrice" placeholder="Sedan Price" class="tour-input"
+                   required />
+            <input type="number" id="suvPrice" name="suvPrice" placeholder="SUV Price" class="tour-input"
+                   required />
+            <input type="number" id="vanPrice" name="vanPrice" placeholder="Van Price" class="tour-input"
+                   required />
+            <button id="addTourBtn" class="add-tour-btn">Add New Tour</button>
+        </div>
+    </div>
+</div>

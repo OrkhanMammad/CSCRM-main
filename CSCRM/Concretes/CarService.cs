@@ -45,15 +45,10 @@ namespace CSCRM.Concretes
             try
             {
                 List<GetCarVM> cars = await GetCarsAsync();
-                if (!cars.Any())
-                {
-                    return new BaseResponse { Data = new List<GetCarVM>(), Message = "No car found", Success = true, StatusCode = "200" };
-                }
-                else
-                {
-                    return new BaseResponse { Data = cars, Success = true, StatusCode = "201" };
 
-                }
+                return cars.Any()
+                ? new BaseResponse { Data = cars, Success = true, StatusCode = "201" }
+                : new BaseResponse { Data = new List<GetCarVM>(), Message = "No car found", Success = true, StatusCode = "200" };
 
             }
             catch (Exception ex)
@@ -66,12 +61,11 @@ namespace CSCRM.Concretes
         {
             try
             {
+         
                 if (string.IsNullOrEmpty(carVM.Name))
                 {
                     List<GetCarVM> carsInDb = await GetCarsAsync();
-
-                    return new BaseResponse { Message = $"Car Type Name can not be empty", StatusCode = "201", Success = false, Data = carsInDb };
-
+                    return new BaseResponse { Message = $"Car Type Name can not be empty", StatusCode = "400", Success = false, Data = carsInDb };
                 }
 
                 List<string> carNamesInDB = await _context.CarTypes.Where(h => h.IsDeleted == false).Select(h => h.Name).ToListAsync();
@@ -79,7 +73,7 @@ namespace CSCRM.Concretes
                 {
                     List<GetCarVM> carsInDb = await GetCarsAsync();
 
-                    return new BaseResponse { Message = $"Car {carVM.Name} is already exists", StatusCode = "201", Success = false, Data = carsInDb };
+                    return new BaseResponse { Message = $"Car {carVM.Name} is already exists", StatusCode = "409", Success = false, Data = carsInDb };
                 }
 
                 CarType newCar = new CarType
@@ -88,8 +82,6 @@ namespace CSCRM.Concretes
                     Capacity= carVM.Capacity,
                     
                 };
-
-
 
                 await _context.CarTypes.AddAsync(newCar);
                 await _context.SaveChangesAsync();
@@ -101,9 +93,7 @@ namespace CSCRM.Concretes
             }
             catch (Exception ex)
             {
-
                 return new BaseResponse { Message = "Car Type Could Not Created Successfully, Unhadled error occured", StatusCode = "500", Success = false, Data = new List<GetCarVM>() };
-
             }
         }
 
@@ -112,7 +102,11 @@ namespace CSCRM.Concretes
             try
             {
                 CarType deletingCar = await _context.CarTypes.FirstOrDefaultAsync(h => h.Id == carId && h.IsDeleted == false);
-                if (deletingCar == null) { return new BaseResponse { Success = false, Message = "Car Could Not Found By Its Property", StatusCode = "404" }; }
+                if (deletingCar == null) 
+                {
+                    List<GetCarVM> carsinDb = await GetCarsAsync();
+                    return new BaseResponse { Success = false, Message = "Car Could Not Found By Its Property", StatusCode = "404", Data=carsinDb }; 
+                }
 
                 deletingCar.IsDeleted = true;
                 await _context.SaveChangesAsync();
@@ -143,7 +137,7 @@ namespace CSCRM.Concretes
                     Name = carEntity.Name,
                     Capacity= carEntity.Capacity,
                 };
-                return new BaseResponse { Success = true, Data = carForEdit, StatusCode = "201" };
+                return new BaseResponse { Success = true, Data = carForEdit, StatusCode = "200" };
             }
             catch (Exception ex)
             {
@@ -167,6 +161,7 @@ namespace CSCRM.Concretes
             try
             {
                 CarType editCar = await _context.CarTypes.FirstOrDefaultAsync(c => c.Id == car.Id && c.IsDeleted==false);
+                
                 if (editCar == null)
                 {
                     return new BaseResponse

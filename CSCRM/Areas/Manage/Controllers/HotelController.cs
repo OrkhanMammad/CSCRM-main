@@ -21,17 +21,8 @@ namespace CSCRM.Areas.Manage.Controllers
         public async Task<IActionResult> Index()
         {
 
-            var result = await _hotelService.GetAllHotelsAsync();
-            if (result.Success)
-            {
-                return View(result.Data);
-            }
-            else
-            {
-                ViewBag.ErrorMessage = result.Message;
-                return View("_ErrorView");
-            }
-
+            var result = await _hotelService.GetAllHotelsAsync();           
+                return View(result);
         }
 
         [HttpGet]
@@ -53,7 +44,7 @@ namespace CSCRM.Areas.Manage.Controllers
         public async Task<IActionResult> AddNewHotel([FromBody] AddHotelVM addHotelVM)
         {
             var result = await _hotelService.AddHotelAsync(addHotelVM);
-            return result.Success == true ? PartialView("_HotelPartialView", result.Data) : PartialView("_ErrorView", result.Message);
+            return PartialView("_HotelPartialView", result);
 
 
         }
@@ -62,10 +53,8 @@ namespace CSCRM.Areas.Manage.Controllers
         public async Task<IActionResult> DeleteHotel(int hotelId)
         {
             var result = await _hotelService.RemoveHotelAsync(hotelId);
-            if (result.Success)
-                return PartialView("_HotelPartialView", result.Data);
-            else
-                return PartialView("_ErrorView", result.Message);
+                return PartialView("_HotelPartialView", result);
+           
         }
 
        

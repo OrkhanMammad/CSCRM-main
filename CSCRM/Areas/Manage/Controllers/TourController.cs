@@ -1,8 +1,11 @@
 ﻿using CSCRM.Abstractions;
 using CSCRM.Concretes;
+using CSCRM.Models;
 using CSCRM.ViewModels.CompanyVMs;
 using CSCRM.ViewModels.TourVMs;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CSCRM.Areas.Manage.Controllers
 {
@@ -10,9 +13,11 @@ namespace CSCRM.Areas.Manage.Controllers
     public class TourController : Controller
     {
         readonly ITourService _tourService;
-        public TourController(ITourService tourService)
+        readonly UserManager<AppUser> _userManager;
+        public TourController(ITourService tourService, UserManager<AppUser> userManager)
         {
               _tourService = tourService;
+            _userManager = userManager;
         }
 
 
@@ -20,6 +25,8 @@ namespace CSCRM.Areas.Manage.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
+            AppUser appUser = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
+
             var result = await _tourService.GetAllToursAsync();
             return View(result);
         }
@@ -27,7 +34,8 @@ namespace CSCRM.Areas.Manage.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteTour(int tourId)
         {
-            var result = await _tourService.RemoveTourAsync(tourId);
+            AppUser appUser = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
+            var result = await _tourService.RemoveTourAsync(tourId, appUser);
             return PartialView("_TourPartialView", result);
 
         }
