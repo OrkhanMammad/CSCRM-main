@@ -18,12 +18,13 @@ namespace CSCRM.Concretes
                 _context = context;
         }
 
-        private void CompanyEditor(Company company, EditCompanyVM updatedCompany)
+        private void CompanyEditor(Company company, EditCompanyVM updatedCompany, string userNmSrnm)
         {
            company.Name = updatedCompany.Name;
             company.Address = updatedCompany.Address;
             company.Email = updatedCompany.Email;
             company.Phone = updatedCompany.Phone;
+            company.UpdatedBy = userNmSrnm;
         }
 
         private async Task<List<GetCompanyVM>> GetCompaniesAsync()
@@ -41,7 +42,7 @@ namespace CSCRM.Concretes
                                            .ToListAsync();
 
         }
-        public async Task<BaseResponse> AddCompanyAsync(AddCompanyVM companyVM)
+        public async Task<BaseResponse> AddCompanyAsync(AddCompanyVM companyVM, AppUser appUser)
         {
             try
             {
@@ -65,7 +66,8 @@ namespace CSCRM.Concretes
                     Name = companyVM.Name,
                     Address = companyVM.Address,
                     Email = companyVM.Email,
-                    Phone = companyVM.Phone                   
+                    Phone = companyVM.Phone,
+                    CreatedBy = appUser.Name + " " + appUser.SurName,
                 };
                 await _context.Companies.AddAsync(newCompany);
                 await _context.SaveChangesAsync();
@@ -94,7 +96,7 @@ namespace CSCRM.Concretes
                 return new BaseResponse { StatusCode = "404", Message = "Unhandled error occured", Success = false, Data=new List<GetCompanyVM>() };
             }
         }
-        public async Task<BaseResponse> RemoveCompanyAsync(int companyId)
+        public async Task<BaseResponse> RemoveCompanyAsync(int companyId, AppUser appUser)
         {
             try
             {
@@ -103,6 +105,7 @@ namespace CSCRM.Concretes
                     return new BaseResponse { Success = false, Message = "Company Could Not Found", StatusCode = "404", Data= new List<GetCompanyVM>() }; 
 
                 deletingCompany.IsDeleted = true;
+                deletingCompany.DeletedBy = appUser.Name + " " + appUser.SurName;
                 await _context.SaveChangesAsync();
                 List<GetCompanyVM> companies = await GetCompaniesAsync();
 
@@ -136,7 +139,7 @@ namespace CSCRM.Concretes
                 return new BaseResponse { Success = false, Data = new EditCompanyVM(), StatusCode = "500", Message = "Unhandled error occured" };
             }
         }
-        public async Task<BaseResponse> EditCompanyAsync(EditCompanyVM company)
+        public async Task<BaseResponse> EditCompanyAsync(EditCompanyVM company, AppUser appUser)
         {
             try
             {
@@ -168,10 +171,10 @@ namespace CSCRM.Concretes
                         StatusCode = "400",
                         Data = company
                     };
-                
 
+                string userNmSrnm = appUser.Name + " " + appUser.SurName;
 
-                CompanyEditor(editCompany, company);
+                CompanyEditor(editCompany, company, userNmSrnm);
                 await _context.SaveChangesAsync();
 
 

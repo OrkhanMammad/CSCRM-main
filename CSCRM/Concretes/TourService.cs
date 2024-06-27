@@ -19,7 +19,6 @@ namespace CSCRM.Concretes
                     _context = context;
             _userManager = userManager;
         }
-
         private async Task<List<GetTourVM>> GetToursAsync()
         {
                                  return await _context.Tours
@@ -67,7 +66,6 @@ namespace CSCRM.Concretes
                 deletingTour.IsDeleted = true;
                 deletingTour.DeletedBy = appUser.Name + " " + appUser.SurName;        
                 await _context.SaveChangesAsync();
-
                 List<GetTourVM> tours = await GetToursAsync();
 
                 return new BaseResponse { Success = true, Message = $"Tour {deletingTour.Name} is deleted successfully.", Data = tours };
@@ -78,7 +76,7 @@ namespace CSCRM.Concretes
                 return new BaseResponse { Success = false, StatusCode = "500", Message = "Tour Could Not Deleted Successfully, Unhandled error occured", Data=new List<GetTourVM>() }; 
             }
         }
-        public async Task<BaseResponse> AddTourAsync(AddTourVM tourVM)
+        public async Task<BaseResponse> AddTourAsync(AddTourVM tourVM, AppUser appUser)
         {
             try
             {
@@ -100,6 +98,7 @@ namespace CSCRM.Concretes
                 Tour newTour = new Tour
                 {
                     Name=tourVM.Name,
+                    CreatedBy=appUser.Name + " " +appUser.SurName,
                     Itineraries=new List<Itinerary>()
                 };
 
@@ -153,7 +152,7 @@ namespace CSCRM.Concretes
                 return new BaseResponse { Success = false, Data = new EditTourVM(), StatusCode = "500", Message = "Unhandled error occured" };
             }
         }
-        public async Task<BaseResponse> EditTourAsync(EditTourVM tour)
+        public async Task<BaseResponse> EditTourAsync(EditTourVM tour, AppUser appUser)
         {
             if (tour == null || tour.Id <= 0)
             {
@@ -202,6 +201,7 @@ namespace CSCRM.Concretes
 
                        
                         editTour.Name = tour.Name;
+                        editTour.UpdatedBy = appUser.Name + " " + appUser.SurName;
 
                         List<Itinerary> newItineraries = tour.Itineraries.Select(itinerary => new Itinerary
                         {
@@ -253,7 +253,6 @@ namespace CSCRM.Concretes
                 };
             }
         }
-
-
+    
     }
 }

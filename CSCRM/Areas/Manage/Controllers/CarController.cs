@@ -1,9 +1,12 @@
 ﻿using CSCRM.Abstractions;
 using CSCRM.Concretes;
+using CSCRM.Models;
 using CSCRM.ViewModels.CarVMs;
 using CSCRM.ViewModels.CompanyVMs;
 using CSCRM.ViewModels.TourVMs;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CSCRM.Areas.Manage.Controllers
 {
@@ -11,10 +14,12 @@ namespace CSCRM.Areas.Manage.Controllers
     public class CarController : Controller
     {
         readonly ICarService _carService;
+        readonly UserManager<AppUser> _userManager;
 
-        public CarController(ICarService carService)
+        public CarController(ICarService carService, UserManager<AppUser> userManager)
         {
-            _carService = carService; 
+            _carService = carService;
+            _userManager = userManager;
         }
 
         [HttpGet]
@@ -27,14 +32,18 @@ namespace CSCRM.Areas.Manage.Controllers
         [HttpPost]
         public async Task<IActionResult> AddNewCar([FromBody] AddCarVM carVM)
         {
-            var result = await _carService.AddCarAsync(carVM);
+            AppUser appUser = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
+
+            var result = await _carService.AddCarAsync(carVM, appUser);
             return PartialView("_CarPartialView", result);
         }
 
         [HttpPost]
         public async Task<IActionResult> DeleteCar(int carId)
         {
-            var result = await _carService.RemoveCarAsync(carId);
+            AppUser appUser = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
+
+            var result = await _carService.RemoveCarAsync(carId, appUser);
             return PartialView("_CarPartialView", result);
 
         }
@@ -51,7 +60,9 @@ namespace CSCRM.Areas.Manage.Controllers
         [HttpPost]
         public async Task<IActionResult> EditCar([FromBody] EditCarVM editCarVM)
         {
-            var result = await _carService.EditCarAsync(editCarVM);
+            AppUser appUser = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
+
+            var result = await _carService.EditCarAsync(editCarVM, appUser);
             return PartialView("_EditCarPartialView", result);
         }
 

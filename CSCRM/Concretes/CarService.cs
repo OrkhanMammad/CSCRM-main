@@ -57,7 +57,7 @@ namespace CSCRM.Concretes
             }
         }
 
-        public async Task<BaseResponse> AddCarAsync(AddCarVM carVM)
+        public async Task<BaseResponse> AddCarAsync(AddCarVM carVM, AppUser appUser)
         {
             try
             {
@@ -80,7 +80,7 @@ namespace CSCRM.Concretes
                 {
                     Name = carVM.Name,
                     Capacity= carVM.Capacity,
-                    
+                    CreatedBy = appUser.Name + " " + appUser.SurName,                    
                 };
 
                 await _context.CarTypes.AddAsync(newCar);
@@ -97,7 +97,7 @@ namespace CSCRM.Concretes
             }
         }
 
-        public async Task<BaseResponse> RemoveCarAsync(int carId)
+        public async Task<BaseResponse> RemoveCarAsync(int carId, AppUser appUser)
         {
             try
             {
@@ -109,6 +109,7 @@ namespace CSCRM.Concretes
                 }
 
                 deletingCar.IsDeleted = true;
+                deletingCar.DeletedBy = appUser.Name + " " + appUser.SurName;
                 await _context.SaveChangesAsync();
                 List<GetCarVM> cars = await GetCarsAsync();
 
@@ -145,7 +146,7 @@ namespace CSCRM.Concretes
             }
         }
 
-        public async Task<BaseResponse> EditCarAsync(EditCarVM car)
+        public async Task<BaseResponse> EditCarAsync(EditCarVM car, AppUser appUser)
         {
             if (car == null || car.Id <= 0)
             {

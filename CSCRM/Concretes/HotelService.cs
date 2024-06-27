@@ -15,8 +15,7 @@ namespace CSCRM.Concretes
         {
             _context = context;
         }
-
-        private void HotelEditor(Hotel hotel, EditHotelVM updatedHotel)
+        private void HotelEditor(Hotel hotel, EditHotelVM updatedHotel, string userNmSrnm)
         {
             hotel.Name= updatedHotel.Name;
             hotel.TriplePrice= updatedHotel.TriplePrice;
@@ -24,8 +23,8 @@ namespace CSCRM.Concretes
             hotel.SinglePrice= updatedHotel.SinglePrice;
             hotel.ContactPerson= updatedHotel.ContactPerson;
             hotel.ContactNumber= updatedHotel.ContactNumber;
+            hotel.UpdatedBy = userNmSrnm;
         }
-
         private async Task<List<GetHotelVM>> GetHotelsAsync()
         {
             return await _context.Hotels
@@ -42,8 +41,7 @@ namespace CSCRM.Concretes
                                                         })
                                                         .ToListAsync();
         }
-
-        public async Task<BaseResponse> AddHotelAsync(AddHotelVM addHotelVM)
+        public async Task<BaseResponse> AddHotelAsync(AddHotelVM addHotelVM, AppUser appUser)
         {
 
 
@@ -57,13 +55,15 @@ namespace CSCRM.Concretes
 
                 }
 
-                Hotel newHotel = new Hotel 
-                { Name = addHotelVM.Name,
+                Hotel newHotel = new Hotel
+                {
+                    Name = addHotelVM.Name,
                     SinglePrice = addHotelVM.SinglePrice,
                     DoublePrice = addHotelVM.DoublePrice,
                     TriplePrice = addHotelVM.TriplePrice,
                     ContactNumber = addHotelVM.ContactNumber,
                     ContactPerson = addHotelVM.ContactPerson,
+                    CreatedBy = appUser.Name + " " + appUser.SurName
                 };
                 await _context.Hotels.AddAsync(newHotel);
                 await _context.SaveChangesAsync();
@@ -81,7 +81,6 @@ namespace CSCRM.Concretes
 
 
         }
-
         public async Task<BaseResponse> GetAllHotelsAsync()
         {
             try
@@ -97,8 +96,7 @@ namespace CSCRM.Concretes
 
             }
         }
-
-        public async Task<BaseResponse> RemoveHotelAsync(int hotelId)
+        public async Task<BaseResponse> RemoveHotelAsync(int hotelId, AppUser appUser)
         {
             try
             {
@@ -111,6 +109,7 @@ namespace CSCRM.Concretes
                 }
 
                 deletingHotel.IsDeleted = true;
+                deletingHotel.DeletedBy = appUser.Name + " " + appUser.SurName;
                 await _context.SaveChangesAsync();
                 List<GetHotelVM> hotels = await GetHotelsAsync();
                 return new BaseResponse { Success = true, Message = $"Hotel {deletingHotel.Name} is deleted successfully.", Data = hotels, StatusCode="203" };
@@ -148,8 +147,7 @@ namespace CSCRM.Concretes
                 return new BaseResponse { Success = false, Data = new EditHotelVM(), StatusCode = "500", Message="Unhandled error occured" };
             }
         }
-
-        public async Task<BaseResponse> EditHotelAsync(EditHotelVM hotel)
+        public async Task<BaseResponse> EditHotelAsync(EditHotelVM hotel, AppUser appUser)
         {
             try
             {
@@ -190,8 +188,9 @@ namespace CSCRM.Concretes
                     };
                 }
 
+                string userNmSrnm = appUser.Name + " " + appUser.SurName;
                
-                HotelEditor(editHotel, hotel);
+                HotelEditor(editHotel, hotel, userNmSrnm);
                 await _context.SaveChangesAsync();
 
 

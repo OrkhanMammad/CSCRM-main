@@ -1,4 +1,5 @@
-﻿using CSCRM.Models.ResponseTypes;
+﻿using CSCRM.Models;
+using CSCRM.Models.ResponseTypes;
 using CSCRM.ViewModels.HotelVMs;
 
 namespace CSCRM.Abstractions
@@ -6,9 +7,9 @@ namespace CSCRM.Abstractions
     public interface IHotelService
     {
         Task<BaseResponse> GetAllHotelsAsync();
-        Task<BaseResponse> AddHotelAsync(AddHotelVM addHotelVM);
-        Task<BaseResponse> RemoveHotelAsync(int hotelId);
+        Task<BaseResponse> AddHotelAsync(AddHotelVM addHotelVM, AppUser appUser);
+        Task<BaseResponse> RemoveHotelAsync(int hotelId, AppUser appUser);
         Task<BaseResponse> GetHotelByIdAsync(int id);
-        Task<BaseResponse> EditHotelAsync(EditHotelVM hotel);
+        Task<BaseResponse> EditHotelAsync(EditHotelVM hotel, AppUser appUser);
     }
 }

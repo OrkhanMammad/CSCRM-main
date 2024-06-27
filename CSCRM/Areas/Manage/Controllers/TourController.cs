@@ -25,7 +25,6 @@ namespace CSCRM.Areas.Manage.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            AppUser appUser = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
 
             var result = await _tourService.GetAllToursAsync();
             return View(result);
@@ -34,16 +33,17 @@ namespace CSCRM.Areas.Manage.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteTour(int tourId)
         {
-            AppUser appUser = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
+            AppUser appUser =  await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
             var result = await _tourService.RemoveTourAsync(tourId, appUser);
             return PartialView("_TourPartialView", result);
-
         }
 
         [HttpPost]
         public async Task<IActionResult> AddNewTour([FromBody] AddTourVM tourVM)
         {
-            var result = await _tourService.AddTourAsync(tourVM);
+            AppUser appUser = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
+
+            var result = await _tourService.AddTourAsync(tourVM, appUser);
             return PartialView("_TourPartialView", result);
         }
 
@@ -51,6 +51,8 @@ namespace CSCRM.Areas.Manage.Controllers
         [HttpGet]
         public async Task<IActionResult> EditTour(int tourId)
         {
+            
+
             var result = await _tourService.GetTourByIdAsync(tourId);
             return View(result);
         }
@@ -58,7 +60,8 @@ namespace CSCRM.Areas.Manage.Controllers
         [HttpPost]
         public async Task<IActionResult> EditTour([FromBody] EditTourVM tourVM)
         {
-            var result = await _tourService.EditTourAsync(tourVM);
+            AppUser appUser = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
+            var result = await _tourService.EditTourAsync(tourVM, appUser);
             return PartialView("_EditTourPartialView", result);
         }
 

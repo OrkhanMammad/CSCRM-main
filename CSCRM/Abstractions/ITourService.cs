@@ -8,10 +8,10 @@ namespace CSCRM.Abstractions
     {
         Task<BaseResponse> GetAllToursAsync();
         Task<BaseResponse> RemoveTourAsync(int tourId, AppUser appUser);
-        Task<BaseResponse> AddTourAsync(AddTourVM tourVM);
+        Task<BaseResponse> AddTourAsync(AddTourVM tourVM, AppUser appUser);
 
         Task<BaseResponse> GetTourByIdAsync(int tourId);
 
-        Task<BaseResponse> EditTourAsync(EditTourVM tour);
+        Task<BaseResponse> EditTourAsync(EditTourVM tour, AppUser appUser);
     }
 }

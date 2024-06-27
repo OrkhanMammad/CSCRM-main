@@ -440,3 +440,41 @@ function editCar(Id) {
 
 
 
+function sendData() {
+    let data = {
+        TourId: 3,
+        CarPrices: {}
+    };
+    let a = 0;
+    while (a < 3) {
+        data.CarPrices[2] = parseInt(111);
+        a += 1;
+        console.log(a)
+    }
+    while (a < 5) {
+        data.CarPrices[8] = parseInt(118);
+        a += 1;
+        console.log(a)
+    }
+  
+    let jsonData = JSON.stringify(data);
+    console.log(data);
+
+    fetch('/manage/TourCar/AddTourCarType', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: jsonData
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+}
+sendData();
+
+

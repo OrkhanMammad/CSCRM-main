@@ -1,7 +1,10 @@
 ﻿using CSCRM.Abstractions;
+using CSCRM.Models;
 using CSCRM.ViewModels.HotelVMs;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CSCRM.Areas.Manage.Controllers
 {
@@ -12,9 +15,11 @@ namespace CSCRM.Areas.Manage.Controllers
     public class HotelController : Controller
     {
         readonly IHotelService _hotelService;
-        public HotelController(IHotelService hotelService)
+        readonly UserManager<AppUser> _userManager;
+        public HotelController(IHotelService hotelService, UserManager<AppUser> userManager)
         {
             _hotelService = hotelService;
+            _userManager = userManager;
         }
 
         [HttpGet]
@@ -26,7 +31,7 @@ namespace CSCRM.Areas.Manage.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> EditHotel(int hotelId)//int hotelId)
+        public async Task<IActionResult> EditHotel(int hotelId)
         {
             var result = await _hotelService.GetHotelByIdAsync(hotelId);
             return View(result);
@@ -35,7 +40,9 @@ namespace CSCRM.Areas.Manage.Controllers
         [HttpPost]
         public async Task<IActionResult> EditHotel([FromBody]EditHotelVM editHotelVM)
         {
-            var result = await _hotelService.EditHotelAsync(editHotelVM);
+            AppUser appUser = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
+
+            var result = await _hotelService.EditHotelAsync(editHotelVM, appUser);
             return PartialView("_EditHotelPartialView",result);
         }
 
@@ -43,7 +50,9 @@ namespace CSCRM.Areas.Manage.Controllers
         [HttpPost]
         public async Task<IActionResult> AddNewHotel([FromBody] AddHotelVM addHotelVM)
         {
-            var result = await _hotelService.AddHotelAsync(addHotelVM);
+            AppUser appUser = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
+
+            var result = await _hotelService.AddHotelAsync(addHotelVM, appUser);
             return PartialView("_HotelPartialView", result);
 
 
@@ -52,7 +61,9 @@ namespace CSCRM.Areas.Manage.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteHotel(int hotelId)
         {
-            var result = await _hotelService.RemoveHotelAsync(hotelId);
+            AppUser appUser = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
+
+            var result = await _hotelService.RemoveHotelAsync(hotelId, appUser);
                 return PartialView("_HotelPartialView", result);
            
         }
