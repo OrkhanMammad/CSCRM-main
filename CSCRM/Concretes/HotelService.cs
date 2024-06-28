@@ -17,12 +17,12 @@ namespace CSCRM.Concretes
         }
         private void HotelEditor(Hotel hotel, EditHotelVM updatedHotel, string userNmSrnm)
         {
-            hotel.Name= updatedHotel.Name;
+            hotel.Name= updatedHotel.Name.Trim();
             hotel.TriplePrice= updatedHotel.TriplePrice;
             hotel.DoublePrice= updatedHotel.DoublePrice;
             hotel.SinglePrice= updatedHotel.SinglePrice;
-            hotel.ContactPerson= updatedHotel.ContactPerson;
-            hotel.ContactNumber= updatedHotel.ContactNumber;
+            hotel.ContactPerson= updatedHotel.ContactPerson.Trim();
+            hotel.ContactNumber= updatedHotel.ContactNumber.Trim();
             hotel.UpdatedBy = userNmSrnm;
         }
         private async Task<List<GetHotelVM>> GetHotelsAsync()
@@ -43,11 +43,24 @@ namespace CSCRM.Concretes
         }
         public async Task<BaseResponse> AddHotelAsync(AddHotelVM addHotelVM, AppUser appUser)
         {
-
+            
 
             try
             {
-                List<string> hotelNamesInDB = await _context.Hotels.Where(h=>h.IsDeleted==false).Select(h => h.Name).ToListAsync();
+
+                if (addHotelVM == null || string.IsNullOrEmpty(addHotelVM.Name))
+                {
+                    List<GetHotelVM> hotelsInDb = await GetHotelsAsync();
+                    return new BaseResponse
+                    {
+                        Message = $"Hotel Name ca not be empty",
+                        StatusCode = "201",
+                        Success = true,
+                        Data = hotelsInDb
+                    };
+                }
+
+                var hotelNamesInDB = await _context.Hotels.Where(h=>h.IsDeleted==false).Select(h => h.Name).ToListAsync();
                 if (hotelNamesInDB.Any(hn => hn.ToLower() == addHotelVM.Name.Trim().ToLower()))
                 {
                     List<GetHotelVM> hotelsInDb = await GetHotelsAsync();
@@ -63,12 +76,12 @@ namespace CSCRM.Concretes
 
                 Hotel newHotel = new Hotel
                 {
-                    Name = addHotelVM.Name,
+                    Name = addHotelVM.Name.Trim(),
                     SinglePrice = addHotelVM.SinglePrice,
                     DoublePrice = addHotelVM.DoublePrice,
                     TriplePrice = addHotelVM.TriplePrice,
-                    ContactNumber = addHotelVM.ContactNumber,
-                    ContactPerson = addHotelVM.ContactPerson,
+                    ContactNumber = addHotelVM.ContactNumber.Trim(),
+                    ContactPerson = addHotelVM.ContactPerson.Trim(),
                     CreatedBy = appUser.Name + " " + appUser.SurName
                 };
                 await _context.Hotels.AddAsync(newHotel);
@@ -205,20 +218,44 @@ namespace CSCRM.Concretes
         }
         public async Task<BaseResponse> EditHotelAsync(EditHotelVM hotel, AppUser appUser)
         {
+
+            if (string.IsNullOrWhiteSpace(hotel.Name))
+            {
+                return new BaseResponse
+                {
+                    Success = false,
+                    Message = "Hotel name cannot be empty.",
+                    StatusCode = "400",
+                    Data = hotel
+                };
+            }
+            if (hotel == null || hotel.Id <= 0)
+            {
+                return new BaseResponse
+                {
+                    Success = false,
+                    Message = "Invalid hotel ID.",
+                    StatusCode = "400",
+                    Data = hotel
+                };
+            }
+
             try
             {
+                bool hotelExists = await _context.Hotels.AnyAsync(h => h.Name.ToLower() == hotel.Name.ToLower().Trim()
+                                                                     && h.IsDeleted == false
+                                                                     && h.Id != hotel.Id);
                 
-                if (hotel == null || hotel.Id <= 0)
+                if (hotelExists)
                 {
                     return new BaseResponse
                     {
-                        Success = false,
-                        Message = "Invalid hotel ID.",
-                        StatusCode = "400",
+                        Message = $"Hotel {hotel.Name} is already exists",
+                        StatusCode = "201",
+                        Success = true,
                         Data = hotel
                     };
                 }
-
                 
                 Hotel editHotel = await _context.Hotels.FirstOrDefaultAsync(h => h.Id == hotel.Id);
                 if (editHotel == null)
@@ -233,16 +270,7 @@ namespace CSCRM.Concretes
                 }
 
                 
-                if (string.IsNullOrWhiteSpace(hotel.Name))
-                {
-                    return new BaseResponse
-                    {
-                        Success = false,
-                        Message = "Hotel name cannot be empty.",
-                        StatusCode = "400",
-                        Data = hotel
-                    };
-                }
+                
 
                 string userNmSrnm = appUser.Name + " " + appUser.SurName;
                
