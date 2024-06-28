@@ -17,28 +17,35 @@ namespace CSCRM.Concretes
         }
 
         public async Task<BaseResponse> AddTrCrTypAsync(AddTourCarVM tourCarVM)
-        {
-            
-
+        {            
             List<TourByCarType> tourByCarTypes = new List<TourByCarType>();
             foreach(var carPrice in tourCarVM.CarPrices)
             {                 
                 tourByCarTypes.Add(new TourByCarType { CarTypeId = carPrice.Key, Price = carPrice.Value, TourId = tourCarVM.TourId });
             }
+
             await _context.TourByCarTypes.AddRangeAsync(tourByCarTypes);
             await _context.SaveChangesAsync();
+            return new BaseResponse();
+        }
+
+        public async Task<BaseResponse> GetAllTrCrTypsAsync()
+        {
+            List<GetTourCarVM> getTourCars = _context.TourByCarTypes
+                                                    .Include(t => t.Tour)
+                                                    .Include(t => t.CarType)
+                                                    .ToList()
+                                                    .GroupBy(t => t.Tour.Name)
+                                                    .Select(g => new GetTourCarVM
+                                                    {
+                                                        TourName = g.Key,
+                                                        CarPrices = g.ToDictionary(t => t.CarType.Name, t => t.Price)
+                                                    })
+                                                    .ToList();
             return new BaseResponse();
 
 
 
-
-
-
-        }
-
-        public Task<BaseResponse> GetAllTrCrTypsAsync()
-        {
-            throw new NotImplementedException();
         }
 
 

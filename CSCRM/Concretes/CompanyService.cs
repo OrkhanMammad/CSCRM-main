@@ -20,7 +20,7 @@ namespace CSCRM.Concretes
 
         private void CompanyEditor(Company company, EditCompanyVM updatedCompany, string userNmSrnm)
         {
-           company.Name = updatedCompany.Name;
+            company.Name = updatedCompany.Name;
             company.Address = updatedCompany.Address;
             company.Email = updatedCompany.Email;
             company.Phone = updatedCompany.Phone;
@@ -50,7 +50,13 @@ namespace CSCRM.Concretes
                 if (string.IsNullOrEmpty(companyVM.Name))
                 {
                     List<GetCompanyVM> companiesInDb = await GetCompaniesAsync();
-                    return new BaseResponse { Message = $"Company Name can not be empty", StatusCode = "400", Success = false, Data = companiesInDb };
+                    return new BaseResponse 
+                    { 
+                        Message = $"Company Name can not be empty", 
+                        StatusCode = "400", 
+                        Success = false, 
+                        Data = companiesInDb 
+                    };
                 }
 
                 bool companyExists = await _context.Companies.AnyAsync(h => h.IsDeleted == false && h.Name.ToLower() == companyVM.Name.Trim().ToLower());
@@ -58,27 +64,45 @@ namespace CSCRM.Concretes
                 if (companyExists)
                 {
                     List<GetCompanyVM> companiesInDb = await GetCompaniesAsync();
-                    return new BaseResponse { Message = $"Company {companyVM.Name} is already exists", StatusCode = "409", Success = false, Data=companiesInDb };
+                    return new BaseResponse 
+                    { 
+                        Message = $"Company {companyVM.Name} is already exists", 
+                        StatusCode = "409", 
+                        Success = false, 
+                        Data=companiesInDb 
+                    };
                 }
 
                 Company newCompany = new Company
                 {
-                    Name = companyVM.Name,
-                    Address = companyVM.Address,
-                    Email = companyVM.Email,
-                    Phone = companyVM.Phone,
+                    Name = companyVM.Name.Trim(),
+                    Address = companyVM.Address.Trim(),
+                    Email = companyVM.Email.Trim(),
+                    Phone = companyVM.Phone.Trim(),
                     CreatedBy = appUser.Name + " " + appUser.SurName,
                 };
                 await _context.Companies.AddAsync(newCompany);
                 await _context.SaveChangesAsync();
                 List<GetCompanyVM> companies = await GetCompaniesAsync();
-                return new BaseResponse { Data = companies, Message = "Company Created Successfully", StatusCode = "201", Success = true };
+                return new BaseResponse 
+                { 
+                    Data = companies, 
+                    Message = "Company Created Successfully",
+                    StatusCode = "201", 
+                    Success = true 
+                };
 
 
             }
             catch (Exception ex)
             {
-                return new BaseResponse { Message = "Company Could Not Created Successfully, Unhadled error occured", StatusCode = "500", Success = false, Data=new List<GetCompanyVM>() };
+                return new BaseResponse 
+                { 
+                    Message = "Company Could Not Created Successfully, Unhadled error occured", 
+                    StatusCode = "500", 
+                    Success = false, 
+                    Data=new List<GetCompanyVM>() 
+                };
             }
         }
         public async Task<BaseResponse> GetAllCompaniesAsync()
@@ -93,7 +117,13 @@ namespace CSCRM.Concretes
             }
             catch (Exception ex)
             {
-                return new BaseResponse { StatusCode = "404", Message = "Unhandled error occured", Success = false, Data=new List<GetCompanyVM>() };
+                return new BaseResponse 
+                { 
+                    StatusCode = "404", 
+                    Message = "Unhandled error occured", 
+                    Success = false, 
+                    Data=new List<GetCompanyVM>() 
+                };
             }
         }
         public async Task<BaseResponse> RemoveCompanyAsync(int companyId, AppUser appUser)
@@ -102,17 +132,37 @@ namespace CSCRM.Concretes
             {
                 Company deletingCompany = await _context.Companies.FirstOrDefaultAsync(h => h.Id == companyId && h.IsDeleted == false);
                 if (deletingCompany == null)
-                    return new BaseResponse { Success = false, Message = "Company Could Not Found", StatusCode = "404", Data= new List<GetCompanyVM>() }; 
+                    return new BaseResponse 
+                    { 
+                        Success = false, 
+                        Message = "Company Could Not Found", 
+                        StatusCode = "404", 
+                        Data= new List<GetCompanyVM>() 
+                    }; 
 
                 deletingCompany.IsDeleted = true;
                 deletingCompany.DeletedBy = appUser.Name + " " + appUser.SurName;
                 await _context.SaveChangesAsync();
                 List<GetCompanyVM> companies = await GetCompaniesAsync();
 
-                return new BaseResponse { Success = true, Message = $"Company {deletingCompany.Name} is deleted successfully.", Data = companies };
+                return new BaseResponse 
+                { 
+                    Success = true, 
+                    Message = $"Company {deletingCompany.Name} is deleted successfully.", 
+                    Data = companies 
+                };
             }
 
-            catch (Exception ex) { return new BaseResponse { Success = false, StatusCode = "500", Message = "Company Could Not Deleted Successfully", Data= new List<GetCompanyVM>() }; }
+            catch (Exception ex) 
+            { 
+                return new BaseResponse 
+                { 
+                    Success = false, 
+                    StatusCode = "500", 
+                    Message = "Company Could Not Deleted Successfully", 
+                    Data= new List<GetCompanyVM>() 
+                }; 
+            }
 
         }
         public async Task<BaseResponse> GetCompanyByIdAsync(int companyId)
@@ -121,7 +171,13 @@ namespace CSCRM.Concretes
             {
                 Company companyEntity = await _context.Companies.FirstOrDefaultAsync(h => h.IsDeleted == false && h.Id == companyId);
                 if (companyEntity == null)
-                return new BaseResponse { Message = "Company Could Not Found", StatusCode = "404", Success = false, Data = new EditCompanyVM() };
+                return new BaseResponse 
+                { 
+                    Message = "Company Could Not Found", 
+                    StatusCode = "404", 
+                    Success = false, 
+                    Data = new EditCompanyVM() 
+                };
                 
 
                 EditCompanyVM companyForEdit = new EditCompanyVM
@@ -132,27 +188,64 @@ namespace CSCRM.Concretes
                    Email = companyEntity.Email,
                    Phone = companyEntity.Phone                  
                 };
-                return new BaseResponse { Success = true, Data = companyForEdit, StatusCode = "201" };
+                return new BaseResponse 
+                { 
+                    Success = true, 
+                    Data = companyForEdit, 
+                    StatusCode = "201" 
+                };
             }
             catch (Exception ex)
             {
-                return new BaseResponse { Success = false, Data = new EditCompanyVM(), StatusCode = "500", Message = "Unhandled error occured" };
+                return new BaseResponse 
+                { 
+                    Success = false, 
+                    Data = new EditCompanyVM(), 
+                    StatusCode = "500", 
+                    Message = "Unhandled error occured" 
+                };
             }
         }
         public async Task<BaseResponse> EditCompanyAsync(EditCompanyVM company, AppUser appUser)
         {
+            if (company == null || company.Id <= 0)
+                return new BaseResponse
+                {
+                    Success = false,
+                    Message = "Invalid company ID.",
+                    StatusCode = "400",
+                    Data = company
+                };
+
+
+            if (string.IsNullOrWhiteSpace(company.Name))
+                return new BaseResponse
+                {
+                    Success = false,
+                    Message = "Company name cannot be empty.",
+                    StatusCode = "400",
+                    Data = company
+                };
+
+
             try
             {
 
-                if (company == null || company.Id <= 0)
-                    return new BaseResponse
-                    {
-                        Success = false,
-                        Message = "Invalid company ID.",
-                        StatusCode = "400",
-                        Data = company
+                bool companyExists = await _context.Companies.AnyAsync(h => h.IsDeleted == false 
+                                                                            && h.Name.ToLower() == company.Name.Trim().ToLower()
+                                                                            && h.Id != company.Id);
+                if (companyExists)
+                {                   
+                    return new BaseResponse 
+                    { 
+                        Message = $"Company {company.Name} is already exists", 
+                        StatusCode = "409",   
+                        Success = false, 
+                        Data = company 
+
                     };
-                
+                }
+
                 Company editCompany = await _context.Companies.FirstOrDefaultAsync(c => c.Id == company.Id);
                 if (editCompany == null)
                     return new BaseResponse
@@ -163,17 +256,9 @@ namespace CSCRM.Concretes
                         Data = company
                     };
                 
-                if (string.IsNullOrWhiteSpace(company.Name))
-                    return new BaseResponse
-                    {
-                        Success = false,
-                        Message = "Company name cannot be empty.",
-                        StatusCode = "400",
-                        Data = company
-                    };
+                
 
                 string userNmSrnm = appUser.Name + " " + appUser.SurName;
-
                 CompanyEditor(editCompany, company, userNmSrnm);
                 await _context.SaveChangesAsync();
 
@@ -201,7 +286,8 @@ namespace CSCRM.Concretes
             catch (Exception ex)
             {
                 return new BaseResponse
-                {  Data = new EditCompanyVM(),
+                {   
+                    Data = new EditCompanyVM(),
                     Success = false,
                     Message = "An unhandled exception occurred.",
                     StatusCode = "500"

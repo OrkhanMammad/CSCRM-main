@@ -51,7 +51,13 @@ namespace CSCRM.Concretes
             }
             catch (Exception ex)
             {
-                return new BaseResponse { StatusCode = "500", Message = "Unhandled error occured", Success = false, Data= new List<GetTourVM>() };
+                return new BaseResponse 
+                { 
+                    StatusCode = "500",
+                    Message = "Unhandled error occured", 
+                    Success = false, 
+                    Data= new List<GetTourVM>() 
+                };
             }
 
         }
@@ -60,7 +66,16 @@ namespace CSCRM.Concretes
             try
             {
                 Tour deletingTour = await _context.Tours.FirstOrDefaultAsync(h => h.Id == tourId && h.IsDeleted == false);
-                if (deletingTour == null) { return new BaseResponse { Success = false, Message = "Tour Could Not Found", StatusCode = "404", Data=new List<GetTourVM>() }; }
+                if (deletingTour == null) 
+                { 
+                    return new BaseResponse 
+                    { 
+                        Success = false, 
+                        Message = "Tour Could Not Found", 
+                        StatusCode = "404", 
+                        Data=new List<GetTourVM>()
+                    }; 
+                }
 
 
                 deletingTour.IsDeleted = true;
@@ -68,12 +83,23 @@ namespace CSCRM.Concretes
                 await _context.SaveChangesAsync();
                 List<GetTourVM> tours = await GetToursAsync();
 
-                return new BaseResponse { Success = true, Message = $"Tour {deletingTour.Name} is deleted successfully.", Data = tours };
+                return new BaseResponse 
+                { 
+                    Success = true, 
+                    Message = $"Tour {deletingTour.Name} is deleted successfully.", 
+                    Data = tours
+                };
             }
 
             catch (Exception ex)
             {
-                return new BaseResponse { Success = false, StatusCode = "500", Message = "Tour Could Not Deleted Successfully, Unhandled error occured", Data=new List<GetTourVM>() }; 
+                return new BaseResponse 
+                { 
+                    Success = false,
+                    StatusCode = "500", 
+                    Message = "Tour Could Not Deleted Successfully, Unhandled error occured", 
+                    Data=new List<GetTourVM>()
+                }; 
             }
         }
         public async Task<BaseResponse> AddTourAsync(AddTourVM tourVM, AppUser appUser)
@@ -84,7 +110,13 @@ namespace CSCRM.Concretes
                 {
                     List<GetTourVM> toursInDb = await GetToursAsync();
 
-                    return new BaseResponse { Message = $"Tour Name can not be empty", StatusCode = "200", Success = false, Data = toursInDb };
+                    return new BaseResponse 
+                    { 
+                        Message = $"Tour Name can not be empty", 
+                        StatusCode = "200", 
+                        Success = false,
+                        Data = toursInDb
+                    };
 
                 }
 
@@ -92,7 +124,13 @@ namespace CSCRM.Concretes
                 if (tourNamesInDB.Any(hn => hn.ToLower() == tourVM.Name.Trim().ToLower()))
                 {
                     List<GetTourVM> toursInDb = await GetToursAsync();
-                    return new BaseResponse { Message = $"Tour {tourVM.Name} is already exists", StatusCode = "200", Success = false, Data = toursInDb };
+                    return new BaseResponse 
+                    { 
+                        Message = $"Tour {tourVM.Name} is already exists", 
+                        StatusCode = "200", 
+                        Success = false,
+                        Data = toursInDb 
+                    };
                 }
 
                 Tour newTour = new Tour
@@ -113,11 +151,23 @@ namespace CSCRM.Concretes
 
                 List<GetTourVM> tours = await GetToursAsync();
 
-                return new BaseResponse { Data = tours, Message = "Tour Created Successfully", StatusCode = "201", Success = true };
+                return new BaseResponse 
+                { 
+                    Data = tours, 
+                    Message = "Tour Created Successfully", 
+                    StatusCode = "201", 
+                    Success = true 
+                };
             }
             catch (Exception ex)
             {              
-                return new BaseResponse { Message = "Tour Could Not Created Successfully, Unhadled error occured", StatusCode = "500", Success = false, Data=new List<GetTourVM>() };
+                return new BaseResponse 
+                { 
+                    Message = "Tour Could Not Created Successfully, Unhadled error occured", 
+                    StatusCode = "500", 
+                    Success = false, 
+                    Data=new List<GetTourVM>() 
+                };
             }
         }
         public async Task<BaseResponse> GetTourByIdAsync(int tourId)
@@ -127,7 +177,13 @@ namespace CSCRM.Concretes
                 Tour tourEntity = await _context.Tours.FirstOrDefaultAsync(h => h.IsDeleted == false && h.Id == tourId);
                 if (tourEntity == null)
                 {
-                    return new BaseResponse { Message = "Tour Could Not Found by Its Property", StatusCode = "404", Success = false, Data = new EditTourVM() };
+                    return new BaseResponse 
+                    { 
+                        Message = "Tour Could Not Found by Its Property", 
+                        StatusCode = "404", 
+                        Success = false, 
+                        Data = new EditTourVM() 
+                    };
                 }
 
                 List<string> itinerariesOfTour = await _context.Itineraries.Where(i => i.TourId == tourId).Select(i => i.Description )
@@ -145,11 +201,22 @@ namespace CSCRM.Concretes
                     Name = tourEntity.Name,
                     Itineraries=itinerariesOfTour,
                 };
-                return new BaseResponse { Success = true, Data = tourForEdit, StatusCode = "200" };
+                return new BaseResponse 
+                { 
+                    Success = true,
+                    Data = tourForEdit, 
+                    StatusCode = "200" 
+                };
             }
             catch (Exception ex)
             {
-                return new BaseResponse { Success = false, Data = new EditTourVM(), StatusCode = "500", Message = "Unhandled error occured" };
+                return new BaseResponse 
+                { 
+                    Success = false, 
+                    Data = new EditTourVM(), 
+                    StatusCode = "500",
+                    Message = "Unhandled error occured"
+                };
             }
         }
         public async Task<BaseResponse> EditTourAsync(EditTourVM tour, AppUser appUser)
@@ -242,8 +309,7 @@ namespace CSCRM.Concretes
                 };
             }
             catch (Exception ex)
-            {
-                
+            {                
                 return new BaseResponse
                 {
                     Data = tour,
