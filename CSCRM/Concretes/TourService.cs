@@ -34,6 +34,8 @@ namespace CSCRM.Concretes
                                                               Description = i.Description,
                                                           }).ToList()
                                                       })
+                                                      .Skip(1)
+                                                      .Take(2)
                                                       .ToListAsync();
         }
         public async Task<BaseResponse> GetAllToursAsync()
@@ -245,6 +247,27 @@ namespace CSCRM.Concretes
 
             try
             {
+                bool tourExists = await _context.Tours.AnyAsync(t => t.Name.ToLower() == tour.Name.ToLower().Trim()
+                                                                                       && t.IsDeleted == false
+                                                                                       && t.Id != tour.Id);
+                if (tourExists) 
+                {
+                    return new BaseResponse
+                    {
+                        Message = $"Tour {tour.Name} is already exists",
+                        StatusCode = "200",
+                        Success = false,
+                        Data = tour
+                    };
+                }
+
+
+
+
+
+
+
+
                 Tour editTour = await _context.Tours.FirstOrDefaultAsync(c => c.Id == tour.Id && !c.IsDeleted);
                 if (editTour == null)
                 {

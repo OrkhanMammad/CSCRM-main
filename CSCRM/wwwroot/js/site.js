@@ -321,7 +321,7 @@ function updateTour(Id) {
 
     console.log(name, itineraries);
 
-    editItineraryCount = -3;
+    //editItineraryCount = -3;
 
     fetch('/manage/tour/EditTour', {
         method: 'POST',
