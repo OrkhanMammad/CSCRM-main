@@ -21,7 +21,8 @@ namespace CSCRM.Areas.Manage.Controllers
         public async Task<IActionResult> Index()
         {
                var result = await _service.GetAllTrCrTypsAsync();
-            
+         List<GetCarIdNameVM> getCarIdNames = new List<GetCarIdNameVM>();
+            var count = getCarIdNames.Any();
             return View(result);
         }
 

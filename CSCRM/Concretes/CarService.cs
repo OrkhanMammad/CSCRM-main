@@ -107,7 +107,11 @@ namespace CSCRM.Concretes
                 };
 
                 await _context.CarTypes.AddAsync(newCar);
+
+               
+
                 await _context.SaveChangesAsync();
+                var newCarIndB = await _context.CarTypes.FirstOrDefaultAsync(ct => ct.Name == carVM.Name.Trim());
 
                 List<GetCarVM> cars = await GetCarsAsync(1);
                 int carsCountInDb = await _context.CarTypes.CountAsync(ct => ct.IsDeleted == false);

@@ -16,7 +16,7 @@ namespace CSCRM.Concretes
                 _context = context;
         }
 
-        public async Task<BaseResponse> AddTrCrTypAsync(AddTourCarVM tourCarVM)
+        public async Task<ResponseForTourByCarPage> AddTrCrTypAsync(AddTourCarVM tourCarVM)
         {            
             List<TourByCarType> tourByCarTypes = new List<TourByCarType>();
             foreach(var carPrice in tourCarVM.CarPrices)
@@ -26,21 +26,11 @@ namespace CSCRM.Concretes
 
             await _context.TourByCarTypes.AddRangeAsync(tourByCarTypes);
             await _context.SaveChangesAsync();
-            return new BaseResponse();
+            return new ResponseForTourByCarPage();
         }
 
-        public async Task<BaseResponse> GetAllTrCrTypsAsync()
-        {
-
-            return new BaseResponse
-            {
-                Data = new TourCarPageMainVM(),
-                Success = false,
-                StatusCode = "404",
-                Message = "No Tour Found"
-
-
-            };
+        public async Task<ResponseForTourByCarPage> GetAllTrCrTypsAsync()
+        {           
             try
             {
                 var tourByCarTypes = await _context.TourByCarTypes
@@ -56,7 +46,7 @@ namespace CSCRM.Concretes
 
                 if (!tourByCarTypes.Any())
                 {
-                    return new BaseResponse
+                    return new ResponseForTourByCarPage
                     {
                         Data = new TourCarPageMainVM(),
                         Success = false,
@@ -95,7 +85,7 @@ namespace CSCRM.Concretes
 
                 TourCarPageMainVM tourCarPageMainVM = new TourCarPageMainVM { CarIdNameVM = CarIdNames, TourIdNameVM = TourIdNames, TourCarVM = getTourCars };
 
-                return new BaseResponse 
+                return new ResponseForTourByCarPage 
                 { 
                     Data = tourCarPageMainVM, 
                     Success = true,
@@ -106,7 +96,7 @@ namespace CSCRM.Concretes
             }
             catch (Exception ex)
             {
-                return new BaseResponse
+                return new ResponseForTourByCarPage
                 {
                     Data = new TourCarPageMainVM(),
                     Success = false,

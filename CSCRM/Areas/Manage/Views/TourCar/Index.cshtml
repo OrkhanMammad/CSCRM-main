@@ -1,6 +1,9 @@
 ﻿@using CSCRM.Models.ResponseTypes
 @using CSCRM.ViewModels.TourCarVMs
-@model BaseResponse
+@using System.Linq
+@model ResponseForTourByCarPage
+
+
 
 <div class="tourbycar-page-content">
     <h2 class="trsByCrTypsPageHead">Tours By Car Types</h2>
@@ -8,7 +11,7 @@
     <div class="tour-car-types-table-container">
         <table class="tour-car-types-table">
             <thead class="tour-car-types-thead">
-                @if (Model.Data.CarIdNameVM.Count() > 0)
+                @if (Model.Data.CarIdNameVM.Any())
                 {
                     <tr>
                         <th></th>
@@ -20,7 +23,6 @@
                     </tr>
                 }
                 
-
             </thead>
             <tbody>
                 
@@ -33,37 +35,12 @@
                     <td>@(tourCarVM.CarPrices.ContainsKey(car.Name) ? @tourCarVM.CarPrices[car.Name] : ("N/A"))</td>
                     }
                         <td>
-                            <a href="editTourByCarPage.html" class="edit-tourbycar-btn">Edit</a>
-                            <button class="delete-tourbycar-btn">Delete</button>
+                            <a id="@tourCarVM.TourName" class="edit-tourbycar-btn">Edit</a>
                         </td>
                     </tr>
                 }
-            
-                 
-                
-                
-                <!-- Diğer turlar buraya eklenebilir -->
+              
             </tbody>
         </table>
-    </div>
-
-    <div class="add-tour-container">
-        <h3>Add New Tour By Car Type</h3>
-        <div class="add-tour-form">
-            <select id="tourSelect" class="tour-input" required>
-                <option value="">Select Tour</option>
-                @foreach (GetTourIdNameVM tourIdName in Model.Data.TourIdNameVM)
-                {
-                    <option value="@tourIdName.Id">@tourIdName.Name</option>
-                }
-               
-                <!-- Tur isimleri buraya dinamik olarak yüklenecek -->
-            </select>
-            @foreach (GetCarIdNameVM carIdNameVm in Model.Data.CarIdNameVM)
-            {
-                <input type="number" id="@carIdNameVm.Id" name="@carIdNameVm.Name" placeholder="@carIdNameVm.Name Price" class="tour-input" required />
-                       }            
-            <button id="addTourBtn" class="add-tour-btn">Add New Tour</button>
-        </div>
-    </div>
+    </div>   
 </div>
