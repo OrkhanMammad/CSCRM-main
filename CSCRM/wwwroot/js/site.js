@@ -287,7 +287,7 @@ edit_itinerary_inputs = document.getElementsByClassName('tour-edit-page-itinerar
 for (let input in edit_itinerary_inputs) {
     editItineraryCount += 1;
 }
-console.log(editItineraryCount)
+
 
 
 function addEditItineraryInput() {
@@ -475,6 +475,6 @@ function sendData() {
             console.error('Error:', error);
         });
 }
-sendData();
+
 
 

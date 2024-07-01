@@ -7,6 +7,7 @@ using CSCRM.ViewModels.CompanyVMs;
 using CSCRM.ViewModels.HotelVMs;
 using CSCRM.ViewModels.ItineraryVMS;
 using CSCRM.ViewModels.TourVMs;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.EntityFrameworkCore;
 
 namespace CSCRM.Concretes
@@ -14,9 +15,11 @@ namespace CSCRM.Concretes
     public class CarService : ICarService
     {
         readonly AppDbContext _context;
-        public CarService(AppDbContext context)
+        readonly ITourByCarTypeService _tourByCarTypeService;
+        public CarService(AppDbContext context, ITourByCarTypeService service)
         {
-            _context = context;   
+            _context = context;
+            _tourByCarTypeService = service;
         }
         private async Task<List<GetCarVM>> GetCarsAsync(int pageIndex)
         {
@@ -99,34 +102,52 @@ namespace CSCRM.Concretes
                     };
                 }
 
-                CarType newCar = new CarType
+
+
+                using (var transaction = await _context.Database.BeginTransactionAsync())
                 {
-                    Name = carVM.Name.Trim(),
-                    Capacity= carVM.Capacity,
-                    CreatedBy = appUser.Name + " " + appUser.SurName,                    
-                };
+                    try
+                    {
+                        CarType newCar = new CarType
+                        {
+                            Name = carVM.Name.Trim(),
+                            Capacity = carVM.Capacity,
+                            CreatedBy = appUser.Name + " " + appUser.SurName,
+                        };
+                        await _context.CarTypes.AddAsync(newCar);
+                        await _context.SaveChangesAsync();
 
-                await _context.CarTypes.AddAsync(newCar);
+                        //bu hisse her yeni car elave olunduqda buna uygun olaraq avtomatik tourByCarType obyektlerinin de yaradilmasi ucundur
+                        var newCarIndB = await _context.CarTypes.FirstOrDefaultAsync(ct => ct.Name == carVM.Name.Trim() && ct.IsDeleted==false);
 
-               
+                        await _tourByCarTypeService.CreateTourByCarTypeAsyncWhenNewCarCreating(newCarIndB.Id);
+                        //bu hisse her yeni car elave olunduqda buna uygun olaraq avtomatik tourByCarType obyektlerinin de yaradilmasi ucundur
 
-                await _context.SaveChangesAsync();
-                var newCarIndB = await _context.CarTypes.FirstOrDefaultAsync(ct => ct.Name == carVM.Name.Trim());
+
+                        await transaction.CommitAsync();                         
+                    }
+                    catch
+                    {
+
+                        await transaction.RollbackAsync();
+                        throw;
+                    }
+                }
+
 
                 List<GetCarVM> cars = await GetCarsAsync(1);
                 int carsCountInDb = await _context.CarTypes.CountAsync(ct => ct.IsDeleted == false);
                 int pageSizeForCars = (int)Math.Ceiling((decimal)carsCountInDb / 6);
-                return new BaseResponse 
-                { 
-                    Data = cars, 
-                    Message = "Car Type Created Successfully", 
-                    StatusCode = "201", 
+
+                return new BaseResponse
+                {
+                    Data = cars,
+                    Message = "Car Type Created Successfully",
+                    StatusCode = "201",
                     Success = true,
                     PageIndex = 1,
                     PageSize = pageSizeForCars
                 };
-
-
             }
             catch (Exception ex)
             {
@@ -160,9 +181,25 @@ namespace CSCRM.Concretes
                     }; 
                 }
 
-                deletingCar.IsDeleted = true;
-                deletingCar.DeletedBy = appUser.Name + " " + appUser.SurName;
-                await _context.SaveChangesAsync();
+
+                using (var transaction = await _context.Database.BeginTransactionAsync())
+                {
+                    try
+                    {
+                        deletingCar.IsDeleted = true;
+                        deletingCar.DeletedBy = appUser.Name + " " + appUser.SurName;
+                        //Bu hisse car type silinerken buna uygun olaraq tourByCarType obyektlerinin de silinmesi ucundur
+                        await _tourByCarTypeService.RemoveTourByCarTypeAsyncWhenCarRemoving(carId);
+                        //Bu hisse car type silinerken buna uygun olaraq tourByCarType obyektlerinin de silinmesi ucundur
+                        await transaction.CommitAsync();
+                    }
+                    catch
+                    {
+                        await transaction.RollbackAsync();
+                        throw;
+                    }
+                }
+                
                 List<GetCarVM> cars = await GetCarsAsync(1);
                 int carsCountInDb = await _context.CarTypes.CountAsync(ct => ct.IsDeleted == false);
                 int pageSizeForCars = (int)Math.Ceiling((decimal)carsCountInDb / 6);

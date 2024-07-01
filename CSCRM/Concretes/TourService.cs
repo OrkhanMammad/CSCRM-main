@@ -14,10 +14,12 @@ namespace CSCRM.Concretes
     {
         readonly AppDbContext _context;
         readonly UserManager<AppUser> _userManager;
-        public TourService(AppDbContext context, UserManager<AppUser> userManager)
+        readonly ITourByCarTypeService _tourByCarTypeService;
+        public TourService(AppDbContext context, UserManager<AppUser> userManager, ITourByCarTypeService service)
         {
                     _context = context;
             _userManager = userManager;
+            _tourByCarTypeService = service;
         }
         private async Task<List<GetTourVM>> GetToursAsync(int pageIndex)
         {
@@ -83,9 +85,26 @@ namespace CSCRM.Concretes
                 }
 
 
-                deletingTour.IsDeleted = true;
-                deletingTour.DeletedBy = appUser.Name + " " + appUser.SurName;        
-                await _context.SaveChangesAsync();
+
+                using (var transaction = await _context.Database.BeginTransactionAsync())
+                {
+                    try
+                    {
+                        deletingTour.IsDeleted = true;
+                        deletingTour.DeletedBy = appUser.Name + " " + appUser.SurName;
+                        
+                        //Bu hisse car type silinerken buna uygun olaraq tourByCarType obyektlerinin de silinmesi ucundur
+                        await _tourByCarTypeService.RemoveTourByCarTypeAsyncWhenTourRemoving(tourId);
+                        //Bu hisse car type silinerken buna uygun olaraq tourByCarType obyektlerinin de silinmesi ucundur
+                        await transaction.CommitAsync();
+                    }
+                    catch
+                    {
+                        await transaction.RollbackAsync();
+                        throw;
+                    }
+                }
+            
                 List<GetTourVM> tours = await GetToursAsync(1);
                 int toursCount = await _context.Tours.CountAsync(t => t.IsDeleted == false);
                 int pageSize = (int)Math.Ceiling((decimal)toursCount / 6);
@@ -148,21 +167,42 @@ namespace CSCRM.Concretes
                     };
                 }
 
-                Tour newTour = new Tour
+
+
+                using (var transaction = await _context.Database.BeginTransactionAsync())
                 {
-                    Name=tourVM.Name,
-                    CreatedBy=appUser.Name + " " +appUser.SurName,
-                    Itineraries=new List<Itinerary>()
-                };
+                    try
+                    {
+                        Tour newTour = new Tour
+                        {
+                            Name = tourVM.Name,
+                            CreatedBy = appUser.Name + " " + appUser.SurName,
+                            Itineraries = new List<Itinerary>()
+                        };
 
-                foreach(var itinerary in tourVM.Itineraries)
-                {
-                    newTour.Itineraries.Add(new Itinerary { Description=itinerary});
-                }
+                        foreach (var itinerary in tourVM.Itineraries)
+                        {
+                            newTour.Itineraries.Add(new Itinerary { Description = itinerary });
+                        }
+                        await _context.Tours.AddAsync(newTour);
+                        await _context.SaveChangesAsync();
+
+                        //bu hisse her yeni tour elave olunduqda buna uygun olaraq avtomatik tourByCarType obyektlerinin de yaradilmasi ucundur
+                        var newTourIndB = await _context.Tours.FirstOrDefaultAsync(ct => ct.Name == tourVM.Name.Trim() && ct.IsDeleted==false);
+
+                        await _tourByCarTypeService.CreateTourByCarTypeAsyncWhenNewTourCreating(newTourIndB.Id);
+                        //bu hisse her yeni tour elave olunduqda buna uygun olaraq avtomatik tourByCarType obyektlerinin de yaradilmasi ucundur
 
 
-                await _context.Tours.AddAsync(newTour);
-                await _context.SaveChangesAsync();
+                        await transaction.CommitAsync();
+                    }
+                    catch
+                    {
+
+                        await transaction.RollbackAsync();
+                        throw;
+                    }
+                }                    
 
                 List<GetTourVM> tours = await GetToursAsync(1);
                 int toursCountInDb = await _context.Tours.CountAsync(t => t.IsDeleted == false);

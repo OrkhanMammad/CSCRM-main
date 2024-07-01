@@ -6,7 +6,11 @@ namespace CSCRM.Abstractions
     public interface ITourByCarTypeService
     {
         Task<ResponseForTourByCarPage> GetAllTrCrTypsAsync();
-        Task<ResponseForTourByCarPage> AddTrCrTypAsync(AddTourCarVM tourCarVM);
+        Task CreateTourByCarTypeAsyncWhenNewCarCreating(int carTypeId);
+        Task RemoveTourByCarTypeAsyncWhenCarRemoving(int carTypeId);
 
+        Task RemoveTourByCarTypeAsyncWhenTourRemoving(int TourId);
+        Task CreateTourByCarTypeAsyncWhenNewTourCreating(int TourId);
+        Task<ResponseForTourByCarPage> GetTourCarForEditByTourName(string tourName);
     }
 }

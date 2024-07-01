@@ -1,0 +1,38 @@
+﻿@using CSCRM.Models.ResponseTypes
+@model ResponseForTourByCarPage
+
+<div class="tourCarType-edit-page-content">
+    <div class="tourCarType-edit-page-container">
+        <h3 class="tourCarType-edit-page-title">Edit Tour By Car Type</h3>
+        <table class="tourCarType-edit-page-tour-table">
+            <thead class="tourCarType-edit-page-tour-thead">
+                <tr>
+                    <th>Tour Name</th>
+                    @foreach(var car in Model.Data.CarIdNameVM)
+                    {
+                        <th>@car.Name</th>
+                    }                                        
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var tourCar in Model.Data.TourCarVM)
+                {
+                    <tr>
+                        <td>
+                            @tourCar.TourName
+                        </td>
+                        @foreach(var car in Model.Data.CarIdNameVM)
+                        {
+                            <td><input type="number" id="edit-tourCarType-@car.Name" name="@car.Name" value="@tourCar.CarPrices[car.Name]" class="tourCarType-edit-page-input" required></td>
+
+                        }
+                      
+                        <td><button onclick="updateTourCarType()" class="tourCarType-edit-page-btn tourCarType-edit-page-btn-primary">Update Tour</button></td>
+                    </tr>
+                }
+                
+            </tbody>
+        </table>
+    </div>
+</div>

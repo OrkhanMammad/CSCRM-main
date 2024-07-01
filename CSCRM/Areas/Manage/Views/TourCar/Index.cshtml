@@ -35,7 +35,7 @@
                     <td>@(tourCarVM.CarPrices.ContainsKey(car.Name) ? @tourCarVM.CarPrices[car.Name] : ("N/A"))</td>
                     }
                         <td>
-                            <a id="@tourCarVM.TourName" class="edit-tourbycar-btn">Edit</a>
+                            <a asp-action="EditTourCar" asp-controller="TourCar" asp-area="manage" asp-route-tourName="@tourCarVM.TourName" class="edit-tourbycar-btn">Edit</a>
                         </td>
                     </tr>
                 }

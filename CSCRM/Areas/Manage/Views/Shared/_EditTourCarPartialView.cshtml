@@ -1,0 +1,40 @@
+﻿
+
+<div class="tourCarType-edit-page-container">
+    <h3 class="tourCarType-edit-page-title">Edit Tour By Car Type</h3>
+    <table class="tourCarType-edit-page-tour-table">
+        <thead class="tourCarType-edit-page-tour-thead">
+            <tr>
+                <th>Tour Name</th>
+                <th>Compact</th>
+                <th>Sedan</th>
+                <th>SUV</th>
+                <th>Van</th>
+                <th>Sedan</th>
+                <th>SUV</th>
+                <th>Van</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <select style="width: 120px;" id="edit-tourCarTypeSelect" class="tourCarType-edit-page-input" required>
+                        <option value="">Select Tour</option>
+                        <option value="GOBUSTAN">Gobustan</option>
+                        <option value="GABALA">Gabala</option>
+                        <!-- Dinamik olarak yüklenecek -->
+                    </select>
+                </td>
+                <td><input type="number" id="edit-tourCarType-compactPrice" name="compactPrice" value="100" class="tourCarType-edit-page-input" required></td>
+                <td><input type="number" id="edit-tourCarType-sedanPrice" name="sedanPrice" value="200" class="tourCarType-edit-page-input" required></td>
+                <td><input type="number" id="edit-tourCarType-suvPrice" name="suvPrice" value="300" class="tourCarType-edit-page-input" required></td>
+                <td><input type="number" id="edit-tourCarType-vanPrice" name="vanPrice" value="400" class="tourCarType-edit-page-input" required></td>
+                <td><input type="number" id="edit-tourCarType-vanPrice" name="vanPrice" value="400" class="tourCarType-edit-page-input" required></td>
+                <td><input type="number" id="edit-tourCarType-vanPrice" name="vanPrice" value="400" class="tourCarType-edit-page-input" required></td>
+                <td><input type="number" id="edit-tourCarType-vanPrice" name="vanPrice" value="400" class="tourCarType-edit-page-input" required></td>
+                <td><button onclick="updateTourCarType()" class="tourCarType-edit-page-btn tourCarType-edit-page-btn-primary">Update Tour</button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

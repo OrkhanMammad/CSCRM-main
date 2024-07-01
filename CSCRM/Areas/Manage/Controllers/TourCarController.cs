@@ -21,12 +21,19 @@ namespace CSCRM.Areas.Manage.Controllers
         public async Task<IActionResult> Index()
         {
                var result = await _service.GetAllTrCrTypsAsync();
-         List<GetCarIdNameVM> getCarIdNames = new List<GetCarIdNameVM>();
-            var count = getCarIdNames.Any();
+         
             return View(result);
         }
 
-        
+        [HttpGet]
+        public async Task<IActionResult> EditTourCar(string tourName)
+        {
+            var result = await _service.GetTourCarForEditByTourName(tourName);
+            return View(result);
+        }
+
+
+
 
 
 
