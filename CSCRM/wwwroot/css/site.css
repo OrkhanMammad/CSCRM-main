@@ -77,6 +77,8 @@ HOTELS PAGE STARTS HERE */
     .hotels-page-hotels-table td {
         padding: 12px 15px;
         text-align: center;
+        font-size:15.5px;
+        width:13%;
     }
 
 .hotels-page-hotels-thead tr {
@@ -284,6 +286,7 @@ HOTELS PAGE STARTS HERE */
     .companies-page-table td {
         padding: 12px 15px;
         text-align: center;
+        width:19.5%;
     }
 
 .companies-page-thead tr {
@@ -409,6 +412,7 @@ HOTELS PAGE STARTS HERE */
     .cartypes-page-cartypes-table td {
         padding: 12px 15px;
         text-align: center;
+        width:33%;
     }
 
 .cartypes-page-cartypes-thead tr {
@@ -867,6 +871,9 @@ HOTELS PAGE STARTS HERE */
         margin: 0 4px;
         border-radius: 5px;
     }
+.activePageIndex {
+    background-color: #ddd;
+}
 
         .pagination a:hover {
             background-color: #ddd;
@@ -910,7 +917,7 @@ HOTELS PAGE STARTS HERE */
 
     .tour-car-types-thead th,
     .tour-car-types-table td {
-        padding: 10px;
+        padding: 10px 5px;
         text-align: center;
     }
 
@@ -929,7 +936,7 @@ HOTELS PAGE STARTS HERE */
 
 .tour-car-types-thead th,
 .tour-car-types-table td {
-    font-size: 16px;
+    font-size: 12px;
 }
 
     .tour-car-types-table td:first-child {
@@ -993,6 +1000,7 @@ HOTELS PAGE STARTS HERE */
     border-radius: 3px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    text-decoration: none;
 }
 
 .edit-tourbycar-btn {
@@ -1985,7 +1993,7 @@ EDIT HOTEL SERVICE OF CLIENT STARTS HERE */
 
 .tour-edit-page-input,
 .tour-edit-page-textarea {
-    font-size: 18px;
+    font-size: 14px;
     width: 100%;
     padding: 8px;
     box-sizing: border-box;

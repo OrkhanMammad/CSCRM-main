@@ -20,20 +20,12 @@ namespace CSCRM.Areas.Manage.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var tours = await _context.TourByCarTypes
-        .Include(t => t.Tour)
-        .Include(t => t.CarType)
-        .ToListAsync();
-            var a = 100;
-            return View();      
+               var result = await _service.GetAllTrCrTypsAsync();
+            
+            return View(result);
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> AddTourCarType([FromBody]AddTourCarVM tourCarVM)
-        //{
-        //    var result = await _service.AddTrCrTypAsync(tourCarVM);
-        //    return View("Index", result);
-        //}
+        
 
 
 

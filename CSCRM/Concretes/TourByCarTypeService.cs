@@ -31,20 +31,92 @@ namespace CSCRM.Concretes
 
         public async Task<BaseResponse> GetAllTrCrTypsAsync()
         {
-            List<GetTourCarVM> getTourCars = _context.TourByCarTypes
-                                                    .Include(t => t.Tour)
-                                                    .Include(t => t.CarType)
-                                                    .ToList()
-                                                    .GroupBy(t => t.Tour.Name)
-                                                    .Select(g => new GetTourCarVM
-                                                    {
-                                                        TourName = g.Key,
-                                                        CarPrices = g.ToDictionary(t => t.CarType.Name, t => t.Price)
-                                                    })
-                                                    .ToList();
-            return new BaseResponse();
+
+            return new BaseResponse
+            {
+                Data = new TourCarPageMainVM(),
+                Success = false,
+                StatusCode = "404",
+                Message = "No Tour Found"
 
 
+            };
+            try
+            {
+                var tourByCarTypes = await _context.TourByCarTypes
+                                                .Include(t => t.Tour)
+                                                .Include(t => t.CarType)
+                                                .Select(t => new
+                                                {
+                                                    TourName = t.Tour.Name,
+                                                    CarTypeName = t.CarType.Name,
+                                                    t.Price
+                                                })
+                                                .ToListAsync();
+
+                if (!tourByCarTypes.Any())
+                {
+                    return new BaseResponse
+                    {
+                        Data = new TourCarPageMainVM(),
+                        Success = false,
+                        StatusCode = "404",
+                        Message = "No Tour Found"
+
+
+                    };
+                }
+
+                List<GetTourCarVM> getTourCars = tourByCarTypes
+                    .GroupBy(t => t.TourName)
+                    .Select(g => new GetTourCarVM
+                    {
+                        TourName = g.Key,
+                        CarPrices = g.ToDictionary(t => t.CarTypeName, t => t.Price)
+                    })
+                    .ToList();
+
+                List<GetCarIdNameVM> CarIdNames = await _context.CarTypes
+                                                                .Where(ct => ct.IsDeleted == false)
+                                                                .Select(ct => new GetCarIdNameVM
+                                                                {
+                                                                    Id = ct.Id,
+                                                                    Name = ct.Name
+                                                                }).ToListAsync();
+
+
+                List<GetTourIdNameVM> TourIdNames = await _context.Tours
+                                                                  .Where(ct => ct.IsDeleted == false)
+                                                                  .Select(ct => new GetTourIdNameVM
+                                                                  {
+                                                                      Id = ct.Id,
+                                                                      Name = ct.Name
+                                                                  }).ToListAsync();
+
+                TourCarPageMainVM tourCarPageMainVM = new TourCarPageMainVM { CarIdNameVM = CarIdNames, TourIdNameVM = TourIdNames, TourCarVM = getTourCars };
+
+                return new BaseResponse 
+                { 
+                    Data = tourCarPageMainVM, 
+                    Success = true,
+                    StatusCode="200",
+                    
+                };
+
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse
+                {
+                    Data = new TourCarPageMainVM(),
+                    Success = false,
+                    StatusCode = "500",
+                    Message = "Unhandled error occured"
+
+
+                };
+            }
+             
 
         }
 

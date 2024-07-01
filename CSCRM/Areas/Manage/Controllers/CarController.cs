@@ -23,9 +23,9 @@ namespace CSCRM.Areas.Manage.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int pageIndex = 1)
         {
-            var result = await _carService.GetAllCarsAsync();
+            var result = await _carService.GetAllCarsAsync(pageIndex);
             return View(result);
         }
 

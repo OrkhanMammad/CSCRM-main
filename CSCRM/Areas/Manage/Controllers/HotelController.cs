@@ -23,10 +23,10 @@ namespace CSCRM.Areas.Manage.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(short pageIndex=1)
         {
 
-            var result = await _hotelService.GetAllHotelsAsync();           
+            var result = await _hotelService.GetAllHotelsAsync(pageIndex);           
                 return View(result);
         }
 

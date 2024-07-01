@@ -25,10 +25,13 @@ namespace CSCRM.Concretes
             hotel.ContactNumber= updatedHotel.ContactNumber.Trim();
             hotel.UpdatedBy = userNmSrnm;
         }
-        private async Task<List<GetHotelVM>> GetHotelsAsync()
+        private async Task<List<GetHotelVM>> GetHotelsAsync(short pageIndex)
         {
             return await _context.Hotels
                                         .Where(h => h.IsDeleted == false)
+                                        .OrderByDescending(h => h.Id)
+                                        .Skip((pageIndex-1)*6)
+                                        .Take(6)
                                         .Select(h => new GetHotelVM
                                                         {
                                                             Id = h.Id,
@@ -44,32 +47,39 @@ namespace CSCRM.Concretes
         public async Task<BaseResponse> AddHotelAsync(AddHotelVM addHotelVM, AppUser appUser)
         {
             
-
             try
             {
 
                 if (addHotelVM == null || string.IsNullOrEmpty(addHotelVM.Name))
                 {
-                    List<GetHotelVM> hotelsInDb = await GetHotelsAsync();
+                    List<GetHotelVM> hotelsInDb = await GetHotelsAsync(1);
+                    int hotelsCount = await _context.Hotels.CountAsync(h=>h.IsDeleted==false);
+                    int pageSize = (int)Math.Ceiling((decimal)hotelsCount / 6);
                     return new BaseResponse
                     {
-                        Message = $"Hotel Name ca not be empty",
+                        Message = $"Hotel Name can not be empty",
                         StatusCode = "201",
                         Success = true,
-                        Data = hotelsInDb
+                        Data = hotelsInDb,
+                        PageIndex=1,
+                        PageSize=pageSize
                     };
                 }
 
                 var hotelNamesInDB = await _context.Hotels.Where(h=>h.IsDeleted==false).Select(h => h.Name).ToListAsync();
                 if (hotelNamesInDB.Any(hn => hn.ToLower() == addHotelVM.Name.Trim().ToLower()))
                 {
-                    List<GetHotelVM> hotelsInDb = await GetHotelsAsync();
+                    List<GetHotelVM> hotelsInDb = await GetHotelsAsync(1);
+                    int hotelsCount = await _context.Hotels.CountAsync(h => h.IsDeleted == false);
+                    int pageSize = (int)Math.Ceiling((decimal)hotelsCount / 6);
                     return new BaseResponse 
                     { 
                         Message = $"Hotel {addHotelVM.Name} is already exists", 
                         StatusCode = "201", 
                         Success = true, 
-                        Data=hotelsInDb 
+                        Data=hotelsInDb,
+                        PageIndex=1,
+                        PageSize=pageSize
                     };
 
                 }
@@ -86,14 +96,18 @@ namespace CSCRM.Concretes
                 };
                 await _context.Hotels.AddAsync(newHotel);
                 await _context.SaveChangesAsync();
-                List<GetHotelVM> hotels = await GetHotelsAsync();
+                List<GetHotelVM> hotels = await GetHotelsAsync(1);
+                int hotelsCountİnDb = await _context.Hotels.CountAsync(h => h.IsDeleted == false);
+                int pageSizeForHotels = (int)Math.Ceiling((decimal)hotelsCountİnDb / 6);
 
                 return new BaseResponse 
                 { 
                     Data = hotels, 
                     Message = "Hotel Created Successfully", 
                     StatusCode = "201", 
-                    Success = true 
+                    Success = true,
+                    PageIndex=1,
+                    PageSize=pageSizeForHotels
                 };
 
 
@@ -111,13 +125,15 @@ namespace CSCRM.Concretes
 
 
         }
-        public async Task<BaseResponse> GetAllHotelsAsync()
+        public async Task<BaseResponse> GetAllHotelsAsync(short pageIndex)
         {
             try
             {
-                List<GetHotelVM> hotels = await GetHotelsAsync();
+                List<GetHotelVM> hotels = await GetHotelsAsync(pageIndex);
+                var hotelsCount = await _context.Hotels.CountAsync(h=>h.IsDeleted==false);
+                int pageSize = (int)Math.Ceiling((decimal)hotelsCount / 6);
                 return hotels.Any()
-                ?new BaseResponse { Data = hotels, Success = true, StatusCode = "201" }
+                ?new BaseResponse { Data = hotels, Success = true, StatusCode = "201", PageIndex=pageIndex, PageSize=pageSize }
                 :new BaseResponse { Data = new List<GetHotelVM>(), Message = "No hotel found", Success = true, StatusCode = "200" };
             }
             catch (Exception ex)
@@ -138,26 +154,34 @@ namespace CSCRM.Concretes
                 Hotel deletingHotel = await _context.Hotels.FirstOrDefaultAsync(h => h.Id == hotelId && h.IsDeleted == false);
                 if (deletingHotel == null) 
                 {
-                    List<GetHotelVM> hotelsInDb = await GetHotelsAsync();
+                    List<GetHotelVM> hotelsInDb = await GetHotelsAsync(1);
+                    int hotelsCount = await _context.Hotels.CountAsync(h => h.IsDeleted == false);
+                    int pageSize = (int)Math.Ceiling((decimal)hotelsCount / 6);
                     return new BaseResponse 
                     { 
                         Success = false, 
                         Message = "Hotel Could Not Found",
                         StatusCode = "404", 
-                        Data=hotelsInDb 
+                        Data=hotelsInDb,
+                        PageIndex=1,
+                        PageSize=pageSize
                     };                
                 }
 
                 deletingHotel.IsDeleted = true;
                 deletingHotel.DeletedBy = appUser.Name + " " + appUser.SurName;
                 await _context.SaveChangesAsync();
-                List<GetHotelVM> hotels = await GetHotelsAsync();
+                List<GetHotelVM> hotels = await GetHotelsAsync(1);
+                int hotelsCountInDb = await _context.Hotels.CountAsync(h => h.IsDeleted == false);
+                int pageSizeForHotels = (int)Math.Ceiling((decimal)hotelsCountInDb / 6);
                 return new BaseResponse 
                 { 
                     Success = true, 
                     Message = $"Hotel {deletingHotel.Name} is deleted successfully.", 
                     Data = hotels, 
-                    StatusCode="203" 
+                    StatusCode="203",
+                    PageIndex=1,
+                    PageSize=pageSizeForHotels
                 };
             }
 

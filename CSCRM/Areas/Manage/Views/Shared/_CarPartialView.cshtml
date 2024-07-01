@@ -29,6 +29,27 @@
         </tbody>
     </table>
 
+    <div class="pagination">
+        @if (Model.PageIndex > 1)
+        {
+            <a asp-action="index" asp-controller="car" asp-area="manage" asp-route-pageIndex="@(Model.PageIndex-1)">&laquo;</a>
+
+        }
+        @for (var i = 1; i <= Model.PageSize; i++)
+        {
+            if (i > Model.PageIndex - 2 && i < Model.PageIndex + 2)
+            {
+                <a class="@(Model.PageIndex==i ? "activePageIndex" : "")" asp-action="index" asp-controller="car" asp-area="manage" asp-route-pageIndex="@i">@i</a>
+
+            }
+        }
+        @if (Model.PageIndex < Model.PageSize)
+        {
+            <a asp-action="index" asp-controller="car" asp-area="manage" asp-route-pageIndex="@(Model.PageIndex + 1)">&raquo;</a>
+
+        }
+    </div>
+
     <div class="cartypes-page-cartypes-add-container">
         <h3>Add New Car Type</h3>
         <div class="cartypes-add">

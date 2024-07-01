@@ -27,10 +27,13 @@ namespace CSCRM.Concretes
             company.UpdatedBy = userNmSrnm;
         }
 
-        private async Task<List<GetCompanyVM>> GetCompaniesAsync()
+        private async Task<List<GetCompanyVM>> GetCompaniesAsync(int pageIndex)
         {
             return await _context.Companies
                                            .Where(h => h.IsDeleted == false)
+                                           .OrderByDescending(h => h.Id)
+                                           .Skip((pageIndex - 1) * 6)
+                                           .Take(6)
                                            .Select(h => new GetCompanyVM
                                                         {
                                                             Id = h.Id,
@@ -49,13 +52,17 @@ namespace CSCRM.Concretes
 
                 if (string.IsNullOrEmpty(companyVM.Name))
                 {
-                    List<GetCompanyVM> companiesInDb = await GetCompaniesAsync();
+                    List<GetCompanyVM> companiesInDb = await GetCompaniesAsync(1);
+                    int companyCount = await _context.Companies.CountAsync(ct => ct.IsDeleted == false);
+                    int pageSize = (int)Math.Ceiling((decimal)companyCount / 6);
                     return new BaseResponse 
                     { 
                         Message = $"Company Name can not be empty", 
                         StatusCode = "400", 
                         Success = false, 
-                        Data = companiesInDb 
+                        Data = companiesInDb,
+                        PageSize = pageSize,
+                        PageIndex=1
                     };
                 }
 
@@ -63,13 +70,17 @@ namespace CSCRM.Concretes
                 
                 if (companyExists)
                 {
-                    List<GetCompanyVM> companiesInDb = await GetCompaniesAsync();
+                    List<GetCompanyVM> companiesInDb = await GetCompaniesAsync(1);
+                    int companyCount = await _context.Companies.CountAsync(ct => ct.IsDeleted == false);
+                    int pageSize = (int)Math.Ceiling((decimal)companyCount / 6);
                     return new BaseResponse 
                     { 
                         Message = $"Company {companyVM.Name} is already exists", 
                         StatusCode = "409", 
                         Success = false, 
-                        Data=companiesInDb 
+                        Data=companiesInDb,
+                        PageSize = pageSize,
+                        PageIndex=1
                     };
                 }
 
@@ -83,13 +94,17 @@ namespace CSCRM.Concretes
                 };
                 await _context.Companies.AddAsync(newCompany);
                 await _context.SaveChangesAsync();
-                List<GetCompanyVM> companies = await GetCompaniesAsync();
+                List<GetCompanyVM> companies = await GetCompaniesAsync(1);
+                int companyCountInDb = await _context.Companies.CountAsync(ct => ct.IsDeleted == false);
+                int pageSizeForCompanies = (int)Math.Ceiling((decimal)companyCountInDb / 6);
                 return new BaseResponse 
                 { 
                     Data = companies, 
                     Message = "Company Created Successfully",
                     StatusCode = "201", 
-                    Success = true 
+                    Success = true,
+                    PageIndex = 1,
+                    PageSize = pageSizeForCompanies
                 };
 
 
@@ -105,13 +120,15 @@ namespace CSCRM.Concretes
                 };
             }
         }
-        public async Task<BaseResponse> GetAllCompaniesAsync()
+        public async Task<BaseResponse> GetAllCompaniesAsync(int pageIndex)
         {
             try
             {
-                List<GetCompanyVM> companies = await GetCompaniesAsync();
+                List<GetCompanyVM> companies = await GetCompaniesAsync(pageIndex);
+                int companyCount = await _context.Companies.CountAsync(ct => ct.IsDeleted == false);
+                int pageSize = (int)Math.Ceiling((decimal)companyCount / 6);
                 return companies.Any()
-                ? new BaseResponse { Data = companies, Success = true, StatusCode = "200" }
+                ? new BaseResponse { Data = companies, Success = true, StatusCode = "200", PageIndex=pageIndex, PageSize=pageSize }
                 : new BaseResponse { Data = new List<GetCompanyVM>(), Message = "No company found", Success = true, StatusCode = "200" };
 
             }
@@ -143,13 +160,16 @@ namespace CSCRM.Concretes
                 deletingCompany.IsDeleted = true;
                 deletingCompany.DeletedBy = appUser.Name + " " + appUser.SurName;
                 await _context.SaveChangesAsync();
-                List<GetCompanyVM> companies = await GetCompaniesAsync();
-
+                List<GetCompanyVM> companies = await GetCompaniesAsync(1);
+                int companyCount = await _context.Companies.CountAsync(ct => ct.IsDeleted == false);
+                int pageSize = (int)Math.Ceiling((decimal)companyCount / 6);
                 return new BaseResponse 
                 { 
                     Success = true, 
                     Message = $"Company {deletingCompany.Name} is deleted successfully.", 
-                    Data = companies 
+                    Data = companies,
+                    PageSize = pageSize,
+                    PageIndex = 1
                 };
             }
 

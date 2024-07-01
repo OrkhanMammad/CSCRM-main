@@ -23,10 +23,11 @@ namespace CSCRM.Areas.Manage.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int pageIndex = 1)
         {
+            
 
-            var result = await _tourService.GetAllToursAsync();
+            var result = await _tourService.GetAllToursAsync(pageIndex);
             return View(result);
         }
 

@@ -6,7 +6,7 @@ namespace CSCRM.Abstractions
 {
     public interface ICarService
     {
-        Task<BaseResponse> GetAllCarsAsync();
+        Task<BaseResponse> GetAllCarsAsync(int pageIndex);
         Task<BaseResponse> AddCarAsync(AddCarVM carVM, AppUser appUser);
         Task<BaseResponse> RemoveCarAsync(int carId, AppUser appUser);
         Task<BaseResponse> GetCarByIdAsync(int carId);

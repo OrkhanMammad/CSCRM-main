@@ -18,9 +18,12 @@ namespace CSCRM.Concretes
         {
             _context = context;   
         }
-        private async Task<List<GetCarVM>> GetCarsAsync()
+        private async Task<List<GetCarVM>> GetCarsAsync(int pageIndex)
         {
             return await _context.CarTypes.Where(c => c.IsDeleted == false)
+                                                        .OrderByDescending(c => c.Id)
+                                                        .Skip((pageIndex-1) * 6)
+                                                        .Take(6)
                                                         .Select(c => new GetCarVM
                                                         {
                                                             Id = c.Id,
@@ -35,14 +38,15 @@ namespace CSCRM.Concretes
             car.Name = updatedCar.Name.Trim();
             car.Capacity = updatedCar.Capacity;          
         }
-        public async Task<BaseResponse> GetAllCarsAsync()
+        public async Task<BaseResponse> GetAllCarsAsync(int pageIndex)
         {
             try
             {
-                List<GetCarVM> cars = await GetCarsAsync();
-
+                List<GetCarVM> cars = await GetCarsAsync(pageIndex);
+                int carsCount = await _context.CarTypes.CountAsync(ct=>ct.IsDeleted==false);
+                int pageSize = (int)Math.Ceiling((decimal)carsCount / 6);
                 return cars.Any()
-                ? new BaseResponse { Data = cars, Success = true, StatusCode = "201" }
+                ? new BaseResponse { Data = cars, Success = true, StatusCode = "201", PageIndex=pageIndex, PageSize=pageSize }
                 : new BaseResponse { Data = new List<GetCarVM>(), Message = "No car found", Success = true, StatusCode = "200" };
 
             }
@@ -64,27 +68,34 @@ namespace CSCRM.Concretes
          
                 if (string.IsNullOrEmpty(carVM.Name))
                 {
-                    List<GetCarVM> carsInDb = await GetCarsAsync();
+                    List<GetCarVM> carsInDb = await GetCarsAsync(1);
+                    int carsCount = await _context.CarTypes.CountAsync(ct => ct.IsDeleted == false);
+                    int pageSize = (int)Math.Ceiling((decimal)carsCount / 6);
                     return new BaseResponse 
                     { 
                         Message = $"Car Type Name can not be empty", 
                         StatusCode = "400", 
                         Success = false, 
-                        Data = carsInDb 
+                        Data = carsInDb,
+                        PageSize = pageSize,
+                        PageIndex=1
                     };
                 }
 
                 List<string> carNamesInDB = await _context.CarTypes.Where(h => h.IsDeleted == false).Select(h => h.Name).ToListAsync();
                 if (carNamesInDB.Any(hn => hn.ToLower() == carVM.Name.Trim().ToLower()))
                 {
-                    List<GetCarVM> carsInDb = await GetCarsAsync();
-
+                    List<GetCarVM> carsInDb = await GetCarsAsync(1);
+                    int carsCount = await _context.CarTypes.CountAsync(ct => ct.IsDeleted == false);
+                    int pageSize = (int)Math.Ceiling((decimal)carsCount / 6);
                     return new BaseResponse 
                     { 
                         Message = $"Car {carVM.Name} is already exists", 
                         StatusCode = "409", 
                         Success = false,
-                        Data = carsInDb 
+                        Data = carsInDb,
+                        PageSize = pageSize,
+                        PageIndex=1
                     };
                 }
 
@@ -98,13 +109,17 @@ namespace CSCRM.Concretes
                 await _context.CarTypes.AddAsync(newCar);
                 await _context.SaveChangesAsync();
 
-                List<GetCarVM> cars = await GetCarsAsync();
+                List<GetCarVM> cars = await GetCarsAsync(1);
+                int carsCountInDb = await _context.CarTypes.CountAsync(ct => ct.IsDeleted == false);
+                int pageSizeForCars = (int)Math.Ceiling((decimal)carsCountInDb / 6);
                 return new BaseResponse 
                 { 
                     Data = cars, 
                     Message = "Car Type Created Successfully", 
                     StatusCode = "201", 
-                    Success = true 
+                    Success = true,
+                    PageIndex = 1,
+                    PageSize = pageSizeForCars
                 };
 
 
@@ -127,26 +142,33 @@ namespace CSCRM.Concretes
                 CarType deletingCar = await _context.CarTypes.FirstOrDefaultAsync(h => h.Id == carId && h.IsDeleted == false);
                 if (deletingCar == null) 
                 {
-                    List<GetCarVM> carsinDb = await GetCarsAsync();
+                    List<GetCarVM> carsinDb = await GetCarsAsync(1);
+                    int carsCount = await _context.CarTypes.CountAsync(ct => ct.IsDeleted == false);
+                    int pageSize = (int)Math.Ceiling((decimal)carsCount / 6);
                     return new BaseResponse 
                     { 
                         Success = false, 
                         Message = "Car Could Not Found By Its Property", 
                         StatusCode = "404", 
-                        Data=carsinDb 
+                        Data=carsinDb,
+                        PageIndex = 1,
+                        PageSize = pageSize
                     }; 
                 }
 
                 deletingCar.IsDeleted = true;
                 deletingCar.DeletedBy = appUser.Name + " " + appUser.SurName;
                 await _context.SaveChangesAsync();
-                List<GetCarVM> cars = await GetCarsAsync();
-
+                List<GetCarVM> cars = await GetCarsAsync(1);
+                int carsCountInDb = await _context.CarTypes.CountAsync(ct => ct.IsDeleted == false);
+                int pageSizeForCars = (int)Math.Ceiling((decimal)carsCountInDb / 6);
                 return new BaseResponse 
                 { 
                     Success = true, 
                     Message = $"Car {deletingCar.Name} is deleted successfully.", 
-                    Data = cars 
+                    Data = cars,
+                    PageIndex=1,
+                    PageSize=pageSizeForCars
                 };
             }
 
@@ -230,7 +252,7 @@ namespace CSCRM.Concretes
                 var carId_NamesInDB = await _context.CarTypes.Where(h => h.IsDeleted == false).Select(h => new {Id=h.Id, Name = h.Name }).ToListAsync();
                 if (carId_NamesInDB.Any(hn => hn.Name.ToLower() == car.Name.Trim().ToLower() && hn.Id!=car.Id))
                 {
-                    List<GetCarVM> carsInDb = await GetCarsAsync();
+                  
                     return new BaseResponse 
                     { 
                         Message = $"Car {car.Name} is already exists, please change the name!", 

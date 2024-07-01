@@ -6,7 +6,7 @@ namespace CSCRM.Abstractions
 {
     public interface IHotelService
     {
-        Task<BaseResponse> GetAllHotelsAsync();
+        Task<BaseResponse> GetAllHotelsAsync(short pageIndex);
         Task<BaseResponse> AddHotelAsync(AddHotelVM addHotelVM, AppUser appUser);
         Task<BaseResponse> RemoveHotelAsync(int hotelId, AppUser appUser);
         Task<BaseResponse> GetHotelByIdAsync(int id);

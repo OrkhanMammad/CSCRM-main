@@ -19,11 +19,15 @@ namespace CSCRM.Concretes
                     _context = context;
             _userManager = userManager;
         }
-        private async Task<List<GetTourVM>> GetToursAsync()
+        private async Task<List<GetTourVM>> GetToursAsync(int pageIndex)
         {
+            
                                  return await _context.Tours
                                                       .Where(c => c.IsDeleted == false)
                                                       .Include(t => t.Itineraries)
+                                                      .OrderByDescending(c => c.Id)
+                                                      .Skip((pageIndex-1) * 6)
+                                                      .Take(6)
                                                       .Select(c => new GetTourVM
                                                       {
                                                           Id = c.Id,
@@ -33,20 +37,18 @@ namespace CSCRM.Concretes
                                                               Id = i.Id,
                                                               Description = i.Description,
                                                           }).ToList()
-                                                      })
-                                                      .Skip(1)
-                                                      .Take(2)
+                                                      })                                                      
                                                       .ToListAsync();
         }
-        public async Task<BaseResponse> GetAllToursAsync()
+        public async Task<BaseResponse> GetAllToursAsync(int pageIndex)
         {
             try
             {
-               List<GetTourVM> tours = await GetToursAsync();
-
-
+               List<GetTourVM> tours = await GetToursAsync(pageIndex);
+                int toursCount = await _context.Tours.CountAsync(t=>t.IsDeleted==false);
+                int pageSize = (int)Math.Ceiling((decimal)toursCount / 6);
                 return tours.Any()
-                ? new BaseResponse { Data = tours, Success = true, StatusCode = "200" }
+                ? new BaseResponse { Data = tours, Success = true, StatusCode = "200", PageIndex=pageIndex, PageSize=pageSize }
                 : new BaseResponse { Data = new List<GetTourVM>(), Message = "No tour found", Success = true, StatusCode = "200" };
                
 
@@ -68,6 +70,7 @@ namespace CSCRM.Concretes
             try
             {
                 Tour deletingTour = await _context.Tours.FirstOrDefaultAsync(h => h.Id == tourId && h.IsDeleted == false);
+                
                 if (deletingTour == null) 
                 { 
                     return new BaseResponse 
@@ -83,13 +86,16 @@ namespace CSCRM.Concretes
                 deletingTour.IsDeleted = true;
                 deletingTour.DeletedBy = appUser.Name + " " + appUser.SurName;        
                 await _context.SaveChangesAsync();
-                List<GetTourVM> tours = await GetToursAsync();
-
+                List<GetTourVM> tours = await GetToursAsync(1);
+                int toursCount = await _context.Tours.CountAsync(t => t.IsDeleted == false);
+                int pageSize = (int)Math.Ceiling((decimal)toursCount / 6);
                 return new BaseResponse 
                 { 
                     Success = true, 
                     Message = $"Tour {deletingTour.Name} is deleted successfully.", 
-                    Data = tours
+                    Data = tours,
+                    PageSize = pageSize,
+                    PageIndex=1
                 };
             }
 
@@ -110,14 +116,17 @@ namespace CSCRM.Concretes
             {
                 if (string.IsNullOrEmpty(tourVM.Name))
                 {
-                    List<GetTourVM> toursInDb = await GetToursAsync();
-
+                    List<GetTourVM> toursInDb = await GetToursAsync(1);
+                    int toursCount = await _context.Tours.CountAsync(t => t.IsDeleted == false);
+                    int pageSize = (int)Math.Ceiling((decimal)toursCount / 6);
                     return new BaseResponse 
                     { 
                         Message = $"Tour Name can not be empty", 
                         StatusCode = "200", 
                         Success = false,
-                        Data = toursInDb
+                        Data = toursInDb,
+                        PageIndex=1,
+                        PageSize=pageSize
                     };
 
                 }
@@ -125,13 +134,17 @@ namespace CSCRM.Concretes
                 List<string> tourNamesInDB = await _context.Tours.Where(h => h.IsDeleted == false).Select(h => h.Name).ToListAsync();
                 if (tourNamesInDB.Any(hn => hn.ToLower() == tourVM.Name.Trim().ToLower()))
                 {
-                    List<GetTourVM> toursInDb = await GetToursAsync();
+                    List<GetTourVM> toursInDb = await GetToursAsync(1);
+                    int toursCount = await _context.Tours.CountAsync(t => t.IsDeleted == false);
+                    int pageSize = (int)Math.Ceiling((decimal)toursCount / 6);
                     return new BaseResponse 
                     { 
                         Message = $"Tour {tourVM.Name} is already exists", 
                         StatusCode = "200", 
                         Success = false,
-                        Data = toursInDb 
+                        Data = toursInDb,
+                        PageIndex=1,
+                        PageSize= pageSize
                     };
                 }
 
@@ -151,14 +164,17 @@ namespace CSCRM.Concretes
                 await _context.Tours.AddAsync(newTour);
                 await _context.SaveChangesAsync();
 
-                List<GetTourVM> tours = await GetToursAsync();
-
+                List<GetTourVM> tours = await GetToursAsync(1);
+                int toursCountInDb = await _context.Tours.CountAsync(t => t.IsDeleted == false);
+                int pageSizeForTours = (int)Math.Ceiling((decimal)toursCountInDb / 6);
                 return new BaseResponse 
                 { 
                     Data = tours, 
                     Message = "Tour Created Successfully", 
                     StatusCode = "201", 
-                    Success = true 
+                    Success = true,
+                    PageIndex=1,
+                    PageSize= pageSizeForTours,
                 };
             }
             catch (Exception ex)
@@ -260,11 +276,6 @@ namespace CSCRM.Concretes
                         Data = tour
                     };
                 }
-
-
-
-
-
 
 
 

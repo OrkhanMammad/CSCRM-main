@@ -6,7 +6,7 @@ namespace CSCRM.Abstractions
 {
     public interface ITourService
     {
-        Task<BaseResponse> GetAllToursAsync();
+        Task<BaseResponse> GetAllToursAsync(int pageIndex);
         Task<BaseResponse> RemoveTourAsync(int tourId, AppUser appUser);
         Task<BaseResponse> AddTourAsync(AddTourVM tourVM, AppUser appUser);
 
