@@ -438,43 +438,239 @@ function editCar(Id) {
 
 
 
+function UpdateTourCar(tourName) {
+    console.log(tourName)
+    const inputs = document.getElementsByClassName('tourCarType-edit-page-input')
+    const carPrices = {};
 
+    for (let input of inputs)
+    {
+        console.log(input.name)
+        console.log(input.value)
+        carPrices[input.name] = parseFloat(input.value);
+    }
 
-function sendData() {
-    let data = {
-        TourId: 3,
-        CarPrices: {}
+    const editTourCarVM = {
+        TourName: tourName,
+        CarPrices: carPrices
     };
-    let a = 0;
-    while (a < 3) {
-        data.CarPrices[2] = parseInt(111);
-        a += 1;
-        console.log(a)
-    }
-    while (a < 5) {
-        data.CarPrices[8] = parseInt(118);
-        a += 1;
-        console.log(a)
-    }
-  
-    let jsonData = JSON.stringify(data);
-    console.log(data);
 
-    fetch('/manage/TourCar/AddTourCarType', {
+    console.log(editTourCarVM)
+
+    fetch('/Manage/TourCar/EditTourCar', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: jsonData
+        body: JSON.stringify(editTourCarVM)
     })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Success:', data);
+        .then(res => {
+            return res.text();
         })
-        .catch((error) => {
-            console.error('Error:', error);
+        .then(data => {
+
+            document.getElementById('tourCarType-edit-page-content').innerHTML = data
+
+
         });
 }
 
+
+
+
+
+function AddInclusiveService() {
+    const Name = document.getElementById('add-inclusive-service-name-input').value;
+    const Price = document.getElementById('add-inclusive-service-price-input').value;
+    
+    if (!Name) {
+        alert('Name field cannot be empty.');
+        return;
+    }
+
+    fetch('/manage/inclusive/AddNewInclusive', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            Name: Name,
+            Price: parseFloat(Price),
+            
+        })
+    })
+        .then(res => {
+            return res.text();
+        })
+        .then(data => {
+            console.log(data)
+            document.getElementById('inclusive-services-page-content').innerHTML = data
+
+           
+        });
+}
+
+function deleteInclusiveService(inclusiveId) {
+  
+    const confirmDelete = confirm('Are you sure you want to delete this service?');
+    if (confirmDelete) {
+
+        fetch(`/manage/inclusive/DeleteInclusive?inclusiveId=${inclusiveId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(res => res.text())
+            .then(data => {
+              
+                document.getElementById('inclusive-services-page-content').innerHTML = data;
+
+               
+            });
+    }
+}
+
+function updateInclusive(Id) {  
+    const name = document.getElementById('editInclusiveNameInput').value;
+    const price = document.getElementById('editInclusivePriceInput').value;
+    
+    if (!name) {
+        alert('Name field cannot be empty.');
+        return;
+    }
+
+    fetch('/manage/inclusive/EditInclusive', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            Id: Id,
+            Name: name,
+            Price: parseFloat(price),
+            
+        })
+    })
+        .then(res => {
+            return res.text();
+        })
+        .then(data => {
+            console.log(data)
+            document.getElementById('inclusive-service-edit-page-content').innerHTML = data
+
+           
+        });
+}
+
+
+
+
+function addRestaurant() {
+    const name = document.getElementById('add-restaurant-name-input').value;
+    const lunch = document.getElementById('add-restaurant-lunch-input').value;
+    const dinner = document.getElementById('add-restaurant-dinner-input').value;
+    const galaSimple = document.getElementById('add-restaurant-gala-simple-input').value;
+    const galaLocal = document.getElementById('add-restaurant-gala-local-input').value;
+    const galaForeign = document.getElementById('add-restaurant-gala-foreign-input').value;
+    const takeaway = document.getElementById('add-restaurant-takeaway-input').value;
+    const contactName = document.getElementById('add-restaurant-contactName-input').value;
+    const contactPhone = document.getElementById('add-restaurant-contactPhone-input').value;
+
+    if (!name) {
+        alert('Name field cannot be empty.');
+        return;
+    }
+
+    fetch('/manage/restaurant/AddNewRestaurant', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            Name: name,
+            Lunch: parseFloat(lunch),
+            Dinner: parseFloat(dinner),
+            Gala_Dinner_Simple: parseFloat(galaSimple),
+            Gala_Dinner_Local_Alc: parseFloat(galaLocal),
+            Gala_Dinner_Foreign_Alc: parseFloat(galaForeign),
+            TakeAway: parseFloat(takeaway),
+            ContactPerson: contactName,
+            ContactPhone: contactPhone
+        })
+    })
+        .then(res => {
+            return res.text();
+        })
+        .then(data => {
+            
+            document.getElementById('restaurants-page-content').innerHTML = data
+        });
+}
+function deleteRestaurant(id) {
+    const confirmDelete = confirm('Are you sure you want to delete this car?');
+    if (confirmDelete) {
+        fetch(`/manage/Restaurant/DeleteRestaurant?restaurantId=${id}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(res => res.text())
+            .then(data => {
+                console.log(data);
+                document.getElementById('restaurants-page-content').innerHTML = data;
+
+               
+            });
+    }
+}
+
+
+function updateRestaurant(Id) {
+    const name = document.getElementById('editRestaurantNameInput').value;
+    const lunch = document.getElementById('editRestaurantLunchInput').value;
+    const dinner = document.getElementById('editRestaurantDinnerInput').value;
+    const galaSimple = document.getElementById('editRestaurantGalaSimpleInput').value;
+    const galaLocal = document.getElementById('editRestaurantGalaLocalInput').value;
+    const galaForeign = document.getElementById('editRestaurantGalaForeignInput').value;
+    const takeaway = document.getElementById('editRestaurantTakeawayInput').value;
+    const contactName = document.getElementById('editRestaurantContPersonInput').value;
+    const contactPhone = document.getElementById('editRestaurantContNumInput').value;
+
+    if (!name) {
+        alert('Name field cannot be empty.');
+        return;
+    }
+
+    fetch('/manage/restaurant/EditRestaurant', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            Id: Id,
+            Name: name,
+            Lunch: parseFloat(lunch),
+            Dinner: parseFloat(dinner),
+            Gala_Dinner_Simple: parseFloat(galaSimple),
+            Gala_Dinner_Local_Alc: parseFloat(galaLocal),
+            Gala_Dinner_Foreign_Alc: parseFloat(galaForeign),
+            TakeAway: parseFloat(takeaway),
+            ContactPerson: contactName,
+            ContactPhone: contactPhone
+
+        })
+    })
+        .then(res => {
+            return res.text();
+        })
+        .then(data => {
+            console.log(data)
+            document.getElementById('restaurant-edit-page-content').innerHTML = data
+
+
+        });
+}
 
 

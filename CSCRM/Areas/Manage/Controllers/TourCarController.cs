@@ -32,6 +32,13 @@ namespace CSCRM.Areas.Manage.Controllers
             return View(result);
         }
 
+        [HttpPost]
+
+        public async Task<IActionResult> EditTourCar([FromBody]EditTourCarVM editTourCarVM)
+        {
+            var result = await _service.EditTourCarAsync(editTourCarVM);
+            return PartialView("_EditTourCarPartialView", result);
+        }
 
 
 

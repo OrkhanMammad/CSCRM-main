@@ -1,0 +1,69 @@
+﻿@using CSCRM.Models.ResponseTypes
+@model BaseResponse
+
+<div class="restaurant-edit-page-container">
+    <h3 class="restaurant-edit-page-title">Edit Restaurant</h3>
+    <span style="color: @(Model.Success ? "green" : "red"); font-weight:600">@Model.Message</span>
+    <table class="restaurant-edit-page-restaurant-table">
+        <thead class="restaurant-edit-page-restaurant-thead">
+            <tr>
+                <th>Name</th>
+                <th>Contact Person</th>
+                <th>Contact Phone</th>
+                <th>Lunch Price</th>
+                <th>Dinner Price</th>
+                <th>Gala Dinner <br> (Simple)</th>
+                <th>Gala Dinner <br> (Local Alcohol)</th>
+                <th>Gala Dinner <br> (Foreign Alcohol)</th>
+                <th>Takeaway</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <input style="width: 130px;" id="editRestaurantNameInput" type="text"
+                           class="restaurant-edit-page-input" value="@Model.Data.Name">
+                </td>
+                <td>
+                    <input style="width: 130px;" id="editRestaurantContPersonInput" type="text"
+                           class="restaurant-edit-page-input" value="@Model.Data.ContactPerson">
+                </td>
+                <td>
+                    <input style="width: 110px;" id="editRestaurantContNumInput" type="text"
+                           class="restaurant-edit-page-input" value="@Model.Data.ContactPhone">
+                </td>
+                <td>
+                    <input id="editRestaurantLunchInput" type="text" class="restaurant-edit-page-input"
+                           value="@Model.Data.Lunch">
+                </td>
+                <td>
+                    <input id="editRestaurantDinnerInput" type="text" class="restaurant-edit-page-input"
+                           value="@Model.Data.Dinner">
+                </td>
+                <td>
+                    <input id="editRestaurantGalaSimpleInput" type="text" class="restaurant-edit-page-input"
+                           value="@Model.Data.Gala_Dinner_Simple">
+                </td>
+                <td>
+                    <input id="editRestaurantGalaLocalInput" type="text" class="restaurant-edit-page-input"
+                           value="@Model.Data.Gala_Dinner_Local_Alc">
+                </td>
+                <td>
+                    <input id="editRestaurantGalaForeignInput" type="text" class="restaurant-edit-page-input"
+                           value="@Model.Data.Gala_Dinner_Foreign_Alc">
+                </td>
+                <td>
+                    <input id="editRestaurantTakeawayInput" type="text" class="restaurant-edit-page-input"
+                           value="@Model.Data.TakeAway">
+                </td>
+                <td>
+                    <button id="updateRestaurantBtn" onclick="updateRestaurant(@Model.Data.Id)"
+                            class="restaurant-edit-page-restaurant-btn restaurant-edit-page-restaurant-btn-primary">
+                        Update
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

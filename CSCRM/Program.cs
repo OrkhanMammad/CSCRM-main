@@ -4,6 +4,8 @@ using CSCRM.DataAccessLayers;
 using CSCRM.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +16,8 @@ builder.Services.AddScoped<ICompanyService, CompanyService>();
 builder.Services.AddScoped<ITourService, TourService>();
 builder.Services.AddScoped<ICarService, CarService>();
 builder.Services.AddScoped<ITourByCarTypeService, TourByCarTypeService>();
+builder.Services.AddScoped<IIncludedService, IncludedService>();
+builder.Services.AddScoped<IRestaurantService, RestaurantService>();
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
@@ -50,6 +54,8 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+
 
 app.UseRouting();
 app.UseAuthentication();

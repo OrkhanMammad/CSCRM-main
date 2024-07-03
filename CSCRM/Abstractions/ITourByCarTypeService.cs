@@ -12,5 +12,6 @@ namespace CSCRM.Abstractions
         Task RemoveTourByCarTypeAsyncWhenTourRemoving(int TourId);
         Task CreateTourByCarTypeAsyncWhenNewTourCreating(int TourId);
         Task<ResponseForTourByCarPage> GetTourCarForEditByTourName(string tourName);
+        Task<ResponseForTourByCarPage> EditTourCarAsync(EditTourCarVM editTourCarVM);
     }
 }

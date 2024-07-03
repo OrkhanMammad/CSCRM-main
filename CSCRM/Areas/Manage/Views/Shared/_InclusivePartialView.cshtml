@@ -1,0 +1,51 @@
+﻿@using CSCRM.Models.ResponseTypes;
+@model BaseResponse;
+
+<h2 class="InclusiveServicesPageHead">Inclusive Services</h2>
+<span style="color: @(Model.Success ? "green" : "red"); font-weight:600">@Model.Message</span>
+<div class="inclusive-services-page-container">
+    <table class="inclusive-services-page-services-table">
+        <thead class="inclusive-services-page-services-thead">
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Price</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var inclusive in Model.Data)
+            {
+                <tr>
+                    <td>@inclusive.Name</td>
+                    <td>@inclusive.Price</td>
+                    <td>
+                        <a asp-action="EditInclusive" asp-controller="Inclusive" asp-area="manage" asp-route-inclusiveId="@inclusive.Id"
+                           class="inclusive-services-page-services-btn inclusive-services-page-services-btn-primary">Edit</a>
+                        <button onclick="deleteInclusiveService(@inclusive.Id)"
+                                class="inclusive-services-page-services-btn inclusive-services-page-services-btn-danger">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+            }
+
+            
+
+        </tbody>
+    </table>
+
+    <div class="inclusive-services-page-services-add-container">
+        <h3>Add New Inclusive Service</h3>
+        <div class="services-add">
+            <input type="text" id="add-inclusive-service-name-input" placeholder="Name"
+                   class="inclusive-services-page-add-service-input" />
+            <input type="number" id="add-inclusive-service-price-input" placeholder="Price"
+                   class="inclusive-services-page-add-service-input" />
+            <button onclick="AddInclusiveService()"
+                    class="inclusive-services-page-services-btn inclusive-services-page-services-btn-add">
+                Add New
+                Service
+            </button>
+        </div>
+    </div>
+</div>

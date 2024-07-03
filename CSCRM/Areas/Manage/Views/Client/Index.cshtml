@@ -5,42 +5,104 @@
                onkeyup="searchClients()" />
     </div>
     <div class="clients-page-container">
-        <table class="clients-table">
+        <table class="clients-table" id="clientsTable">
             <thead class="clients-page-thead">
                 <tr>
-                    <th scope="col">Code</th>
+                    <th scope="col">Inv Code</th>
+                    <th scope="col">Mail Code</th>
                     <th scope="col">Name</th>
                     <th scope="col">Surname</th>
-                    <th scope="col">Phone</th>
+                    <th scope="col">Sales <br> Amount</th>
+                    <th scope="col">Received</th>
+                    <th scope="col">Pending</th>
+                    <th scope="col">Payment <br> Situation</th>
+                    <th scope="col">Visa <br> Situation</th>
+                    <th scope="col">Country</th>
+                    <th scope="col">Company</th>
+                    <th scope="col">Arrival <br> Date</th>
+                    <th scope="col">Departure <br> Date</th>
                     <th scope="col">Actions</th>
                 </tr>
             </thead>
             <tbody>
-
                 <tr>
-                    <td>12345</td>
+                    <td>INV123</td>
+                    <td>123</td>
                     <td>John</td>
                     <td>Doe</td>
-                    <td>555-1234</td>
+                    <td>500</td>
+                    <td>300</td>
+                    <td>200</td>
+                    <td>Received</td>
+                    <td>Yes</td>
+                    <td>Germany</td>
+                    <td>ABC Company</td>
+                    <td>2024-07-02</td>
+                    <td>2024-07-10</td>
                     <td>
-                        <a asp-action="GetClientServices" asp-controller="client" asp-area="manage" class="clients-page-clients-btn clients-page-clients-btn-services">Services</a>
-                        <a href='EditClientInfo.html' class="clients-page-clients-btn clients-page-clients-btn-primary">Edit Personal Info</a>
-                        <button onclick="deleteClient()" class="clients-page-clients-btn clients-page-clients-btn-danger">Delete</button>
+                        <a href='ClientServices.html'
+                           class="clients-page-clients-btn clients-page-clients-btn-services">Services</a>
+                        <a href='EditClientInfo.html'
+                           class="clients-page-clients-btn clients-page-clients-btn-primary">Edit Info</a>
+                        <button onclick="deleteClient()"
+                                class="clients-page-clients-btn clients-page-clients-btn-danger">
+                            Delete
+                        </button>
                     </td>
                 </tr>
                 <!-- Add more client rows dynamically -->
-
             </tbody>
         </table>
 
         <div class="clients-add-container">
             <h3>Add New Client</h3>
             <div class="clients-add">
-                <input type="text" id="add-clientCode-input" placeholder="Code" class="clients-input" />
-                <input type="text" id="add-clientName-input" placeholder="Name" class="clients-input" />
-                <input type="text" id="add-clientSurname-input" placeholder="Surname" class="clients-input" />
-                <input type="text" id="add-clientPhone-input" placeholder="Phone" class="clients-input" />
-                <button onclick="addClient()" class="clients-page-clients-btn clients-page-clients-btn-add">Add New Client</button>
+                <input type="text" id="add-invoiceCode-input" placeholder="Invoice Code" class="clients-input"
+                       style="width: 100px;" />
+                <input type="text" id="add-mailCode-input" placeholder="Mail Code" class="clients-input"
+                       style="width: 25px;" />
+                <input type="text" id="add-clientName-input" placeholder="Name" class="clients-input"
+                       style="width: 130px;" />
+                <input type="text" id="add-clientSurname-input" placeholder="Surname" class="clients-input"
+                       style="width: 130px;" />
+                <input type="text" id="add-clientPhone-input" placeholder="Phone" class="clients-input"
+                       style="width: 130px;" />
+
+                <input type="text" id="add-salesAmount-input" placeholder="Sales Amount" class="clients-input"
+                       style="width: 90px;" />
+                <input type="text" id="add-received-input" placeholder="Received" class="clients-input"
+                       style="width: 25px;" />
+                <input type="text" id="add-pending-input" placeholder="Pending" class="clients-input"
+                       style="width: 25px;" />
+                <select id="add-paymentSituation-select" class="clients-input" style="width: 100px;">
+                    <option value="" disabled selected>Paym Sit</option>
+                    <option value="received">Received</option>
+                    <option value="pending">Pending</option>
+                </select>
+                <select id="add-visaSituation-select" class="clients-input" style="width: 100px;">
+                    <option value="" disabled selected>Visa</option>
+                    <option value="yes">Not Incl</option>
+                    <option value="no">Incl</option>
+                </select>
+
+                <input type="text" id="add-country-input" placeholder="Country" class="clients-input"
+                       style="width: 25px;" />
+
+
+                <select id="add-company-input" class="clients-input" style="width: 100px;">
+                    <option value="" disabled selected>Company</option>
+                    <option value="google">Google</option>
+                    <option value="apple">Apple</option>
+                </select>
+                <input type="date" id="add-arrivalDate-input" placeholder="Arrival Date" class="clients-input"
+                       style="width: 130px;" />
+                <input type="date" id="add-departureDate-input" placeholder="Departure Date" class="clients-input"
+                       style="width: 130px;" />
+
+                <button onclick="addClient()" class="clients-page-clients-btn clients-page-clients-btn-add">
+                    Add
+                    Client
+                </button>
             </div>
         </div>
     </div>

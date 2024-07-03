@@ -12,11 +12,15 @@
     <div class="navbar">
         <ul class="navbar-list">
             <li class="navbar-item"><a asp-action="index" asp-controller="hotel" asp-area="Manage">Hotels</a></li>
-            <li class="navbar-item"><a asp-action="index" asp-controller="Company" asp-area="Manage">Companies</a></li>
-            <li class="navbar-item"><a asp-action="index" asp-controller="client" asp-area="manage">Clients</a></li>
+            <li class="navbar-item"><a asp-action="index" asp-controller="Restaurant" asp-area="Manage">Restaurants</a></li>
+            <li class="navbar-item"><a asp-action="index" asp-controller="Inclusive" asp-area="Manage">Inclusive Services</a></li>
             <li class="navbar-item"><a asp-action="index" asp-controller="tour" asp-area="manage">Tours</a></li>
             <li class="navbar-item"><a asp-action="index" asp-controller="car" asp-area="manage">Car Types</a></li>
             <li class="navbar-item"><a asp-action="index" asp-controller="TourCar" asp-area="Manage">Tours By Car Types</a></li>
+            <li class="navbar-item"><a asp-action="index" asp-controller="Company" asp-area="Manage">Companies</a></li>
+            <li class="navbar-item"><a asp-action="index" asp-controller="client" asp-area="manage">Clients</a></li>
+           
+            
         </ul>
     </div>
     @RenderBody()

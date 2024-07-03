@@ -14,7 +14,7 @@ NAVBAR STARTS HERE
 NAVBAR STARTS HERE */
 
 .navbar {
-    width: 200px;
+    width: 180px;
     height: 100vh;
     background-color: #2c3e50;
     padding-top: 20px;
@@ -594,37 +594,7 @@ HOTELS PAGE STARTS HERE */
 /*EDIT CAR TYPE STARTS HERE*/
 /*EDIT CAR TYPE STARTS HERE*/
 
-/* Navbar */
-.navbar {
-    width: 200px;
-    height: 100vh;
-    background-color: #2c3e50;
-    padding-top: 20px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    overflow-y: auto;
-}
 
-.navbar-list {
-    list-style-type: none;
-    padding: 0;
-}
-
-.navbar-item {
-    padding: 15px;
-}
-
-    .navbar-item a {
-        text-decoration: none;
-        color: #ecf0f1;
-        display: block;
-    }
-
-        .navbar-item a:hover {
-            background-color: #34495e;
-            color: white;
-        }
 
 /* Edit Car Type Page */
 .car-type-edit-page-content {
@@ -1023,19 +993,22 @@ HOTELS PAGE STARTS HERE */
 
 
 
-/* CLIENTS PAGE STARTS HERE
- CLIENTS PAGE STARTS HERE
- CLIENTS PAGE STARTS HERE
- CLIENTS PAGE STARTS HERE */
+/* CLIENTS PAGE STARTS HERE */
+/* CLIENTS PAGE STARTS HERE */
+/* CLIENTS PAGE STARTS HERE */
+/* CLIENTS PAGE STARTS HERE */
+
 .clients-page-content {
-    margin-left: 220px;
-    padding: 20px;
+    margin-left: 180px;
+    /* Navbar genişliğiyle aynı yapılabilir */
+    padding: 10px;
     flex-grow: 1;
 }
 
 .ClientsPageHead {
     text-align: center;
-    font-size: 50px;
+    font-size: 36px;
+    margin-bottom: 15px;
 }
 
 .clients-page-container {
@@ -1045,21 +1018,21 @@ HOTELS PAGE STARTS HERE */
 .clients-table {
     width: 100%;
     border-collapse: collapse;
-    margin: 25px 0;
-    font-size: 18px;
-    text-align: left;
+    margin: 10px 0;
+    font-size: 14px;
+    /* Font boyutu küçültüldü */
+    text-align: center;
 }
 
     .clients-table th,
     .clients-table td {
-        padding: 12px 15px;
-        text-align: center;
+        padding: 8px;
+        /* Hücre padding değerleri azaltıldı */
     }
 
 .clients-page-thead tr {
     background-color: #009879;
     color: #ffffff;
-    text-align: left;
     font-weight: bold;
 }
 
@@ -1076,11 +1049,12 @@ HOTELS PAGE STARTS HERE */
     }
 
 .clients-page-clients-btn {
-    padding: 5px 10px;
-    margin: 0 5px;
+    padding: 6px 12px;
+    /* Buton padding değerleri azaltıldı */
+    margin: 3px;
     text-decoration: none;
     border-radius: 5px;
-    font-size: 14px;
+    font-size: 12px;
     border: none;
     cursor: pointer;
 }
@@ -1113,8 +1087,8 @@ HOTELS PAGE STARTS HERE */
     }
 
 .clients-add-container {
-    margin-top: 40px;
-    padding: 20px;
+    margin-top: 20px;
+    padding: 15px;
     border: 1px solid #ddd;
     border-radius: 10px;
     background-color: #f9f9f9;
@@ -1122,23 +1096,24 @@ HOTELS PAGE STARTS HERE */
 }
 
     .clients-add-container h3 {
-        margin-bottom: 20px;
-        font-size: 24px;
+        margin-bottom: 10px;
+        font-size: 20px;
         color: #333;
         text-align: center;
     }
 
 .clients-add {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
 }
 
 .clients-input {
     flex: 1;
-    padding: 10px;
-    margin: 0 10px;
-    font-size: 16px;
+    padding: 8px;
+    margin: 5px;
+    font-size: 13px;
     border: 1px solid #cccccc;
     border-radius: 5px;
     box-sizing: border-box;
@@ -1147,7 +1122,11 @@ HOTELS PAGE STARTS HERE */
 .clients-page-clients-btn-add {
     background-color: #28a745;
     color: white;
-    padding: 10px 20px;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px;
 }
 
     .clients-page-clients-btn-add:hover {
@@ -1486,14 +1465,15 @@ EDIT TOUR BY CAR TYPE PAGE STARTS HERE */
     width: 100%;
     border-collapse: collapse;
     margin: 25px 0;
-    font-size: 18px;
+    font-size: 14px;
     text-align: left;
 }
 
     .tourCarType-edit-page-tour-table th,
     .tourCarType-edit-page-tour-table td {
-        padding: 12px 4px;
+        padding: 12px 2px;
         text-align: center;
+       
     }
 
 .tourCarType-edit-page-tour-thead tr {
@@ -1516,10 +1496,11 @@ EDIT TOUR BY CAR TYPE PAGE STARTS HERE */
     }
 
 .tourCarType-edit-page-input {
-    font-size: 15px;
+    font-size: 14px;
     width: 100%;
     padding: 8px;
     box-sizing: border-box;
+    text-align:center;
 }
 
 .tourCarType-edit-page-btn {
@@ -2029,4 +2010,576 @@ EDIT HOTEL SERVICE OF CLIENT STARTS HERE */
 
     .tour-edit-page-tour-btn-add:hover {
         background-color: #218838;
+    }
+
+
+
+
+
+
+
+
+/* INCLUSIVE SERVICES PAGE STARTS HERE */
+/* INCLUSIVE SERVICES PAGE STARTS HERE */
+/* INCLUSIVE SERVICES PAGE STARTS HERE */
+/* INCLUSIVE SERVICES PAGE STARTS HERE */
+.InclusiveServicesPageHead {
+    text-align: center;
+    font-size: 50px;
+}
+
+.inclusive-services-page-content {
+    margin-left: 220px;
+    padding: 20px;
+    flex-grow: 1;
+}
+
+.inclusive-services-page-container {
+    margin-top: 20px;
+}
+
+.inclusive-services-page-services-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 18px;
+    text-align: left;
+}
+
+    .inclusive-services-page-services-table th,
+    .inclusive-services-page-services-table td {
+        padding: 12px 15px;
+        text-align: center;
+    }
+
+.inclusive-services-page-services-thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    text-align: left;
+    font-weight: bold;
+}
+
+.inclusive-services-page-services-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+    .inclusive-services-page-services-table tbody tr:nth-of-type(even) {
+        background-color: #f3f3f3;
+    }
+
+    .inclusive-services-page-services-table tbody tr:last-of-type {
+        border-bottom: 2px solid #009879;
+    }
+
+.inclusive-services-page-services-btn {
+    padding: 5px 10px;
+    margin: 0 5px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+}
+
+.inclusive-services-page-services-btn-primary {
+    background-color: #007bff;
+    color: white;
+}
+
+    .inclusive-services-page-services-btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+.inclusive-services-page-services-btn-danger {
+    background-color: #dc3545;
+    color: white;
+}
+
+    .inclusive-services-page-services-btn-danger:hover {
+        background-color: #c82333;
+    }
+
+.inclusive-services-page-services-add-container {
+    margin-top: 40px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+    .inclusive-services-page-services-add-container h3 {
+        margin-bottom: 20px;
+        font-size: 24px;
+        color: #333;
+        text-align: center;
+    }
+
+.services-add {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.inclusive-services-page-add-service-input {
+    flex: 1;
+    padding: 10px;
+    margin: 10px 0;
+    font-size: 16px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    min-width: 100px;
+}
+
+.inclusive-services-page-services-btn-add {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    margin: 10px 0;
+}
+
+    .inclusive-services-page-services-btn-add:hover {
+        background-color: #218838;
+    }
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .navbar {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+
+    .navbar-item {
+        display: inline-block;
+        padding: 10px 15px;
+    }
+
+        .navbar-item a {
+            display: inline;
+        }
+
+    .inclusive-services-page-content {
+        margin-left: 0;
+        padding: 10px;
+    }
+
+    .inclusive-services-page-services-table {
+        font-size: 14px;
+    }
+
+        .inclusive-services-page-services-table th,
+        .inclusive-services-page-services-table td {
+            padding: 8px 10px;
+        }
+}
+
+@media (max-width: 480px) {
+    .navbar-item {
+        display: block;
+        padding: 8px;
+    }
+
+    .inclusive-services-page-services-table,
+    .inclusive-services-page-services-table th,
+    .inclusive-services-page-services-table td {
+        display: block;
+        width: 100%;
+    }
+
+        .inclusive-services-page-services-table thead {
+            display: none;
+        }
+
+        .inclusive-services-page-services-table tbody tr {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .inclusive-services-page-services-table td {
+            text-align: left;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+            .inclusive-services-page-services-table td:last-of-type {
+                border-bottom: 0;
+            }
+
+    .services-add {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
+
+
+
+
+/* EDIT INCLUSIVE SERVICE PAGE STARTS HERE */
+/* EDIT INCLUSIVE SERVICE PAGE STARTS HERE */
+/* EDIT INCLUSIVE SERVICE PAGE STARTS HERE */
+/* EDIT INCLUSIVE SERVICE PAGE STARTS HERE */
+
+.inclusive-service-edit-page-content {
+    margin-left: 220px;
+    padding: 20px;
+    flex-grow: 1;
+}
+
+.inclusive-service-edit-page-container {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.inclusive-service-edit-page-title {
+    text-align: center;
+    font-size: 30px;
+}
+
+.inclusive-service-edit-page-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 18px;
+    text-align: left;
+}
+
+    .inclusive-service-edit-page-table th,
+    .inclusive-service-edit-page-table td {
+        padding: 12px 15px;
+        text-align: center;
+    }
+
+.inclusive-service-edit-page-thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.inclusive-service-edit-page-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+    .inclusive-service-edit-page-table tbody tr:nth-of-type(even) {
+        background-color: #f3f3f3;
+    }
+
+    .inclusive-service-edit-page-table tbody tr:last-of-type {
+        border-bottom: 2px solid #009879;
+    }
+
+.inclusive-service-edit-page-input {
+    font-size: 18px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-align: center;
+    width: 150px;
+}
+
+.inclusive-service-edit-page-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 150px;
+}
+
+.inclusive-service-edit-page-btn-primary {
+    background-color: #007bff;
+}
+
+    .inclusive-service-edit-page-btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+
+
+
+
+/* RESTAURANTS PAGE STARTS HERE
+RESTAURANTS PAGE STARTS HERE
+RESTAURANTS PAGE STARTS HERE
+RESTAURANTS PAGE STARTS HERE */
+
+.RestaurantsPageHead {
+    text-align: center;
+    font-size: 50px;
+}
+
+.restaurants-page-content {
+    margin-left: 220px;
+    padding: 20px;
+    flex-grow: 1;
+}
+
+.restaurants-page-container {
+    margin-top: 20px;
+}
+
+.restaurants-page-restaurants-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 16.5px;
+    text-align: left;
+}
+
+    .restaurants-page-restaurants-table th,
+    .restaurants-page-restaurants-table td {
+        padding: 12px 15px;
+        text-align: center;
+        max-width:100px;
+        width:100px;
+    }
+
+.restaurants-page-restaurants-thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    text-align: left;
+    font-weight: bold;
+}
+
+.restaurants-page-restaurants-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+    .restaurants-page-restaurants-table tbody tr:nth-of-type(even) {
+        background-color: #f3f3f3;
+    }
+
+    .restaurants-page-restaurants-table tbody tr:last-of-type {
+        border-bottom: 2px solid #009879;
+    }
+
+.restaurants-page-restaurants-btn {
+    padding: 5px 10px;
+    margin: 0 5px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+}
+
+.restaurants-page-restaurants-btn-primary {
+    background-color: #007bff;
+    color: white;
+}
+
+    .restaurants-page-restaurants-btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+.restaurants-page-restaurants-btn-danger {
+    background-color: #dc3545;
+    color: white;
+}
+
+    .restaurants-page-restaurants-btn-danger:hover {
+        background-color: #c82333;
+    }
+
+.restaurants-page-restaurants-add-container {
+    margin-top: 40px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+    .restaurants-page-restaurants-add-container h3 {
+        margin-bottom: 20px;
+        font-size: 24px;
+        color: #333;
+        text-align: center;
+    }
+
+.restaurants-add {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.restaurants-page-add-restaurant-input {
+    flex: 1;
+    padding: 10px;
+    margin: 10px 0;
+    font-size: 13px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    min-width: 100px;
+}
+
+.restaurants-page-restaurants-btn-add {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    margin: 10px 0;
+}
+
+    .restaurants-page-restaurants-btn-add:hover {
+        background-color: #218838;
+    }
+
+
+/* Media Queries */
+@media (max-width: 768px) {
+    
+
+    .restaurants-page-content {
+        margin-left: 0;
+        padding: 10px;
+    }
+
+    .restaurants-page-restaurants-table {
+        font-size: 14px;
+    }
+
+        .restaurants-page-restaurants-table th,
+        .restaurants-page-restaurants-table td {
+            padding: 8px 10px;
+        }
+}
+
+@media (max-width: 480px) {
+   
+
+    .restaurants-page-restaurants-table,
+    .restaurants-page-restaurants-table th,
+    .restaurants-page-restaurants-table td {
+        display: block;
+        width: 100%;
+    }
+
+        .restaurants-page-restaurants-table thead {
+            display: none;
+        }
+
+        .restaurants-page-restaurants-table tbody tr {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .restaurants-page-restaurants-table td {
+            text-align: left;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+            .restaurants-page-restaurants-table td:last-of-type {
+                border-bottom: 0;
+            }
+
+    .restaurants-add {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .restaurants-page-add-restaurant-input,
+    .restaurants-page-restaurants-btn-add {
+        margin: 10px 0;
+        width: 100%;
+    }
+}
+
+
+
+
+/* EDIT RESTAURANT PAGE STARTS HERE */
+/* EDIT RESTAURANT PAGE STARTS HERE */
+/* EDIT RESTAURANT PAGE STARTS HERE */
+/* EDIT RESTAURANT PAGE STARTS HERE */
+.restaurant-edit-page-content {
+    margin-left: 220px;
+    padding: 20px;
+    flex-grow: 1;
+}
+
+.restaurant-edit-page-container {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.restaurant-edit-page-title {
+    text-align: center;
+    font-size: 30px;
+}
+
+.restaurant-edit-page-restaurant-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 16px;
+    text-align: center;
+}
+
+    .restaurant-edit-page-restaurant-table th,
+    .restaurant-edit-page-restaurant-table td {
+        padding: 12px 15px;
+        max-width: 130px;
+    }
+
+.restaurant-edit-page-restaurant-thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.restaurant-edit-page-restaurant-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+    .restaurant-edit-page-restaurant-table tbody tr:nth-of-type(even) {
+        background-color: #f3f3f3;
+    }
+
+    .restaurant-edit-page-restaurant-table tbody tr:last-of-type {
+        border-bottom: 2px solid #009879;
+    }
+
+.restaurant-edit-page-input {
+    font-size: 15px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-align: center;
+    width: 70px;
+}
+
+.restaurant-edit-page-restaurant-btn {
+    padding: 9px 0px;
+    font-size: 15px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 80px;
+}
+
+.restaurant-edit-page-restaurant-btn-primary {
+    background-color: #007bff;
+}
+
+    .restaurant-edit-page-restaurant-btn-primary:hover {
+        background-color: #0056b3;
     }

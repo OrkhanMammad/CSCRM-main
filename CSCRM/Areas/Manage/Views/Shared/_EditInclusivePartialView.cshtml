@@ -1,0 +1,30 @@
+﻿@using CSCRM.Models.ResponseTypes
+@model BaseResponse
+
+
+<div class="inclusive-service-edit-page-container">
+    <h3 class="inclusive-service-edit-page-title">Edit Inclusive Service</h3>
+    <span style="color: @(Model.Success ? "green" : "red"); font-weight:600">@Model.Message</span>
+    <table class="inclusive-service-edit-page-table">
+        <thead class="inclusive-service-edit-page-thead">
+            <tr>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><input type="text" id="editInclusiveNameInput" class="inclusive-service-edit-page-input" value="@Model.Data.Name"></td>
+                <td><input type="text" id="editInclusivePriceInput" class="inclusive-service-edit-page-input" value="@Model.Data.Price"></td>
+                <td>
+                    <button onclick="updateInclusive(@Model.Data.Id)" id="updateInclusiveServiceBtn"
+                            class="inclusive-service-edit-page-btn inclusive-service-edit-page-btn-primary">
+                        Update
+                        Service
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
