@@ -1,0 +1,144 @@
+﻿@using CSCRM.Models.ResponseTypes
+@using CSCRM.ViewModels.ClientVMs
+@model BaseResponse
+
+
+<h2 class="ClientsPageHead">Clients</h2>
+<span style="color: @(Model.Success ? "green" : "red"); font-weight:600">@Model.Message</span>
+<div class="clients-page-search-container">
+    <input type="text" id="client-searchInput" placeholder="Search by Code or Name" class="client-search-Input"
+           onkeyup="searchClients()" />
+</div>
+
+<div class="clients-page-container">
+    <table class="clients-table" id="clientsTable">
+        <thead class="clients-page-thead">
+            <tr>
+                <th scope="col">Inv Code</th>
+                <th scope="col">Mail Code</th>
+                <th scope="col">Name</th>
+                <th scope="col">Surname</th>
+                <th scope="col">Sales <br> Amount</th>
+                <th scope="col">Received</th>
+                <th scope="col">Pending</th>
+                <th scope="col">Payment <br> Situation</th>
+                <th scope="col">Visa <br> Situation</th>
+                <th scope="col">Country</th>
+                <th scope="col">Company</th>
+                <th scope="col">Arrival <br> Date</th>
+                <th scope="col">Departure <br> Date</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (GetClientVM client in Model.Data.Clients)
+            {
+                <tr>
+                    <td>@client.InvCode</td>
+                    <td>@client.MailCode</td>
+                    <td>@client.Name</td>
+                    <td>@client.Surname</td>
+                    <td>@client.SalesAmount</td>
+                    <td>@client.Received</td>
+                    <td>@client.Pending</td>
+                    <td>@client.PaySituation</td>
+                    <td>@client.VisaSituation</td>
+                    <td>@client.Country</td>
+                    <td>@client.Company</td>
+                    <td>@client.ArrivalDate</td>
+                    <td>@client.DepartureDate</td>
+                    <td>
+                        <a href='ClientServices.html'
+                           class="clients-page-clients-btn clients-page-clients-btn-services">Services</a>
+                        <a href='EditClientInfo.html'
+                           class="clients-page-clients-btn clients-page-clients-btn-primary">Edit Info</a>
+                        <button onclick="deleteClient(@client.Id)"
+                                class="clients-page-clients-btn clients-page-clients-btn-danger">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+            }
+
+            <!-- Add more client rows dynamically -->
+        </tbody>
+    </table>
+    <div class="pagination">
+        @if (Model.PageIndex > 1)
+        {
+            <a asp-action="index" asp-controller="client" asp-area="manage" asp-route-pageIndex="@(Model.PageIndex-1)">&laquo;</a>
+
+        }
+        @for (var i = 1; i <= Model.PageSize; i++)
+        {
+            if (i > Model.PageIndex - 2 && i < Model.PageIndex + 2)
+            {
+                <a class="@(Model.PageIndex==i ? "activePageIndex" : "")" asp-action="index" asp-controller="client" asp-area="manage" asp-route-pageIndex="@i">@i</a>
+
+            }
+        }
+        @if (Model.PageIndex < Model.PageSize)
+        {
+            <a asp-action="index" asp-controller="client" asp-area="manage" asp-route-pageIndex="@(Model.PageIndex + 1)">&raquo;</a>
+
+        }
+    </div>
+
+    <div class="clients-add-container">
+        <h3>Add New Client</h3>
+        <div class="clients-add">
+            <input type="text" id="add-invoiceCode-input" placeholder="Invoice Code" class="clients-input"
+                   style="max-width: 90px;" />
+            <input type="text" id="add-mailCode-input" placeholder="Mail Code" class="clients-input"
+                   style="max-width: 90px;" />
+            <input type="text" id="add-clientName-input" placeholder="Name" class="clients-input"
+                   style="max-width: 90px;" />
+            <input type="text" id="add-clientSurname-input" placeholder="Surname" class="clients-input"
+                   style="max-width: 90px;" />
+            <input type="text" id="add-salesAmount-input" placeholder="Sales Amount" class="clients-input"
+                   style="max-width: 90px;" />
+            <input type="text" id="add-received-input" placeholder="Received" class="clients-input"
+                   style="max-width: 60px;" />
+
+            <select id="add-paymentSituation-select" class="clients-input" style="width: 100px;">
+                <option value="" disabled selected>Payment Situation</option>
+                <option value="On Arrival">On Arrival</option>
+                <option value="Bank Account Received">Bank Account Received</option>
+                <option value="Half Payment">Half Payment</option>
+                <option value="Full Payment">Full Payment</option>
+                <option value="Negotiation">Negotiation</option>
+                <option value="Bank Account">Bank Account</option>
+                <option value="Cancel">Cancel</option>
+            </select>
+            <select id="add-visaSituation-select" class="clients-input" style="width: 100px;">
+                <option value="" disabled selected>Visa</option>
+                <option value="Include">Include</option>
+                <option value="Not Include">Not Include</option>
+                <option value="Applied">Applied</option>
+                <option value="Waiting For Visa">Waiting For Visa</option>
+                <option value="Waiting For Passport">Waiting For Passport</option>
+                <option value="Sent">Sent</option>
+            </select>
+
+            <input type="text" id="add-country-input" placeholder="Country" class="clients-input"
+                   style="max-width: 65px;" />
+
+
+            <select id="add-company-input" class="clients-input" style="width: 100px;">
+                <option value="" disabled selected>Company</option>
+                @foreach (string company in Model.Data.CompanyNames)
+                {
+                    <option value="@company">@company</option>
+                }
+            </select>
+            <input type="date" id="add-arrivalDate-input" placeholder="Arrival Date" class="clients-input"
+                   style="max-width: 100px;" />
+            <input type="date" id="add-departureDate-input" placeholder="Departure Date" class="clients-input"
+                   style="max-width: 100px;" />
+
+            <button onclick="addClient()" class="clients-page-clients-btn clients-page-clients-btn-add">
+                Add
+            </button>
+        </div>
+    </div>
+</div>

@@ -134,7 +134,7 @@ namespace CSCRM.Concretes
                 int pageSize = (int)Math.Ceiling((decimal)hotelsCount / 6);
                 return hotels.Any()
                 ?new BaseResponse { Data = hotels, Success = true, StatusCode = "201", PageIndex=pageIndex, PageSize=pageSize }
-                :new BaseResponse { Data = new List<GetHotelVM>(), Message = "No hotel found", Success = true, StatusCode = "200" };
+                :new BaseResponse { Data = new List<GetHotelVM>(), Message = "No hotel found", Success = true, StatusCode = "404" };
             }
             catch (Exception ex)
             {

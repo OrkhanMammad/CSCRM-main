@@ -608,7 +608,7 @@ function addRestaurant() {
         });
 }
 function deleteRestaurant(id) {
-    const confirmDelete = confirm('Are you sure you want to delete this car?');
+    const confirmDelete = confirm('Are you sure you want to delete this restaurant?');
     if (confirmDelete) {
         fetch(`/manage/Restaurant/DeleteRestaurant?restaurantId=${id}`, {
             method: 'POST',
@@ -674,3 +674,90 @@ function updateRestaurant(Id) {
 }
 
 
+
+
+function addClient() {
+
+    // Form alanlarındaki değerleri al
+    const invoiceCode = document.getElementById('add-invoiceCode-input').value;
+    const mailCode = document.getElementById('add-mailCode-input').value;
+    const clientName = document.getElementById('add-clientName-input').value;
+    const clientSurname = document.getElementById('add-clientSurname-input').value;
+    const salesAmount = parseFloat(document.getElementById('add-salesAmount-input').value);
+    const received = parseFloat(document.getElementById('add-received-input').value);
+    const paymentSituation = document.getElementById('add-paymentSituation-select').value;
+    const visaSituation = document.getElementById('add-visaSituation-select').value;
+    const country = document.getElementById('add-country-input').value;
+    const company = document.getElementById('add-company-input').value;
+    const arrivalDate = document.getElementById('add-arrivalDate-input').value;
+    const departureDate = document.getElementById('add-departureDate-input').value;
+    
+    if (!invoiceCode) {
+        alert('Invoice Code cannot be empty.');
+        return;
+    }
+    if (!mailCode) {
+        alert('Mail Code cannot be empty.');
+        return;
+    }
+    if (!arrivalDate) {
+        alert('Arrival Date cannot be empty.');
+        return;
+    }
+    if (!departureDate) {
+        alert('Departure Date cannot be empty.');
+        return;
+    }
+    // Yeni bir Client nesnesi oluştur
+    const newClient = {
+        InvCode: invoiceCode,
+        MailCode: mailCode,
+        Name: clientName,
+        Surname: clientSurname,
+        SalesAmount: salesAmount,
+        Received: received,
+        PaySituation: paymentSituation,
+        VisaSituation: visaSituation,
+        Country: country,
+        Company: company,
+        ArrivalDate: arrivalDate,
+        DepartureDate: departureDate 
+    };
+
+    // Sunucuya POST isteği gönder
+    fetch('/manage/client/addclient', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newClient)
+    })
+        .then(res => {
+            return res.text();
+        })
+        .then(data => {
+          
+            document.getElementById('clients-page-content').innerHTML = data
+
+
+        });
+}
+
+function deleteClient(id) {
+    const confirmDelete = confirm('Are you sure you want to delete this client?');
+    if (confirmDelete) {
+        fetch(`/manage/client/DeleteClient?clientId=${id}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(res => res.text())
+            .then(data => {
+                console.log(data);
+                document.getElementById('clients-page-content').innerHTML = data;
+
+
+            });
+    }
+}
