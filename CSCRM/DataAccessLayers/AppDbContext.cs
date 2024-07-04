@@ -51,6 +51,11 @@ namespace CSCRM.DataAccessLayers
                 entity.Property(e => e.Pending).HasColumnType("decimal(18, 2)");
                 entity.Property(e => e.Received).HasColumnType("decimal(18, 2)");
             });
+            modelBuilder.Entity<Inclusive>(entity =>
+            {
+                entity.Property(e => e.Price).HasColumnType("decimal(18, 2)");
+                
+            });
         }
     }
 }
