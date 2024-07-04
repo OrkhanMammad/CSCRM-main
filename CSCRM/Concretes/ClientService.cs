@@ -268,5 +268,177 @@ namespace CSCRM.Concretes
 
 
         }
+
+        public async Task<BaseResponse> GetClientForEditInfo(int clientId)
+        {
+            try
+            {
+                Client clientInDb = await _context.Clients.FirstOrDefaultAsync(c => c.Id == clientId && c.IsDeleted == false);
+                if (clientInDb == null)
+                {
+                    return new BaseResponse
+                    {
+                        Data = new EditClientInfoPageMainVM(),
+                        Success = false,
+                        Message = "Client By Its Property Could Not Found",
+                        StatusCode = "404"
+                    };
+                }
+                List<string> CompanyNames = await _context.Companies.Where(c => c.IsDeleted == false).Select(c => c.Name).ToListAsync();
+
+
+                EditClientInfoVM editClientInfoVM = new EditClientInfoVM
+                {
+                    Id = clientInDb.Id,
+                    InvCode = clientInDb.InvCode,
+                    MailCode = clientInDb.MailCode,
+                    Name = clientInDb.Name,
+                    Surname = clientInDb.Surname,
+                    SalesAmount = clientInDb.SalesAmount,
+                    Received = clientInDb.Received,
+                    PaySituation = clientInDb.PaySituation,
+                    VisaSituation = clientInDb.VisaSituation,
+                    Country = clientInDb.Country,
+                    Company = clientInDb.Company,
+                    ArrivalDate = clientInDb.ArrivalDate,
+                    DepartureDate = clientInDb.DepartureDate,
+                };
+                
+                EditClientInfoPageMainVM editClientInfoPageMain = new EditClientInfoPageMainVM
+                {
+                    ClientForUpdate = editClientInfoVM,
+                    CompanyNames = CompanyNames,
+                };
+
+                return new BaseResponse
+                {
+                    Data = editClientInfoPageMain,
+                    StatusCode = "200",
+                    Success = true,
+
+                };
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse
+                {
+                    Data = new EditClientInfoPageMainVM(),
+                    Success = false,
+                    Message = "Unhandled error occured",
+                    StatusCode = "500"
+                };            
+            }
+           
+                
+
+        }
+
+
+        public async Task<BaseResponse> EditClientInfoAsync(EditClientInfoVM clientVM, AppUser appUser)
+        {
+
+            try
+            {
+                List<string> CompanyNames = await _context.Companies.Where(c => c.IsDeleted == false).Select(c => c.Name).ToListAsync();
+                EditClientInfoPageMainVM editClientInfoPageMain = new EditClientInfoPageMainVM
+                {
+                    ClientForUpdate = clientVM,
+                    CompanyNames = CompanyNames,
+                };
+
+                BaseResponse errorResponse = new BaseResponse
+                {
+                    Data = editClientInfoPageMain,
+                    Message = "",
+                    StatusCode = "400",
+                    Success = false,
+                };
+
+
+
+                if (clientVM == null || string.IsNullOrEmpty(clientVM.InvCode) || string.IsNullOrEmpty(clientVM.MailCode) || clientVM.ArrivalDate == null || clientVM.ArrivalDate == null)
+                {
+                    errorResponse.Message = "Invoice Code, Mail Code, Arrival Date and Departure Date are REQUIRED";
+                    return errorResponse;
+                }
+
+
+
+                bool InvExists = await _context.Clients.AnyAsync(c => c.InvCode.ToLower() == clientVM.InvCode.Trim().ToLower() && c.IsDeleted == false && c.Id != clientVM.Id);
+                if (InvExists)
+                {
+                    errorResponse.StatusCode = "409";
+                    errorResponse.Message = "Client by this Invoice Code is already exists";
+                    return errorResponse;
+                }
+
+                bool MailExists = await _context.Clients.AnyAsync(c => c.MailCode.ToLower() == clientVM.MailCode.Trim().ToLower() && c.IsDeleted == false && c.Id != clientVM.Id);
+                if (MailExists)
+                {
+                    errorResponse.StatusCode = "409";
+                    errorResponse.Message = "Client by this Mail Code is already exists ";
+                    return errorResponse;
+                }
+
+
+                Client updateInfos = await _context.Clients.FirstOrDefaultAsync(c => c.Id == clientVM.Id);
+                if (updateInfos == null)
+                {
+                    errorResponse.StatusCode = "404";
+                    errorResponse.Message = "Client Could Not Found By Its Property";
+                    return errorResponse;
+                }
+
+                updateInfos.InvCode = clientVM.InvCode;
+                updateInfos.MailCode = clientVM.MailCode;
+                updateInfos.Name = clientVM.Name;
+                updateInfos.Surname = clientVM.Surname;
+                updateInfos.SalesAmount = clientVM.SalesAmount;
+                updateInfos.Received= clientVM.Received;
+                updateInfos.Pending=clientVM.SalesAmount - clientVM.Received;
+                updateInfos.PaySituation= clientVM.PaySituation;
+                updateInfos.VisaSituation= clientVM.VisaSituation;
+                updateInfos.Company= clientVM.Company;
+                updateInfos.Country= clientVM.Country;
+                updateInfos.ArrivalDate= clientVM.ArrivalDate;
+                updateInfos.DepartureDate= clientVM.DepartureDate;
+                updateInfos.UpdatedBy = appUser.Name + " " + appUser.SurName;
+
+                await _context.SaveChangesAsync();
+                return new BaseResponse
+                {
+                    Data = editClientInfoPageMain,
+                    Message = "Client's Infos Updated Successfully",
+                    StatusCode = "203",
+                    Success = true,
+                };
+
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse
+                {
+                    Data = new EditClientInfoPageMainVM(),
+                    Message = "Unhandled Error Occured",
+                    StatusCode = "500",
+                    Success = false,
+                };
+            }
+
+            
+
+
+
+
+
+
+
+
+
+
+
+
+        }
+
     }
 }

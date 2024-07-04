@@ -50,7 +50,7 @@
                     <td>
                         <a href='ClientServices.html'
                            class="clients-page-clients-btn clients-page-clients-btn-services">Services</a>
-                        <a href='EditClientInfo.html'
+                        <a asp-action="EditClientInfo" asp-controller="client" asp-area="manage" asp-route-clientId="@client.Id"
                            class="clients-page-clients-btn clients-page-clients-btn-primary">Edit Info</a>
                         <button onclick="deleteClient(@client.Id)"
                                 class="clients-page-clients-btn clients-page-clients-btn-danger">

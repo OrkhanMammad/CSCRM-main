@@ -1142,72 +1142,7 @@ HOTELS PAGE STARTS HERE */
 
 
 
-/* EDIT CLIENT INFO STARTS HERE
- EDIT CLIENT INFO STARTS HERE
- EDIT CLIENT INFO STARTS HERE
- EDIT CLIENT INFO STARTS HERE */
 
-
-.edit-client-info-page-content {
-    margin-left: 220px;
-    padding: 20px;
-    flex-grow: 1;
-}
-
-.EditClientInfoPageHead {
-    text-align: center;
-    font-size: 50px;
-}
-
-.edit-client-info-container {
-    margin-top: 20px;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    background-color: #f9f9f9;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-    .edit-client-info-container h3 {
-        margin-bottom: 20px;
-        font-size: 24px;
-        color: #333;
-        text-align: center;
-    }
-
-.edit-client-info-form {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-}
-
-.edit-clientInfo-client-input {
-    padding: 10px;
-    margin: 5px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    flex: 1;
-    min-width: 150px;
-}
-
-.edit-clientInfoPg-client-btn {
-    padding: 10px 20px;
-    font-size: 16px;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin: 5px;
-}
-
-.edit-clientInfoPg-client-btn-update {
-    background-color: #007bff;
-}
-
-    .edit-clientInfoPg-client-btn-update:hover {
-        background-color: #0056b3;
-    }
 
 
 
@@ -2585,4 +2520,80 @@ RESTAURANTS PAGE STARTS HERE */
 
     .restaurant-edit-page-restaurant-btn-primary:hover {
         background-color: #0056b3;
+    }
+
+
+
+
+
+/*EDIT CLIENT INFO PAGE STARTS HERE
+EDIT CLIENT INFO PAGE STARTS HERE
+EDIT CLIENT INFO PAGE STARTS HERE
+EDIT CLIENT INFO PAGE STARTS HERE
+*/
+
+.edit-client-info-page-content {
+    margin-left: 185px;
+    width: 88%;
+}
+
+.EditClientInfoPageHead {
+    text-align: center;
+    font-size: 36px;
+    margin-bottom: 15px;
+}
+
+.edit-client-info-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.edit-client-info-form {
+    width: 100%;
+}
+
+.edit-client-info-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+    .edit-client-info-table th,
+    .edit-client-info-table td {
+        padding: 10px 0px;
+        text-align: center;
+        font-size: 13.5px;
+    }
+
+    .edit-client-info-table th {
+        background-color: #009879;
+        color: white;
+    }
+
+.edit-clientInfo-client-input {
+    flex: 1;
+    padding: 5px;
+    margin: 2px;
+    font-size: 12.5px;
+    border: 2px solid #cccccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    width: 120px;
+    text-align: center;
+}
+
+.edit-clientInfoPg-client-btn {
+    padding: 8px 8px;
+    color: white;
+    background-color: #4CAF50;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 5px;
+}
+
+    .edit-clientInfoPg-client-btn:hover {
+        background-color: #45a049;
     }

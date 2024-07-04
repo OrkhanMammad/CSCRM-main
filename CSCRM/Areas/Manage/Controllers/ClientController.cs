@@ -44,5 +44,24 @@ namespace CSCRM.Areas.Manage.Controllers
             return PartialView("_ClientPartialView", result);
 
         }
+
+        [HttpGet]
+        public async Task<IActionResult> EditClientInfo(int clientId)
+        {
+            var result = await _clientService.GetClientForEditInfo(clientId);
+            return View(result);
+        }
+
+        [HttpPost]
+
+        public async Task<IActionResult> EditClientInfo([FromBody] EditClientInfoVM clientInfoVM)
+        {
+            AppUser appUser = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
+            var result = await _clientService.EditClientInfoAsync(clientInfoVM, appUser);
+            return PartialView("_EditClientInfoPartialView", result);
+        }
+
+
+
     }
 }

@@ -708,6 +708,9 @@ function addClient() {
         alert('Departure Date cannot be empty.');
         return;
     }
+
+    console.log(departureDate)
+
     // Yeni bir Client nesnesi oluştur
     const newClient = {
         InvCode: invoiceCode,
@@ -760,4 +763,65 @@ function deleteClient(id) {
 
             });
     }
+}
+
+function updateClientInfo(clientId) {
+    const invoiceCode = document.getElementById('edit-invoiceCode-input').value;
+    const mailCode = document.getElementById('edit-mailCode-input').value;
+    const name = document.getElementById('edit-clientName-input').value;
+    const surname = document.getElementById('edit-clientSurname-input').value;
+    const salesAmount = document.getElementById('edit-salesAmount-input').value;
+    const received = document.getElementById('edit-received-input').value;
+    const paymentSituation = document.getElementById('edit-paymentSituation-select').value;
+    const visaSituation = document.getElementById('edit-visaSituation-select').value;
+    const country = document.getElementById('edit-country-input').value;
+    const company = document.getElementById('edit-company-input').value;
+    const arrivalDate = document.getElementById('edit-arrivalDate-input').value;
+    const departureDate = document.getElementById('edit-departureDate-input').value;
+
+    if (!invoiceCode) {
+        alert('Invoice Code cannot be empty.');
+        return;
+    }
+    if (!mailCode) {
+        alert('Mail Code cannot be empty.');
+        return;
+    }
+    if (!arrivalDate) {
+        alert('Arrival Date cannot be empty.');
+        return;
+    }
+    if (!departureDate) {
+        alert('Departure Date cannot be empty.');
+        return;
+    }
+
+    fetch('/manage/client/EditClientInfo', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            Id: clientId,
+            InvCode: invoiceCode,
+            MailCode: mailCode,
+            Name: name,
+            Surname: surname,
+            SalesAmount: salesAmount,
+            Received: received,
+            PaySituation: paymentSituation,
+            VisaSituation: visaSituation,
+            Country: country,
+            Company: company,
+            ArrivalDate: arrivalDate,
+            DepartureDate: departureDate
+        })
+    })
+        .then(res => {
+            return res.text();
+        })
+        .then(data => {
+
+            document.getElementById('edit-client-info-page-content').innerHTML = data
+        });
 }

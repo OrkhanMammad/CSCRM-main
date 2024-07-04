@@ -12,7 +12,7 @@
         public string VisaSituation { get; set; }
         public string? Country { get; set; }
         public string? Company { get; set; }
-        public DateOnly? ArrivalDate { get; set; }
-        public DateOnly? DepartureDate { get; set; }
+        public string? ArrivalDate { get; set; }
+        public string? DepartureDate { get; set; }
     }
 }
