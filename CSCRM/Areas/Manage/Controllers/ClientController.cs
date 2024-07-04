@@ -61,7 +61,7 @@ namespace CSCRM.Areas.Manage.Controllers
             return PartialView("_EditClientInfoPartialView", result);
         }
 
-
+        
 
     }
 }
