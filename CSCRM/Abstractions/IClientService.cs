@@ -11,5 +11,6 @@ namespace CSCRM.Abstractions
         Task<BaseResponse> DeleteClientAsync(int clientId, AppUser appUser);
         Task<BaseResponse> GetClientForEditInfo(int clientId);
         Task<BaseResponse> EditClientInfoAsync(EditClientInfoVM clientVM, AppUser appUser);
+        Task<BaseResponse> GetClientServicesAsync(int clientId);
     }
 }

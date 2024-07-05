@@ -13,12 +13,18 @@ namespace CSCRM.DataAccessLayers
         public DbSet<Tour> Tours { get; set; }
         public DbSet<CarType> CarTypes { get; set; }
         public DbSet<TourByCarType> TourByCarTypes { get; set; }
-        //migrate et
+        
         public DbSet<Inclusive> InclusiveServices { get; set; }
-        //migrate et
+      
         public DbSet<Restaurant> Restaurants { get; set; }
-        //migrate et
+        
         public DbSet<Client> Clients { get; set; }
+        //migrate et
+        public DbSet<HotelOrder> HotelOrders { get; set; }
+        //migrate et
+        public DbSet<TourOrder> TourOrders { get; set; }
+        //migrate et
+        public DbSet<RestaurantOrder> RestaurantOrders { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

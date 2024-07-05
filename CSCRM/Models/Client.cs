@@ -15,6 +15,9 @@
         public string? Company { get; set; }
         public string? ArrivalDate { get; set; }
         public string? DepartureDate { get; set ; }
+        public List<HotelOrder>? HotelOrders { get; set; }
+        public List<TourOrder>? TourOrders { get; set; }
+        public List<RestaurantOrder>? RestaurantOrders { get; set; }
 
     }
 }

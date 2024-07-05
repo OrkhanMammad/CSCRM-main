@@ -6,5 +6,6 @@
         public List<Itinerary> Itineraries { get; set; }
         public List<TourByCarType> TourByCarTypes { get; set; }
 
+        public List<TourOrder> TourOrders { get; set; }
     }
 }

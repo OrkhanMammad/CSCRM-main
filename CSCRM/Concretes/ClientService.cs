@@ -2,6 +2,7 @@
 using CSCRM.DataAccessLayers;
 using CSCRM.Models;
 using CSCRM.Models.ResponseTypes;
+using CSCRM.ViewModels.ClientOrdersVM;
 using CSCRM.ViewModels.ClientVMs;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -202,16 +203,7 @@ namespace CSCRM.Concretes
                 };
 
             }
-
-
-            
-
-
-
-
-
         }
-
         public async Task<BaseResponse> DeleteClientAsync(int clientId, AppUser appUser)
         {
             try
@@ -268,7 +260,6 @@ namespace CSCRM.Concretes
 
 
         }
-
         public async Task<BaseResponse> GetClientForEditInfo(int clientId)
         {
             try
@@ -332,8 +323,6 @@ namespace CSCRM.Concretes
                 
 
         }
-
-
         public async Task<BaseResponse> EditClientInfoAsync(EditClientInfoVM clientVM, AppUser appUser)
         {
 
@@ -439,6 +428,97 @@ namespace CSCRM.Concretes
 
 
         }
+
+        public async Task<BaseResponse> GetClientServicesAsync(int clientId)
+        {
+            try
+            {
+                GetClientOrdersVM clientOrders = await _context.Clients
+                    .Include(c => c.HotelOrders)
+                    .Include(c=>c.TourOrders)
+                    .Include(c=>c.RestaurantOrders)
+                    .Select(c => new GetClientOrdersVM
+                    {
+                        Id = c.Id,
+                        InvCode = c.InvCode,
+                        MailCode = c.MailCode,
+                        Name = c.Name,
+                        Surname = c.Surname,
+                        HotelOrders = c.HotelOrders.Where(o => !o.IsDeleted).Select(o => new GetHotelOrdersVM
+                        {
+                            Id = o.Id,
+                            ClientId = o.ClientId,
+                            HotelName = o.HotelName,
+                            RoomType = o.RoomType,
+                            RoomCount = o.RoomCount,
+                            Days = o.Days,
+                            DateFrom = o.DateFrom,
+                            DateTo = o.DateTo,
+
+                        }).ToList(),
+                        TourOrders = c.TourOrders.Where(o => !o.IsDeleted).Select(o=> new GetTourOrdersVM
+                        {
+                            CarType = o.CarType,
+                            TourName = o.Tour.Name,
+                            ClientId = o.ClientID,
+                            Guide = o.Guide,
+                            Date = o.Date,
+                            Id = o.Id,
+                        }).ToList(),
+                        RestaurantOrders = c.RestaurantOrders.Where(o => !o.IsDeleted).Select(o=>new GetRestaurantOrdersVM
+                        {
+                            Id=o.Id,
+                            ClientId = o.ClientID,
+                            Count = o.Count,
+                            Date = o.Date,
+                            MealType = o.MealType,
+                            RestaurantName = o.RestaurantName,
+                        }).ToList()
+                    }).FirstOrDefaultAsync(c => c.Id == clientId);
+               
+
+                if (clientOrders == null)
+                {
+                    return new BaseResponse
+                    {
+                        Data = new GetClientOrdersVM(),
+                        Message = "Client Could Not Found By Its Property",
+                        StatusCode = "404",
+                        Success = false
+                    };
+                }
+
+
+
+
+
+
+
+
+                return new BaseResponse
+                {
+                    Data = clientOrders,
+                    StatusCode = "201",
+                    Success = true
+                };
+
+
+
+
+            }
+            catch (Exception ex) 
+            {
+                return new BaseResponse
+                {
+                    Data = new GetClientOrdersVM(),
+                    Message = "Unhandled Error Ocuured",
+                    StatusCode = "500",
+                    Success = false
+                };
+            }
+
+        }
+
 
     }
 }

@@ -61,7 +61,12 @@ namespace CSCRM.Areas.Manage.Controllers
             return PartialView("_EditClientInfoPartialView", result);
         }
 
-        
+        [HttpGet]
+        public async Task<IActionResult> GetClientOrders()
+        {
+            var result = await _clientService.GetClientServicesAsync(11);
+            return View(result);
+        }
 
     }
 }
