@@ -4,7 +4,9 @@ using CSCRM.Models;
 using CSCRM.Models.ResponseTypes;
 using CSCRM.ViewModels.ClientOrdersVM;
 using CSCRM.ViewModels.ClientVMs;
+using CSCRM.ViewModels.TourCarVMs;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 using System.Drawing.Printing;
 
@@ -49,6 +51,101 @@ namespace CSCRM.Concretes
                                                                   }).ToListAsync();
             return ClientsInDb;
         }
+        private async Task<GetClientOrdersVM> GetHotelOrdersOfClientAsync(int clientId)
+        {
+            GetClientOrdersVM clientOrders = await _context.Clients
+                     .Include(c => c.HotelOrders)
+                     .Select(c => new GetClientOrdersVM
+                     {
+                         Id = c.Id,
+                         InvCode = c.InvCode,
+                         MailCode = c.MailCode,
+                         Name = c.Name,
+                         Surname = c.Surname,
+                         HotelOrders = c.HotelOrders.Where(o => !o.IsDeleted).Select(o => new GetHotelOrdersVM
+                         {
+                             Id = o.Id,
+                             ClientId = o.ClientId,
+                             HotelName = o.HotelName,
+                             RoomType = o.RoomType,
+                             RoomCount = o.RoomCount,
+                             Days = o.Days,
+                             DateFrom = o.DateFrom,
+                             DateTo = o.DateTo,
+
+                         }).ToList()
+                     }).FirstOrDefaultAsync(c => c.Id == clientId);
+            return clientOrders;
+        }
+        private async Task<GetClientOrdersVM> GetTourOrdersOfClientAsync(int clientId)
+        {
+            GetClientOrdersVM clientOrders = await _context.Clients
+                   .Include(c => c.TourOrders)
+                   .Select(c => new GetClientOrdersVM
+                   {
+                       Id = c.Id,
+                       InvCode = c.InvCode,
+                       MailCode = c.MailCode,
+                       Name = c.Name,
+                       Surname = c.Surname,
+                       TourOrders = c.TourOrders.Where(o => !o.IsDeleted).Select(o => new GetTourOrdersVM
+                       {
+                           CarType = o.CarType,
+                           TourName = o.Tour.Name,
+                           ClientId = o.ClientID,
+                           Guide = o.Guide,
+                           Date = o.Date,
+                           Id = o.Id,
+                       }).ToList()
+                   }).FirstOrDefaultAsync(c => c.Id == clientId);
+            return clientOrders;
+        }
+        private async Task<GetClientOrdersVM> GetInclusiveOrdersOfClientAsync(int clientId)
+        {
+            GetClientOrdersVM clientOrders = await _context.Clients
+                    .Include(c => c.InclusiveOrders)
+                    .Select(c => new GetClientOrdersVM
+                    {
+                        Id = c.Id,
+                        InvCode = c.InvCode,
+                        MailCode = c.MailCode,
+                        Name = c.Name,
+                        Surname = c.Surname,                       
+                        InclusiveOrders = c.InclusiveOrders.Where(o => !o.IsDeleted).Select(o => new GetInclusiveOrdersVM
+                        {
+                            ClientId = o.ClientId,
+                            Id = o.Id,
+                            InclusiveName = o.InclusiveName,
+                            Count = o.Count,
+                            Date = o.Date,
+                        }).ToList()
+                    }).FirstOrDefaultAsync(c => c.Id == clientId);
+            return clientOrders;
+        }
+        private async Task<GetClientOrdersVM> GetRestaurantOrdersOfClientAsync(int clientId)
+        {
+            GetClientOrdersVM clientOrders = await _context.Clients
+                     .Include(c => c.RestaurantOrders)
+                     .Select(c => new GetClientOrdersVM
+                     {
+                         Id = c.Id,
+                         InvCode = c.InvCode,
+                         MailCode = c.MailCode,
+                         Name = c.Name,
+                         Surname = c.Surname,                        
+                         RestaurantOrders = c.RestaurantOrders.Where(o => !o.IsDeleted).Select(o => new GetRestaurantOrdersVM
+                         {
+                             Id = o.Id,
+                             ClientId = o.ClientID,
+                             Count = o.Count,
+                             Date = o.Date,
+                             MealType = o.MealType,
+                             RestaurantName = o.RestaurantName,
+                         }).ToList()                        
+                     }).FirstOrDefaultAsync(c => c.Id == clientId);
+            return clientOrders;
+        }
+
 
 
 
@@ -254,11 +351,7 @@ namespace CSCRM.Concretes
                     Message = "Unhandled error occured",
                     Success = false,                    
                 };
-
-
             }
-
-
         }
         public async Task<BaseResponse> GetClientForEditInfo(int clientId)
         {
@@ -318,10 +411,7 @@ namespace CSCRM.Concretes
                     Message = "Unhandled error occured",
                     StatusCode = "500"
                 };            
-            }
-           
-                
-
+            }                         
         }
         public async Task<BaseResponse> EditClientInfoAsync(EditClientInfoVM clientVM, AppUser appUser)
         {
@@ -414,29 +504,17 @@ namespace CSCRM.Concretes
                 };
             }
 
-            
-
-
-
-
-
-
-
-
-
-
-
-
         }
-
         public async Task<BaseResponse> GetClientServicesAsync(int clientId)
         {
             try
             {
+               
                 GetClientOrdersVM clientOrders = await _context.Clients
                     .Include(c => c.HotelOrders)
                     .Include(c=>c.TourOrders)
                     .Include(c=>c.RestaurantOrders)
+                    .Include(c=>c.InclusiveOrders)
                     .Select(c => new GetClientOrdersVM
                     {
                         Id = c.Id,
@@ -473,36 +551,133 @@ namespace CSCRM.Concretes
                             Date = o.Date,
                             MealType = o.MealType,
                             RestaurantName = o.RestaurantName,
+                        }).ToList(),
+                        InclusiveOrders = c.InclusiveOrders.Where(o => !o.IsDeleted).Select(o=> new GetInclusiveOrdersVM
+                        {
+                            ClientId = o.ClientId,
+                            Id = o.Id,
+                            InclusiveName = o.InclusiveName,
+                            Count = o.Count,
+                            Date = o.Date,
                         }).ToList()
                     }).FirstOrDefaultAsync(c => c.Id == clientId);
-               
 
-                if (clientOrders == null)
+                if(clientOrders == null)
                 {
                     return new BaseResponse
                     {
-                        Data = new GetClientOrdersVM(),
+                        Data = new HotelTourRestaurantInclusiveOrdersTotal(),
                         Message = "Client Could Not Found By Its Property",
                         StatusCode = "404",
-                        Success = false
+                        Success = false,
                     };
                 }
 
 
+                List<GetTourIdNameVM> Tours = await _context.Tours.Where(t => !t.IsDeleted)
+                                                                  .Select(t => new GetTourIdNameVM { Id = t.Id, Name = t.Name })    
+                                                                  .ToListAsync();
+
+                List<GetCarIdNameVM> Cars = await _context.CarTypes.Where(t => !t.IsDeleted)
+                                                                   .Select(t => new GetCarIdNameVM { Id = t.Id, Name = t.Name })
+                                                                   .ToListAsync();
+
+                List<string> HotelNames = await _context.Hotels.Where(t => !t.IsDeleted)
+                                                               .Select(t => t.Name)
+                                                               .ToListAsync();
+
+                List<string> RestaurantNames = await _context.Restaurants.Where(t => !t.IsDeleted)
+                                                                         .Select(t => t.Name)
+                                                                         .ToListAsync();
+
+                List<string> InclusiveNames = await _context.InclusiveServices.Where(t => !t.IsDeleted)
+                                                                              .Select(t => t.Name)
+                                                                              .ToListAsync();
 
 
 
 
-
-
-                return new BaseResponse
+                TourOrdersSectionVM tourOrdersSectionVM = new TourOrdersSectionVM
                 {
-                    Data = clientOrders,
-                    StatusCode = "201",
-                    Success = true
+                    ClientId = clientOrders.Id,
+                    Tours= Tours,
+                    Cars= Cars,
+                };
+                
+                if (!clientOrders.TourOrders.Any())
+                {
+                    tourOrdersSectionVM.Success = true;
+                    tourOrdersSectionVM.Message = "No Tour Order Found";
+                }
+                else
+                {
+                    tourOrdersSectionVM.TourOrders = clientOrders.TourOrders;
+   
+                }
+
+                HotelOrdersSectionVM hotelOrdersSectionVM = new HotelOrdersSectionVM
+                {
+                    ClientId = clientOrders.Id,
+                    HotelNames = HotelNames,
                 };
 
+                if (!clientOrders.HotelOrders.Any())
+                {
+                    hotelOrdersSectionVM.Success = true;
+                    hotelOrdersSectionVM.Message = "No Hotel Order Found";
+                }
+                else
+                {
+                    hotelOrdersSectionVM.HotelOrders = clientOrders.HotelOrders;                    
+                }
 
+                RestaurantOrdersSectionVM restaurantOrdersSectionVM = new RestaurantOrdersSectionVM
+                {
+                    ClientId = clientOrders.Id,
+                    RestaurantNames = RestaurantNames,
+                };
+                if (!clientOrders.RestaurantOrders.Any())
+                {
+                    restaurantOrdersSectionVM.Success = true;
+                    restaurantOrdersSectionVM.Message = "No Restaurant Order Found";
+                }
+                else
+                {
+                    restaurantOrdersSectionVM.RestaurantOrders = clientOrders.RestaurantOrders;
+                }
+
+                InclusiveOrdersSectionVM inclusiveOrdersSectionVM = new InclusiveOrdersSectionVM
+                {
+                    ClientId = clientOrders.Id,
+                    InclusiveNames = InclusiveNames,
+                };
+                if (!clientOrders.InclusiveOrders.Any())
+                {
+                    inclusiveOrdersSectionVM.Success = true;
+                    inclusiveOrdersSectionVM.Message = "No Inclusive Order Found";
+                }
+                else
+                {
+                    inclusiveOrdersSectionVM.InclusiveOrders = clientOrders.InclusiveOrders;
+                }
+
+
+                HotelTourRestaurantInclusiveOrdersTotal hotelTourRestaurantInclusiveOrders = new HotelTourRestaurantInclusiveOrdersTotal
+                {
+                    ClientId=clientOrders.Id,
+                    InvCode = clientOrders.InvCode,
+                    MailCode = clientOrders.MailCode,
+                    Name = clientOrders.Name,
+                    Surname = clientOrders.Surname,
+                    HotelOrdersSection = hotelOrdersSectionVM,
+                    TourOrdersSection = tourOrdersSectionVM,
+                    RestaurantOrdersSection = restaurantOrdersSectionVM,
+                    InclusiveOrdersSection = inclusiveOrdersSectionVM,
+                };
+                return new BaseResponse
+                {
+                    Data = hotelTourRestaurantInclusiveOrders,
+                };
 
 
             }
@@ -510,15 +685,747 @@ namespace CSCRM.Concretes
             {
                 return new BaseResponse
                 {
-                    Data = new GetClientOrdersVM(),
+                    Data = new HotelTourRestaurantInclusiveOrdersTotal(),
                     Message = "Unhandled Error Ocuured",
                     StatusCode = "500",
                     Success = false
+                    
                 };
             }
 
         }
 
 
+
+
+
+        public async Task<HotelOrdersSectionVM> DeleteHotelOrderAsync(int clientId, int hotelOrderId, AppUser appUser)
+        {
+            try
+            {
+                HotelOrder deletingOrder = await _context.HotelOrders.FirstOrDefaultAsync(h => h.Id == hotelOrderId && h.ClientId == clientId && !h.IsDeleted);
+
+                if (deletingOrder != null)
+                {
+                    deletingOrder.IsDeleted = true;
+                    deletingOrder.DeletedBy = appUser.Name + " " + appUser.SurName;
+                    await _context.SaveChangesAsync();
+
+                    GetClientOrdersVM clientOrders = await GetHotelOrdersOfClientAsync(clientId);
+
+                    if (clientOrders == null)
+                    {
+                        return new HotelOrdersSectionVM
+                        {
+                            HotelOrders = new List<GetHotelOrdersVM>(),
+                            Message = "Client Could Not Found By Its Property, bur order has been deleted successfuly",
+                            StatusCode = "404",
+                            Success = false,
+                            HotelNames = new List<string>()
+                        };
+                    }
+                    else
+                    {
+                        List<string> HotelNames = await _context.Hotels.Where(t => !t.IsDeleted)
+                                                             .Select(t => t.Name)
+                                                             .ToListAsync();
+                        HotelOrdersSectionVM hotelOrdersSectionVM = new HotelOrdersSectionVM
+                        {
+                            ClientId = clientOrders.Id,
+                            HotelNames = HotelNames,
+                            StatusCode = "200",
+                            Success = true,
+                            HotelOrders = clientOrders.HotelOrders,
+                            Message = "Order deleted successfully"
+                        };
+                        return hotelOrdersSectionVM;
+
+                    }
+
+                }
+                else
+                {
+                    GetClientOrdersVM clientOrders = await GetHotelOrdersOfClientAsync(clientId);
+
+                    if (clientOrders == null)
+                    {
+                        return new HotelOrdersSectionVM
+                        {
+                            HotelOrders = new List<GetHotelOrdersVM>(),
+                            Message = "Client Could Not Found By Its Property and Order has not been deleted",
+                            StatusCode = "404",
+                            Success = false,
+                            HotelNames = new List<string>()
+                        };
+                    }
+
+                    else
+                    {
+                        List<string> HotelNames = await _context.Hotels.Where(t => !t.IsDeleted)
+                                                             .Select(t => t.Name)
+                                                             .ToListAsync();
+                        HotelOrdersSectionVM hotelOrdersSectionVM = new HotelOrdersSectionVM
+                        {
+                            ClientId = clientOrders.Id,
+                            HotelNames = HotelNames,
+                            StatusCode = "404",
+                            Success = false,
+                            HotelOrders = clientOrders.HotelOrders,
+                            Message = "Order could not found by its property and has not been deleted"
+                        };
+                        return hotelOrdersSectionVM;
+
+                    }
+
+
+                }
+            }
+            catch (Exception ex) 
+            {
+                return new HotelOrdersSectionVM
+                {
+                    HotelOrders = new List<GetHotelOrdersVM>(),
+                    Message = "Unhandled error happened",
+                    StatusCode = "500",
+                    Success = false,
+                    HotelNames = new List<string>()
+                };
+            }
+        }
+        public async Task<HotelOrdersSectionVM> AddNewHotelOrderAsync(AddNewHotelOrderVM newOrder, AppUser appUser)
+        {
+
+            try
+            {
+                if (newOrder == null || string.IsNullOrWhiteSpace(newOrder.RoomType) || newOrder.ClientId == 0 || string.IsNullOrWhiteSpace(newOrder.HotelName) || newOrder.RoomCount == 0 || newOrder.Days == 0 || string.IsNullOrWhiteSpace(newOrder.FromDate) || string.IsNullOrWhiteSpace(newOrder.ToDate))
+                {
+
+                    return new HotelOrdersSectionVM
+                    {
+                        HotelOrders = new List<GetHotelOrdersVM>(),
+                        Message = "Insert datas in a proper way",
+                        StatusCode = "500",
+                        Success = false,
+                        HotelNames = new List<string>()
+                    };
+                }
+
+                HotelOrder newHotelOrder = new HotelOrder
+                {
+                    HotelName = newOrder.HotelName,
+                    RoomType = newOrder.RoomType,
+                    Days = newOrder.Days,
+                    ClientId = newOrder.ClientId,
+                    DateFrom = newOrder.FromDate,
+                    DateTo = newOrder.ToDate,
+                    RoomCount = newOrder.RoomCount,
+                    CreatedBy = appUser.Name + " " + appUser.SurName
+                };
+
+                await _context.HotelOrders.AddAsync(newHotelOrder);
+                await _context.SaveChangesAsync();
+                GetClientOrdersVM clientOrders = await GetHotelOrdersOfClientAsync(newOrder.ClientId);
+                if (clientOrders == null)
+                {
+                    return new HotelOrdersSectionVM
+                    {
+                        HotelOrders = new List<GetHotelOrdersVM>(),
+                        Message = "Client Could Not Found By Its Property, bur order added successfully",
+                        StatusCode = "404",
+                        Success = false,
+                        HotelNames = new List<string>()
+                    };
+                }
+                else
+                {
+                    List<string> HotelNames = await _context.Hotels.Where(t => !t.IsDeleted)
+                                                         .Select(t => t.Name)
+                                                         .ToListAsync();
+                    HotelOrdersSectionVM hotelOrdersSectionVM = new HotelOrdersSectionVM
+                    {
+                        ClientId = clientOrders.Id,
+                        HotelNames = HotelNames,
+                        StatusCode = "200",
+                        Success = true,
+                        HotelOrders = clientOrders.HotelOrders,
+                        Message = "Order added successfully"
+                    };
+                    return hotelOrdersSectionVM;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                return new HotelOrdersSectionVM
+                {
+                    HotelOrders = new List<GetHotelOrdersVM>(),
+                    Message = "Unhandled error occured",
+                    StatusCode = "500",
+                    Success = false,
+                    HotelNames = new List<string>()
+                };
+            }
+           
+        }
+
+
+        public async Task<TourOrdersSectionVM> DeleteTourOrderAsync(int clientId, int tourOrderId, AppUser appUser)
+        {
+            try
+            {
+                TourOrder deletingOrder = await _context.TourOrders.FirstOrDefaultAsync(h => h.Id == tourOrderId && h.ClientID == clientId && !h.IsDeleted);
+
+                if (deletingOrder != null)
+                {
+                    deletingOrder.IsDeleted = true;
+                    deletingOrder.DeletedBy = appUser.Name + " " + appUser.SurName;
+                    await _context.SaveChangesAsync();
+
+                    GetClientOrdersVM clientOrders = await GetTourOrdersOfClientAsync(clientId);
+
+                    if (clientOrders == null)
+                    {
+                        return new TourOrdersSectionVM
+                        {
+                            TourOrders = new List<GetTourOrdersVM>(),
+                            Message = "Client Could Not Found By Its Property, but order has been deleted successfuly",
+                            StatusCode = "404",
+                            Success = false,
+                            Tours = new List<GetTourIdNameVM>(),
+                            Cars = new List<GetCarIdNameVM>()
+                        };
+                    }
+                    else
+                    {
+                        List<GetTourIdNameVM> Tours = await _context.Tours.Where(t => !t.IsDeleted)
+                                                             .Select(t => new GetTourIdNameVM
+                                                             {
+                                                                 Id = t.Id,
+                                                                 Name = t.Name,
+                                                             })
+                                                             .ToListAsync();
+
+                        List<GetCarIdNameVM> Cars = await _context.Tours.Where(t => !t.IsDeleted)
+                                                             .Select(t => new GetCarIdNameVM
+                                                             {
+                                                                 Id = t.Id,
+                                                                 Name = t.Name,
+                                                             })
+                                                             .ToListAsync();
+
+                        TourOrdersSectionVM tourOrdersSectionVM = new TourOrdersSectionVM
+                        {
+                            ClientId = clientOrders.Id,
+                            Tours = Tours,
+                            Cars = Cars,
+                            StatusCode = "200",
+                            Success = true,
+                            TourOrders = clientOrders.TourOrders,
+                            Message = "Order deleted successfully"
+                        };
+                        return tourOrdersSectionVM;
+
+                    }
+
+                }
+                else
+                {
+                    GetClientOrdersVM clientOrders = await GetTourOrdersOfClientAsync(clientId);
+
+                    if (clientOrders == null)
+                    {
+                        return new TourOrdersSectionVM
+                        {
+                            TourOrders = new List<GetTourOrdersVM>(),
+                            Message = "Client Could Not Found By Its Property and Order has not been deleted",
+                            StatusCode = "404",
+                            Success = false,
+                            Cars = new List<GetCarIdNameVM>(),
+                            Tours = new List<GetTourIdNameVM>()
+                        };
+                    }
+
+                    else
+                    {
+                        List<GetTourIdNameVM> Tours = await _context.Tours.Where(t => !t.IsDeleted)
+                                                             .Select(t => new GetTourIdNameVM
+                                                             {
+                                                                 Id = t.Id,
+                                                                 Name = t.Name,
+                                                             })
+                                                             .ToListAsync();
+
+                        List<GetCarIdNameVM> Cars = await _context.Tours.Where(t => !t.IsDeleted)
+                                                             .Select(t => new GetCarIdNameVM
+                                                             {
+                                                                 Id = t.Id,
+                                                                 Name = t.Name,
+                                                             })
+                                                             .ToListAsync();
+                        TourOrdersSectionVM tourOrdersSectionVM = new TourOrdersSectionVM
+                        {
+                            ClientId = clientOrders.Id,
+                            Tours = Tours,
+                            Cars = Cars,
+                            StatusCode = "404",
+                            Success = false,
+                            TourOrders = clientOrders.TourOrders,
+                            Message = "Order could not found by its property and has not been deleted"
+                        };
+                        return tourOrdersSectionVM;
+
+                    }
+
+
+                }
+            }
+            catch (Exception ex)
+            {
+                return new TourOrdersSectionVM
+                {
+                    TourOrders = new List<GetTourOrdersVM>(),
+                    Message = "Unhandled Error Ocuured",
+                    StatusCode = "500",
+                    Success = false,
+                    Cars = new List<GetCarIdNameVM>(),
+                    Tours = new List<GetTourIdNameVM>()
+                };
+            }
+
+
+
+        }
+        public async Task<TourOrdersSectionVM> AddNewTourOrderAsync(AddNewTourOrderVM newOrder, AppUser appUser)
+        {
+
+            try
+            {
+                if (newOrder == null || string.IsNullOrWhiteSpace(newOrder.Date) || newOrder.ClientId == 0 || string.IsNullOrWhiteSpace(newOrder.CarType) || newOrder.TourId == 0 || newOrder.Guide == null)
+                {
+
+                    return new TourOrdersSectionVM
+                    {
+                        TourOrders = new List<GetTourOrdersVM>(),
+                        Message = "Insert Datas in a Right Way",
+                        StatusCode = "404",
+                        Success = false,
+                        Tours = new List<GetTourIdNameVM>(),
+                        Cars = new List<GetCarIdNameVM>()
+                    };
+                }
+
+                TourOrder newTourOrder = new TourOrder
+                {
+                    ClientID = newOrder.ClientId,
+                    TourId = newOrder.TourId,
+                    Guide = newOrder.Guide,
+                    CarType = newOrder.CarType,
+                    Date = newOrder.Date,
+                    CreatedBy = appUser.Name + " " + appUser.SurName,
+                };
+
+                await _context.TourOrders.AddAsync(newTourOrder);
+                await _context.SaveChangesAsync();
+                GetClientOrdersVM clientOrders = await GetTourOrdersOfClientAsync(newOrder.ClientId);
+                if (clientOrders == null)
+                {
+                    return new TourOrdersSectionVM
+                    {
+                        TourOrders = new List<GetTourOrdersVM>(),
+                        Message = "Client Could Not Found By Its Property, bur order added successfully",
+                        StatusCode = "404",
+                        Success = false,
+                        Tours = new List<GetTourIdNameVM>(),
+                        Cars = new List<GetCarIdNameVM>()
+                    };
+                }
+                else
+                {
+                    List<GetTourIdNameVM> Tours = await _context.Tours.Where(t => !t.IsDeleted)
+                                                              .Select(t => new GetTourIdNameVM
+                                                              {
+                                                                  Id = t.Id,
+                                                                  Name = t.Name,
+                                                              })
+                                                              .ToListAsync();
+
+                    List<GetCarIdNameVM> Cars = await _context.Tours.Where(t => !t.IsDeleted)
+                                                         .Select(t => new GetCarIdNameVM
+                                                         {
+                                                             Id = t.Id,
+                                                             Name = t.Name,
+                                                         })
+                                                         .ToListAsync();
+                    TourOrdersSectionVM tourOrdersSectionVM = new TourOrdersSectionVM
+                    {
+                        ClientId = clientOrders.Id,
+                        Tours = Tours,
+                        Cars = Cars,
+                        StatusCode = "200",
+                        Success = true,
+                        TourOrders = clientOrders.TourOrders,
+                        Message = "Order Added Successfully"
+                    };
+                    return tourOrdersSectionVM;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                return new TourOrdersSectionVM
+                {
+                    TourOrders = new List<GetTourOrdersVM>(),
+                    Message = "Unhandled Error Occured",
+                    StatusCode = "500",
+                    Success = false,
+                    Tours = new List<GetTourIdNameVM>(),
+                    Cars = new List<GetCarIdNameVM>()
+                };
+            }
+
+        }
+
+
+        public async Task<RestaurantOrdersSectionVM> DeleteRestaurantOrderAsync(int clientId, int restaurantOrderId, AppUser appUser)
+        {
+
+            try
+            {
+                RestaurantOrder deletingOrder = await _context.RestaurantOrders.FirstOrDefaultAsync(h => h.Id == restaurantOrderId && h.ClientID == clientId && !h.IsDeleted);
+
+                if (deletingOrder != null)
+                {
+                    deletingOrder.IsDeleted = true;
+                    deletingOrder.DeletedBy = appUser.Name + " " + appUser.SurName;
+                    await _context.SaveChangesAsync();
+
+                    GetClientOrdersVM clientOrders = await GetRestaurantOrdersOfClientAsync(clientId);
+
+                    if (clientOrders == null)
+                    {
+
+                        return new RestaurantOrdersSectionVM
+                        {
+                            RestaurantOrders = new List<GetRestaurantOrdersVM>(),
+                            Message = "Client Could Not Found By Its Property, but order has been deleted successfuly",
+                            StatusCode = "404",
+                            Success = false,
+                            RestaurantNames = new List<string>()
+                        };
+
+                    }
+                    else
+                    {
+                        List<string> restaurantNames = await _context.Restaurants.Where(t => !t.IsDeleted)
+                                                                        .Select(t => t.Name)
+                                                                        .ToListAsync();
+
+
+                        RestaurantOrdersSectionVM restaurantOrdersSectionVM = new RestaurantOrdersSectionVM
+                        {
+                            ClientId = clientOrders.Id,
+                            RestaurantNames = restaurantNames,
+                            RestaurantOrders = clientOrders.RestaurantOrders,
+                            StatusCode = "200",
+                            Success = true,
+                            Message = "Order deleted successfully"
+                        };
+                        return restaurantOrdersSectionVM;
+
+                    }
+
+                }
+                else
+                {
+
+
+                    GetClientOrdersVM clientOrders = await GetRestaurantOrdersOfClientAsync(clientId);
+
+                    if (clientOrders == null)
+                    {
+                        return new RestaurantOrdersSectionVM
+                        {
+                            RestaurantOrders = new List<GetRestaurantOrdersVM>(),
+                            Message = "Client Could Not Found By Its Property and Order has not been deleted",
+                            StatusCode = "404",
+                            Success = false,
+                            RestaurantNames = new List<string>()
+                        };
+                    }
+
+                    else
+                    {
+                        List<string> restaurantNames = await _context.Restaurants.Where(t => !t.IsDeleted)
+                                                                       .Select(t => t.Name)
+                                                                       .ToListAsync();
+
+
+                        RestaurantOrdersSectionVM restaurantOrdersSectionVM = new RestaurantOrdersSectionVM
+                        {
+                            ClientId = clientOrders.Id,
+                            RestaurantNames = restaurantNames,
+                            RestaurantOrders = clientOrders.RestaurantOrders,
+                            StatusCode = "404",
+                            Success = false,
+                            Message = "Order could not found by its property and has not been deleted"
+                        };
+                        return restaurantOrdersSectionVM;
+
+                    }
+
+
+                }
+            }
+            catch (Exception ex)
+            {
+                return new RestaurantOrdersSectionVM
+                {
+                    RestaurantOrders = new List<GetRestaurantOrdersVM>(),
+                    RestaurantNames = new List<string>(),
+                    Message = "Unhandled Error Occured",
+                    StatusCode = "500",
+                    Success = false,
+                };
+            }
+        }
+        public async Task<RestaurantOrdersSectionVM> AddNewRestaurantOrderAsync(AddNewRestaurantOrderVM newOrder, AppUser appUser)
+        {
+
+            try
+            {
+                if (newOrder == null || string.IsNullOrWhiteSpace(newOrder.Date) || newOrder.ClientId == 0 || string.IsNullOrWhiteSpace(newOrder.RestaurantName) || string.IsNullOrWhiteSpace(newOrder.MealType) || newOrder.Count <= 0)
+                {
+
+                    return new RestaurantOrdersSectionVM
+                    {
+                        RestaurantOrders = new List<GetRestaurantOrdersVM>(),
+                        Message = "Insert Datas in a Right Way",
+                        StatusCode = "404",
+                        Success = false,
+                        RestaurantNames = new List<string>(),
+                    };
+                }
+
+                RestaurantOrder newRestaurantOrder = new RestaurantOrder
+                {
+                    ClientID = newOrder.ClientId,
+                    Count = newOrder.Count,
+                    MealType = newOrder.MealType,
+                    Date = newOrder.Date,
+                    RestaurantName = newOrder.RestaurantName,
+                };
+
+                await _context.RestaurantOrders.AddAsync(newRestaurantOrder);
+                await _context.SaveChangesAsync();
+                GetClientOrdersVM clientOrders = await GetRestaurantOrdersOfClientAsync(newOrder.ClientId);
+                if (clientOrders == null)
+                {
+                    return new RestaurantOrdersSectionVM
+                    {
+                        RestaurantOrders = new List<GetRestaurantOrdersVM>(),
+                        Message = "Client Could Not Found By Its Property, bur order added successfully",
+                        StatusCode = "404",
+                        Success = false,
+                        RestaurantNames = new List<string>(),
+                    };
+                }
+                else
+                {
+
+                    List<string> RestaurantNames = await _context.Restaurants.Where(r => !r.IsDeleted).Select(r => r.Name).ToListAsync();
+                    return new RestaurantOrdersSectionVM
+                    {
+                        ClientId = clientOrders.Id,
+                        RestaurantOrders = clientOrders.RestaurantOrders,
+                        RestaurantNames = RestaurantNames,
+                        StatusCode = "200",
+                        Success = true,
+                        Message = "Order Added Successfully"
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                return new RestaurantOrdersSectionVM
+                {
+                    RestaurantOrders = new List<GetRestaurantOrdersVM>(),
+                    Message = "Unhandled Error Occured",
+                    StatusCode = "500",
+                    Success = false,
+                    RestaurantNames = new List<string>(),
+                };
+            }
+
+        }
+
+
+        public async Task<InclusiveOrdersSectionVM> DeleteInclusiveOrderAsync(int clientId, int inclusiveOrderId, AppUser appUser)
+        {
+
+            try
+            {
+                InclusiveOrder deletingOrder = await _context.InclusiveOrders.FirstOrDefaultAsync(h => h.Id == inclusiveOrderId && h.ClientId == clientId && !h.IsDeleted);
+
+                if (deletingOrder != null)
+                {
+                    deletingOrder.IsDeleted = true;
+                    deletingOrder.DeletedBy = appUser.Name + " " + appUser.SurName;
+                    await _context.SaveChangesAsync();
+
+                    GetClientOrdersVM clientOrders = await GetInclusiveOrdersOfClientAsync(clientId);
+
+                    if (clientOrders == null)
+                    {
+
+                        return new InclusiveOrdersSectionVM
+                        {
+                            InclusiveOrders = new List<GetInclusiveOrdersVM>(),
+                            Message = "Client Could Not Found By Its Property, but order has been deleted successfuly",
+                            StatusCode = "404",
+                            Success = false,
+                            InclusiveNames = new List<string>()
+                        };
+
+                    }
+                    else
+                    {
+                        List<string> inclusiveNames = await _context.InclusiveServices.Where(t => !t.IsDeleted)
+                                                                        .Select(t => t.Name)
+                                                                        .ToListAsync();
+
+                        InclusiveOrdersSectionVM inclusiveOrdersSectionVM = new InclusiveOrdersSectionVM
+                        {
+                            ClientId = clientOrders.Id,
+                            InclusiveNames = inclusiveNames,
+                            InclusiveOrders = clientOrders.InclusiveOrders,
+                            StatusCode = "200",
+                            Success = true,
+                            Message = "Order deleted successfully"
+                        };
+                       
+                        return inclusiveOrdersSectionVM;
+                    }
+
+                }
+                else
+                {
+
+
+                    GetClientOrdersVM clientOrders = await GetInclusiveOrdersOfClientAsync(clientId);
+
+                    if (clientOrders == null)
+                    {
+                        return new InclusiveOrdersSectionVM
+                        {
+                            InclusiveOrders = new List<GetInclusiveOrdersVM>(),
+                            Message = "Client Could Not Found By Its Property and Order has not been deleted",
+                            StatusCode = "404",
+                            Success = false,
+                            InclusiveNames = new List<string>()
+                        };
+                    }
+
+                    else
+                    {
+                        List<string> inclusiveNames = await _context.InclusiveServices.Where(t => !t.IsDeleted)
+                                                                       .Select(t => t.Name)
+                                                                       .ToListAsync();
+
+                        InclusiveOrdersSectionVM inclusiveOrdersSectionVM = new InclusiveOrdersSectionVM
+                        {
+                            ClientId = clientOrders.Id,
+                            InclusiveNames = inclusiveNames,
+                            InclusiveOrders = clientOrders.InclusiveOrders,
+                            StatusCode = "404",
+                            Success = false,
+                            Message = "Order could not found by its property and has not been deleted"
+                        };
+                        return inclusiveOrdersSectionVM;
+                    }
+
+
+                }
+            }
+            catch (Exception ex)
+            {
+                return new InclusiveOrdersSectionVM
+                {
+                    InclusiveOrders = new List<GetInclusiveOrdersVM>(),
+                    Message = "Unhandled Error Occured",
+                    StatusCode = "500",
+                    Success = false,
+                    InclusiveNames = new List<string>()
+                };
+            }
+        }
+        public async Task<InclusiveOrdersSectionVM> AddNewInclusiveOrderAsync(AddNewInclusiveOrderVM newOrder, AppUser appUser)
+        {        
+            try
+            {
+                if (newOrder == null || string.IsNullOrWhiteSpace(newOrder.Date) || newOrder.ClientId == 0 || string.IsNullOrWhiteSpace(newOrder.InclusiveName) || newOrder.Count <= 0)
+                {
+
+                    return new InclusiveOrdersSectionVM
+                    {
+                        InclusiveOrders = new List<GetInclusiveOrdersVM>(),
+                        Message = "Insert Datas in a Right Way",
+                        StatusCode = "404",
+                        Success = false,
+                        InclusiveNames = new List<string>(),
+                    };
+                   
+                }
+
+                InclusiveOrder newInclusiveOrder = new InclusiveOrder
+                {
+                    ClientId = newOrder.ClientId,
+                    Count = newOrder.Count,
+                    InclusiveName = newOrder.InclusiveName,
+                    Date = newOrder.Date,
+                    CreatedBy = appUser.Name + " " + appUser.SurName
+                };
+
+                await _context.InclusiveOrders.AddAsync(newInclusiveOrder);
+                await _context.SaveChangesAsync();
+                GetClientOrdersVM clientOrders = await GetInclusiveOrdersOfClientAsync(newOrder.ClientId);
+                if (clientOrders == null)
+                {
+                    return new InclusiveOrdersSectionVM
+                    {
+                        InclusiveOrders = new List<GetInclusiveOrdersVM>(),
+                        Message = "Client Could Not Found By Its Property, bur order added successfully",
+                        StatusCode = "404",
+                        Success = false,
+                        InclusiveNames = new List<string>(),
+                    };
+
+                }
+                else
+                {
+
+                    List<string> InclusiveNames = await _context.InclusiveServices.Where(r => !r.IsDeleted).Select(r => r.Name).ToListAsync();
+                    return new InclusiveOrdersSectionVM
+                    {
+                        ClientId = clientOrders.Id,
+                        InclusiveOrders = clientOrders.InclusiveOrders,
+                        InclusiveNames = InclusiveNames,
+                        StatusCode = "200",
+                        Success = true,
+                        Message = "Order Added Successfully"
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                return new InclusiveOrdersSectionVM
+                {
+                    InclusiveOrders = new List<GetInclusiveOrdersVM>(),
+                    Message = "Unhandled Error Occured",
+                    StatusCode = "500",
+                    Success = false,
+                    InclusiveNames = new List<string>(),
+                };
+            }
+        }
     }
 }

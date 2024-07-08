@@ -825,3 +825,257 @@ function updateClientInfo(clientId) {
             document.getElementById('edit-client-info-page-content').innerHTML = data
         });
 }
+
+
+function deleteHotelOrder(hotelOrderId, clientId)
+{
+    const confirmDelete = confirm('Are you sure you want to delete this client?');
+    if (confirmDelete) {
+        fetch(`/manage/client/DeleteHotelOrderOfClient?clientId=${clientId}&hotelOrderId=${hotelOrderId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(res => res.text())
+            .then(data => {
+                document.getElementById('hotel-service-section').innerHTML = data;
+
+
+            });
+    }
+
+
+}
+
+function addNewHotelOrder(clientId) {
+    var hotelName = document.getElementById('add-hotel-order-hotelName').value;
+    var roomType = document.getElementById('add-hotel-order-roomType').value;
+    var roomCount = document.getElementById('add-hotel-order-roomCount').value;
+    var days = document.getElementById('add-hotel-order-days').value;
+    var fromDate = document.getElementById('add-hotel-order-dateFrom').value;
+    var toDate = document.getElementById('add-hotel-order-dateTo').value;
+
+    if (!hotelName || !roomType || !roomCount || !days || !fromDate || !toDate) {
+        alert('Please Fill All Inputs.');
+        return;
+    }
+
+    var hotelOrder = {
+        ClientId: clientId,
+        HotelName: hotelName,
+        RoomCount: parseInt(roomCount),
+        Days: parseInt(days),
+        RoomType: roomType,
+        FromDate: fromDate,
+        ToDate: toDate
+    };
+
+
+    fetch('/manage/client/AddNewHotelOrder', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(hotelOrder)
+    })
+        .then(res => {
+            return res.text();
+        })
+        .then(data => {
+
+            document.getElementById('hotel-service-section').innerHTML = data
+
+
+        });
+
+    
+}
+
+
+function deleteTourOrder(tourOrderId, clientId) {
+    const confirmDelete = confirm('Are you sure you want to delete this client?');
+    if (confirmDelete) {
+        fetch(`/manage/client/DeleteTourOrderOfClient?clientId=${clientId}&tourOrderId=${tourOrderId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(res => res.text())
+            .then(data => {
+                document.getElementById('tour-service-section').innerHTML = data;
+
+
+            });
+    }
+
+
+}
+
+
+function addNewTourOrder(clientId) {
+    var tourId = document.getElementById('newTourName').value;
+    var carType = document.getElementById('newCarTypeName').value;
+    var guide = document.getElementById('newGuide').value;
+    var date = document.getElementById('newTourDate').value;
+
+    if (!tourId || !carType || !guide || !date) {
+        alert('Please Fill All Inputs.');
+        return;
+    }
+
+    var tourOrder = {
+        ClientId: clientId,
+        TourId: parseInt(tourId),
+        CarType: carType,
+        Date: date,
+        Guide: guide === 'True'
+    };
+
+
+    fetch('/manage/client/AddNewTourOrder', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(tourOrder)
+    })
+        .then(res => {
+            return res.text();
+        })
+        .then(data => {
+
+            document.getElementById('tour-service-section').innerHTML = data
+
+
+        });
+
+
+
+}
+
+
+function deleteRestaurantOrder(restaurantOrderId, clientId) {
+    const confirmDelete = confirm('Are you sure you want to delete this client?');
+    if (confirmDelete) {
+        fetch(`/manage/client/DeleteRestaurantOrderOfClient?clientId=${clientId}&restaurantOrderId=${restaurantOrderId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(res => res.text())
+            .then(data => {
+                document.getElementById('restaurant-service-section').innerHTML = data;
+
+
+            });
+    }
+
+
+}
+
+
+
+function addNewRestaurantOrder(clientId) {
+    var restaurantName = document.getElementById('add-new-restaurantOrder-restName').value;
+    var mealType = document.getElementById('add-new-restaurantOrder-mealType').value;
+    var count = document.getElementById('add-new-restaurantOrder-count').value;
+    var date = document.getElementById('add-new-restaurantOrder-date').value;
+
+    if (!restaurantName || !mealType || !count || !date) {
+        alert('Lütfen tüm alanları doldurun.');
+        return;
+    }
+
+    var restaurantOrder = {
+        ClientId: clientId,
+        RestaurantName: restaurantName,
+        MealType: mealType,
+        Count: parseInt(count),
+        Date: date
+    };
+
+    fetch('/manage/client/AddNewRestaurantOrder', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(restaurantOrder)
+    })
+        .then(res => {
+            return res.text();
+        })
+        .then(data => {
+
+            document.getElementById('restaurant-service-section').innerHTML = data
+
+
+        });
+
+    
+}
+
+
+
+function deleteInclusiveOrder(inclusiveOrderId, clientId) {
+    const confirmDelete = confirm('Are you sure you want to delete this client?');
+    if (confirmDelete) {
+        fetch(`/manage/client/DeleteInclusiveOrderOfClient?clientId=${clientId}&inclusiveOrderId=${inclusiveOrderId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(res => res.text())
+            .then(data => {
+                document.getElementById('inclusive-service-section').innerHTML = data;
+
+
+            });
+    }
+
+
+}
+
+
+
+function addNewInclusiveOrder(clientId) {
+    var inclusiveName = document.getElementById('add-new-inclusiveOrder-inclusiveName').value;
+    var count = document.getElementById('add-new-inclusiveOrder-count').value;
+    var date = document.getElementById('add-new-inclusiveOrder-date').value;
+
+    if (!inclusiveName || !count || !date) {
+        alert('Lütfen tüm alanları doldurun.');
+        return;
+    }
+
+    var inclusiveOrder = {
+        ClientId: clientId,
+        InclusiveName: inclusiveName,
+        Count: parseInt(count),
+        Date: date
+    };
+
+    fetch('/manage/client/AddNewInclusiveOrder', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(inclusiveOrder)
+    })
+        .then(res => {
+            return res.text();
+        })
+        .then(data => {
+
+            document.getElementById('inclusive-service-section').innerHTML = data
+        });
+
+
+}
+
+
+
+

@@ -12,6 +12,7 @@ namespace CSCRM.ViewModels.ClientOrdersVM
         public List<GetHotelOrdersVM>? HotelOrders { get; set; }
         public List<GetTourOrdersVM>? TourOrders { get; set; }
         public List<GetRestaurantOrdersVM>? RestaurantOrders { get; set; }
+        public List<GetInclusiveOrdersVM>? InclusiveOrders { get; set; }
 
     }
 }

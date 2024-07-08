@@ -1487,9 +1487,9 @@ CLIENTORDERS STARTS HERE */
     width: 300px;
 }
 
-.client-info h3 {
-    margin-bottom: 10px;
-}
+    .client-info h3 {
+        margin-bottom: 10px;
+    }
 
 .client-details p {
     margin: 5px 0;
@@ -1497,20 +1497,23 @@ CLIENTORDERS STARTS HERE */
 
 .hotel-service-section,
 .tour-service-section,
-.restaurant-service-section {
+.restaurant-service-section,
+.inclusive-service-section {
     margin-bottom: 120px;
 }
 
-.hotel-service-section h2,
-.tour-service-section h2,
-.restaurant-service-section h2 {
-    text-align: center;
-    font-size: 40px;
-    margin-bottom: 20px;
-}
+    .hotel-service-section h2,
+    .tour-service-section h2,
+    .inclusive-service-section h2,
+    .restaurant-service-section h2 {
+        text-align: center;
+        font-size: 40px;
+        margin-bottom: 20px;
+    }
 
 .services-hotel-services-list,
 .services-tour-services-list,
+.services-inclusive-services-list,
 .services-restaurant-services-list {
     border: 1px solid #ddd;
     padding: 10px;
@@ -1519,74 +1522,84 @@ CLIENTORDERS STARTS HERE */
     margin-bottom: 30px;
 }
 
-.services-hotel-services-list h3,
-.services-tour-services-list h3,
-.services-restaurant-services-list h3 {
-    margin-bottom: 10px;
-}
+    .services-hotel-services-list h3,
+    .services-tour-services-list h3,
+    .services-inclusive-services-list h3,
+    .services-restaurant-services-list h3 {
+        margin-bottom: 10px;
+    }
 
-.services-hotel-services-list table,
-.services-tour-services-list table,
-.services-restaurant-services-list table {
-    width: 100%;
-    border-collapse: collapse;
-}
+    .services-hotel-services-list table,
+    .services-tour-services-list table,
+    .services-inclusive-services-list table,
+    .services-restaurant-services-list table {
+        width: 100%;
+        border-collapse: collapse;
+    }
 
-.services-hotel-services-list th,
-.services-tour-services-list th,
-.services-restaurant-services-list th,
-.services-hotel-services-list td,
-.services-tour-services-list td,
-.services-restaurant-services-list td {
-    padding: 10px;
-    border: 1px solid #ddd;
-    text-align: center;
-}
+    .services-hotel-services-list th,
+    .services-tour-services-list th,
+    .services-inclusive-services-list th,
+    .services-restaurant-services-list th,
+    .services-hotel-services-list td,
+    .services-inclusive-services-list td,
+    .services-tour-services-list td,
+    .services-restaurant-services-list td {
+        padding: 10px;
+        border: 1px solid #ddd;
+        text-align: center;
+    }
 
-.services-hotel-services-list th,
-.services-tour-services-list th,
-.services-restaurant-services-list th {
-    background-color: #f0f0f0;
-}
+    .services-hotel-services-list th,
+    .services-tour-services-list th,
+    .services-inclusive-services-list th,
+    .services-restaurant-services-list th {
+        background-color: #f0f0f0;
+    }
 
-.services-hotel-services-list td a.edit-link,
-.services-tour-services-list td a.edit-link,
-.services-restaurant-services-list td a.edit-link {
-    padding: 4px 10px;
-    font-size: 14px;
-    color: white;
-    text-decoration: none;
-    background-color: #007bff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
+    .services-hotel-services-list td a.edit-link,
+    .services-tour-services-list td a.edit-link,
+    .services-inclusive-services-list td a.edit-link,
+    .services-restaurant-services-list td a.edit-link {
+        padding: 4px 10px;
+        font-size: 14px;
+        color: white;
+        text-decoration: none;
+        background-color: #007bff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
 
-.services-hotel-services-list td a.edit-link:hover,
-.services-tour-services-list td a.edit-link:hover,
-.services-restaurant-services-list td a.edit-link:hover {
-    background-color: #0056b3;
-}
+        .services-hotel-services-list td a.edit-link:hover,
+        .services-tour-services-list td a.edit-link:hover,
+        .services-inclusive-services-list td a.edit-link:hover,
+        .services-restaurant-services-list td a.edit-link:hover {
+            background-color: #0056b3;
+        }
 
-.services-hotel-services-list td button.delete-btn,
-.services-tour-services-list td button.delete-btn,
-.services-restaurant-services-list td button.delete-btn {
-    padding: 5px 10px;
-    color: white;
-    background-color: #dc3545;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
+    .services-hotel-services-list td button.delete-btn,
+    .services-tour-services-list td button.delete-btn,
+    .services-inclusive-services-list td button.delete-btn,
+    .services-restaurant-services-list td button.delete-btn {
+        padding: 5px 10px;
+        color: white;
+        background-color: #dc3545;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
 
-.services-hotel-services-list td button.delete-btn:hover,
-.services-tour-services-list td button.delete-btn:hover,
-.services-restaurant-services-list td button.delete-btn:hover {
-    background-color: #c82333;
-}
+        .services-hotel-services-list td button.delete-btn:hover,
+        .services-tour-services-list td button.delete-btn:hover,
+        .services-inclusive-services-list td button.delete-btn:hover,
+        .services-restaurant-services-list td button.delete-btn:hover {
+            background-color: #c82333;
+        }
 
 .services-hotel-add-new,
 .services-tour-add-new,
+.services-inclusive-add-new,
 .services-restaurant-add-new {
     margin-top: 20px;
     border: 1px solid #ddd;
@@ -1597,6 +1610,7 @@ CLIENTORDERS STARTS HERE */
 
 .hotel-add-form,
 .tour-add-form,
+.inclusive-add-form,
 .restaurant-add-form {
     display: flex;
     flex-wrap: wrap;
@@ -1605,6 +1619,7 @@ CLIENTORDERS STARTS HERE */
 
 .hotel-input,
 .tour-input,
+.inclusive-input,
 .restaurant-input {
     flex: 1;
     padding: 8px;
@@ -1619,7 +1634,7 @@ CLIENTORDERS STARTS HERE */
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    max-height:38px;
+    max-height: 38px;
 }
 
 .hotel-btn {
@@ -1630,9 +1645,19 @@ CLIENTORDERS STARTS HERE */
     border-radius: 5px;
     cursor: pointer;
 }
+
 .restaurant-btn {
     padding: 10px 20px;
     background-color: #ff6347;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.inclusive-btn {
+    padding: 10px 20px;
+    background-color: blueviolet;
     color: white;
     border: none;
     border-radius: 5px;
@@ -1647,8 +1672,13 @@ CLIENTORDERS STARTS HERE */
 .hotel-btn:hover {
     background-color: #0056b3;
 }
+
 .restaurant-btn:hover {
     background-color: indianred;
+}
+
+.inclusive-btn:hover {
+    background-color: darkmagenta;
 }
 
 /* Hotel Services Table */
@@ -1663,22 +1693,22 @@ CLIENTORDERS STARTS HERE */
     padding: 10px;
 }
 
-.services-hotel-services-list td button {
-    padding: 8px 12px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
+    .services-hotel-services-list td button {
+        padding: 8px 12px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
 
-.services-hotel-services-list td button.edit-btn {
-    background-color: #007bff;
-}
+        .services-hotel-services-list td button.edit-btn {
+            background-color: #007bff;
+        }
 
-.services-hotel-services-list td button.delete-btn {
-    background-color: #dc3545;
-}
+        .services-hotel-services-list td button.delete-btn {
+            background-color: #dc3545;
+        }
 
 /* Tour Services Table */
 .services-tour-services-list th {
@@ -1692,13 +1722,42 @@ CLIENTORDERS STARTS HERE */
     padding: 10px;
 }
 
-.services-tour-services-list td button {
-    padding: 8px 12px;
-    background-color: #28a745;
+    .services-tour-services-list td button {
+        padding: 8px 12px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+/* Inclusive Services Table */
+.services-inclusive-services-list th {
+    background-color: blueviolet;
     color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+    padding: 10px;
+}
+
+.services-inclusive-services-list td {
+    border-bottom: 1px solid #ddd;
+    padding: 10px;
+}
+
+    .services-inclusive-services-list td button {
+        padding: 8px 12px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+.services-hotel-services-list td button.edit-btn {
+    background-color: #007bff;
+}
+
+.services-hotel-services-list td button.delete-btn {
+    background-color: #dc3545;
 }
 
 /* Add New Service Section */
@@ -1706,25 +1765,25 @@ CLIENTORDERS STARTS HERE */
     margin-top: 20px;
 }
 
-.services-add-new input[type="text"],
-.services-add-new input[type="number"] {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
+    .services-add-new input[type="text"],
+    .services-add-new input[type="number"] {
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
 
-.services-add-new button {
-    padding: 10px 20px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
+    .services-add-new button {
+        padding: 10px 20px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
 
-.services-add-new button:hover {
-    background-color: #218838;
-}
+        .services-add-new button:hover {
+            background-color: #218838;
+        }
 
 .services-restaurant-services-list th {
     background-color: #ff6347;
@@ -1737,14 +1796,14 @@ CLIENTORDERS STARTS HERE */
     padding: 10px;
 }
 
-.services-restaurant-services-list td button {
-    padding: 8px 12px;
-    background-color: #ff6347;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
+    .services-restaurant-services-list td button {
+        padding: 8px 12px;
+        background-color: #ff6347;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
 
 
 

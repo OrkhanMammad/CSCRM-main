@@ -18,6 +18,7 @@
         public List<HotelOrder>? HotelOrders { get; set; }
         public List<TourOrder>? TourOrders { get; set; }
         public List<RestaurantOrder>? RestaurantOrders { get; set; }
+        public List<InclusiveOrder>? InclusiveOrders { get; set; }
 
     }
 }

@@ -1,0 +1,66 @@
+﻿@using CSCRM.ViewModels.ClientOrdersVM
+@model TourOrdersSectionVM
+
+<h2>Tour Orders</h2>
+<span style="color: @(Model.Success ? "green" : "red"); font-weight:600">@Model.Message</span>
+
+<div class="services-tour-services-list">
+    <h3>Existing Tour Orders</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Tour Name</th>
+                <th>Car Type</th>
+                <th>Guide</th>
+                <th>Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var tourOrder in Model.TourOrders)
+            {
+                <tr>
+                    <td>@tourOrder.TourName</td>
+                    <td>@tourOrder.CarType</td>
+                    <td>@(tourOrder.Guide == false ? "No" : "Yes")</td>
+                    <td>@tourOrder.Date</td>
+                    <td>
+                        <a href="#" class="edit-link">Edit</a>
+                        <button onclick="deleteTourOrder(@tourOrder.Id, @Model.ClientId)" class="delete-btn">Delete</button>
+                    </td>
+                </tr>
+            }
+            <!-- Existing tour services will be listed here -->
+            <!-- More rows as needed -->
+        </tbody>
+    </table>
+</div>
+
+<div class="services-tour-add-new">
+    <h3>Add New Tour Order</h3>
+    <div class="tour-add-form">
+        <select id="newTourName" class="tour-input">
+            <option value="" disabled selected>Select Tour</option>
+            @foreach (var tourIdName in Model.Tours)
+            {
+                <option value="@tourIdName.Id">@tourIdName.Name</option>
+            }
+
+
+        </select>
+        <select id="newCarTypeName" class="tour-input">
+            <option value="" disabled selected>Select Car Type</option>
+            @foreach (var carIdName in Model.Cars)
+            {
+                <option value="@carIdName.Name">@carIdName.Name</option>
+            }
+        </select>
+        <select id="newGuide" class="tour-input">
+            <option value="" disabled selected>Guide</option>
+            <option value="True">Yes</option>
+            <option value="False">No</option>
+        </select>
+        <input type="date" id="newTourDate" class="tour-input" />
+        <button onclick="addNewTourOrder(@Model.ClientId)" class="tour-btn">Add Tour Service</button>
+    </div>
+</div>

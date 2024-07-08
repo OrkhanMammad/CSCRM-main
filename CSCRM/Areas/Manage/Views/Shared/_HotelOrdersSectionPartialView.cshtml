@@ -1,0 +1,63 @@
+﻿@using CSCRM.ViewModels.ClientOrdersVM
+@model HotelOrdersSectionVM
+
+
+    <h2>Hotel Orders</h2>
+    <span style="color: @(Model.Success ? "green" : "red"); font-weight:600">@Model.Message</span>
+    <div class="services-hotel-services-list">
+        <h3>Existing Hotel Orders</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Hotel Name</th>
+                    <th>Room Type</th>
+                    <th>Room Count</th>
+                    <th>Days</th>
+                    <th>Date From</th>
+                    <th>Date To</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var hotelOrder in Model.HotelOrders)
+                {
+                    <tr>
+                        <td>@hotelOrder.HotelName</td>
+                        <td>@hotelOrder.RoomType</td>
+                        <td>@hotelOrder.RoomCount</td>
+                        <td>@hotelOrder.Days</td>
+                        <td>@hotelOrder.DateFrom</td>
+                        <td>@hotelOrder.DateTo</td>
+                        <td>
+                            <a href="#" class="edit-link">Edit</a>
+                            <button onclick="deleteHotelOrder(@hotelOrder.Id, @Model.ClientId)" class="delete-btn">Delete</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="services-hotel-add-new">
+        <h3>Add New Hotel Order</h3>
+        <div class="hotel-add-form">
+        <select id="add-hotel-order-hotelName" class="hotel-input">
+                <option value="" disabled selected>Select Hotel</option>
+                @foreach (var hotelName in Model.HotelNames)
+                {
+                    <option value="@hotelName">@hotelName</option>
+                }
+            </select>
+            <select id="add-hotel-order-roomType" class="hotel-input">
+                <option value="" disabled selected>Select Room Type</option>
+                <option value="Single">Single</option>
+                <option value="Double">Double</option>
+                <option value="Suite">Suite</option>
+            </select>
+        <input type="number" id="add-hotel-order-roomCount" placeholder="Room Count" class="hotel-input" />
+        <input type="number" id="add-hotel-order-days" placeholder="Days" class="hotel-input" />
+        <input type="date" id="add-hotel-order-dateFrom" class="hotel-input" />
+        <input type="date" id="add-hotel-order-dateTo" class="hotel-input" />
+            <button onclick="addNewHotelOrder(@Model.ClientId)" class="hotel-btn">Add Hotel Service</button>
+        </div>
+    </div>
