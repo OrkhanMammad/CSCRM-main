@@ -905,7 +905,7 @@ namespace CSCRM.Concretes
                                                              })
                                                              .ToListAsync();
 
-                        List<GetCarIdNameVM> Cars = await _context.Tours.Where(t => !t.IsDeleted)
+                        List<GetCarIdNameVM> Cars = await _context.CarTypes.Where(t => !t.IsDeleted)
                                                              .Select(t => new GetCarIdNameVM
                                                              {
                                                                  Id = t.Id,
@@ -1049,7 +1049,7 @@ namespace CSCRM.Concretes
                                                               })
                                                               .ToListAsync();
 
-                    List<GetCarIdNameVM> Cars = await _context.Tours.Where(t => !t.IsDeleted)
+                    List<GetCarIdNameVM> Cars = await _context.CarTypes.Where(t => !t.IsDeleted)
                                                          .Select(t => new GetCarIdNameVM
                                                          {
                                                              Id = t.Id,
