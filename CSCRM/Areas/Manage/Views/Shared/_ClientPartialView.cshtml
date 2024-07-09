@@ -7,7 +7,7 @@
 <span style="color: @(Model.Success ? "green" : "red"); font-weight:600">@Model.Message</span>
 <div class="clients-page-search-container">
     <input type="text" id="client-searchInput" placeholder="Search by Code or Name" class="client-search-Input"
-           onkeyup="searchClients()" />
+           onkeyup="searchClients()"/>
 </div>
 
 <div class="clients-page-container">
@@ -47,10 +47,10 @@
                     <td style="width:80px;">@client.VisaSituation</td>
                     <td>@client.Country</td>
                     <td style="width:80px;">@client.Company</td>
-                    <td>@client.ArrivalDate<br />18:00</td>
-                    <td>F12345</td>
-                    <td>@client.DepartureDate <br />12:00</td>
-                    <td>F54321</td>
+                    <td>@client.ArrivalDate<br />@client.ArrivalTime</td>
+                    <td>@client.ArrivalFlight</td>
+                    <td>@client.DepartureDate <br />@client.DepartureTime</td>
+                    <td>@client.DepartureFlight</td>
                     <td>
                         <a asp-action="GetClientOrders" asp-controller="client" asp-area="manage" asp-route-clientId="@client.Id"
                            class="clients-page-clients-btn clients-page-clients-btn-services">Orders</a>
@@ -139,10 +139,14 @@
                    style="max-width: 100px;" />
             <input type="time" id="add-arrivalTime-input" placeholder="Arrival Date" class="clients-input"
                    style="max-width: 100px;" />
+            <input type="text" id="add-arrivalFlight-input" placeholder="Flight No" class="clients-input"
+                   style="max-width: 70px;" />
             <input type="date" id="add-departureDate-input" placeholder="Departure Date" class="clients-input"
                    style="max-width: 100px;" />
             <input type="time" id="add-departureTime-input" placeholder="Departure Date" class="clients-input"
                    style="max-width: 100px;" />
+            <input type="text" id="add-departureFlight-input" placeholder="Flight No" class="clients-input"
+                   style="max-width: 70px;" />
 
             <button onclick="addClient()" class="clients-page-clients-btn clients-page-clients-btn-add">
                 Add

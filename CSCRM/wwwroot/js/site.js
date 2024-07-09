@@ -691,6 +691,10 @@ function addClient() {
     const company = document.getElementById('add-company-input').value;
     const arrivalDate = document.getElementById('add-arrivalDate-input').value;
     const departureDate = document.getElementById('add-departureDate-input').value;
+    const arrivalTime = document.getElementById('add-arrivalTime-input').value;
+    const departurTime = document.getElementById('add-departureTime-input').value;
+    const arrivalFlight = document.getElementById('add-arrivalFlight-input').value;
+    const departureFlight = document.getElementById('add-departureFlight-input').value;
     
     if (!invoiceCode) {
         alert('Invoice Code cannot be empty.');
@@ -724,7 +728,11 @@ function addClient() {
         Country: country,
         Company: company,
         ArrivalDate: arrivalDate,
-        DepartureDate: departureDate 
+        DepartureDate: departureDate,
+        ArrivalTime: arrivalTime,
+        DepartureTime: departurTime,
+        ArrivalFlight: arrivalFlight,
+        DepartureFlight: departureFlight
     };
 
     // Sunucuya POST isteği gönder
@@ -778,6 +786,10 @@ function updateClientInfo(clientId) {
     const company = document.getElementById('edit-company-input').value;
     const arrivalDate = document.getElementById('edit-arrivalDate-input').value;
     const departureDate = document.getElementById('edit-departureDate-input').value;
+    const arrivalTime = document.getElementById('edit-arrivalTime-input').value;
+    const departurTime = document.getElementById('edit-departureTime-input').value;
+    const arrivalFlight = document.getElementById('edit-arrivalFlight-input').value;
+    const departureFlight = document.getElementById('edit-departureFlight-input').value;
 
     if (!invoiceCode) {
         alert('Invoice Code cannot be empty.');
@@ -814,7 +826,11 @@ function updateClientInfo(clientId) {
             Country: country,
             Company: company,
             ArrivalDate: arrivalDate,
-            DepartureDate: departureDate
+            DepartureDate: departureDate,
+            ArrivalTime: arrivalTime,
+            DepartureTime: departurTime,
+            ArrivalFlight: arrivalFlight,
+            DepartureFlight: departureFlight
         })
     })
         .then(res => {

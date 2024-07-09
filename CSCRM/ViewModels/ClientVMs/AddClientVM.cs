@@ -14,5 +14,10 @@
         public string? Company { get; set; }
         public string? ArrivalDate { get; set; }
         public string? DepartureDate { get; set; }
+        public string? ArrivalTime { get; set; }
+        public string? DepartureTime { get; set; }
+        public string? ArrivalFlight { get; set; }
+        public string? DepartureFlight { get; set; }
+
     }
 }

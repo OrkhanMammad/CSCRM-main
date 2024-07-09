@@ -4,6 +4,7 @@ using CSCRM.Models;
 using CSCRM.Models.ResponseTypes;
 using CSCRM.ViewModels.ClientOrdersVM;
 using CSCRM.ViewModels.ClientVMs;
+using CSCRM.ViewModels.CompanyVMs;
 using CSCRM.ViewModels.TourCarVMs;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -47,6 +48,10 @@ namespace CSCRM.Concretes
                                                                           Country = c.Country,
                                                                           ArrivalDate = c.ArrivalDate,
                                                                           DepartureDate = c.DepartureDate,
+                                                                          ArrivalFlight = c.ArrivalFlight,
+                                                                          ArrivalTime = c.ArrivalTime,
+                                                                          DepartureFlight = c.DepartureFlight,
+                                                                          DepartureTime = c.DepartureTime
 
                                                                   }).ToListAsync();
             return ClientsInDb;
@@ -268,7 +273,11 @@ namespace CSCRM.Concretes
                     SalesAmount = clientVM.SalesAmount,
                     VisaSituation = clientVM.VisaSituation,
                     IsDeleted = false,
-                    CreatedBy = appUser.Name + " " + appUser.SurName
+                    CreatedBy = appUser.Name + " " + appUser.SurName,
+                    DepartureTime = clientVM.DepartureTime,
+                    DepartureFlight = clientVM.DepartureFlight,
+                    ArrivalTime = clientVM.ArrivalTime,
+                    ArrivalFlight = clientVM.ArrivalFlight,
                 };
 
                 await _context.Clients.AddAsync(newClient);
@@ -482,6 +491,10 @@ namespace CSCRM.Concretes
                 updateInfos.ArrivalDate= clientVM.ArrivalDate;
                 updateInfos.DepartureDate= clientVM.DepartureDate;
                 updateInfos.UpdatedBy = appUser.Name + " " + appUser.SurName;
+                updateInfos.ArrivalFlight= clientVM.ArrivalFlight;
+                updateInfos.ArrivalTime= clientVM.ArrivalTime;
+                updateInfos.DepartureFlight= clientVM.DepartureFlight;
+                updateInfos.DepartureTime= clientVM.DepartureTime;
 
                 await _context.SaveChangesAsync();
                 return new BaseResponse
@@ -1426,6 +1439,92 @@ namespace CSCRM.Concretes
                     InclusiveNames = new List<string>(),
                 };
             }
+        }
+
+        public async Task GetInvoiceAsync(int clientId)
+        {
+
+            GetClientOrdersVM clientOrders = await _context.Clients
+                    .Include(c => c.HotelOrders)
+                    .Include(c => c.TourOrders)
+                    .Include(c => c.RestaurantOrders)
+                    .Include(c => c.InclusiveOrders)
+                    .Select(c => new GetClientOrdersVM
+                    {
+                        Id = c.Id,
+                        InvCode = c.InvCode,
+                        MailCode = c.MailCode,
+                        Name = c.Name,
+                        Surname = c.Surname,
+                        HotelOrders = c.HotelOrders.Where(o => !o.IsDeleted).Select(o => new GetHotelOrdersVM
+                        {
+                            Id = o.Id,
+                            ClientId = o.ClientId,
+                            HotelName = o.HotelName,
+                            RoomType = o.RoomType,
+                            RoomCount = o.RoomCount,
+                            Days = o.Days,
+                            DateFrom = o.DateFrom,
+                            DateTo = o.DateTo,
+
+                        }).ToList(),
+                        TourOrders = c.TourOrders.Where(o => !o.IsDeleted).Select(o => new GetTourOrdersVM
+                        {
+                            CarType = o.CarType,
+                            TourName = o.Tour.Name,
+                            ClientId = o.ClientID,
+                            Guide = o.Guide,
+                            Date = o.Date,
+                            Id = o.Id,
+                        }).ToList(),
+                        RestaurantOrders = c.RestaurantOrders.Where(o => !o.IsDeleted).Select(o => new GetRestaurantOrdersVM
+                        {
+                            Id = o.Id,
+                            ClientId = o.ClientID,
+                            Count = o.Count,
+                            Date = o.Date,
+                            MealType = o.MealType,
+                            RestaurantName = o.RestaurantName,
+                        }).ToList(),
+                        InclusiveOrders = c.InclusiveOrders.Where(o => !o.IsDeleted).Select(o => new GetInclusiveOrdersVM
+                        {
+                            ClientId = o.ClientId,
+                            Id = o.Id,
+                            InclusiveName = o.InclusiveName,
+                            Count = o.Count,
+                            Date = o.Date,
+                        }).ToList()
+                    }).FirstOrDefaultAsync(c => c.Id == clientId);
+
+
+
+
+
+
+            GetClientVM client = await _context.Clients.Where(c => c.Id == clientId)
+                                                       .Select(c => new GetClientVM
+                                                       {
+                                                           Name = c.Name,
+                                                           Surname = c.Surname,
+                                                           ArrivalTime = c.ArrivalTime,
+                                                           ArrivalFlight = c.ArrivalFlight,
+                                                           DepartureTime = c.DepartureTime,
+                                                           DepartureFlight = c.DepartureFlight,
+                                                           InvCode = c.InvCode,
+                                                           Company = c.Company,
+                                                       }).FirstOrDefaultAsync();
+
+            GetCompanyVM CompanyDetails = await _context.Companies.Where(c => c.Name.ToLower() == client.Company.ToLower())
+                                                                  .Select(c => new GetCompanyVM
+                                                                  {
+                                                                      Name = c.Name,
+                                                                      Address = c.Address,
+                                                                      Email = c.Email,
+                                                                      Phone = c.Phone,
+                                                                  }).FirstOrDefaultAsync();
+
+
+
         }
     }
 }

@@ -2638,8 +2638,8 @@ EDIT CLIENT INFO PAGE STARTS HERE
 */
 
 .edit-client-info-page-content {
-    margin-left: 185px;
-    width: 88%;
+    margin-left: 170px;
+   max-width: 100%;
 }
 
 .EditClientInfoPageHead {
@@ -2667,9 +2667,9 @@ EDIT CLIENT INFO PAGE STARTS HERE
 
     .edit-client-info-table th,
     .edit-client-info-table td {
-        padding: 10px 0px;
+        padding: 10px 2px;
         text-align: center;
-        font-size: 13.5px;
+        font-size: 12px;
     }
 
     .edit-client-info-table th {
@@ -2679,9 +2679,9 @@ EDIT CLIENT INFO PAGE STARTS HERE
 
 .edit-clientInfo-client-input {
     flex: 1;
-    padding: 5px;
+    padding: 5px 0px; 
     margin: 2px;
-    font-size: 12.5px;
+    font-size: 11px;
     border: 2px solid #cccccc;
     border-radius: 5px;
     box-sizing: border-box;
