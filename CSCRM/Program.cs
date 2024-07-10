@@ -19,6 +19,7 @@ builder.Services.AddScoped<ITourByCarTypeService, TourByCarTypeService>();
 builder.Services.AddScoped<IIncludedService, IncludedService>();
 builder.Services.AddScoped<IRestaurantService, RestaurantService>();
 builder.Services.AddScoped<IClientService, ClientService>();
+builder.Services.AddScoped<IInvoiceService, InvoiceService>();
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("Default"));

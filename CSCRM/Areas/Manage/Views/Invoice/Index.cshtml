@@ -1,0 +1,56 @@
+﻿@using CSCRM.ViewModels.InvoiceVMs
+@model InvoicePageMainVm
+<div style="margin-left:200px;">
+    <div style="background-color: aqua">
+        <p>Invoice no: @Model.ClientOrders.InvCode</p>
+        <p>Phone no: 772234141</p>
+        <p>Date: 09-09-2024</p>
+        <p>Terms ( days ): 30.60.90</p>
+    </div>
+    <div style="background-color: blueviolet">
+        <p>CompanyName: @Model.Company.Name</p>
+        <p>Address: @Model.Company.Address</p>
+        <p>Phone: @Model.Company.Phone</p>
+        <p>E-mail: @Model.Company.Email</p>
+
+
+    </div>
+    <div style="background-color: white">
+        <p>Guest Name: @Model.ClientOrders.Name</p>
+        <p>Surname: @Model.ClientOrders.Surname</p>
+        <p>Phone: @Model.Company.Phone</p>
+    </div>
+    <div style="background-color: blueviolet">
+        <p>Arr Flight Number: @Model.ClientOrders.ArrivalFlight</p>
+        <p>Arr Time: @Model.ClientOrders.ArrivalTime</p>
+        <p>Dep Flight Number: @Model.ClientOrders.DepartureFlight</p>
+        <p>Dep Time: @Model.ClientOrders.DepartureTime</p>
+    </div>
+
+    <div style="background-color: aqua">
+        @for (var i = 1; i <= Model.ClientOrders.HotelOrders.Count; i++)
+        {
+            <p>Hotel @i: @Model.ClientOrders.HotelOrders[i-1].HotelName</p>
+
+        }
+        <p>Room Service Type</p>
+    </div>
+
+    <div style="background-color: white">
+        @foreach (var tourOrder in Model.ClientOrders.TourOrders)
+        {
+            <p>Date: @tourOrder.Date      TourRoute: @tourOrder.TourName  Paxs-size: @Model.PaxsSize   Guide:  @(tourOrder.Guide == true ? "Yes" : "No")       TransportType:  @tourOrder.CarType    </p>
+
+        }
+    </div>
+
+    <div style ="background-color: blueviolet">
+        @foreach (var inclusiveOrder in Model.ClientOrders.InclusiveOrders)
+        {
+            <p>@inclusiveOrder.InclusiveName</p>
+
+        }
+
+    </div>
+</div>
+

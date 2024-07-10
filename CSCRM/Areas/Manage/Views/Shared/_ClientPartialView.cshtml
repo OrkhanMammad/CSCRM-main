@@ -52,15 +52,14 @@
                     <td>@client.DepartureDate <br />@client.DepartureTime</td>
                     <td>@client.DepartureFlight</td>
                     <td>
-                        <a asp-action="GetClientOrders" asp-controller="client" asp-area="manage" asp-route-clientId="@client.Id"
-                           class="clients-page-clients-btn clients-page-clients-btn-services">Orders</a>
-                        <a asp-action="EditClientInfo" asp-controller="client" asp-area="manage" asp-route-clientId="@client.Id"
-                           class="clients-page-clients-btn clients-page-clients-btn-primary">Edit Info</a>
-                        <button onclick="deleteClient(@client.Id)"
-                                class="clients-page-clients-btn clients-page-clients-btn-danger">
-                            Delete
-                        </button>
-                    </td>
+                            <a asp-action="GetClientOrders" asp-controller="client" asp-area="manage" asp-route-clientId="@client.Id"
+                               class="clients-page-clients-btn clients-page-clients-btn-services">Orders</a>
+                            <a asp-action="EditClientInfo" asp-controller="client" asp-area="manage" asp-route-clientId="@client.Id"
+                               class="clients-page-clients-btn clients-page-clients-btn-primary">Edit Info</a>
+                            <a style="background-color:darkblue" asp-action="index" asp-controller="invoice" asp-area="manage" asp-route-clientId="@client.Id"
+                               class="clients-page-clients-btn clients-page-clients-btn-primary">Invoice</a>
+                            <button onclick="deleteClient(@client.Id)" class="clients-page-clients-btn clients-page-clients-btn-danger">Delete</button>
+                   </td>
                 </tr>
             }
 
@@ -71,20 +70,17 @@
         @if (Model.PageIndex > 1)
         {
             <a asp-action="index" asp-controller="client" asp-area="manage" asp-route-pageIndex="@(Model.PageIndex-1)">&laquo;</a>
-
         }
         @for (var i = 1; i <= Model.PageSize; i++)
         {
             if (i > Model.PageIndex - 2 && i < Model.PageIndex + 2)
             {
                 <a class="@(Model.PageIndex==i ? "activePageIndex" : "")" asp-action="index" asp-controller="client" asp-area="manage" asp-route-pageIndex="@i">@i</a>
-
             }
         }
         @if (Model.PageIndex < Model.PageSize)
         {
             <a asp-action="index" asp-controller="client" asp-area="manage" asp-route-pageIndex="@(Model.PageIndex + 1)">&raquo;</a>
-
         }
     </div>
 

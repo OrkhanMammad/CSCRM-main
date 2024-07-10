@@ -138,11 +138,6 @@ namespace CSCRM.Areas.Manage.Controllers
             return PartialView("_InclusiveOrdersSectionPartialView", result);
         }
 
-        [HttpGet]
-        public async Task GetInvoice(int clientId = 11)
-        {
-            await _clientService.GetInvoiceAsync(clientId);
-        }
 
     }
 }
