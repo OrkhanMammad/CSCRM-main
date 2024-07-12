@@ -2702,3 +2702,23 @@ EDIT CLIENT INFO PAGE STARTS HERE
     .edit-clientInfoPg-client-btn:hover {
         background-color: #45a049;
     }
+
+
+/*INVOICE PAGE STARTS HERE
+INVOICE PAGE STARTS HERE
+INVOICE PAGE STARTS HERE
+INVOICE PAGE STARTS HERE*/
+
+.invoice-page-content {
+    margin-left: 180px;
+    /* Navbar genişliğiyle aynı yapılabilir */
+    padding: 10px;
+    flex-grow: 1;
+}
+
+.invoice-page-container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    padding: 100px;
+}
