@@ -6,6 +6,6 @@ namespace CSCRM.ViewModels.InvoiceVMs
     {
         public GetClientOrdersForInvoiceVM ClientOrders {  get; set; } = new GetClientOrdersForInvoiceVM();
         public GetCompanyVM Company { get; set; } = new GetCompanyVM();
-        public short PaxsSize { get; set; } = 0;
+
     }
 }

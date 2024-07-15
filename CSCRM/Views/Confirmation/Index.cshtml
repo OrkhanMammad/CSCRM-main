@@ -1,1 +1,96 @@
-﻿
+﻿@using CSCRM.Models.ResponseTypes
+@using CSCRM.ViewModels.ConfirmationVMs
+@model BaseResponse
+<div style="padding: 20px;" class="confirmation-page-container">
+    <table style="width: 100%; border-collapse: collapse;" class="confirmation-table">
+        <thead>
+            <tr>
+                <th>Invoice Number</th>
+                <th>Company Name</th>
+                <th>Paxs Size</th>
+                <th>Car Type</th>
+                <th>Guide</th>
+                <th>Hotel 1</th>
+                <th>Check inn</th>
+                <th>Check out</th>
+                <th>Hotel 2</th>
+                <th>Check inn</th>
+                <th>Check out</th>
+                <th>Hotel 3</th>
+                <th>Check inn</th>
+                <th>Check out</th>
+                <th>Hotel 4</th>
+                <th>Check inn</th>
+                <th>Check out</th>
+                <th>Hotel 5</th>
+                <th>Check inn</th>
+                <th>Check out</th>
+                <th>Sales Amount</th>
+                <th>Received</th>
+                <th>Pending</th>
+                <th>Payment Situation</th>
+                <th>Visa Situation</th>
+                <th>Arrival Date</th>
+                <th>Departure Date</th>
+                <th>Country</th>
+                <th>Markup Total</th>
+                <th>Mail Code</th>
+                <th>Note</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (GetClientOrdersForConfirmationVM clientOrder in Model.Data)
+            {
+                <tr>
+                    <td>@clientOrder.InvCode</td>
+                    <td>@clientOrder.CompanyName</td>
+                    <td>@clientOrder.PaxsSize</td>
+                    <td>@clientOrder.CarType</td>
+                    <td>@(clientOrder.Guide ? "Yes" : "No")</td>
+                    @for (int i = 0; i < clientOrder.HotelOrders.Count; i++)
+                    {
+                        <td>@clientOrder.HotelOrders[i].HotelName</td>
+                        <td>@clientOrder.HotelOrders[i].FromDate</td>
+                        <td>@clientOrder.HotelOrders[i].ToDate</td>
+                    }
+                    @for (int i = 1; i <= (5 - clientOrder.HotelOrders.Count); i++)
+                    {
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    }
+                    <td>@clientOrder.SalesAmount</td>
+                    <td>@clientOrder.Received</td>
+                    <td>@clientOrder.Pending</td>
+                    <td>@clientOrder.PaymentSituation</td>
+                    <td>@clientOrder.VisaSituation</td>
+                    <td>@clientOrder.ArrivalDate</td>
+                    <td>@clientOrder.DepartureDate</td>
+                    <td>@clientOrder.Country</td>
+                    <td>@clientOrder.MarkupTotal</td>
+                    <td>@clientOrder.MailCode</td>
+                    <td>@clientOrder.Note</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="pagination">
+        @if (Model.PageIndex > 1)
+        {
+            <a asp-action="index" asp-controller="confirmation" asp-route-pageIndex="@(Model.PageIndex-1)">&laquo;</a>
+        }
+        @for (var i = 1; i <= Model.PageSize; i++)
+        {
+            if (i > Model.PageIndex - 2 && i < Model.PageIndex + 2)
+            {
+                <a class="@(Model.PageIndex==i ? "activePageIndex" : "")" asp-action="index" asp-controller="confirmation" asp-route-pageIndex="@i">@i</a>
+            }
+        }
+        @if (Model.PageIndex < Model.PageSize)
+        {
+            <a asp-action="index" asp-controller="confirmation" asp-route-pageIndex="@(Model.PageIndex + 1)">&raquo;</a>
+        }
+    </div>
+</div>
+
+

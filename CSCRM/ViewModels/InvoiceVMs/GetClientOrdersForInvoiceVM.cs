@@ -14,6 +14,7 @@ namespace CSCRM.ViewModels.InvoiceVMs
         public string? DepartureFlight { get; set; }
         public string? CompanyName { get; set; }
         public decimal? SalesAmount { get; set; }
+        public string? PaxSize { get; set; }
 
 
         public List<GetHotelOrdersForInvoiceVM>? HotelOrders { get; set; }

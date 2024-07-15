@@ -2722,3 +2722,44 @@ INVOICE PAGE STARTS HERE*/
     justify-content: center;
     padding: 100px;
 }
+
+
+/*
+Confirmation Page Starts Here
+Confirmation Page Starts Here
+Confirmation Page Starts Here
+Confirmation Page Starts Here*/
+
+.confirmation-page-container {
+    padding: 20px;
+    margin-left: 180px;
+    font-size:13px;
+}
+
+.confirmation-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+    .confirmation-table th,
+    .confirmation-table td {
+        border: 1px solid #ddd;
+        padding: 0px;
+        text-align: center;        
+        min-width:120px
+    }
+
+    .confirmation-table th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        background-color: #f2f2f2;
+        font-weight: bold;
+    }
+
+    .confirmation-table tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    .confirmation-table tr:hover {
+        background-color: #ddd;
+    }

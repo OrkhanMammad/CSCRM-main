@@ -5,6 +5,8 @@ using CSCRM.Models.ResponseTypes;
 using CSCRM.ViewModels.ClientOrdersVM;
 using CSCRM.ViewModels.ClientVMs;
 using CSCRM.ViewModels.CompanyVMs;
+using CSCRM.ViewModels.ConfirmationVMs;
+using CSCRM.ViewModels.InvoiceVMs;
 using CSCRM.ViewModels.TourCarVMs;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -51,7 +53,9 @@ namespace CSCRM.Concretes
                                                                           ArrivalFlight = c.ArrivalFlight,
                                                                           ArrivalTime = c.ArrivalTime,
                                                                           DepartureFlight = c.DepartureFlight,
-                                                                          DepartureTime = c.DepartureTime
+                                                                          DepartureTime = c.DepartureTime,
+                                                                          PaxSize = c.PaxSize,
+                                                                          CarType = c.CarType,
 
                                                                   }).ToListAsync();
             return ClientsInDb;
@@ -160,7 +164,8 @@ namespace CSCRM.Concretes
             {
                 List<GetClientVM> ClientsInDb = await GetClients(pageIndex);
                 List<string> CompanyNamesInDb = await _context.Companies.Where(c=>c.IsDeleted==false).Select(c=>c.Name).ToListAsync();
-                ClientsPageMainVm clientsPageMainVm = new ClientsPageMainVm { Clients = ClientsInDb, CompanyNames = CompanyNamesInDb };
+                List<string> CarTypes = await _context.CarTypes.Where(c => c.IsDeleted == false).Select(c => c.Name).ToListAsync();
+                ClientsPageMainVm clientsPageMainVm = new ClientsPageMainVm { Clients = ClientsInDb, CompanyNames = CompanyNamesInDb, CarTypes = CarTypes };
                 if (!ClientsInDb.Any())
                 {
                     return new BaseResponse
@@ -188,7 +193,7 @@ namespace CSCRM.Concretes
                 return new BaseResponse
                 {
                     Data = new ClientsPageMainVm(),
-                    Message = "Unhandled Error Occured",
+                    Message = $"Unhandled Error Occured,{ex}",
                     StatusCode = "500",
                     Success = false,
                 };
@@ -197,17 +202,18 @@ namespace CSCRM.Concretes
         }
         public async Task<BaseResponse> AddClientAsync(AddClientVM clientVM, AppUser appUser)
         {
-            if (clientVM == null || string.IsNullOrEmpty(clientVM.InvCode) || string.IsNullOrEmpty(clientVM.MailCode) || clientVM.ArrivalDate==null || clientVM.ArrivalDate == null)
+            if (clientVM == null || string.IsNullOrEmpty(clientVM.InvCode) || string.IsNullOrEmpty(clientVM.MailCode) || string.IsNullOrWhiteSpace(clientVM.Name) || string.IsNullOrWhiteSpace(clientVM.Surname))
             {
                 List<GetClientVM> ClientsInDb = await GetClients(1);
                 List<string> CompanyNamesInDb = await _context.Companies.Where(c => c.IsDeleted == false).Select(c => c.Name).ToListAsync();
-                ClientsPageMainVm clientsPageMainVm = new ClientsPageMainVm { Clients = ClientsInDb, CompanyNames = CompanyNamesInDb };
+                List<string> CarTypes = await _context.CarTypes.Where(c => c.IsDeleted == false).Select(c => c.Name).ToListAsync();
+                ClientsPageMainVm clientsPageMainVm = new ClientsPageMainVm { Clients = ClientsInDb, CompanyNames = CompanyNamesInDb, CarTypes = CarTypes };
                 var clientsCount = await _context.Clients.CountAsync(c => c.IsDeleted == false);
                 int pageSize = (int)Math.Ceiling((decimal)clientsCount / 6);
                 return new BaseResponse
                 {
                     Data = clientsPageMainVm,
-                    Message = "Invoice Code, Mail Code, Arrival Date and Departure Date are REQUIRED",
+                    Message = "Invoice Code, Mail Code, Client Name and Client Surname are REQUIRED",
                     StatusCode = "400",
                     Success = false,
                     PageIndex = 1,
@@ -223,7 +229,8 @@ namespace CSCRM.Concretes
                 {
                     List<GetClientVM> ClientsInDb = await GetClients(1);
                     List<string> CompanyNamesInDb = await _context.Companies.Where(c => c.IsDeleted == false).Select(c => c.Name).ToListAsync();
-                    ClientsPageMainVm clientsPageMainVm = new ClientsPageMainVm { Clients = ClientsInDb, CompanyNames = CompanyNamesInDb };
+                    List<string> CarTypesInDb = await _context.CarTypes.Where(c => c.IsDeleted == false).Select(c => c.Name).ToListAsync();
+                    ClientsPageMainVm clientsPageMainVm = new ClientsPageMainVm { Clients = ClientsInDb, CompanyNames = CompanyNamesInDb, CarTypes = CarTypesInDb };
                     var clientsCount = await _context.Clients.CountAsync(c => c.IsDeleted == false);
                     int pageSize = (int)Math.Ceiling((decimal)clientsCount / 6);
                     return new BaseResponse
@@ -243,7 +250,8 @@ namespace CSCRM.Concretes
                 {
                     List<GetClientVM> ClientsInDb = await GetClients(1);
                     List<string> CompanyNamesInDb = await _context.Companies.Where(c => c.IsDeleted == false).Select(c => c.Name).ToListAsync();
-                    ClientsPageMainVm clientsPageMainVm = new ClientsPageMainVm { Clients = ClientsInDb, CompanyNames = CompanyNamesInDb };
+                    List<string> CarTypesInDb = await _context.CarTypes.Where(c => c.IsDeleted == false).Select(c => c.Name).ToListAsync();
+                    ClientsPageMainVm clientsPageMainVm = new ClientsPageMainVm { Clients = ClientsInDb, CompanyNames = CompanyNamesInDb, CarTypes = CarTypesInDb };
                     var clientsCount = await _context.Clients.CountAsync(c => c.IsDeleted == false);
                     int pageSize = (int)Math.Ceiling((decimal)clientsCount / 6);
                     return new BaseResponse
@@ -278,6 +286,8 @@ namespace CSCRM.Concretes
                     DepartureFlight = clientVM.DepartureFlight,
                     ArrivalTime = clientVM.ArrivalTime,
                     ArrivalFlight = clientVM.ArrivalFlight,
+                    PaxSize = clientVM.PaxSize,
+                    CarType = clientVM.CarType,
                 };
 
                 await _context.Clients.AddAsync(newClient);
@@ -285,7 +295,8 @@ namespace CSCRM.Concretes
 
                 List<GetClientVM> Clients = await GetClients(1);
                 List<string> CompanyNames = await _context.Companies.Where(c => c.IsDeleted == false).Select(c => c.Name).ToListAsync();
-                ClientsPageMainVm clientsPageMain = new ClientsPageMainVm { Clients = Clients, CompanyNames = CompanyNames };
+                List<string> CarTypes = await _context.CarTypes.Where(c => c.IsDeleted == false).Select(c => c.Name).ToListAsync();
+                ClientsPageMainVm clientsPageMain = new ClientsPageMainVm { Clients = Clients, CompanyNames = CompanyNames, CarTypes = CarTypes };
                 var clientsCountInDb = await _context.Clients.CountAsync(c => c.IsDeleted == false);
                 int pageSizeOfClients = (int)Math.Ceiling((decimal)clientsCountInDb / 6);
                 return new BaseResponse
@@ -319,7 +330,8 @@ namespace CSCRM.Concretes
                 {
                     List<GetClientVM> ClientsInDb = await GetClients(1);
                     List<string> CompanyNamesInDb = await _context.Companies.Where(c => c.IsDeleted == false).Select(c => c.Name).ToListAsync();
-                    ClientsPageMainVm clientsPageMainVm = new ClientsPageMainVm { Clients = ClientsInDb, CompanyNames = CompanyNamesInDb };
+                    List<string> CarTypesInDb = await _context.CarTypes.Where(c => c.IsDeleted == false).Select(c => c.Name).ToListAsync();
+                    ClientsPageMainVm clientsPageMainVm = new ClientsPageMainVm { Clients = ClientsInDb, CompanyNames = CompanyNamesInDb, CarTypes = CarTypesInDb };
                     var clientsCount = await _context.Clients.CountAsync(c => c.IsDeleted == false);
                     int pageSize = (int)Math.Ceiling((decimal)clientsCount / 6);
                     return new BaseResponse
@@ -338,7 +350,8 @@ namespace CSCRM.Concretes
                 await _context.SaveChangesAsync();
                 List<GetClientVM> Clients = await GetClients(1);
                 List<string> CompanyNames = await _context.Companies.Where(c => c.IsDeleted == false).Select(c => c.Name).ToListAsync();
-                ClientsPageMainVm clientsPageMain = new ClientsPageMainVm { Clients = Clients, CompanyNames = CompanyNames };
+                List<string> CarTypes = await _context.CarTypes.Where(c => c.IsDeleted == false).Select(c => c.Name).ToListAsync();
+                ClientsPageMainVm clientsPageMain = new ClientsPageMainVm { Clients = Clients, CompanyNames = CompanyNames, CarTypes = CarTypes };
                 var clientsCountInDb = await _context.Clients.CountAsync(c => c.IsDeleted == false);
                 int pageSizeOfClients = (int)Math.Ceiling((decimal)clientsCountInDb / 6);
                 return new BaseResponse
@@ -378,6 +391,7 @@ namespace CSCRM.Concretes
                     };
                 }
                 List<string> CompanyNames = await _context.Companies.Where(c => c.IsDeleted == false).Select(c => c.Name).ToListAsync();
+                List<string> CarTypesInDb = await _context.CarTypes.Where(c => c.IsDeleted == false).Select(c => c.Name).ToListAsync();
 
 
                 EditClientInfoVM editClientInfoVM = new EditClientInfoVM
@@ -395,12 +409,20 @@ namespace CSCRM.Concretes
                     Company = clientInDb.Company,
                     ArrivalDate = clientInDb.ArrivalDate,
                     DepartureDate = clientInDb.DepartureDate,
+                    ArrivalTime = clientInDb.ArrivalTime,
+                    DepartureTime = clientInDb.DepartureTime,
+                    ArrivalFlight = clientInDb.ArrivalFlight,
+                    DepartureFlight = clientInDb.DepartureFlight,
+                    PaxSize = clientInDb.PaxSize,
+                    CarType = clientInDb.CarType,
+                    
                 };
                 
                 EditClientInfoPageMainVM editClientInfoPageMain = new EditClientInfoPageMainVM
                 {
                     ClientForUpdate = editClientInfoVM,
                     CompanyNames = CompanyNames,
+                    CarTypes = CarTypesInDb,
                 };
 
                 return new BaseResponse
@@ -428,10 +450,12 @@ namespace CSCRM.Concretes
             try
             {
                 List<string> CompanyNames = await _context.Companies.Where(c => c.IsDeleted == false).Select(c => c.Name).ToListAsync();
+                List<string> CarTypes = await _context.CarTypes.Where(c => c.IsDeleted == false).Select(c => c.Name).ToListAsync();
                 EditClientInfoPageMainVM editClientInfoPageMain = new EditClientInfoPageMainVM
                 {
                     ClientForUpdate = clientVM,
                     CompanyNames = CompanyNames,
+                    CarTypes=CarTypes,
                 };
 
                 BaseResponse errorResponse = new BaseResponse
@@ -495,6 +519,8 @@ namespace CSCRM.Concretes
                 updateInfos.ArrivalTime= clientVM.ArrivalTime;
                 updateInfos.DepartureFlight= clientVM.DepartureFlight;
                 updateInfos.DepartureTime= clientVM.DepartureTime;
+                updateInfos.PaxSize = clientVM.PaxSize;
+                updateInfos.CarType= clientVM.CarType;
 
                 await _context.SaveChangesAsync();
                 return new BaseResponse
@@ -1441,6 +1467,62 @@ namespace CSCRM.Concretes
             }
         }
 
- 
+        public async Task<BaseResponse> GetConfirmationAsync(short pageIndex)
+        {
+            try
+            {
+                List<GetClientOrdersForConfirmationVM> clientOrders = await _context.Clients
+                                                              .Where(c => c.IsDeleted == false)
+                                                              .OrderByDescending(c => c.Id)
+                                                                  .Skip((pageIndex - 1) * 10)
+                                                                  .Take(10)
+                                                              .Include(c => c.HotelOrders)
+                                                              .Select(c => new GetClientOrdersForConfirmationVM
+                                                              {
+
+                                                                  InvCode = c.InvCode,
+                                                                  MailCode = c.MailCode,
+                                                                  ArrivalDate = c.ArrivalDate,
+                                                                  CarType = c.CarType,
+                                                                  Country = c.Country,
+                                                                  DepartureDate = c.DepartureDate,
+                                                                  Guide = true,
+                                                                  MarkupTotal = " ",
+                                                                  Note = " ",
+                                                                  PaxsSize = c.PaxSize,
+                                                                  PaymentSituation = c.PaySituation,
+                                                                  Pending = c.Pending,
+                                                                  Received = c.Received,
+                                                                  VisaSituation = c.VisaSituation,
+                                                                  CompanyName = c.Company,
+                                                                  SalesAmount = c.SalesAmount,
+                                                                  HotelOrders = c.HotelOrders.Where(o => !o.IsDeleted).Select(o => new GetHotelOrderForConfirmationVM
+                                                                  {
+                                                                      HotelName = o.HotelName,
+                                                                      FromDate = o.DateFrom,
+                                                                      ToDate = o.DateTo,
+                                                                  }).ToList()
+                                                              }).ToListAsync();
+                var clientsCount = await _context.Clients.CountAsync(c => c.IsDeleted == false);
+                int pageSize = (int)Math.Ceiling((decimal)clientsCount / 6);
+                return clientOrders.Any() 
+                ? new BaseResponse { Data = clientOrders, PageIndex = pageIndex, StatusCode = "200", PageSize = pageSize, Success = true }
+                : new BaseResponse { Data = clientOrders, PageIndex = 1, PageSize = 1, StatusCode = "404", Success = true, Message = "No Client Found" };
+
+            }
+            catch (Exception ex) 
+            { 
+            return new BaseResponse 
+            { 
+                Data = new List<GetClientOrdersForConfirmationVM>(),
+                Success = false, 
+                Message = "Unhandled Error Occured",
+                PageIndex = 1, 
+                PageSize = 1,
+                StatusCode = "500" };
+            
+            }
+           
+        }
     }
 }

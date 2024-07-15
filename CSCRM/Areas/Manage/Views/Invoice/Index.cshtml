@@ -202,6 +202,7 @@
                                     <input style="font-size: 13px; width: 95%; border: none;" type="text" value="@hotelOrder.HotelName">
                                 </p>
                             </div>
+                            HotelOrderCount += 1;
                         }
 
                     }
@@ -287,7 +288,7 @@
                             <input style="width: 40%; border: none; text-align: center; font-size: 12px; border-bottom: 1px dotted black;"
                                    value="@tourOrder.TourName" type="text">
                             <input style="width: 12%;border: none; border-bottom: 1px dotted black;
-                        border-left: 1px dotted black;text-align: center; font-size: 12px;" value="@Model.PaxsSize" type="text">
+                        border-left: 1px dotted black;text-align: center; font-size: 12px;" value="@Model.ClientOrders.PaxSize" type="text">
                             <input style="width: 12%; border: none;text-align: center; font-size: 12px; border-left: 1px dotted black;border-bottom: 1px dotted black; border-right: 1px dotted black;"
                                    value="Yes" type="text">
                             <input style="width: 20%;border: none;text-align: center; font-size: 12px; border-bottom: 1px dotted black; border-right: 1px dotted black;"
@@ -469,7 +470,7 @@
 
                     <div style="display: flex; border-right: 1px solid black; border-left: 1px solid black;">
                         <div style="width: 65%; height: 90px; border-right: 1px black dotted; display: flex;">
-                            <div style="width: 38%;">
+                        <div style="width: 38%; border-bottom: 1px solid black;">
                                 <span style="display: block; padding: 5px; color: black; font-size: 11px;">
                                     Account
                                     No.
@@ -490,7 +491,7 @@
                                 </span>
                             </div>
 
-                            <div style="width: 62%;">
+                        <div style="width: 62%;border-bottom: 1px solid black;">
                                 <input style="display: block; width: 98%; border: none;  font-size: 11px; margin-top: 3px; padding-top: 3px;"
                                        type="text" value="AZ21UBAZ28852351640160USD002">
                                 <input style="display: block; width: 98%; border: none;  font-size: 11px;margin-top: 3px;padding-top: 6px;"
@@ -511,7 +512,7 @@
 
                         </div>
                         <div style="width: 35%; height: 90px;  display: flex;">
-                            <div style="border-right: 1px solid black; width: 40%;">
+                        <div style="border-right: 1px solid black; width: 40%; border-bottom: 1px solid black;">
                                 <span style="display: block; padding: 5px; color: black; font-size: 11px;">
                                     Beneficiary
                                     customer:
@@ -520,7 +521,7 @@
                                 <span style="display: block; padding: 5px;color: black; font-size: 11px;">Code:</span>
                                 <span style="display: block; padding: 5px;color: black; font-size: 10.5px;">Mail:</span>
                             </div>
-                            <div style="width: 60%;">
+                        <div style="width: 60%; border-bottom: 1px solid black;">
                                 <input style="display: block; width: 98%; border: none;  font-size: 11px; margin-top: 3px; padding-top: 3px;"
                                        type="text" value="CASPIAN CHARM">
                                 <input style="display: block; width: 98%; border: none;  font-size: 10px;margin-top: 3px;padding-top: 6px;"

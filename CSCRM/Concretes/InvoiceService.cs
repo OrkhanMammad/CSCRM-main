@@ -35,6 +35,7 @@ namespace CSCRM.Concretes
                                                                    DepartureFlight = c.DepartureFlight,
                                                                    CompanyName = c.Company,
                                                                    SalesAmount = c.SalesAmount,
+                                                                   PaxSize = c.PaxSize,
                                                                    HotelOrders = c.HotelOrders.Where(o => !o.IsDeleted).Select(o => new GetHotelOrdersForInvoiceVM
                                                                    {
                                                                        HotelName = o.HotelName,
@@ -63,20 +64,7 @@ namespace CSCRM.Concretes
                                                                Phone = c.Phone,
                                                            }).FirstOrDefaultAsync();
 
-            GetCarVM carType;
-            short paxsSize = 0;
-
-            if (clientOrders.TourOrders.Any())
-            {
-                carType = await _context.CarTypes.Where(c => c.Name == clientOrders.TourOrders.FirstOrDefault().CarType)
-                                                  .Select(c => new GetCarVM
-                                                  {
-                                                      Capacity = c.Capacity,
-                                                      Name = c.Name,
-                                                      Id = c.Id,
-                                                  }).FirstOrDefaultAsync();
-                paxsSize += carType.Capacity;
-            }
+           
 
 
             var hotelOrders = new List<GetHotelOrdersForInvoiceVM>();
@@ -96,7 +84,7 @@ namespace CSCRM.Concretes
             {
                 ClientOrders = clientOrders,
                 Company = company,
-                PaxsSize = paxsSize,
+
             };
             return invoicePageMainVm;
 

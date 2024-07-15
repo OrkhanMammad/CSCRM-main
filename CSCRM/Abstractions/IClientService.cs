@@ -22,5 +22,7 @@ namespace CSCRM.Abstractions
         Task<InclusiveOrdersSectionVM> DeleteInclusiveOrderAsync(int clientId, int inclusiveOrderId, AppUser appUser);
         Task<InclusiveOrdersSectionVM> AddNewInclusiveOrderAsync(AddNewInclusiveOrderVM newOrder, AppUser appUser);
 
+        Task<BaseResponse> GetConfirmationAsync(short pageIndex);
+
     }
 }

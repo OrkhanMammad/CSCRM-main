@@ -17,6 +17,8 @@
                     <th scope="col">Mail Code</th>
                     <th scope="col">Name</th>
                     <th scope="col">Surname</th>
+                    <th scope="col">Car Type</th>
+                    <th scope="col">Pax Size</th>
                     <th scope="col">Sales <br> Amount</th>
                     <th scope="col">Received</th>
                     <th scope="col">Payment <br> Situation</th>
@@ -49,6 +51,20 @@
                     <td>
                         <input style="max-width: 70px;" type="text" id="edit-clientSurname-input"
                                class="edit-clientInfo-client-input" value="@client.Surname" />
+                    </td>
+                    <td>
+                        <select id="edit-clientCarType-select" class="edit-clientInfo-client-input">
+                            <option selected value="@client.CarType">@client.CarType</option>
+                            @foreach(var carType in Model.Data.CarTypes)
+                            {
+                                <option value="@carType">@carType</option>
+                            }
+
+                        </select>
+                    </td>
+                    <td>
+                        <input style="max-width: 70px;" type="text" id="edit-clientPaxSize-input"
+                               class="edit-clientInfo-client-input" value="@client.PaxSize" />
                     </td>
                     <td>
                         <input style="width: 55px;" type="text" id="edit-salesAmount-input"

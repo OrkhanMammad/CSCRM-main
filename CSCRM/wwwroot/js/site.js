@@ -695,6 +695,8 @@ function addClient() {
     const departurTime = document.getElementById('add-departureTime-input').value;
     const arrivalFlight = document.getElementById('add-arrivalFlight-input').value;
     const departureFlight = document.getElementById('add-departureFlight-input').value;
+    const carType = document.getElementById('add-carType-input').value;
+    const paxsSize = document.getElementById('add-paxsSize-input').value;
     
     if (!invoiceCode) {
         alert('Invoice Code cannot be empty.');
@@ -704,12 +706,12 @@ function addClient() {
         alert('Mail Code cannot be empty.');
         return;
     }
-    if (!arrivalDate) {
-        alert('Arrival Date cannot be empty.');
+    if (!clientName) {
+        alert('Client Name cannot be empty.');
         return;
     }
-    if (!departureDate) {
-        alert('Departure Date cannot be empty.');
+    if (!clientSurname) {
+        alert('Client Surname cannot be empty.');
         return;
     }
 
@@ -732,7 +734,9 @@ function addClient() {
         ArrivalTime: arrivalTime,
         DepartureTime: departurTime,
         ArrivalFlight: arrivalFlight,
-        DepartureFlight: departureFlight
+        DepartureFlight: departureFlight,
+        CarType: carType,
+        PaxSize: paxsSize
     };
 
     // Sunucuya POST isteği gönder
@@ -790,6 +794,8 @@ function updateClientInfo(clientId) {
     const departurTime = document.getElementById('edit-departureTime-input').value;
     const arrivalFlight = document.getElementById('edit-arrivalFlight-input').value;
     const departureFlight = document.getElementById('edit-departureFlight-input').value;
+    const paxSize = document.getElementById('edit-clientPaxSize-input').value;
+    const carType = document.getElementById('edit-clientCarType-select').value;
 
     if (!invoiceCode) {
         alert('Invoice Code cannot be empty.');
@@ -799,12 +805,12 @@ function updateClientInfo(clientId) {
         alert('Mail Code cannot be empty.');
         return;
     }
-    if (!arrivalDate) {
-        alert('Arrival Date cannot be empty.');
+    if (!name) {
+        alert('Client Name cannot be empty.');
         return;
     }
-    if (!departureDate) {
-        alert('Departure Date cannot be empty.');
+    if (!surname) {
+        alert('Client Surname cannot be empty.');
         return;
     }
 
@@ -830,7 +836,9 @@ function updateClientInfo(clientId) {
             ArrivalTime: arrivalTime,
             DepartureTime: departurTime,
             ArrivalFlight: arrivalFlight,
-            DepartureFlight: departureFlight
+            DepartureFlight: departureFlight,
+            CarType: carType,
+            PaxSize: paxSize
         })
     })
         .then(res => {
