@@ -850,6 +850,38 @@ function updateClientInfo(clientId) {
         });
 }
 
+function handleKeyUp(event) {
+    const input = document.getElementById('client-searchInput').value;
+
+    // Enter tuşuna basılmışsa
+    if (event.key === 'Enter') {
+        if (input.length >= 4) {
+            searchClients();
+        }
+        return;
+    }
+
+}
+
+function searchClients() {
+    const code = document.getElementById('client-searchInput').value;
+    fetch(`/manage/client/GetClientByMailOrInvCode?code=${code}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(res => res.text())
+        .then(data => {
+            console.log(data)
+            document.getElementById('clients-page-content').innerHTML = data;
+
+
+        });
+    
+}
+
+
 
 function deleteHotelOrder(hotelOrderId, clientId)
 {

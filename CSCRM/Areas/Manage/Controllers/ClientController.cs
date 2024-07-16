@@ -138,6 +138,13 @@ namespace CSCRM.Areas.Manage.Controllers
             return PartialView("_InclusiveOrdersSectionPartialView", result);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> GetClientByMailOrInvCode(string code)
+        {
+            var result = await _clientService.GetClientByMailOrInvCodeAsync(code);
+            return PartialView("_ClientPartialView", result);
+        }
+
 
     }
 }

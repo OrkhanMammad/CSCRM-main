@@ -1,10 +1,10 @@
 ﻿@using CSCRM.ViewModels.ClientOrdersVM
 @model InclusiveOrdersSectionVM
 
-<h2>Inclusive Services</h2>
+<h2>Inclusive Orders</h2>
 <span style="color: @(Model.Success ? "green" : "red"); font-weight:600">@Model.Message</span>
 <div class="services-inclusive-services-list">
-    <h3>Existing Inclusive Services</h3>
+    <h3>Existing Inclusive Orders</h3>
     <table>
         <thead>
             <tr>
@@ -35,7 +35,7 @@
 </div>
 
 <div class="services-inclusive-add-new">
-    <h3>Add New Inclusive Service</h3>
+    <h3>Add New Inclusive Order</h3>
     <div class="inclusive-add-form">
         <select id="add-new-inclusiveOrder-inclusiveName" class="inclusive-input">
             <option value="" disabled selected>Select Inclusive Service</option>

@@ -1524,5 +1524,77 @@ namespace CSCRM.Concretes
             }
            
         }
+
+        public async Task<BaseResponse> GetClientByMailOrInvCodeAsync(string code)
+        {
+            try
+            {
+                List<GetClientVM> ClientsInDb = await _context.Clients.Where(c => !c.IsDeleted && (c.MailCode.ToLower() == code.Trim().ToLower() || c.InvCode.ToLower() == code.Trim().ToLower()))
+                                                                  .Select(c => new GetClientVM
+                                                                  {
+                                                                      Id = c.Id,
+                                                                      InvCode = c.InvCode,
+                                                                      MailCode = c.MailCode,
+                                                                      Name = c.Name,
+                                                                      Surname = c.Surname,
+                                                                      SalesAmount = c.SalesAmount,
+                                                                      Pending = c.Pending,
+                                                                      Received = c.Received,
+                                                                      PaySituation = c.PaySituation,
+                                                                      VisaSituation = c.VisaSituation,
+                                                                      Company = c.Company,
+                                                                      Country = c.Country,
+                                                                      ArrivalDate = c.ArrivalDate,
+                                                                      DepartureDate = c.DepartureDate,
+                                                                      ArrivalFlight = c.ArrivalFlight,
+                                                                      ArrivalTime = c.ArrivalTime,
+                                                                      DepartureFlight = c.DepartureFlight,
+                                                                      DepartureTime = c.DepartureTime,
+                                                                      PaxSize = c.PaxSize,
+                                                                      CarType = c.CarType,
+
+                                                                  }).ToListAsync();
+                List<string> CompanyNamesInDb = await _context.Companies.Where(c => c.IsDeleted == false).Select(c => c.Name).ToListAsync();
+                List<string> CarTypes = await _context.CarTypes.Where(c => c.IsDeleted == false).Select(c => c.Name).ToListAsync();
+                ClientsPageMainVm clientsPageMainVm = new ClientsPageMainVm { Clients = ClientsInDb, CompanyNames = CompanyNamesInDb, CarTypes = CarTypes };
+
+                if (!ClientsInDb.Any())
+                {
+                    return new BaseResponse
+                    {
+                        Data = clientsPageMainVm,
+                        Message = "No Client Found",
+                        PageIndex = 1,
+                        PageSize = 1,
+                        StatusCode = "404",
+                        Success = false,
+                    };
+                }
+                return new BaseResponse
+                {
+                    Data = clientsPageMainVm,
+                    Success = true,
+                    PageIndex = 1,
+                    PageSize = 1,
+                    StatusCode = "200",
+                };
+
+
+
+
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse
+                {
+                    Data = new ClientsPageMainVm(),
+                    Message = "Unhandled Error Occured",
+                    PageIndex = 1,
+                    PageSize = 1,
+                    StatusCode = "500",
+                    Success = false,
+                };
+            }
+        }
     }
 }
