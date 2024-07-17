@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CSCRM.Controllers
 {
+    [Area("Manage")]
     public class ConfirmationController : Controller
     {
         readonly IClientService _service;

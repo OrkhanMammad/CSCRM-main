@@ -857,7 +857,10 @@ function handleKeyUp(event) {
     if (event.key === 'Enter') {
         if (input.length >= 4) {
             searchClients();
+            
+           
         }
+        
         return;
     }
 
@@ -873,9 +876,8 @@ function searchClients() {
     })
         .then(res => res.text())
         .then(data => {
-            console.log(data)
             document.getElementById('clients-page-content').innerHTML = data;
-
+            document.getElementById('client-searchInput').value = code
 
         });
     
