@@ -2,7 +2,7 @@
 @model InvoicePageMainVm
 <div class="invoice-page-content">
     <div class="invoice-page-container">
-
+        <div id="section-to-print" style="padding: 50px; border: 1px solid black;">
         
             <div class="invoice-main" style="width: 940px;">
 
@@ -540,8 +540,9 @@
 
 
             </div>
-       
-
+            
+            </div>
+        <button onclick="downloadPDF()">PDF Olarak İndir</button>
     </div>
 </div>
 

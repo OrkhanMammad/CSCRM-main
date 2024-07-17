@@ -1524,6 +1524,16 @@ namespace CSCRM.Concretes
             }
            
         }
+        public async Task GetVoucherOfClientAsync(int clientId)
+        {
+            //clientNAME, clientCarType, arrival date, departure date, COMPANYnAME, CompanyContactName, CompanyContactPhone, HotelOrderHotelname,
+            //roomType, count, confirmationNo, checkin, checkout, TourOrderTourName, itineraries, inclusiveorderNames
+
+
+
+
+
+        }
 
         public async Task<BaseResponse> GetClientByMailOrInvCodeAsync(string code)
         {
