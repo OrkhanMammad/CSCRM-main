@@ -8,6 +8,7 @@ using CSCRM.ViewModels.CompanyVMs;
 using CSCRM.ViewModels.ConfirmationVMs;
 using CSCRM.ViewModels.InvoiceVMs;
 using CSCRM.ViewModels.TourCarVMs;
+using CSCRM.ViewModels.VoucherVMs;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
@@ -81,6 +82,7 @@ namespace CSCRM.Concretes
                              Days = o.Days,
                              DateFrom = o.DateFrom,
                              DateTo = o.DateTo,
+                             ConfirmationNumbers = o.ConfirmationNumbers.Select(cn=>cn.Number).ToList(),
 
                          }).ToList()
                      }).FirstOrDefaultAsync(c => c.Id == clientId);
@@ -549,7 +551,7 @@ namespace CSCRM.Concretes
             try
             {
                
-                GetClientOrdersVM clientOrders = await _context.Clients
+                GetClientOrdersVM clientOrders = await _context.Clients.Where(c=>c.Id==clientId)
                     .Include(c => c.HotelOrders)
                     .Include(c=>c.TourOrders)
                     .Include(c=>c.RestaurantOrders)
@@ -571,6 +573,7 @@ namespace CSCRM.Concretes
                             Days = o.Days,
                             DateFrom = o.DateFrom,
                             DateTo = o.DateTo,
+                            ConfirmationNumbers = o.ConfirmationNumbers.Select(co=>co.Number).ToList(),
 
                         }).ToList(),
                         TourOrders = c.TourOrders.Where(o => !o.IsDeleted).Select(o=> new GetTourOrdersVM
@@ -599,7 +602,7 @@ namespace CSCRM.Concretes
                             Count = o.Count,
                             Date = o.Date,
                         }).ToList()
-                    }).FirstOrDefaultAsync(c => c.Id == clientId);
+                    }).FirstOrDefaultAsync();
 
                 if(clientOrders == null)
                 {
@@ -1524,10 +1527,71 @@ namespace CSCRM.Concretes
             }
            
         }
-        public async Task GetVoucherOfClientAsync(int clientId)
+        public async Task<BaseResponse> GetVoucherOfClientAsync(int clientId)
         {
-            //clientNAME, clientCarType, arrival date, departure date, COMPANYnAME, CompanyContactName, CompanyContactPhone, HotelOrderHotelname,
-            //roomType, count, confirmationNo, checkin, checkout, TourOrderTourName, itineraries, inclusiveorderNames
+
+           GetClientOrdersForVoucherVM clientOrders = await _context.Clients
+                                                                    .Where(c=>c.Id==15)
+                                                                    .Include(c => c.HotelOrders)
+                                                                    .Include(c => c.TourOrders)
+                                                                    .ThenInclude(to => to.Tour)
+                                                                    .ThenInclude(t => t.Itineraries)
+                                                                    .Include(c => c.InclusiveOrders)
+                                                                    .Select(c => new GetClientOrdersForVoucherVM
+                                                                    {
+                                                                        ClientName = c.Name,
+                                                                        ClientSurname = c.Surname,
+                                                                        ClientPaxSize = c.PaxSize,
+                                                                        ClientCar = c.CarType,
+                                                                        ArrivalDate = c.ArrivalDate,
+                                                                        DepartureDate = c.DepartureDate,
+                                                                        CompanyName = c.Company,
+                                                                        InclusiveOrderNames = c.InclusiveOrders.Where(ho => !ho.IsDeleted)
+                                                                            .Select(io => io.InclusiveName).ToList(),
+                                                                        HotelOrders = c.HotelOrders.Where(ho=>!ho.IsDeleted)
+                                                                            .Select(ho => new GetHotelOrderForVoucherVM
+                                                                            {
+                                                                                Count = ho.RoomCount,
+                                                                                HotelName = ho.HotelName,
+                                                                                RoomType = ho.RoomType,
+                                                                                FromDate = ho.DateFrom,
+                                                                                ToDate = ho.DateTo,
+                                                                                ConfirmationNumbers = ho.ConfirmationNumbers.Select(y=>y.Number).ToList()
+                                                                            }).ToList(),
+                                                                        TourOrders = c.TourOrders.Where(ho => !ho.IsDeleted)
+                                                                            .Select(to => new GetTourOrderForVoucherVM
+                                                                            {
+                                                                                Date = to.Date,
+                                                                                Tour = new GetTourForVoucherVM
+                                                                                {
+                                                                                    TourName = to.Tour.Name,
+                                                                                    Itineraries = to.Tour.Itineraries.Select(i => i.Description).ToList()
+                                                                                }
+                                                                            }).ToList()
+                                                                    }).FirstOrDefaultAsync();
+
+
+            GetCompanyForVoucherVM Company = await _context.Companies.Where(c => c.Name == clientOrders.CompanyName).Select(c => new GetCompanyForVoucherVM
+            {
+                ContactPerson = c.ContactPerson,
+                ContactPhone = c.Phone,
+            }).FirstOrDefaultAsync();
+
+            clientOrders.CompanyContactPerson = Company.ContactPerson;
+            clientOrders.CompanyContactPhone = Company.ContactPhone;
+
+
+
+
+
+
+
+
+            return new BaseResponse
+            {
+                Data = clientOrders,
+            };
+
 
 
 

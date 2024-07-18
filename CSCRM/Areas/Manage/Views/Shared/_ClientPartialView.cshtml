@@ -62,6 +62,8 @@
                                class="clients-page-clients-btn clients-page-clients-btn-primary">Edit Info</a>
                             <a style="background-color:darkblue" asp-action="index" asp-controller="invoice" asp-area="manage" asp-route-clientId="@client.Id"
                                class="clients-page-clients-btn clients-page-clients-btn-primary">Invoice</a>
+                        <a style="background-color:brown" asp-action="getvoucherofclient" asp-controller="client" asp-area="manage" asp-route-clientId="@client.Id"
+                           class="clients-page-clients-btn clients-page-clients-btn-primary">Invoice</a>
                             <button onclick="deleteClient(@client.Id)" class="clients-page-clients-btn clients-page-clients-btn-danger">Delete</button>
                    </td>
                 </tr>

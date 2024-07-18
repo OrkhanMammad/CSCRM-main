@@ -22,6 +22,7 @@ namespace CSCRM.Concretes
         {
             company.Name = updatedCompany.Name;
             company.Address = updatedCompany.Address;
+            company.ContactPerson = updatedCompany.ContactPerson;
             company.Email = updatedCompany.Email;
             company.Phone = updatedCompany.Phone;
             company.UpdatedBy = userNmSrnm;
@@ -38,6 +39,7 @@ namespace CSCRM.Concretes
                                                         {
                                                             Id = h.Id,
                                                             Name = h.Name,
+                                                            ContactPerson = h.ContactPerson,
                                                             Phone = h.Phone,
                                                             Email = h.Email,
                                                             Address = h.Address,
@@ -87,6 +89,7 @@ namespace CSCRM.Concretes
                 Company newCompany = new Company
                 {
                     Name = companyVM.Name.Trim(),
+                    ContactPerson = companyVM.ContactPerson,
                     Address = companyVM.Address.Trim(),
                     Email = companyVM.Email.Trim(),
                     Phone = companyVM.Phone.Trim(),
@@ -204,6 +207,7 @@ namespace CSCRM.Concretes
                 {
                    Id=companyEntity.Id,
                    Name = companyEntity.Name,
+                   ContactPerson = companyEntity.ContactPerson,
                    Address = companyEntity.Address,
                    Email = companyEntity.Email,
                    Phone = companyEntity.Phone                  
@@ -290,6 +294,7 @@ namespace CSCRM.Concretes
                 {
                     Id = companyEntity.Id,
                     Name = companyEntity.Name,
+                    ContactPerson = companyEntity.ContactPerson,
                     Address = companyEntity.Address,
                     Email = companyEntity.Email,
                     Phone = companyEntity.Phone,

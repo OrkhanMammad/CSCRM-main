@@ -9,6 +9,7 @@
         <thead class="companies-page-thead">
             <tr>
                 <th scope="col">Name</th>
+                <th scope="col">Contact Person</th>
                 <th scope="col">Address</th>
                 <th scope="col">Phone Number</th>
                 <th scope="col">Email</th>
@@ -20,6 +21,7 @@
             {
                 <tr>
                     <td>@company.Name</td>
+                    <td>@company.ContactPerson</td>
                     <td>@company.Address</td>
                     <td>@company.Phone</td>
                     <td>@company.Email</td>
@@ -62,6 +64,7 @@
         <h3>Add New Company</h3>
         <div class="companies-add">
             <input type="text" id="add-companyName-input" placeholder="Name" class="companies-page-add-company-input" />
+            <input type="text" id="add-company-contactName-input" placeholder="Contact Person" class="companies-page-add-company-input" />
             <input type="text" id="add-company-address-input" placeholder="Address" class="companies-page-add-company-input" />
             <input type="tel" id="add-company-phone-input" placeholder="Phone Number" class="companies-page-add-company-input" />
             <input type="email" id="add-company-Email-input" placeholder="Email" class="companies-page-add-company-input" />

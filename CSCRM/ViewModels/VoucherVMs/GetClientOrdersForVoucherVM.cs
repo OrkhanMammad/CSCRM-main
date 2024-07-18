@@ -2,18 +2,24 @@
 {
     public class GetClientOrdersForVoucherVM
     {
-        //clientNAME, clientCarType, arrival date, departure date, COMPANYnAME, CompanyContactName, CompanyContactPhone, HotelOrderHotelname,
-        //roomType, count, confirmationNo, checkin, checkout, TourOrderTourName, itineraries, inclusiveorderNames
-        public string? ClientName { get; set; }
-        public string? ClientCar { get; set; }
+        public int? Id { get; set; } = 0;
+        public string? ClientName { get; set; } = string.Empty;
+        public string? ClientSurname { get; set; } = string.Empty;
+        public string? ClientPaxSize {  get; set; } = string.Empty;
+        public string? ClientCar { get; set; } = string.Empty;
+
+        public string? ArrivalDate { get; set; } = string.Empty;
+        public string? DepartureDate { get; set; } = string.Empty;
+
+        public string? CompanyName { get; set; } = string.Empty;
+
+        public string? CompanyContactPerson { get; set; } = string.Empty;
+        public string? CompanyContactPhone { get; set; } = string.Empty;
+        public List<string>? InclusiveOrderNames { get; set; } = new List<string>();
+
         
-        public string? ArrivalDate { get; set; }
-        public string? DepartureDate { get; set; }
-
-        public string? CompanyName { get; set; }
-
-        public string? CompanyContactPerson { get; set; }
-        public string? CompanyContactPhone { get; set; }
+        public List<GetHotelOrderForVoucherVM>? HotelOrders { get; set; } = new List<GetHotelOrderForVoucherVM>();
+        public List<GetTourOrderForVoucherVM>? TourOrders { get; set; } = new List<GetTourOrderForVoucherVM>();
 
            
     }

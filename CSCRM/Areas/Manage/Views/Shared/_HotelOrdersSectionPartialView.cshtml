@@ -15,7 +15,9 @@
                     <th>Days</th>
                     <th>Date From</th>
                     <th>Date To</th>
+                    <th>Confirmation No</th>
                     <th>Actions</th>
+                    
                 </tr>
             </thead>
             <tbody>
@@ -28,7 +30,12 @@
                         <td>@hotelOrder.Days</td>
                         <td>@hotelOrder.DateFrom</td>
                         <td>@hotelOrder.DateTo</td>
-                        <td>
+                    <td>@foreach (var number in hotelOrder.ConfirmationNumbers)
+                        {
+                            @number <br>
+                        }
+                    </td>
+                    <td>
                             <a href="#" class="edit-link">Edit</a>
                             <button onclick="deleteHotelOrder(@hotelOrder.Id, @Model.ClientId)" class="delete-btn">Delete</button>
                         </td>

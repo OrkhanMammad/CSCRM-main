@@ -145,6 +145,12 @@ namespace CSCRM.Areas.Manage.Controllers
             return PartialView("_ClientPartialView", result);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetVoucherOfClient(int clientId)
+        {
+            var result = await _clientService.GetVoucherOfClientAsync(clientId);
+            return View(result);
+        }
 
     }
 }

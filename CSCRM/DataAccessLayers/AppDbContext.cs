@@ -27,6 +27,7 @@ namespace CSCRM.DataAccessLayers
         public DbSet<RestaurantOrder> RestaurantOrders { get; set; }
         //migrate et
         public DbSet<InclusiveOrder> InclusiveOrders { get; set; }
+        public DbSet<HotelConfirmationNumber> HotelConfirmationNumbers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

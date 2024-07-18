@@ -127,6 +127,7 @@ function deleteCompany(companyId) {
 
 function addCompany() {
     const name = document.getElementById('add-companyName-input').value;
+    const contactName = document.getElementById('add-company-contactName-input').value;
     const address = document.getElementById('add-company-address-input').value;
     const phoneNumber = document.getElementById('add-company-phone-input').value;
     const email = document.getElementById('add-company-Email-input').value;
@@ -143,6 +144,7 @@ function addCompany() {
         },
         body: JSON.stringify({
             Name: name,
+            ContactPerson: contactName,
             Address: address,
             Phone: phoneNumber,
             Email: email
@@ -161,6 +163,7 @@ function addCompany() {
 
 function editCompany(Id) {
     const name = document.getElementById('company-edit-name-input').value;
+    const contactName = document.getElementById('company-edit-contactName-input').value;
     const address = document.getElementById('company-edit-address-input').value;
     const email = document.getElementById('company-edit-email-input').value;
     const phone = document.getElementById('company-edit-phone-input').value;
@@ -178,6 +181,7 @@ function editCompany(Id) {
         body: JSON.stringify({
             Id: Id,
             Name: name,
+            ContactPerson: contactName,
             Address: address,
             Email: email,
             Phone:phone
@@ -1145,8 +1149,13 @@ function addNewInclusiveOrder(clientId) {
 
 
 function downloadPDF() {
+    removeButtons();
+    
+
+
+
+
     const { jsPDF } = window.jspdf;
-    console.log("333")
     // Input değerlerini güncelle
 
 
@@ -1195,6 +1204,36 @@ function downloadPDF() {
             }
         });
     });
+}
+
+
+
+function removeBQ(orik) {
+    const element = document.getElementById(orik);
+    console.log(orik)
+
+    if (element) {
+        element.parentNode.removeChild(element);
+    } else {
+        console.log('Element with id "5" not found.');
+    }
+}
+
+function removeButtons() {
+    const elements = document.getElementsByClassName('voucher-remove-button');
+    console.log(elements)
+
+
+    if (elements) {
+        for(let element of elements)
+        {
+
+            element.style.visibility = "hidden";
+        }
+
+    } else {
+        console.log('Element with id "5" not found.');
+    }
 }
 
 
