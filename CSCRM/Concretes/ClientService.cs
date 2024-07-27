@@ -1529,9 +1529,10 @@ namespace CSCRM.Concretes
         }
         public async Task<BaseResponse> GetVoucherOfClientAsync(int clientId)
         {
-
-           GetClientOrdersForVoucherVM clientOrders = await _context.Clients
-                                                                    .Where(c=>c.Id==15)
+            try
+            {
+                GetClientOrdersForVoucherVM clientOrders = await _context.Clients
+                                                                    .Where(c => c.Id == clientId)
                                                                     .Include(c => c.HotelOrders)
                                                                     .Include(c => c.TourOrders)
                                                                     .ThenInclude(to => to.Tour)
@@ -1548,7 +1549,7 @@ namespace CSCRM.Concretes
                                                                         CompanyName = c.Company,
                                                                         InclusiveOrderNames = c.InclusiveOrders.Where(ho => !ho.IsDeleted)
                                                                             .Select(io => io.InclusiveName).ToList(),
-                                                                        HotelOrders = c.HotelOrders.Where(ho=>!ho.IsDeleted)
+                                                                        HotelOrders = c.HotelOrders.Where(ho => !ho.IsDeleted)
                                                                             .Select(ho => new GetHotelOrderForVoucherVM
                                                                             {
                                                                                 Count = ho.RoomCount,
@@ -1556,7 +1557,7 @@ namespace CSCRM.Concretes
                                                                                 RoomType = ho.RoomType,
                                                                                 FromDate = ho.DateFrom,
                                                                                 ToDate = ho.DateTo,
-                                                                                ConfirmationNumbers = ho.ConfirmationNumbers.Select(y=>y.Number).ToList()
+                                                                                ConfirmationNumbers = ho.ConfirmationNumbers.Select(y => y.Number).ToList()
                                                                             }).ToList(),
                                                                         TourOrders = c.TourOrders.Where(ho => !ho.IsDeleted)
                                                                             .Select(to => new GetTourOrderForVoucherVM
@@ -1570,32 +1571,47 @@ namespace CSCRM.Concretes
                                                                             }).ToList()
                                                                     }).FirstOrDefaultAsync();
 
+                if (clientOrders == null)
+                {
+                    return new BaseResponse
+                    {
+                        Data = new GetClientOrdersForVoucherVM(),
+                        Message = "Client could not found by its property",
+                        StatusCode = "404",
+                        Success = false
+                    };
+                }
 
-            GetCompanyForVoucherVM Company = await _context.Companies.Where(c => c.Name == clientOrders.CompanyName).Select(c => new GetCompanyForVoucherVM
+
+                GetCompanyForVoucherVM Company = await _context.Companies.Where(c => c.Name == clientOrders.CompanyName).Select(c => new GetCompanyForVoucherVM
+                {
+                    ContactPerson = c.ContactPerson,
+                    ContactPhone = c.Phone,
+                }).FirstOrDefaultAsync();
+
+                clientOrders.CompanyContactPerson = Company.ContactPerson;
+                clientOrders.CompanyContactPhone = Company.ContactPhone;
+
+                return new BaseResponse
+                {
+                    Data = clientOrders,
+                    Success = true,
+                    StatusCode = "200",
+                    
+                };
+            }
+            catch
             {
-                ContactPerson = c.ContactPerson,
-                ContactPhone = c.Phone,
-            }).FirstOrDefaultAsync();
+                return new BaseResponse
+                {
+                    Data = new GetClientOrdersForVoucherVM(),
+                    Success = false,
+                    StatusCode = "500",
+                    Message = "Unhandled error occured",
+                    
 
-            clientOrders.CompanyContactPerson = Company.ContactPerson;
-            clientOrders.CompanyContactPhone = Company.ContactPhone;
-
-
-
-
-
-
-
-
-            return new BaseResponse
-            {
-                Data = clientOrders,
-            };
-
-
-
-
-
+                };
+            }
 
         }
 
