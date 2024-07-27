@@ -47,10 +47,10 @@
                     <td>@client.SalesAmount</td>
                     <td>@client.Received</td>
                     <td>@client.Pending</td>
-                    <td style="width:80px;">@client.PaySituation</td>
-                    <td style="width:80px;">@client.VisaSituation</td>
+                    <td >@client.PaySituation</td>
+                    <td >@client.VisaSituation</td>
                     <td>@client.Country</td>
-                    <td style="width:80px;">@client.Company</td>
+                    <td >@client.Company</td>
                     <td>@client.ArrivalDate<br />@client.ArrivalTime</td>
                     <td>@client.ArrivalFlight</td>
                     <td>@client.DepartureDate <br />@client.DepartureTime</td>
@@ -94,14 +94,14 @@
         <h3>Add New Client</h3>
         <div class="clients-add">
             <input type="text" id="add-invoiceCode-input" placeholder="Invoice Code" class="clients-input"
-                   style="max-width: 70px;" />
+                   />
             <input type="text" id="add-mailCode-input" placeholder="Mail Code" class="clients-input"
-                   style="max-width: 70px;" />
+                  />
             <input type="text" id="add-clientName-input" placeholder="Name" class="clients-input"
-                   style="max-width: 70px;" />
+                   />
             <input type="text" id="add-clientSurname-input" placeholder="Surname" class="clients-input"
-                   style="max-width: 70px;" />
-            <select id="add-carType-input" class="clients-input" style="max-width: 85px;">
+                   />
+            <select id="add-carType-input" class="clients-input">
                 <option value="" disabled selected>Car <br /> Type</option>
                 @foreach (var cartype in Model.Data.CarTypes)
                 {
@@ -109,13 +109,13 @@
                 }                
             </select>
             <input type="text" id="add-paxsSize-input" placeholder="Paxs Size" class="clients-input"
-                   style="max-width: 75px;" />
+                   />
             <input type="text" id="add-salesAmount-input" placeholder="Sales Amount" class="clients-input"
-                   style="max-width: 75px;" />
+                   />
             <input type="text" id="add-received-input" placeholder="Received" class="clients-input"
-                   style="max-width: 70px;" />
+                   />
 
-            <select id="add-paymentSituation-select" class="clients-input" style="max-width: 85px;">
+            <select id="add-paymentSituation-select" class="clients-input" >
                 <option value="" disabled selected>Payment <br /> Situation</option>
                 <option value="On Arrival">On Arrival</option>
                 <option value="Bank Account Received">Bank Account Received</option>
@@ -125,7 +125,7 @@
                 <option value="Bank Account">Bank Account</option>
                 <option value="Cancel">Cancel</option>
             </select>
-            <select id="add-visaSituation-select" class="clients-input" style="max-width: 85px;">
+            <select id="add-visaSituation-select" class="clients-input" >
                 <option value="" disabled selected>Visa</option>
                 <option value="Include">Include</option>
                 <option value="Not Include">Not Include</option>
@@ -136,10 +136,10 @@
             </select>
 
             <input type="text" id="add-country-input" placeholder="Country" class="clients-input"
-                   style="max-width: 65px;" />
+                   />
 
 
-            <select id="add-company-input" class="clients-input" style="max-width: 120px;">
+            <select id="add-company-input" class="clients-input" >
                 <option value="" disabled selected>Company</option>
                 @foreach (string company in Model.Data.CompanyNames)
                 {
@@ -147,17 +147,17 @@
                 }
             </select>
             <input type="date" id="add-arrivalDate-input" placeholder="Arrival Date" class="clients-input"
-                   style="max-width: 100px;" />
+                   />
             <input type="time" id="add-arrivalTime-input" placeholder="Arrival Date" class="clients-input"
-                   style="max-width: 100px;" />
+                   />
             <input type="text" id="add-arrivalFlight-input" placeholder="Flight No" class="clients-input"
-                   style="max-width: 70px;" />
+                   />
             <input type="date" id="add-departureDate-input" placeholder="Departure Date" class="clients-input"
-                   style="max-width: 100px;" />
+                  />
             <input type="time" id="add-departureTime-input" placeholder="Departure Date" class="clients-input"
-                   style="max-width: 100px;" />
+                    />
             <input type="text" id="add-departureFlight-input" placeholder="Flight No" class="clients-input"
-                   style="max-width: 70px;" />
+                    />
 
             <button onclick="addClient()" class="clients-page-clients-btn clients-page-clients-btn-add">
                 Add

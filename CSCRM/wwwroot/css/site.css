@@ -1000,7 +1000,7 @@ HOTELS PAGE STARTS HERE */
 }
 
 .clients-table {
-    width: 100%;
+   min-width:1800px;
     border-collapse: collapse;
     margin: 10px 0;
     font-size: 12px;
@@ -1072,7 +1072,7 @@ HOTELS PAGE STARTS HERE */
 
 .clients-add-container {
     margin-top: 20px;
-
+    min-width:1800px;
     border: 1px solid #ddd;
     border-radius: 10px;
     background-color: #f9f9f9;
@@ -1088,6 +1088,7 @@ HOTELS PAGE STARTS HERE */
 
 .clients-add {
     display: flex;
+    min-width:1800px;
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
@@ -1103,6 +1104,7 @@ HOTELS PAGE STARTS HERE */
     border-radius: 5px;
     box-sizing: border-box;
     text-align:center;
+    width:5%;
 }
 
 .clients-page-clients-btn-add {
