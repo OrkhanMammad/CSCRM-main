@@ -1,0 +1,60 @@
+﻿@using CSCRM.ViewModels.ClientOrdersVM
+@model RestaurantOrdersSectionVM
+
+<h2>Restaurant Orders</h2>
+<span style="color: @(Model.Success ? "green" : "red"); font-weight:600">@Model.Message</span>
+
+<div class="services-restaurant-services-list">
+    <h3>Existing Restaurant Orders</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Restaurant Name</th>
+                <th>Meal Type</th>
+                <th>Count</th>
+                <th>Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Existing restaurant services will be listed here -->
+            @foreach (var restOrder in Model.RestaurantOrders)
+            {
+                <tr>
+                    <td>@restOrder.RestaurantName</td>
+                    <td>@restOrder.MealType</td>
+                    <td>@restOrder.Count</td>
+                    <td>@restOrder.Date</td>
+                    <td>
+                        <a href="#" class="edit-link">Edit</a>
+                        <button onclick="deleteRestaurantOrder(@restOrder.Id, @Model.ClientId)" class="delete-btn">Delete</button>
+                    </td>
+                </tr>
+            }
+
+            <!-- More rows as needed -->
+        </tbody>
+    </table>
+</div>
+
+<div class="services-restaurant-add-new">
+    <h3>Add New Restaurant Order</h3>
+    <div class="restaurant-add-form">
+        <select id="add-new-restaurantOrder-restName" class="restaurant-input">
+            <option value="" disabled selected>Select Restaurant</option>
+            @foreach (var restaurantName in Model.RestaurantNames)
+            {
+                <option value="@restaurantName">@restaurantName</option>
+            }
+        </select>
+        <select id="add-new-restaurantOrder-mealType" class="restaurant-input">
+            <option value="" disabled selected>Select Meal Type</option>
+            <option value="Lunch">Lunch</option>
+            <option value="Dinner">Dinner</option>
+            <option value="Gala Dinner">Gala Dinner</option>
+        </select>
+        <input type="number" id="add-new-restaurantOrder-count" placeholder="Count" class="restaurant-input" />
+        <input type="date" id="add-new-restaurantOrder-date" class="restaurant-input" />
+        <button onclick="addNewRestaurantOrder(@Model.ClientId)" class="restaurant-btn">Add Restaurant Service</button>
+    </div>
+</div>

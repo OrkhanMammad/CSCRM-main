@@ -1,0 +1,46 @@
+﻿@using CSCRM.Models.ResponseTypes
+@using CSCRM.ViewModels.TourCarVMs
+@using System.Linq
+@model ResponseForTourByCarPage
+
+
+
+<div class="tourbycar-page-content">
+    <h2 class="trsByCrTypsPageHead">Tours Prices By Car Types</h2>
+    <span style="color: @(Model.Success ? "green" : "red"); font-weight:600">@Model.Message</span>
+    <div class="tour-car-types-table-container">
+        <table class="tour-car-types-table">
+            <thead class="tour-car-types-thead">
+                @if (Model.Data.CarIdNameVM.Any())
+                {
+                    <tr>
+                        <th></th>
+                        @foreach (GetCarIdNameVM car in Model.Data.CarIdNameVM)
+                        {
+                            <th>@car.Name</th>
+                        }
+                        @* <th>Actions</th> *@
+                    </tr>
+                }
+                
+            </thead>
+            <tbody>
+                
+                @foreach (GetTourCarVM tourCarVM in Model.Data.TourCarVM)
+                {
+                    <tr>
+                <td>@tourCarVM.TourName</td>
+                    @foreach (GetCarIdNameVM car in Model.Data.CarIdNameVM)
+                    {
+                    <td>@(tourCarVM.CarPrices.ContainsKey(car.Name) ? @tourCarVM.CarPrices[car.Name] : ("N/A"))</td>
+                    }
+                        @* <td>
+                            <a asp-action="EditTourCar" asp-controller="TourCar" asp-area="manage" asp-route-tourName="@tourCarVM.TourName" class="edit-tourbycar-btn">Edit</a>
+                        </td> *@
+                    </tr>
+                }
+              
+            </tbody>
+        </table>
+    </div>   
+</div>

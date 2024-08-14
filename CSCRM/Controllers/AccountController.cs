@@ -59,9 +59,13 @@ namespace CSCRM.Controllers
                     return View(signInVM);
                 }
                 var roles = await _userManager.GetRolesAsync(appUser);
-                if (roles.Any(r => r == "Developer"))
+                if (roles.Any(r => r == "Admin"))
                 {
                     return RedirectToAction("Index", "Hotel", new { area = "Manage" });
+                }
+                if (roles.Any(r => r == "Operation"))
+                {
+                    return RedirectToAction("Index", "Client", new { area = "Operation" });
                 }
 
                 return View(signInVM);
@@ -80,6 +84,18 @@ namespace CSCRM.Controllers
         //    AppUser user = new AppUser { Email = "Orkhanvm@gmail.com", UserName = "Orkhan123", Name = "Orkhan", SurName = "Mammadli" };
         //    await _userManager.CreateAsync(user, "Orkhan6991");
         //    await _userManager.AddToRoleAsync(user, "Developer");
+
+
+        //}
+
+
+        //[HttpGet]
+        //public async Task CreateNewAccount()
+        //{
+        //    await _roleManager.CreateAsync(new IdentityRole("Operation"));
+        //    AppUser user = new AppUser { Email = "Operation@gmail.com", UserName = "Operation123", Name = "Operation", SurName = "Operli" };
+        //    await _userManager.CreateAsync(user, "Operation123");
+        //    await _userManager.AddToRoleAsync(user, "Operation");
 
 
         //}

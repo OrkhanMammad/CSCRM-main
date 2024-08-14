@@ -1,0 +1,357 @@
+﻿@{
+    Layout = null;
+}
+@using CSCRM.Models.ResponseTypes
+@using CSCRM.ViewModels.VoucherVMs
+@using System.Web
+@model BaseResponse
+
+@{
+    GetClientOrdersForVoucherVM data = Model.Data;
+}
+
+
+
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmation Voucher</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            letter-spacing: 0.5px;
+        }
+
+        h3 {
+            font-size: 25px;
+        }
+
+        h4 {
+            font-size: 23px;
+        }
+
+        .voucher-container {
+            border: 1px solid black;
+            padding: 20px;
+            width: 1800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+        }
+
+            .header img {
+                width: 150px;
+            }
+
+        .section {
+            margin-top: 20px;
+        }
+
+            .section table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+
+            .section table,
+            .section th,
+            .section td {
+                border: 1px solid black;
+            }
+
+            .section th,
+            .section td {
+                /* padding: 10px; */
+                text-align: center;
+            }
+
+            .section input {
+                width: 100%;
+                box-sizing: border-box;
+                /* padding: 5px; */
+                /* Increase padding to avoid text clipping */
+                height: 25px;
+                /* Ensure sufficient height for inputs */
+                border: none;
+                font-size: 19px;
+            }
+
+        .note {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        blockquote p {
+            overflow-y: auto;
+            white-space: inherit;
+        }
+
+        .voucher-container-2 p {
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div style="padding-top: 120px;" id="section-to-print">
+        <div style="min-height:1400px;" class="voucher-container">
+            <div class="header">
+                <img style="width: 15%;"
+                     src="https://media.licdn.com/dms/image/D4D03AQFY6QvaMW1eAg/profile-displayphoto-shrink_200_200/0/1706795272359?e=2147483647&v=beta&t=xKcDyTramIkIYUKK9DjltGqQp7Z38dQ9gfXixuo7dzE"
+                     alt="Rezbook Group">
+                <h3 style=" text-decoration: underline;">CONFIRMATION VOUCHER</h3>
+            </div>
+
+            <div class="section">
+                <table>
+                    <tr>
+                        <th style="font-size: 21px; font-weight: 700; width: 12.5%;">Agent Name:</th>
+                        <td style="font-size: 19px; width: 27%;">
+                            <input style="font-size: 19px;" type="text"
+                                   value="@data.CompanyContactPerson">
+                            <input style="font-size: 19px;" type="text" value="(@data.CompanyName)">
+                        </td>
+                        <th style="font-size: 21px; font-weight: 700; width: 12.5%;">Emergency <br> no:</th>
+                        <td style="font-size: 19px;width: 21.5%;">
+                            <input style="text-align: center;font-size: 19px;"
+                                   type="text" value="@data.CompanyContactPhone">
+                            <input style="text-align: center; font-size: 19px;" type="text" value="@data.CompanyContactPhone">
+                        </td>
+
+                        <th style="font-size: 21px; font-weight: 700;width: 10.5%;">Booking <br> No:</th>
+                        <td style="font-size: 19px;width: 16%;">
+                            <input style="font-size: 19px;text-align: center;"
+                                   type="text" value="#RS14016">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th style="font-size: 21px; font-weight: 700; width: 12.5%;">Guest Name:</th>
+                        <td style="font-size: 19px; width: 27%;">
+                            <input style="font-size: 19px;" type="text"
+                                   value="@(data.ClientName + " " + data.ClientSurname ) x @data.ClientPaxSize">
+                            <input style="font-size: 19px;" type="text" value="(Holiday Leasperanza)">
+                        </td>
+                        <th style="font-size: 21px; font-weight: 700; width: 12.5%;">Driver<br> Number:</th>
+                        <td style="font-size: 19px;width: 21.5%;">
+                            <input style="text-align: center;font-size: 19px;"
+                                   type="text" value="Assigned 1 day prior to arrival">
+                            <input style="text-align: center;font-size: 19px;" type="text"
+                                   value="Assigned 1 day prior to arrival">
+
+                        </td>
+                        <th style="font-size: 21px; font-weight: 700;width: 10.5%;">Vehicle</th>
+                        <td style="font-size: 19px;width: 16%;">
+                            <input style="font-size: 19px;text-align: center;"
+                                   type="text" value="@data.ClientCar">
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="section">
+                <table>
+                    <thead style="background-color: #D3E3FD; padding: 45px ;">
+                        <tr>
+                            <th style="font-size: 21px; font-weight: 700; padding: 5px ;">CONFIRMATION NO.</th>
+                            <th style="font-size: 21px; font-weight: 700;">HOTEL</th>
+                            <th style="font-size: 21px; font-weight: 700;">ROOM</th>
+                            <th style="font-size: 21px; font-weight: 700;">CHECK IN</th>
+                            <th style="font-size: 21px; font-weight: 700;">CHECK OUT</th>
+                        </tr>
+                    </thead>
+                    
+                    
+                    <tbody>
+                        @foreach (GetHotelOrderForVoucherVM hotelOrder in data.HotelOrders)
+                        {
+                            <tr>
+                                <td>
+                                    @foreach(var confirmNo in hotelOrder.ConfirmationNumbers)
+                                    {
+                                        <input style="text-align: center;" type="text" value="@confirmNo">
+
+                                        <br>
+                                    }
+
+                                </td>
+                                <td><input type="text" value="@hotelOrder.HotelName"></td>
+                                <td>
+                                    <input type="text" value="@hotelOrder.Count @hotelOrder.RoomType">
+                                </td>
+                                <td>
+                                    <input style="font-weight: 700;" type="text" value="@hotelOrder.FromDate">
+                                </td>
+                                <td>
+                                    <input style="font-weight: 700;" type="text" value="@hotelOrder.ToDate">
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+
+            </div>
+            <div style=" border-left: 1px solid black; border-right: 1px solid black; border-bottom: 1px solid black; margin-top: 0px; "
+                 class="section">
+                <div style="display: flex; align-items: center;">
+                    <input style="font-size: 19px; font-weight: 600;" type="text"
+                           value="Standard Check in Time :1500 HRS">
+                </div>
+
+                <div style="display: flex; align-items: center;">
+                    <input style="font-size: 19px; font-weight: 600;" type="text"
+                           value="Standard Check out Time :1200 HRS">
+                </div>
+
+            </div>
+
+            <div style="display: flex; justify-content: center;" class="note">
+                <div style="width: 100%; display: flex; justify-content: center;">
+                    <blockquote id="orik" style="width: 90%; margin-left: 0; font-size: 21px;" contenteditable="true">
+                        <p style="width: 100%; margin-left: 0; text-decoration: underline;">
+                            You can add your notes here:
+                        </p>
+                        <button class="voucher-remove-button" onclick="removeBQ('orik')">X</button>
+                    </blockquote>
+
+                </div>
+
+
+            </div>
+        </div>
+        <div style="margin-top:30px;min-height:1400px;" class="voucher-container voucher-container-2">
+            <div>
+                <h3 style="width: 100%; text-align: center; text-decoration: underline; margin-bottom: 40px;">
+                    TOUR
+                    ITINERARY:
+                </h3>
+
+                @foreach(GetTourOrderForVoucherVM tourOrder in data.TourOrders)
+                {
+                    <div id="@HttpUtility.JavaScriptStringEncode(tourOrder.Tour.TourName.Trim())" style="width: 100%;">
+                        <h4>@tourOrder.Tour.TourName (@tourOrder.Date)</h4>
+                        <blockquote  style="width: 100%; margin-left: 0; font-size: 21px;"
+                                    contenteditable="true">
+                            @foreach(var itinerary in tourOrder.Tour.Itineraries)
+                            {
+                                <p style="width: 90%; margin-left: 0; margin-bottom: -10px; font-size: 21px;">
+                                    @itinerary
+                                </p>
+                            }                                                      
+                        </blockquote>
+                        <button class="voucher-remove-button" onclick="removeBQ('@HttpUtility.JavaScriptStringEncode(tourOrder.Tour.TourName.Trim())')">X</button>
+                    </div>
+                }
+
+
+            </div>
+        </div>
+        <div style="margin-top:30px;min-height:1400px;" class="voucher-container voucher-container-3">
+            <div id="departure-date-blockquote">
+                <h4 style="margin-bottom: -9px;">@data.DepartureDate. DEPARTURE</h4>
+                <blockquote id="orik" style="width: 100%; margin-left: 0; font-size: 21px;" contenteditable="true">
+                    <p style="width: 90%; margin-left: 0; margin-bottom: -10px; font-size: 21px; letter-spacing: 0.5px;">
+                        Breakfast at hotel and check out at 1200 HRS
+                    </p>
+                    <p style="width: 90%; margin-left: 0; margin-bottom: -10px;">
+                        Drop at Airport for return flight, flight - GYD-DEL 30/06/2024 01:45
+                    </p>
+
+                </blockquote>
+                <button class="voucher-remove-button" onclick="removeBQ('departure-date-blockquote')">X</button>
+            </div>
+
+            <div id="inclusive-orders-blockquote" style="margin-top: 60px;">
+                <h4 style="margin-bottom: -9px;">INCLUSIONS</h4>
+                <blockquote id="orik" style="width: 100%; margin-left: 0; font-size: 21px;" contenteditable="true">
+                    <p style="width: 90%; margin-left: 0; margin-bottom: -10px; font-size: 21px; letter-spacing: 0.5px;">
+                        » @data.ClientCar
+                    </p>
+                    @foreach(var inclusiveOrder in data.InclusiveOrderNames)
+                    {
+                        <p style="width: 90%; margin-left: 0; margin-bottom: -10px; font-size: 21px; letter-spacing: 0.5px;">
+                            » @inclusiveOrder
+                        </p>
+                    }
+                </blockquote>
+                <button class="voucher-remove-button" onclick="removeBQ('inclusive-orders-blockquote')">X</button>
+            </div>
+
+            <div id="exclusive-orders-blockquote" style="margin-top: 60px;">
+                <h4 style="margin-bottom: -9px;">EXCLUSIONS:</h4>
+                <blockquote id="orik" style="width: 100%; margin-left: 0; font-size: 21px;" contenteditable="true">
+                    <p style="width: 90%; margin-left: 0; margin-bottom: -10px; font-size: 21px; letter-spacing: 0.5px;">
+                        » Anything not mentioned in inclusions.
+                    </p>
+                    <p style="width: 90%; margin-left: 0; margin-bottom: -10px;">
+                        » Porter service.
+                    </p>
+                    <p style="width: 90%; margin-left: 0; margin-bottom: -10px;">
+                        » Charges in hotels for additional services & penalties.
+                    </p>
+                    <p style="width: 90%; margin-left: 0; margin-bottom: -10px; font-size: 21px; letter-spacing: 0.5px;">
+                        » Any additional persons joining the group at the destination or any of the services will need
+                        to pay
+                    </p>
+                    <p style="width: 90%; margin-left: 0; margin-bottom: -10px;">
+                        » Tours on free time
+                    </p>
+                    <p style="width: 90%; margin-left: 0; margin-bottom: -10px;">
+                        » Lunch, Dinner
+                    </p>
+
+                </blockquote>
+                <button class="voucher-remove-button" onclick="removeBQ('exclusive-orders-blockquote')">X</button>
+            </div>
+
+            <div id="voucher-confirmation-end" style="width: 100%; display: flex; justify-content: center; margin-top: 60px;">
+                <div style="width: 60%;">
+                    <blockquote id="orik" style="width: 100%; margin-left: 0; font-size: 28px; text-align: center; font-weight:700;"
+                                contenteditable="true">
+                        <p style="width: 100%; margin-left: 0; margin-bottom: -10px; font-size: 28px; letter-spacing: 0.5px; text-align:center;">
+                            THIS BOOKING IS CONFIRMED, RECONFIRMED AND GUARANTEED.
+                        </p>
+                        <p style="width: 100%; margin-left: 0; margin-bottom: -10px; font-size: 28px; letter-spacing: 0.5px; text-align:center;">
+                            NON-REFUNDABLE, NON-AMENDABLE AND NON- CANCELLABLE
+                        </p>
+
+                    </blockquote>
+                    <button class="voucher-remove-button" onclick="removeBQ('voucher-confirmation-end')">X</button>
+                </div>
+            </div>
+
+
+
+        </div>
+
+        <!-- <div style="display: flex;justify-content: center;" class="voucher-container voucher-container-3">
+            <div style="width: 60%;">
+                <blockquote id="orik" style="width: 100%; margin-left: 0; font-size: 22px;" contenteditable="true">
+                    <p
+                        style="width: 90%; margin-left: 0; margin-bottom: -10px; font-size: 22px; letter-spacing: 0.5px;">
+                        THIS BOOKING IS CONFIRMED, RECONFIRMED AND GUARANTEED.
+                    </p>
+                    <p
+                        style="width: 90%; margin-left: 0; margin-bottom: -10px; font-size: 22px; letter-spacing: 0.5px;">
+                        NON-REFUNDABLE, NON-AMENDABLE AND NON- CANCELLABLE
+                    </p>
+
+                </blockquote>
+                <button class="voucher-remove-button" onclick="removeBQ('orik')">X</button>
+
+            </div>
+
+        </div> -->
+    </div>
+    <button class="voucher-remove-button" onclick="downloadPDF()">Export As PDF</button>
+</body>
+<script src="~/js/site.js" asp-append-version="true"></script>
+
+</html>
