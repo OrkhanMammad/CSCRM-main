@@ -4,10 +4,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CSCRM.ViewModels.TourCarVMs;
 using CSCRM.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CSCRM.Areas.Operation.Controllers
 {
     [Area("Operation")]
+    [Authorize(Roles = "Operation")]
+
     public class TourCarController : Controller
     {
         readonly ITourByCarTypeService _service;

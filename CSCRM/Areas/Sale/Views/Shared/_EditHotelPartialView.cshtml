@@ -1,0 +1,34 @@
+﻿@using CSCRM.Models.ResponseTypes
+@model BaseResponse
+
+
+<div class="hotel-edit-page-container">
+    <h3 class="hotel-edit-page-title">Edit Hotel</h3>
+    <span style="color: @(Model.Success ? "green" : "red"); font-weight:600">@Model.Message</span>
+    <table class="hotel-edit-page-hotel-table">
+        <thead class="hotel-edit-page-hotel-thead">
+            <tr>
+                <th>Name</th>
+                <th>Single Price</th>
+                <th>Double Price</th>
+                <th>Triple Price</th>
+                <th>Contact Person</th>
+                <th>Contact Phone</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><input id="editHotelNameInput" type="text" class="hotel-edit-page-input" value="@Model.Data.Name"></td>
+                <td><input id="editHotelSnglPriceInput" type="text" class="hotel-edit-page-input" value="@Model.Data.SinglePrice"></td>
+                <td><input id="editHotelDblPriceInput" type="text" class="hotel-edit-page-input" value="@Model.Data.DoublePrice"></td>
+                <td><input id="editHotelTrplPriceInput" type="text" class="hotel-edit-page-input" value="@Model.Data.TriplePrice"></td>
+                <td><input id="editHotelContPersonInput" type="text" class="hotel-edit-page-input" value="@Model.Data.ContactPerson"></td>
+                <td><input id="editHotelContNumInput" type="text" class="hotel-edit-page-input" value="@Model.Data.ContactNumber"></td>
+                <td>
+                    <button onclick="updateHotel(@Model.Data.Id)" id="updateHotelBtn" class="hotel-edit-page-hotel-btn hotel-edit-page-hotel-btn-primary">Update Hotel</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -2,6 +2,7 @@
 {
     public class HotelOrder : BaseEntity
     {
+        public string ClientNameSurname { get; set; }
         public Client Client { get; set; }
         public int ClientId { get; set; }
         public string HotelName { get; set; }

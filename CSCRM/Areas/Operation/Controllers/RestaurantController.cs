@@ -1,6 +1,7 @@
 ﻿using CSCRM.Abstractions;
 using CSCRM.Models;
 using CSCRM.ViewModels.RestaurantVMs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +9,8 @@ using Microsoft.EntityFrameworkCore;
 namespace CSCRM.Areas.Operation.Controllers
 {
     [Area("Operation")]
+    [Authorize(Roles = "Operation")]
+
     //[Authorize(Roles = "Developer")]
     public class RestaurantController : Controller
     {

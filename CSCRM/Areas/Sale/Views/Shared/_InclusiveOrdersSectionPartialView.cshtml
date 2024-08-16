@@ -1,0 +1,51 @@
+﻿@using CSCRM.ViewModels.ClientOrdersVM
+@model InclusiveOrdersSectionVM
+
+<h2>Inclusive Orders</h2>
+<span style="color: @(Model.Success ? "green" : "red"); font-weight:600">@Model.Message</span>
+<div class="services-inclusive-services-list">
+    <h3>Existing Inclusive Orders</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Inclusive Name</th>
+                <th>Count</th>
+                <th>Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Existing inclusive services will be listed here -->
+            @foreach (var inclusiveOrder in Model.InclusiveOrders)
+            {
+                <tr>
+                    <td>@inclusiveOrder.InclusiveName</td>
+                    <td>@inclusiveOrder.Count</td>
+                    <td>@inclusiveOrder.Date</td>
+                    <td>
+                        <a href="#" class="edit-link">Edit</a>
+                        <button onclick="deleteInclusiveOrder(@inclusiveOrder.Id, @Model.ClientId)" class="delete-btn">Delete</button>
+                    </td>
+                </tr>
+            }
+
+            <!-- More rows as needed -->
+        </tbody>
+    </table>
+</div>
+
+<div class="services-inclusive-add-new">
+    <h3>Add New Inclusive Order</h3>
+    <div class="inclusive-add-form">
+        <select id="add-new-inclusiveOrder-inclusiveName" class="inclusive-input">
+            <option value="" disabled selected>Select Inclusive Service</option>
+            @foreach (var inclusiveName in Model.InclusiveNames)
+            {
+                <option value="@inclusiveName">@inclusiveName</option>
+            }
+        </select>
+        <input type="number" id="add-new-inclusiveOrder-count" placeholder="Count" class="inclusive-input" />
+        <input type="date" id="add-new-inclusiveOrder-date" class="inclusive-input" />
+        <button onclick="addNewInclusiveOrder(@Model.ClientId)" class="inclusive-btn">Add Inclusive Service</button>
+    </div>
+</div>

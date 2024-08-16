@@ -4,6 +4,7 @@ using CSCRM.Models;
 using CSCRM.ViewModels.ClientOrdersVM;
 using CSCRM.ViewModels.ClientVMs;
 using CSCRM.ViewModels.HotelVMs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,8 @@ using Microsoft.EntityFrameworkCore;
 namespace CSCRM.Areas.Operation.Controllers
 {
     [Area("Operation")]
+    [Authorize(Roles = "Operation")]
+
     public class ClientController : Controller
     {
         readonly IClientService _clientService;

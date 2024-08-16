@@ -1,0 +1,40 @@
+﻿@using CSCRM.Models.ResponseTypes
+@using CSCRM.ViewModels.ClientOrdersVM
+@model BaseResponse
+@{
+    HotelTourRestaurantInclusiveOrdersTotal hotelTourRestaurantInclusiveOrders = Model.Data;
+    HotelOrdersSectionVM hotelOrdersSectionVM = hotelTourRestaurantInclusiveOrders.HotelOrdersSection;
+    TourOrdersSectionVM tourOrdersSectionVM = hotelTourRestaurantInclusiveOrders.TourOrdersSection;
+    RestaurantOrdersSectionVM restaurantOrdersSectionVM = hotelTourRestaurantInclusiveOrders.RestaurantOrdersSection;
+    InclusiveOrdersSectionVM inclusiveOrdersSectionVM = hotelTourRestaurantInclusiveOrders.InclusiveOrdersSection; 
+}
+
+
+<div class="client-services-page-content">
+    <div class="client-info">
+        <h3>Client Info</h3>
+        <span style="color: @(Model.Success ? "green" : "red"); font-weight:600">@Model.Message</span>
+
+        <div class="client-details">
+            <p><strong>Invoice Code:</strong> <span id="clientCode">@Model.Data.InvCode</span></p>
+            <p><strong>Mail Code:</strong> <span id="clientCode">@Model.Data.MailCode</span></p>
+            <p><strong>Name:</strong> <span id="clientName">@Model.Data.Name</span></p>
+           <p><strong>Surname:</strong> <span id="clientSurname">@Model.Data.Surname</span></p>
+        </div>
+    </div>
+
+    <div id="hotel-service-section" class="hotel-service-section">
+       @await Html.PartialAsync("_HotelOrdersSectionPartialView", hotelOrdersSectionVM)
+    </div>
+
+    <div id="tour-service-section" class="tour-service-section">
+       @await Html.PartialAsync("_TourOrdersSectionPartialView", tourOrdersSectionVM)
+    </div>
+
+    @* <div id="restaurant-service-section" class="restaurant-service-section">
+        @await Html.PartialAsync("_RestaurantOrdersSectionPartialView", restaurantOrdersSectionVM)
+    </div> *@
+    <div id="inclusive-service-section" class="inclusive-service-section">
+       @await Html.PartialAsync("_InclusiveOrdersSectionPartialView", inclusiveOrdersSectionVM)
+    </div>
+</div>

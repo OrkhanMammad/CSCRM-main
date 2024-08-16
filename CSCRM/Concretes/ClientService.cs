@@ -854,6 +854,7 @@ namespace CSCRM.Concretes
 
                 HotelOrder newHotelOrder = new HotelOrder
                 {
+                    ClientNameSurname = newOrder.ClientNameSurname,
                     HotelName = newOrder.HotelName,
                     RoomType = newOrder.RoomType,
                     Days = newOrder.Days,

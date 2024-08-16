@@ -1,0 +1,7 @@
+﻿@using CSCRM.Models.ResponseTypes
+@using CSCRM.ViewModels.ClientVMs
+@model BaseResponse
+
+<div class="clients-page-content" id="clients-page-content">
+   @await Html.PartialAsync("_ClientPartialView", Model)
+</div>

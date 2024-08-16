@@ -2,6 +2,7 @@
 {
     public class AddNewHotelOrderVM
     {
+        public string ClientNameSurname { get; set; }
         public int ClientId { get; set; }
         public string? HotelName { get; set; }
         public short RoomCount { get; set; }

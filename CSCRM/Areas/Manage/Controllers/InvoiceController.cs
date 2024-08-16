@@ -1,10 +1,12 @@
 ﻿using CSCRM.Abstractions;
 using CSCRM.DataAccessLayers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CSCRM.Areas.Manage.Controllers
 {
     [Area("Manage")]
+    [Authorize(Roles = "Admin")]
     public class InvoiceController : Controller
     {
         readonly IInvoiceService _service;

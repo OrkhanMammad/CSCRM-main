@@ -2765,3 +2765,80 @@ Confirmation Page Starts Here*/
     .confirmation-table tr:hover {
         background-color: #ddd;
     }
+
+
+/*RESERVATIONS PAGE STARTS HERE
+RESERVATIONS PAGE STARTS HERE
+RESERVATIONS PAGE STARTS HERE
+RESERVATIONS PAGE STARTS HERE*/
+
+
+.reservations-page-content {
+    margin-left: 220px;
+    padding: 20px;
+    flex-grow: 1;
+}
+
+.ReservationsPageHead {
+    text-align: center;
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+.reservations-page-container {
+    margin-top: 20px;
+}
+
+.reservations-page-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 18px;
+    text-align: left;
+}
+
+.reservations-page-thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    text-align: center;
+    font-weight: bold;
+}
+
+.reservations-page-table th,
+.reservations-page-table td {
+    padding: 12px 15px;
+    text-align: center;
+}
+
+.reservations-page-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+    .reservations-page-table tbody tr:nth-of-type(even) {
+        background-color: #f3f3f3;
+    }
+
+    .reservations-page-table tbody tr:last-of-type {
+        border-bottom: 2px solid #009879;
+    }
+
+.reservations-page-btn {
+    padding: 5px 10px;
+    margin: 0 5px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+}
+
+.reservations-page-btn-primary {
+    background-color: #007bff;
+    color: white;
+}
+
+    .reservations-page-btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+   

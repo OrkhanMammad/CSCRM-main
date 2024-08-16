@@ -11,7 +11,7 @@ namespace CSCRM.Areas.Manage.Controllers
 
 
     [Area("Manage")]
-    //[Authorize(Roles = "Developer")]
+    [Authorize(Roles = "Admin")]
     public class HotelController : Controller
     {
         readonly IHotelService _hotelService;

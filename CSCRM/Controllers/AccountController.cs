@@ -68,6 +68,15 @@ namespace CSCRM.Controllers
                     return RedirectToAction("Index", "Client", new { area = "Operation" });
                 }
 
+                if (roles.Any(r => r == "Sale"))
+                {
+                    return RedirectToAction("Index", "Client", new { area = "Sale" });
+                }
+                if (roles.Any(r => r == "Reservation"))
+                {
+                    return RedirectToAction("Index", "Reservation", new { area = "Reservation" });
+                }
+
                 return View(signInVM);
             }
             catch (Exception ex) {
@@ -96,6 +105,28 @@ namespace CSCRM.Controllers
         //    AppUser user = new AppUser { Email = "Operation@gmail.com", UserName = "Operation123", Name = "Operation", SurName = "Operli" };
         //    await _userManager.CreateAsync(user, "Operation123");
         //    await _userManager.AddToRoleAsync(user, "Operation");
+
+
+        //}
+
+        //[HttpGet]
+        //public async Task CreateNewAccount()
+        //{
+        //    await _roleManager.CreateAsync(new IdentityRole("Sale"));
+        //    AppUser user = new AppUser { Email = "Sales@gmail.com", UserName = "Sales123", Name = "Sales", SurName = "Salesli" };
+        //    await _userManager.CreateAsync(user, "Sales123");
+        //    await _userManager.AddToRoleAsync(user, "Sale");
+
+
+        //}
+
+        //[HttpGet]
+        //public async Task CreateNewAccount()
+        //{
+        //    await _roleManager.CreateAsync(new IdentityRole("Reservation"));
+        //    AppUser user = new AppUser { Email = "Reservation@gmail.com", UserName = "Reservation123", Name = "Reservation", SurName = "Reservationli" };
+        //    await _userManager.CreateAsync(user, "Reservation123");
+        //    await _userManager.AddToRoleAsync(user, "Reservation");
 
 
         //}

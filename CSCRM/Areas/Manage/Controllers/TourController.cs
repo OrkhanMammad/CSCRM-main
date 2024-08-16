@@ -3,6 +3,7 @@ using CSCRM.Concretes;
 using CSCRM.Models;
 using CSCRM.ViewModels.CompanyVMs;
 using CSCRM.ViewModels.TourVMs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 namespace CSCRM.Areas.Manage.Controllers
 {
     [Area("Manage")]
+    [Authorize(Roles = "Admin")]
     public class TourController : Controller
     {
         readonly ITourService _tourService;

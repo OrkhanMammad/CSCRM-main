@@ -1,0 +1,102 @@
+﻿@using CSCRM.Models.ResponseTypes;
+@using CSCRM.ViewModels.RestaurantVMs;
+@model BaseResponse;
+
+
+<h2 class="RestaurantsPageHead">Restaurants</h2>
+<span style="color: @(Model.Success ? "green" : "red"); font-weight:600">@Model.Message</span>
+<div class="restaurants-page-container">
+    <table class="restaurants-page-restaurants-table">
+        <thead class="restaurants-page-restaurants-thead">
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Lunch</th>
+                <th scope="col">Dinner</th>
+                <th scope="col">Gala Dinner <br /> (Simple)</th>
+                <th scope="col">Gala Dinner <br /> (Local Alc)</th>
+                <th scope="col">Gala Dinner <br /> (Foreign Alc)</th>
+                <th scope="col">Take Away</th>
+                <th scope="col">Contact Person</th>
+                <th scope="col">Contact Phone</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(GetRestaurantVM restaurant in Model.Data)
+            {
+                <tr>
+                    <td>@restaurant.Name</td>
+                    <td>@restaurant.Lunch</td>
+                    <td>@restaurant.Dinner</td>
+                    <td>@restaurant.Gala_Dinner_Simple</td>
+                    <td>@restaurant.Gala_Dinner_Local_Alc</td>
+                    <td>@restaurant.Gala_Dinner_Foreign_Alc</td>
+                    <td>@restaurant.TakeAway</td>
+                    <td>@restaurant.ContactPerson</td>
+                    <td>@restaurant.ContactPhone</td>
+                    <td>
+                        <a asp-action="editrestaurant" asp-controller="restaurant" asp-area="Sale" asp-route-restaurantId="@restaurant.Id"
+                           class="restaurants-page-restaurants-btn restaurants-page-restaurants-btn-primary">Edit</a>
+                        <button onclick="deleteRestaurant(@restaurant.Id)"
+                                class="restaurants-page-restaurants-btn restaurants-page-restaurants-btn-danger">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+            }
+            
+
+
+        </tbody>
+    </table>
+
+    <div class="pagination">
+        @if (Model.PageIndex > 1)
+        {
+            <a asp-action="index" asp-controller="restaurant" asp-area="Sale" asp-route-pageIndex="@(Model.PageIndex-1)">&laquo;</a>
+
+        }
+        @for (var i = 1; i <= Model.PageSize; i++)
+        {
+            if (i > Model.PageIndex - 2 && i < Model.PageIndex + 2)
+            {
+                <a class="@(Model.PageIndex==i ? "activePageIndex" : "")" asp-action="index" asp-controller="restaurant" asp-area="Sale" asp-route-pageIndex="@i">@i</a>
+
+            }
+        }
+        @if (Model.PageIndex < Model.PageSize)
+        {
+            <a asp-action="index" asp-controller="restaurant" asp-area="Sale" asp-route-pageIndex="@(Model.PageIndex + 1)">&raquo;</a>
+
+        }
+    </div>
+
+    <div class="restaurants-page-restaurants-add-container">
+        <h3>Add New Restaurant</h3>
+        <div class="restaurants-add">
+            <input type="text" id="add-restaurant-name-input" placeholder="Name"
+                   class="restaurants-page-add-restaurant-input" />
+            <input style="max-width:10px;" type="number" id="add-restaurant-lunch-input" placeholder="Lunch"
+                   class="restaurants-page-add-restaurant-input" />
+            <input type="number" id="add-restaurant-dinner-input" placeholder="Dinner"
+                   class="restaurants-page-add-restaurant-input" />
+            <input type="number" id="add-restaurant-gala-simple-input" placeholder="Gala Dinner (Simple)"
+                   class="restaurants-page-add-restaurant-input" />
+            <input type="number" id="add-restaurant-gala-local-input" placeholder="Gala Dinner (Local Alc)"
+                   class="restaurants-page-add-restaurant-input" />
+            <input type="number" id="add-restaurant-gala-foreign-input" placeholder="Gala Dinner (Foreign Alc)"
+                   class="restaurants-page-add-restaurant-input" />
+            <input type="number" id="add-restaurant-takeaway-input" placeholder="Take Away"
+                   class="restaurants-page-add-restaurant-input" />
+            <input type="text" id="add-restaurant-contactName-input" placeholder="Contact Name"
+                   class="restaurants-page-add-restaurant-input" />
+            <input type="text" id="add-restaurant-contactPhone-input" placeholder="Contact Phone"
+                   class="restaurants-page-add-restaurant-input" />
+            <button onclick="addRestaurant()"
+                    class="restaurants-page-restaurants-btn restaurants-page-restaurants-btn-add">
+                Add
+                Restaurant
+            </button>
+        </div>
+    </div>
+</div>

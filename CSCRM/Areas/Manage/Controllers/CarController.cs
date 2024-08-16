@@ -4,6 +4,7 @@ using CSCRM.Models;
 using CSCRM.ViewModels.CarVMs;
 using CSCRM.ViewModels.CompanyVMs;
 using CSCRM.ViewModels.TourVMs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 namespace CSCRM.Areas.Manage.Controllers
 {
     [Area("Manage")]
+    [Authorize(Roles = "Admin")]
     public class CarController : Controller
     {
         readonly ICarService _carService;

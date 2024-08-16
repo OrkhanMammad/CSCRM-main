@@ -1,0 +1,140 @@
+﻿@using CSCRM.Models.ResponseTypes
+@using CSCRM.ViewModels.ClientVMs
+@model BaseResponse
+@{
+    EditClientInfoVM client = Model.Data.ClientForUpdate;
+    
+}
+
+<h2 class="EditClientInfoPageHead">Edit Client Info</h2>
+<span style="color: @(Model.Success ? "green" : "red"); font-weight:600">@Model.Message</span>
+<div class="edit-client-info-container">
+    <div class="edit-client-info-form">
+        <table class="edit-client-info-table">
+            <thead>
+                <tr>
+                    <th scope="col">Inv Code</th>
+                    <th scope="col">Mail Code</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Surname</th>
+                    <th scope="col">Car Type</th>
+                    <th scope="col">Pax Size</th>
+                    <th scope="col">Sales <br> Amount</th>
+                    <th scope="col">Received</th>
+                    <th scope="col">Payment <br> Situation</th>
+                    <th scope="col">Visa <br> Situation</th>
+                    <th scope="col">Country</th>
+                    <th scope="col">Company</th>
+                    <th scope="col">Arrival <br> Date</th>
+                    <th scope="col">Arrival <br /> Time</th>
+                    <th scope="col">Flight No</th>
+                    <th scope="col">Departure <br> Date</th>
+                    <th scope="col">Departure <br /> Time</th>
+                    <th scope="col">Flight No</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <input style="max-width: 70px;" type="text" id="edit-invoiceCode-input"
+                               class="edit-clientInfo-client-input" value="@client.InvCode" />
+                    </td>
+                    <td>
+                        <input style="max-width: 70px;" type="text" id="edit-mailCode-input"
+                               class="edit-clientInfo-client-input" value="@client.MailCode" />
+                    </td>
+                    <td>
+                        <input style="max-width: 70px;" type="text" id="edit-clientName-input"
+                               class="edit-clientInfo-client-input" value="@client.Name" />
+                    </td>
+                    <td>
+                        <input style="max-width: 70px;" type="text" id="edit-clientSurname-input"
+                               class="edit-clientInfo-client-input" value="@client.Surname" />
+                    </td>
+                    <td>
+                        <select id="edit-clientCarType-select" class="edit-clientInfo-client-input">
+                            <option selected value="@client.CarType">@client.CarType</option>
+                            @foreach(var carType in Model.Data.CarTypes)
+                            {
+                                <option value="@carType">@carType</option>
+                            }
+
+                        </select>
+                    </td>
+                    <td>
+                        <input style="max-width: 70px;" type="text" id="edit-clientPaxSize-input"
+                               class="edit-clientInfo-client-input" value="@client.PaxSize" />
+                    </td>
+                    <td>
+                        <input style="width: 55px;" type="text" id="edit-salesAmount-input"
+                               class="edit-clientInfo-client-input" value="@client.SalesAmount" />
+                    </td>
+                    <td>
+                        <input type="text" style="width: 55px;" id="edit-received-input"
+                               class="edit-clientInfo-client-input" value="@client.Received" />
+                    </td>
+                    <td>
+                        <select id="edit-paymentSituation-select" class="edit-clientInfo-client-input">
+                            <option selected value="@client.PaySituation">@client.PaySituation</option>
+                            <option value="On Arrival">On Arrival</option>
+                            <option value="Bank Account Received">Bank Account Received</option>
+                            <option value="Half Payment">Half Payment</option>
+                            <option value="Full Payment">Full Payment</option>
+                            <option value="Negotiation">Negotiation</option>
+                            <option value="Bank Account">Bank Account</option>
+                            <option value="Cancel">Cancel</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select id="edit-visaSituation-select" class="edit-clientInfo-client-input">
+                            <option selected value="@client.VisaSituation">@client.VisaSituation</option>
+                            <option value="Include">Include</option>
+                            <option value="Not Include">Not Include</option>
+                            <option value="Applied">Applied</option>
+                            <option value="Waiting For Visa">Waiting For Visa</option>
+                            <option value="Waiting For Passport">Waiting For Passport</option>
+                            <option value="Sent">Sent</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input style="width: 85px;" type="text" id="edit-country-input"
+                               class="edit-clientInfo-client-input" value="@client.Country" />
+                    </td>
+                    <td>
+                        <select id="edit-company-input" class="edit-clientInfo-client-input">
+                            <option selected value="@client.Company">@client.Company</option>
+                            @foreach(var company in Model.Data.CompanyNames){
+                                <option value="@company">@company</option>
+                            }                                                        
+                        </select>
+                    </td>
+                    <td>
+                        <input style="max-width: 100px" type="date" id="edit-arrivalDate-input" class="edit-clientInfo-client-input" placeholder="ArrivalDate" value="@client.ArrivalDate" />
+                    </td>
+                    <td>
+                        <input style="max-width: 95px" type="time" id="edit-arrivalTime-input" class="edit-clientInfo-client-input" placeholder="ArrivalTime" value="@client.ArrivalTime" />
+                    </td>
+                    <td>
+                        <input style="max-width: 70px" type="text" id="edit-arrivalFlight-input" class="edit-clientInfo-client-input" placeholder="Flight No" value="@client.ArrivalFlight" />
+                    </td>
+                    <td>
+                        <input style="max-width: 100px" type="date" id="edit-departureDate-input" class="edit-clientInfo-client-input" placeholder="Departure" value="@client.DepartureDate" />
+                    </td>
+                    <td>
+                        <input style="max-width: 95px" type="time" id="edit-departureTime-input" class="edit-clientInfo-client-input" placeholder="ArrivalTime" value="@client.DepartureTime" />
+                    </td>
+                    <td>
+                        <input style="max-width: 70px" type="text" id="edit-departureFlight-input" class="edit-clientInfo-client-input" placeholder="Flight No" value="@client.DepartureFlight" />
+                    </td>
+                    <td>
+                        <button onclick="updateClientInfo(@client.Id)"
+                                class="edit-clientInfoPg-client-btn edit-clientInfoPg-client-btn-update">
+                            Update
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

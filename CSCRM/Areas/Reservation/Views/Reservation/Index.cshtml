@@ -1,0 +1,61 @@
+﻿@using CSCRM.Models.ResponseTypes
+@using CSCRM.ViewModels.ClientOrdersVM
+@model BaseResponse
+@{
+    var hotelOrders = Model.Data;
+}
+
+
+<!DOCTYPE html>
+
+
+    <div class="reservations-page-content">
+        <h2 class="ReservationsPageHead">Reservations</h2>
+
+        <div class="reservations-page-container">
+            <table class="reservations-page-table">
+                <thead class="reservations-page-thead">
+                    <tr>
+                        <th scope="col">Inv Code</th>
+                        <th scope="col">Mail Code</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Surname</th>
+                        <th scope="col">Hotel Name</th>
+                        <th scope="col">Room Type</th>
+                        <th scope="col">Room Count</th>
+                        <th scope="col">Days</th>
+                        <th scope="col">Date From</th>
+                        <th scope="col">Date To</th>
+                        <th scope="col">Confirmation Numbers</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (GetClientOrdersVM hotelOrder in hotelOrders)
+                {
+                    <tr>
+
+                        <td>@hotelOrder.InvCode</td>
+                        <td>@hotelOrder.MailCode</td>
+                        <td>@hotelOrder.Name</td>
+                        <td>@hotelOrder.Surname</td>
+                        <td>@hotelOrder.HotelOrders.</td>
+                        <td>Suite</td>
+                        <td>2</td>
+                        <td>5</td>
+                        <td>2024-08-01</td>
+                        <td>2024-08-06</td>
+                        <td>CN001, CN002</td>
+                        <td>
+                            <button class="reservations-page-btn reservations-page-btn-primary">Edit</button>
+                        </td>
+                    </tr>
+                }
+                    
+                    <!-- Additional rows can be added here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+

@@ -1,0 +1,34 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hotels</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="~/css/site.css" />
+</head>
+
+<body>
+    <div class="navbar">
+        <ul class="navbar-list">
+            <li class="navbar-item"><a asp-action="index" asp-controller="hotel" asp-area="Sale">Hotels</a></li>
+            <li class="navbar-item"><a asp-action="index" asp-controller="Restaurant" asp-area="Sale">Restaurants</a></li>
+            <li class="navbar-item"><a asp-action="index" asp-controller="Inclusive" asp-area="Sale">Inclusive Services</a></li>
+            <li class="navbar-item"><a asp-action="index" asp-controller="tour" asp-area="Sale">Tours</a></li>
+           @*  <li class="navbar-item"><a asp-action="index" asp-controller="car" asp-area="Sale">Car Types</a></li> *@
+            <li class="navbar-item"><a asp-action="index" asp-controller="TourCar" asp-area="Sale">Tours By Car Types</a></li>
+            <li class="navbar-item"><a asp-action="index" asp-controller="Company" asp-area="Sale">Companies</a></li>
+            <li class="navbar-item"><a asp-action="index" asp-controller="client" asp-area="Sale">Clients</a></li>
+            <li class="navbar-item"><a asp-action="index" asp-controller="confirmation" asp-area="Sale">Confirmation</a></li>
+           
+            
+        </ul>
+    </div>
+    @RenderBody()
+   
+    <script src="~/js/sale.js" asp-append-version="true"></script>
+</body>
+
+</html>
