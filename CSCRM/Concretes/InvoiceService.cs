@@ -19,10 +19,7 @@ namespace CSCRM.Concretes
 
         public async Task<InvoicePageMainVm> GetInvoiceAsync(int clientId)
         {
-            GetClientOrdersForInvoiceVM clientOrders = await _context.Clients
-                                                               .Include(c => c.HotelOrders)
-                                                               .Include(c => c.TourOrders)
-                                                               .Include(c => c.InclusiveOrders)
+            GetClientOrdersForInvoiceVM clientOrders = await _context.Clients                                                               
                                                                .Select(c => new GetClientOrdersForInvoiceVM
                                                                {
                                                                    ClientId = c.Id,
@@ -35,23 +32,7 @@ namespace CSCRM.Concretes
                                                                    DepartureFlight = c.DepartureFlight,
                                                                    CompanyName = c.Company,
                                                                    SalesAmount = c.SalesAmount,
-                                                                   PaxSize = c.PaxSize,
-                                                                   HotelOrders = c.HotelOrders.Where(o => !o.IsDeleted).Select(o => new GetHotelOrdersForInvoiceVM
-                                                                   {
-                                                                       HotelName = o.HotelName,
-                                                                       Id = o.Id,
-                                                                   }).ToList(),
-                                                                   TourOrders = c.TourOrders.Where(o=>!o.IsDeleted).Select(o=> new GetTourOrdersForInvoiceVM
-                                                                   {
-                                                                       CarType = o.CarType,
-                                                                       Date = o.Date,
-                                                                       Guide = o.Guide,
-                                                                       TourName = o.Tour.Name,
-                                                                   }).ToList(),
-                                                                   InclusiveOrders = c.InclusiveOrders.Where(o => !o.IsDeleted).Select(o=>new GetInclusiveOrdersForInvoiceVM
-                                                                   {
-                                                                       InclusiveName = o.InclusiveName,
-                                                                   }).ToList()
+                                                                   PaxSize = c.PaxSize,    
                                                                }).FirstOrDefaultAsync(co=> co.ClientId == clientId);
 
             GetCompanyVM company = await _context.Companies.Where(c => !c.IsDeleted && c.Name == clientOrders.CompanyName)
@@ -67,18 +48,7 @@ namespace CSCRM.Concretes
            
 
 
-            var hotelOrders = new List<GetHotelOrdersForInvoiceVM>();
-
-            foreach (var hotelOrder in clientOrders.HotelOrders)
-            {
-                if (!hotelOrders.Any(h => h.HotelName == hotelOrder.HotelName))
-                {
-                    hotelOrders.Add(hotelOrder);
-                }
-            }
-
-            clientOrders.HotelOrders = hotelOrders;
-
+            var hotelOrders = new List<GetHotelOrdersForInvoiceVM>();                       
 
             InvoicePageMainVm invoicePageMainVm = new InvoicePageMainVm
             {

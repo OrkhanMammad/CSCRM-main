@@ -124,7 +124,7 @@ namespace CSCRM.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CarTypes");
+                    b.ToTable("CarTypes", (string)null);
                 });
 
             modelBuilder.Entity("CSCRM.Models.Client", b =>
@@ -210,7 +210,7 @@ namespace CSCRM.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Clients");
+                    b.ToTable("Clients", (string)null);
                 });
 
             modelBuilder.Entity("CSCRM.Models.Company", b =>
@@ -251,7 +251,7 @@ namespace CSCRM.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Companies");
+                    b.ToTable("Companies", (string)null);
                 });
 
             modelBuilder.Entity("CSCRM.Models.Hotel", b =>
@@ -295,7 +295,7 @@ namespace CSCRM.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Hotels");
+                    b.ToTable("Hotels", (string)null);
                 });
 
             modelBuilder.Entity("CSCRM.Models.HotelConfirmationNumber", b =>
@@ -316,7 +316,7 @@ namespace CSCRM.Migrations
 
                     b.HasIndex("HotelOrderId");
 
-                    b.ToTable("HotelConfirmationNumbers");
+                    b.ToTable("HotelConfirmationNumbers", (string)null);
                 });
 
             modelBuilder.Entity("CSCRM.Models.HotelOrder", b =>
@@ -368,7 +368,7 @@ namespace CSCRM.Migrations
 
                     b.HasIndex("ClientId");
 
-                    b.ToTable("HotelOrders");
+                    b.ToTable("HotelOrders", (string)null);
                 });
 
             modelBuilder.Entity("CSCRM.Models.Inclusive", b =>
@@ -400,7 +400,7 @@ namespace CSCRM.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("InclusiveServices");
+                    b.ToTable("InclusiveServices", (string)null);
                 });
 
             modelBuilder.Entity("CSCRM.Models.InclusiveOrder", b =>
@@ -441,7 +441,7 @@ namespace CSCRM.Migrations
 
                     b.HasIndex("ClientId");
 
-                    b.ToTable("InclusiveOrders");
+                    b.ToTable("InclusiveOrders", (string)null);
                 });
 
             modelBuilder.Entity("CSCRM.Models.Itinerary", b =>
@@ -463,7 +463,7 @@ namespace CSCRM.Migrations
 
                     b.HasIndex("TourId");
 
-                    b.ToTable("Itineraries");
+                    b.ToTable("Itineraries", (string)null);
                 });
 
             modelBuilder.Entity("CSCRM.Models.Restaurant", b =>
@@ -516,7 +516,7 @@ namespace CSCRM.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Restaurants");
+                    b.ToTable("Restaurants", (string)null);
                 });
 
             modelBuilder.Entity("CSCRM.Models.RestaurantOrder", b =>
@@ -561,7 +561,7 @@ namespace CSCRM.Migrations
 
                     b.HasIndex("ClientID");
 
-                    b.ToTable("RestaurantOrders");
+                    b.ToTable("RestaurantOrders", (string)null);
                 });
 
             modelBuilder.Entity("CSCRM.Models.Tour", b =>
@@ -590,7 +590,7 @@ namespace CSCRM.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tours");
+                    b.ToTable("Tours", (string)null);
                 });
 
             modelBuilder.Entity("CSCRM.Models.TourByCarType", b =>
@@ -628,7 +628,7 @@ namespace CSCRM.Migrations
 
                     b.HasIndex("TourId");
 
-                    b.ToTable("TourByCarTypes");
+                    b.ToTable("TourByCarTypes", (string)null);
                 });
 
             modelBuilder.Entity("CSCRM.Models.TourOrder", b =>
@@ -674,7 +674,7 @@ namespace CSCRM.Migrations
 
                     b.HasIndex("TourId");
 
-                    b.ToTable("TourOrders");
+                    b.ToTable("TourOrders", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

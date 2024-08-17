@@ -6,10 +6,6 @@
         
             <div class="invoice-main" style="width: 940px;">
 
-                <!-- invoice main 1
-                invoice main 1
-                invoice main 1 -->
-
                 <div style="display: flex; justify-content: space-between; margin-bottom: -20px;"
                      class="invoice-main-1">
                     <div style="width: 50%;" class="invoice-main-1.1">
@@ -20,10 +16,6 @@
                     </div>
                 </div>
                 <hr style="background-color: black; height: 3px; margin-top: 0px; margin-bottom: 20px;">
-
-                <!-- invoice main 2
-                invoice main 2
-                invoice main 2 -->
 
                 <div class="invoice-main-2"
                      style="width: 100%; height: 100px; max-height: 100px; display: flex; justify-content: space-between; margin-bottom: 30px;">
@@ -68,8 +60,6 @@
                                  alt="">
                         </div>
 
-
-
                         <div class="invoice-main-2.2-right"
                              style="background-color: #e7e6e667; height: 100%; width: 65%;">
                         </div>
@@ -77,15 +67,14 @@
                     </div>
                 </div>
 
-                <!-- invoice main 3
-                invoice main 3
-                invoice main 3 -->
+
                 <h5 style="margin-bottom: 0px; margin-left: 5px;">Invoice to:</h5>
                 <div class="invoice-main-3"
                      style="width: 100%; height: 100px; max-height: 100px; display: flex; justify-content: space-between;">
 
                     <div class="invoice-main-3.1"
                          style="border: 1px solid black; height: 97%; max-height: 97%; width: 38%; ">
+                       
                         <input type="text" value="@Model.Company.Name"
                                style="height: 15px; width: 97%; display: block;font-size: 13px; margin-top: 6px; border: none;padding-left: 5px;">
 
@@ -115,12 +104,6 @@
                     </div>
 
                 </div>
-
-
-
-                <!-- invoice main 4
-                invoice main 4
-                invoice main 4 -->
 
 
                 <div class="invoice-main-4">
@@ -160,208 +143,6 @@
                 </div>
 
 
-                <!-- invoice main 5
-                invoice main 5
-                invoice main 5 -->
-
-
-                <div class="invoice-main-5">
-                    <h5 style="margin: 0px; text-align: center; color: white; background-color: #5B9BD5
-                        ; padding: 3px 0px;">
-                        Hotel Service
-                    </h5>
-                @{
-                    short HotelOrderCount = 0;
-                }
-                @if (Model.ClientOrders.HotelOrders.Any())
-                {
-                    @foreach (var hotelOrder in Model.ClientOrders.HotelOrders)
-                    {
-                        if (HotelOrderCount == 0)
-                        {
-                            <div style="display: flex; justify-content: space-between; padding: 0;">
-                                <p style="width: 40%; text-align: start; font-size: 13px; padding: 0; margin-top: 5px;margin-left: 5px;">
-                                    1 Hotel
-                                    Name:
-                                </p>
-                                <p style="width: 40%; text-align: start; font-size: 13px; padding: 0; margin-top: 5px;">
-                                    <input style="font-size: 13px; width: 95%; border: none;" type="text"
-                                           value="@hotelOrder.HotelName">
-                                </p>
-                            </div>
-                            HotelOrderCount += 1;
-                        }
-                        else
-                        {
-                            <div style="display: flex; justify-content: space-between; padding: 0; margin-top: -15px;">
-                                <p style="width: 40%; text-align: start; font-size: 13px; padding: 0; margin-top: 5px;margin-left: 5px;">
-                                    @(HotelOrderCount + 1) Hotel
-                                    Name:
-                                </p>
-                                <p style="width: 40%; text-align: start; font-size: 13px; padding: 0; margin-top: 5px;">
-                                    <input style="font-size: 13px; width: 95%; border: none;" type="text" value="@hotelOrder.HotelName">
-                                </p>
-                            </div>
-                            HotelOrderCount += 1;
-                        }
-
-                    }
-                }
-                else{
-                <div style="display: flex; justify-content: space-between; padding: 0;">
-                    <p style="width: 40%; text-align: start; font-size: 13px; padding: 0; margin-top: 5px;margin-left: 5px;">
-                        1 Hotel
-                        Name:
-                    </p>
-                    <p style="width: 40%; text-align: start; font-size: 13px; padding: 0; margin-top: 5px;">
-                        <input style="font-size: 13px; width: 95%; border: none;" type="text"
-                               value="">
-                    </p>
-                </div>
-                    <div style="display: flex; justify-content: space-between; padding: 0; margin-top: -15px;">
-                        <p style="width: 40%; text-align: start; font-size: 13px; padding: 0; margin-top: 5px;margin-left: 5px;">
-                            2 Hotel
-                            Name:
-                        </p>
-                        <p style="width: 40%; text-align: start; font-size: 13px; padding: 0; margin-top: 5px;">
-                            <input style="font-size: 13px; width: 95%; border: none;" type="text" value="">
-                        </p>
-                    </div>
-                }
-               
-                
-
-                   
-
-                    <div style="display: flex; justify-content: space-between; padding: 0; margin-top: -15px;">
-                        <p style="width: 40%; text-align: start; font-size: 13px; padding: 0; margin-top: 5px;margin-left: 5px;">
-                            Room
-                            Service Type:
-                        </p>
-                        <p style="width: 40%; text-align: start; font-size: 13px; padding: 0; margin-top: 5px;">
-                            <input style="font-size: 13px; width: 95%; border: none;" type="text" value="Room Only">
-                        </p>
-                    </div>
-
-                </div>
-
-                <!-- invoice main 6
-                invoice main 6
-                invoice main 6 -->
-
-
-                <div style="margin-top: -10px;" class="invoice-main-6">
-                    <h5 style="margin: 0px; text-align: center; color: white; background-color: #5B9BD5
-                    ; padding: 3px 0px;">
-                        Land Packages:
-                    </h5>
-                    <div style="background-color: #5B9BD5; display: flex; justify-content: space-around; height: 18px;">
-                        <span style="font-size: 13px; font-weight: 600; color: white; width: 15%; text-align: center;">Date</span>
-                        <span style="font-size: 13px; font-weight: 600; color: white; width: 40%;text-align: center;">
-                            Tour
-                            Route
-                        </span>
-                        <span style="font-size: 13px; font-weight: 600; color: white; width: 12%;text-align: center;">
-                            Paxs
-                            Size
-                        </span>
-                        <span style="font-size: 13px; font-weight: 600; color: white; width: 12%;text-align: center;">Guide</span>
-                        <span style="font-size: 13px; font-weight: 600; color: white; width: 20%;text-align: center;">
-                            Transport
-                            Type
-                        </span>
-                    </div>
-
-
-                    <!-- Datas start here
-                    Datas start here
-                    Datas start here
-                    Datas start here -->
-
-                @if (Model.ClientOrders.TourOrders.Any())
-                {
-                    @foreach(var tourOrder in Model.ClientOrders.TourOrders)
-                    {
-                        <div style="display: flex; justify-content: space-around; height: 18px;">
-                            <input style="width: 15%;  text-align: center; border: none; font-size: 12px; border-bottom: 1px dotted black;
-                        border-right: 1px dotted black;border-left: 1px dotted black;" value="@tourOrder.Date" type="text">
-                            <input style="width: 40%; border: none; text-align: center; font-size: 12px; border-bottom: 1px dotted black;"
-                                   value="@tourOrder.TourName" type="text">
-                            <input style="width: 12%;border: none; border-bottom: 1px dotted black;
-                        border-left: 1px dotted black;text-align: center; font-size: 12px;" value="@Model.ClientOrders.PaxSize" type="text">
-                            <input style="width: 12%; border: none;text-align: center; font-size: 12px; border-left: 1px dotted black;border-bottom: 1px dotted black; border-right: 1px dotted black;"
-                                   value="Yes" type="text">
-                            <input style="width: 20%;border: none;text-align: center; font-size: 12px; border-bottom: 1px dotted black; border-right: 1px dotted black;"
-                                   value="@tourOrder.CarType" type="text">
-                        </div>
-                    }
-
-                }
-                else
-                {
-                    for(short i = 0; i<=6; i++)
-                    {
-                        <div style="display: flex; justify-content: space-around; height: 18px;">
-                            <input style="width: 15%;  text-align: center; border: none; font-size: 12px; border-bottom: 1px dotted black;
-                        border-right: 1px dotted black;border-left: 1px dotted black;" value="" type="text">
-                            <input style="width: 40%; border: none; text-align: center; font-size: 12px; border-bottom: 1px dotted black;"
-                                   value="" type="text">
-                            <input style="width: 12%;border: none; border-bottom: 1px dotted black;
-                        border-left: 1px dotted black;text-align: center; font-size: 12px;" value="" type="text">
-                            <input style="width: 12%; border: none;text-align: center; font-size: 12px; border-left: 1px dotted black;border-bottom: 1px dotted black; border-right: 1px dotted black;"
-                                   value="" type="text">
-                            <input style="width: 20%;border: none;text-align: center; font-size: 12px; border-bottom: 1px dotted black; border-right: 1px dotted black;"
-                                   value="" type="text">
-                        </div>
-                    }                                     
-                }
-                </div>
-
-                <!-- invoice main 7
-                invoice main 7
-                invoice main 7 -->
-
-
-            <div class="invoice-main-7">
-                <h5 style="margin: 0px; text-align: center; color: white; background-color: #5B9BD5
-                    ; padding: 3px 0px;">
-                    Price Include:
-                </h5>
-
-                <!-- DATAS START HERE
-                DATAS START HERE
-                DATAS START HERE
-                DATAS START HERE -->
-                @{
-                    int totalInputs = 20; // Toplam 20 input alanı olacak (5 satır x 4 sütun)
-                    int filledInputs = Model.ClientOrders.InclusiveOrders.Count; // Mevcut veri sayısı
-                    int emptyInputs = totalInputs - filledInputs; // Boş input alanlarının sayısı
-
-                    // Toplam input alanlarını birleştirilmiş bir liste olarak oluştur
-                    var allInputs = new List<string>();
-                    allInputs.AddRange(Model.ClientOrders.InclusiveOrders.Select(o => o.InclusiveName));
-                    allInputs.AddRange(Enumerable.Repeat(string.Empty, emptyInputs));
-                }
-
-                @for (int row = 0; row < 5; row++) // 5 satır oluştur
-                {
-                    <div style="display: flex; justify-content: space-around; height: 18px;">
-                        @for (int col = 0; col < 4; col++) // Her satırda 4 input elementi oluştur
-                        {
-                            int index = row * 4 + col;
-                            <input style="width: 25%; text-align: start; border: none; font-size: 11px; border-bottom: 1px dotted black;
-                          border-right: 1px dotted black; border-left: 1px dotted black;"
-                                   value="@allInputs[index]" type="text">
-                        }
-                    </div>
-                }
-            </div>
-
-
-
-                <!-- invoice main 8
-                invoice main 8
-                invoice main 8 -->
 
                 <div class="invoice-main-8">
                     <div style="display: flex;">
@@ -434,22 +215,9 @@
 
                                 </div>
                             </div>
-
-
-
-
-
                         </div>
                     </div>
                 </div>
-
-
-
-
-                <!-- invoice main 9
-                invoice main 9
-                invoice main 9 -->
-
 
                 <div class="invoice-main-9">
                     <div style="display: flex;">
@@ -501,10 +269,6 @@
                                 <input style="display: block; width: 98%; border: none;  font-size: 9.4px;margin-top: 3px;padding-top: 8px;"
                                        type="text"
                                        value="RAIFFEISEN BANK INTERNATIONAL AG,Vienna, Austria S.W.I.F.T.: RZBAATWW">
-
-
-
-
                             </div>
 
 

@@ -2841,4 +2841,88 @@ RESERVATIONS PAGE STARTS HERE*/
         background-color: #0056b3;
     }
 
-   
+
+
+/*EDIT RESERVATION PAGE STARTS HERE
+EDIT RESERVATION PAGE STARTS HERE
+EDIT RESERVATION PAGE STARTS HERE
+EDIT RESERVATION PAGE STARTS HERE*/
+
+
+.reservation-edit-page-content {
+    margin-left: 220px;
+    padding: 20px;
+    flex-grow: 1;
+}
+
+.reservation-edit-page-container {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.reservation-edit-page-title {
+    text-align: center;
+    font-size: 30px;
+}
+
+.reservation-edit-page-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 18px;
+    text-align: left;
+}
+
+    .reservation-edit-page-table th,
+    .reservation-edit-page-table td {
+        padding: 12px 15px;
+        text-align: center;
+    }
+
+.reservation-edit-page-thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.reservation-edit-page-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+    .reservation-edit-page-table tbody tr:nth-of-type(even) {
+        background-color: #f3f3f3;
+    }
+
+    .reservation-edit-page-table tbody tr:last-of-type {
+        border-bottom: 2px solid #009879;
+    }
+
+.reservation-edit-page-input {
+    font-size: 18px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-align: center;
+    width: 250px;
+}
+
+.reservation-edit-page-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.reservation-edit-page-btn-primary {
+    background-color: #007bff;
+}
+
+    .reservation-edit-page-btn-primary:hover {
+        background-color: #0056b3;
+    }

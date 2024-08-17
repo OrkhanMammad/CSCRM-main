@@ -1,4 +1,5 @@
 ﻿using CSCRM.Abstractions;
+using CSCRM.ViewModels.ReservationVMs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CSCRM.Areas.Reservation.Controllers
@@ -11,11 +12,27 @@ namespace CSCRM.Areas.Reservation.Controllers
         {
                 _service = service;
         }
-        public async Task<IActionResult> Index()
+        [HttpGet]
+        public async Task<IActionResult> Index(int pageIndex = 1)
         {
-            var result = await _service.GetHotelOrdersAsync();
+            var result = await _service.GetHotelOrdersAsync(pageIndex);
 
             return View(result);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditReservation(int reservationId)
+        {
+            var result = await _service.GetReservationForEditAsync(reservationId);
+            return View(result);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> EditReservation([FromBody] EditReservationDTO dto)
+        {
+            var result = await _service.EditReservationAsync(dto);
+            return PartialView("_EditReservationPartialView",result);
         }
     }
 }

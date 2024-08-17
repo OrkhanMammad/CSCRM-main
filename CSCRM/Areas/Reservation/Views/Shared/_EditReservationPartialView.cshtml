@@ -1,0 +1,62 @@
+﻿@using CSCRM.Models.ResponseTypes
+@using CSCRM.ViewModels.ReservationVMs
+@model BaseResponse
+@{
+    GetReservationVM reservation = Model.Data;
+}
+
+<div class="reservation-edit-page-container">
+    <h3 class="reservation-edit-page-title">Edit Reservation</h3>
+    <span style="color: @(Model.Success ? "green" : "red"); font-weight:600">@Model.Message</span>
+    <table class="reservation-edit-page-table">
+        <thead class="reservation-edit-page-thead">
+            <tr>
+                <th scope="col">Hotel</th>
+                <th scope="col">Client</th>
+                <th scope="col">Room Type</th>
+                <th scope="col">Room Count</th>
+                <th scope="col">Days</th>
+                <th scope="col">Date From</th>
+                <th scope="col">Date To</th>
+                <th scope="col">Confirmation Numbers</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@reservation.HotelName</td>
+                <td>@reservation.ClientNameSurname</td>
+                <td>@reservation.RoomType</td>
+                <td>@reservation.RoomCount</td>
+                <td>@reservation.Days</td>
+                <td>@reservation.DateFrom</td>
+                <td>@reservation.DateTo</td>
+                <td style="display:flex; justify-content:center; max-width:400px; padding:20px;">
+                    @for (int i = 0; i < reservation.RoomCount; i++)
+                    {
+                        if (i < reservation.ConfirmationNumbers.Count)
+                        {
+
+                            <input class="add-confirmation-number" style="max-width:25%; font-size:16px;" id="editConfirmationNumbersInput" type="text" class="reservation-edit-page-input"
+                                   value="@reservation.ConfirmationNumbers[i]">
+
+                        }
+                        else
+                        {
+                            <input class="add-confirmation-number" placeholder="Waiting" style="max-width:25%; font-size:16px;" id="editConfirmationNumbersInput" type="text" class="reservation-edit-page-input">
+
+
+                        }
+
+                    }
+                </td>
+                <td>
+                    <button onclick="addConfirmation(@reservation.HotelOrderId)" id="saveReservationBtn"
+                            class="reservation-edit-page-btn reservation-edit-page-btn-primary">
+                        Save
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

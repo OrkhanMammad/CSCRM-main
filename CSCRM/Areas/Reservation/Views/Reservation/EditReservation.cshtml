@@ -1,0 +1,11 @@
+﻿@using CSCRM.Models.ResponseTypes
+@using CSCRM.ViewModels.ReservationVMs
+@model BaseResponse
+@{
+    GetReservationVM reservation = Model.Data;
+}
+
+
+<div class="reservation-edit-page-content" id="reservation-edit-page-content">
+    @await Html.PartialAsync("_EditReservationPartialView", Model)
+</div>

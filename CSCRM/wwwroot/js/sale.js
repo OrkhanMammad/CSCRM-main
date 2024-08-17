@@ -909,6 +909,7 @@ function deleteHotelOrder(hotelOrderId, clientId) {
 }
 
 function addNewHotelOrder(clientId) {
+    var clientNameSurname = document.getElementById('clientNameSurnameForHotelOrder').value;
     var hotelName = document.getElementById('add-hotel-order-hotelName').value;
     var roomType = document.getElementById('add-hotel-order-roomType').value;
     var roomCount = document.getElementById('add-hotel-order-roomCount').value;
@@ -922,6 +923,7 @@ function addNewHotelOrder(clientId) {
     }
 
     var hotelOrder = {
+        ClientNameSurname: clientNameSurname,
         ClientId: clientId,
         HotelName: hotelName,
         RoomCount: parseInt(roomCount),
