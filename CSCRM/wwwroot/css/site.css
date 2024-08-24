@@ -2926,3 +2926,67 @@ EDIT RESERVATION PAGE STARTS HERE*/
     .reservation-edit-page-btn-primary:hover {
         background-color: #0056b3;
     }
+
+
+/*CREATE NEW USER PAGE STARTS HERE
+CREATE NEW USER PAGE STARTS HERE
+CREATE NEW USER PAGE STARTS HERE
+CREATE NEW USER PAGE STARTS HERE*/
+
+
+.user-create-page-content {
+    margin-left: 220px;
+    padding: 20px;
+    flex-grow: 1;
+}
+
+.user-create-page-container {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.user-create-page-title {
+    text-align: center;
+    font-size: 30px;
+}
+
+.user-create-page-table {
+    width: 100%;
+    margin: 25px 0;
+    font-size: 18px;
+    text-align: left;
+}
+
+    .user-create-page-table td {
+        padding: 12px 15px;
+    }
+
+.user-create-page-input,
+.user-create-page-select {
+    font-size: 18px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+}
+
+.user-create-page-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.user-create-page-btn-primary {
+    background-color: #28a745;
+}
+
+    .user-create-page-btn-primary:hover {
+        background-color: #218838;
+    }

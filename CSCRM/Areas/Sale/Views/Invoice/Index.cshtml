@@ -1,9 +1,11 @@
 ﻿@using CSCRM.ViewModels.InvoiceVMs
 @model InvoicePageMainVm
+
+
 <div class="invoice-page-content">
     <div class="invoice-page-container">
+
         <div id="section-to-print" style="padding: 50px; border: 1px solid black;">
-        
             <div class="invoice-main" style="width: 940px;">
 
                 <!-- invoice main 1
@@ -50,9 +52,9 @@
 
                         <div class="invoice-main-2.1-right"
                              style="width: 41%; background-color: white; height: 100%; font-size: 13px; padding-left: 5px; border-left: 1px solid black; ">
-                            <span style="display: block; padding: 5px; color: black;">@Model.ClientOrders.InvCode</span>
+                            <span style="display: block; padding: 5px; color: black;">CC24\02098</span>
                             <span style="display: block; padding: 5px;color: black;">77 223 4141</span>
-                            <span style="display: block; padding: 5px;color: black;">@DateTime.Today.Day/@DateTime.Today.Month/@DateTime.Today.Year</span>
+                            <span style="display: block; padding: 5px;color: black;">7/11/2024</span>
                             <span style="display: block; padding: 5px;color: black;">30.60.90</span>
                         </div>
                     </div>
@@ -82,288 +84,47 @@
                 invoice main 3 -->
                 <h5 style="margin-bottom: 0px; margin-left: 5px;">Invoice to:</h5>
                 <div class="invoice-main-3"
-                     style="width: 100%; height: 100px; max-height: 100px; display: flex; justify-content: space-between;">
+                     style="width: 100%; height: 150px; display: flex; justify-content: space-between;">
 
                     <div class="invoice-main-3.1"
-                         style="border: 1px solid black; height: 97%; max-height: 97%; width: 38%; ">
+                         style="border: 1px solid black;  height: 100px;width: 38%; ">
                         <input type="text" value="@Model.Company.Name"
-                               style="height: 15px; width: 97%; display: block;font-size: 13px; margin-top: 6px; border: none;padding-left: 5px;">
+                               style="height: 23px; width: 97%; display: block;font-size: 13px;  border: none;padding-left: 5px;">
 
                         <input type="text" value="@Model.Company.Address"
-                               style="height: 15px; width: 97%; display: block;font-size: 13px; margin-top: 6px; border: none;padding-left: 5px;">
+                               style="height: 23px; width: 97%; display: block;font-size: 13px;  border: none;padding-left: 5px;">
 
                         <input type="text" value="@Model.Company.Phone"
-                               style="height: 15px; width: 97%; display: block;font-size: 13px; margin-top: 6px; border: none;padding-left: 5px;">
+                               style="height: 23px; width: 97%; display: block;font-size: 13px;  border: none;padding-left: 5px;">
 
                         <input type="text" value="@Model.Company.Email"
-                               style="height: 15px; width: 97%; display: block;font-size: 13px; margin-top: 6px; border: none;padding-left: 5px;">
+                               style="height: 23px; width: 97%; display: block;font-size: 13px;  border: none;padding-left: 5px;">
 
                     </div>
 
                     <div class="invoice-main-3 2"
-                         style="border: 1px solid black; height: 97%; max-height: 97%; width: 38%; ">
+                         style="border: 1px solid black; height: 100px; width: 38%; ">
                         <input type="text" value="Guest Name: @Model.ClientOrders.Name"
-                               style="height: 15px; width: 97%; display: block;font-size: 13px; margin-top: 6px; border: none;padding-left: 5px;">
+                               style="height: 23px; width: 97%; display: block;font-size: 13px;  border: none;padding-left: 5px;">
 
-                        <input type="text" value="Guest Surname: @Model.ClientOrders.Surname"
-                               style="height: 15px; width: 97%; display: block;font-size: 13px; margin-top: 6px; border: none;padding-left: 5px;">
+                        <input type="text" value="Guest Surname:  @Model.ClientOrders.Surname"
+                               style="height: 23px; width: 97%; display: block;font-size: 13px;  border: none;padding-left: 5px;">
 
                         <input type="text" value="Guest Number: @Model.Company.Phone"
-                               style="height: 15px; width: 97%; display: block;font-size: 13px; margin-top: 6px; border: none;padding-left: 5px;">
+                               style="height: 23px; width: 97%; display: block;font-size: 13px;  border: none;padding-left: 5px;">
                         <input type="text" value=""
-                               style="height: 15px; width: 97%; display: block;font-size: 13px; margin-top: 6px; border: none;padding-left: 5px;">
+                               style="height: 23px; width: 97%; display: block;font-size: 13px;  border: none;padding-left: 5px;">
                     </div>
 
                 </div>
 
 
 
-                <!-- invoice main 4
-                invoice main 4
-                invoice main 4 -->
-
-
-                <div class="invoice-main-4">
-                    <h5 style="margin-bottom: 0px; text-align: center; color: white; background-color: #5B9BD5
-                        ; padding: 3px 0px;">
-                        Flight Details
-                    </h5>
-                    <table style="width: 100%; text-align: center;">
-                        <tr style="border: 2px dotted black; width: 100%;">
-                        <td style="font-size: 13.5px;">Flight Number</td>
-                        <td style="font-size: 13.5px;">Arrival Time</td>
-                        <td style="font-size: 13.5px;">Flight Number</td>
-                        <td style="font-size: 13.5px;">Departure Time</td>
-                        </tr>
-                        <tr>
-                            <td style="font-size: 13.5px;">
-                                <input style="width: 100%; border: none; text-align: center;" type="text"
-                                   value="@Model.ClientOrders.ArrivalFlight">
-                            </td>
-                            <td style="font-size: 13.5px;">
-                                <input style="width: 100%; border: none; text-align: center;" type="text"
-                                   value="@Model.ClientOrders.ArrivalTime">
-                            </td>
-                            <td style="font-size: 13.5px;">
-                                <input style="width: 100%; border: none; text-align: center;" type="text"
-                                   value="@Model.ClientOrders.DepartureFlight">
-                            </td>
-                            <td style="font-size: 13.5px;">
-                                <input style="width: 100%; border: none; text-align: center;" type="text"
-                                   value="@Model.ClientOrders.DepartureTime">
-                            </td>
-                        </tr>
-
-                    </table>
-
-
-                </div>
-
-
-                <!-- invoice main 5
-                invoice main 5
-                invoice main 5 -->
-
-
-                <div class="invoice-main-5">
-                    <h5 style="margin: 0px; text-align: center; color: white; background-color: #5B9BD5
-                        ; padding: 3px 0px;">
-                        Hotel Service
-                    </h5>
-                @{
-                    short HotelOrderCount = 0;
-                }
-                @if (Model.ClientOrders.HotelOrders.Any())
-                {
-                    @foreach (var hotelOrder in Model.ClientOrders.HotelOrders)
-                    {
-                        if (HotelOrderCount == 0)
-                        {
-                            <div style="display: flex; justify-content: space-between; padding: 0;">
-                                <p style="width: 40%; text-align: start; font-size: 13px; padding: 0; margin-top: 5px;margin-left: 5px;">
-                                    1 Hotel
-                                    Name:
-                                </p>
-                                <p style="width: 40%; text-align: start; font-size: 13px; padding: 0; margin-top: 5px;">
-                                    <input style="font-size: 13px; width: 95%; border: none;" type="text"
-                                           value="@hotelOrder.HotelName">
-                                </p>
-                            </div>
-                            HotelOrderCount += 1;
-                        }
-                        else
-                        {
-                            <div style="display: flex; justify-content: space-between; padding: 0; margin-top: -15px;">
-                                <p style="width: 40%; text-align: start; font-size: 13px; padding: 0; margin-top: 5px;margin-left: 5px;">
-                                    @(HotelOrderCount + 1) Hotel
-                                    Name:
-                                </p>
-                                <p style="width: 40%; text-align: start; font-size: 13px; padding: 0; margin-top: 5px;">
-                                    <input style="font-size: 13px; width: 95%; border: none;" type="text" value="@hotelOrder.HotelName">
-                                </p>
-                            </div>
-                            HotelOrderCount += 1;
-                        }
-
-                    }
-                }
-                else{
-                <div style="display: flex; justify-content: space-between; padding: 0;">
-                    <p style="width: 40%; text-align: start; font-size: 13px; padding: 0; margin-top: 5px;margin-left: 5px;">
-                        1 Hotel
-                        Name:
-                    </p>
-                    <p style="width: 40%; text-align: start; font-size: 13px; padding: 0; margin-top: 5px;">
-                        <input style="font-size: 13px; width: 95%; border: none;" type="text"
-                               value="">
-                    </p>
-                </div>
-                    <div style="display: flex; justify-content: space-between; padding: 0; margin-top: -15px;">
-                        <p style="width: 40%; text-align: start; font-size: 13px; padding: 0; margin-top: 5px;margin-left: 5px;">
-                            2 Hotel
-                            Name:
-                        </p>
-                        <p style="width: 40%; text-align: start; font-size: 13px; padding: 0; margin-top: 5px;">
-                            <input style="font-size: 13px; width: 95%; border: none;" type="text" value="">
-                        </p>
-                    </div>
-                }
-               
-                
-
-                   
-
-                    <div style="display: flex; justify-content: space-between; padding: 0; margin-top: -15px;">
-                        <p style="width: 40%; text-align: start; font-size: 13px; padding: 0; margin-top: 5px;margin-left: 5px;">
-                            Room
-                            Service Type:
-                        </p>
-                        <p style="width: 40%; text-align: start; font-size: 13px; padding: 0; margin-top: 5px;">
-                            <input style="font-size: 13px; width: 95%; border: none;" type="text" value="Room Only">
-                        </p>
-                    </div>
-
-                </div>
-
-                <!-- invoice main 6
-                invoice main 6
-                invoice main 6 -->
-
-
-                <div style="margin-top: -10px;" class="invoice-main-6">
-                    <h5 style="margin: 0px; text-align: center; color: white; background-color: #5B9BD5
-                    ; padding: 3px 0px;">
-                        Land Packages:
-                    </h5>
-                    <div style="background-color: #5B9BD5; display: flex; justify-content: space-around; height: 18px;">
-                        <span style="font-size: 13px; font-weight: 600; color: white; width: 15%; text-align: center;">Date</span>
-                        <span style="font-size: 13px; font-weight: 600; color: white; width: 40%;text-align: center;">
-                            Tour
-                            Route
-                        </span>
-                        <span style="font-size: 13px; font-weight: 600; color: white; width: 12%;text-align: center;">
-                            Paxs
-                            Size
-                        </span>
-                        <span style="font-size: 13px; font-weight: 600; color: white; width: 12%;text-align: center;">Guide</span>
-                        <span style="font-size: 13px; font-weight: 600; color: white; width: 20%;text-align: center;">
-                            Transport
-                            Type
-                        </span>
-                    </div>
-
-
-                    <!-- Datas start here
-                    Datas start here
-                    Datas start here
-                    Datas start here -->
-
-                @if (Model.ClientOrders.TourOrders.Any())
-                {
-                    @foreach(var tourOrder in Model.ClientOrders.TourOrders)
-                    {
-                        <div style="display: flex; justify-content: space-around; height: 18px;">
-                            <input style="width: 15%;  text-align: center; border: none; font-size: 12px; border-bottom: 1px dotted black;
-                        border-right: 1px dotted black;border-left: 1px dotted black;" value="@tourOrder.Date" type="text">
-                            <input style="width: 40%; border: none; text-align: center; font-size: 12px; border-bottom: 1px dotted black;"
-                                   value="@tourOrder.TourName" type="text">
-                            <input style="width: 12%;border: none; border-bottom: 1px dotted black;
-                        border-left: 1px dotted black;text-align: center; font-size: 12px;" value="@Model.ClientOrders.PaxSize" type="text">
-                            <input style="width: 12%; border: none;text-align: center; font-size: 12px; border-left: 1px dotted black;border-bottom: 1px dotted black; border-right: 1px dotted black;"
-                                   value="Yes" type="text">
-                            <input style="width: 20%;border: none;text-align: center; font-size: 12px; border-bottom: 1px dotted black; border-right: 1px dotted black;"
-                                   value="@tourOrder.CarType" type="text">
-                        </div>
-                    }
-
-                }
-                else
-                {
-                    for(short i = 0; i<=6; i++)
-                    {
-                        <div style="display: flex; justify-content: space-around; height: 18px;">
-                            <input style="width: 15%;  text-align: center; border: none; font-size: 12px; border-bottom: 1px dotted black;
-                        border-right: 1px dotted black;border-left: 1px dotted black;" value="" type="text">
-                            <input style="width: 40%; border: none; text-align: center; font-size: 12px; border-bottom: 1px dotted black;"
-                                   value="" type="text">
-                            <input style="width: 12%;border: none; border-bottom: 1px dotted black;
-                        border-left: 1px dotted black;text-align: center; font-size: 12px;" value="" type="text">
-                            <input style="width: 12%; border: none;text-align: center; font-size: 12px; border-left: 1px dotted black;border-bottom: 1px dotted black; border-right: 1px dotted black;"
-                                   value="" type="text">
-                            <input style="width: 20%;border: none;text-align: center; font-size: 12px; border-bottom: 1px dotted black; border-right: 1px dotted black;"
-                                   value="" type="text">
-                        </div>
-                    }                                     
-                }
-                </div>
-
-                <!-- invoice main 7
-                invoice main 7
-                invoice main 7 -->
-
-
-            <div class="invoice-main-7">
-                <h5 style="margin: 0px; text-align: center; color: white; background-color: #5B9BD5
-                    ; padding: 3px 0px;">
-                    Price Include:
-                </h5>
-
-                <!-- DATAS START HERE
-                DATAS START HERE
-                DATAS START HERE
-                DATAS START HERE -->
-                @{
-                    int totalInputs = 20; // Toplam 20 input alanı olacak (5 satır x 4 sütun)
-                    int filledInputs = Model.ClientOrders.InclusiveOrders.Count; // Mevcut veri sayısı
-                    int emptyInputs = totalInputs - filledInputs; // Boş input alanlarının sayısı
-
-                    // Toplam input alanlarını birleştirilmiş bir liste olarak oluştur
-                    var allInputs = new List<string>();
-                    allInputs.AddRange(Model.ClientOrders.InclusiveOrders.Select(o => o.InclusiveName));
-                    allInputs.AddRange(Enumerable.Repeat(string.Empty, emptyInputs));
-                }
-
-                @for (int row = 0; row < 5; row++) // 5 satır oluştur
-                {
-                    <div style="display: flex; justify-content: space-around; height: 18px;">
-                        @for (int col = 0; col < 4; col++) // Her satırda 4 input elementi oluştur
-                        {
-                            int index = row * 4 + col;
-                            <input style="width: 25%; text-align: start; border: none; font-size: 11px; border-bottom: 1px dotted black;
-                          border-right: 1px dotted black; border-left: 1px dotted black;"
-                                   value="@allInputs[index]" type="text">
-                        }
-                    </div>
-                }
-            </div>
 
 
 
-                <!-- invoice main 8
-                invoice main 8
-                invoice main 8 -->
 
-                <div class="invoice-main-8">
+                <div class="invoice-main-8" style="margin-bottom:30px">
                     <div style="display: flex;">
                         <div style="width: 75%;">
                             <h5 style="margin: 0px; text-align: center; color: white; background-color: #5B9BD5
@@ -380,8 +141,12 @@
                     </div>
                     <div style="display: flex;">
                         <div style="width: 75%; height: 96px; border: 2px black solid;">
-                            <textarea style="height: 90px; border: none; width: 99%;" name="" id="">Hotel Booked by Guests : Wydham Baku 25-27 May / Guba Palace 27-29 May
-                                Gabala Garden 29-30 May / Parkside Hotel 30May-2 June </textarea>
+                            <blockquote contenteditable style="height: 70px; border: none; width: 90%;" name="" id="">
+                                <p style="font-size: 13px;">
+                                    Hotel Booked by Guests : Wydham Baku 25-27 May / Guba Palace 27-29 May
+                                    Gabala Garden 29-30 May / Parkside Hotel 30May-2 June
+                                </p>
+                            </blockquote>
                         </div>
                         <div style="width: 25%; height: 100px;">
                             <div style="display: flex; height: 25px;">
@@ -391,8 +156,8 @@
                                 </div>
                                 <div style="width: 70%; border: 1px black dotted; font-size: 13px;  display: flex;
                                  align-items: center;">
-                                    <input style="width: 99%; border: none; text-align: end;" type="text"
-                                           value="@Model.ClientOrders.SalesAmount">
+                                    <input style="width: 99%; border: none; text-align: end; height: 20px;" type="text"
+                                           value="$@Model.ClientOrders.SalesAmount">
 
                                 </div>
                             </div>
@@ -403,8 +168,8 @@
                                 </div>
                                 <div style="width: 70%; border: 1px black dotted; font-size: 13px;  display: flex;
                                  align-items: center;">
-                                    <input style="width: 99%; border: none; text-align: end;" type="text"
-                                           value="$0">
+                                    <input style="width: 99%; border: none; text-align: end;height: 20px;" type="text"
+                                           value="$1.780,00">
 
                                 </div>
                             </div>
@@ -416,8 +181,8 @@
                                 </div>
                                 <div style="width: 70%; border: 1px black dotted; font-size: 13px;  display: flex;
                                  align-items: center;">
-                                    <input style="width: 99%; border: none; text-align: end;" type="text"
-                                           value="$0">
+                                    <input style="width: 99%; border: none; text-align: end;height: 20px;" type="text"
+                                           value="$1.780,00">
 
                                 </div>
                             </div>
@@ -429,15 +194,11 @@
                                 </div>
                                 <div style="width: 70%; border: 1px black dotted; font-size: 13px;  display: flex;
                                  align-items: center;">
-                                    <input style="width: 99%; border: none; text-align: end;" type="text"
-                                           value="$0">
+                                    <input style="width: 99%; border: none; text-align: end;height: 20px;" type="text"
+                                           value="$1.780,00">
 
                                 </div>
                             </div>
-
-
-
-
 
                         </div>
                     </div>
@@ -446,16 +207,21 @@
 
 
 
-                <!-- invoice main 9
-                invoice main 9
-                invoice main 9 -->
+
+
+
+
+
+
+
+
 
 
                 <div class="invoice-main-9">
                     <div style="display: flex;">
                         <div style="width: 65%; border-right: 1px dotted black;">
                             <h5 style="margin: 0px; text-align: start; color: white; background-color: #5B9BD5
-                            ; padding: 3px 0px; ">
+                            ; padding: 3px 0px; padding-left:1px;">
                                 Company Details
                             </h5>
                         </div>
@@ -470,7 +236,7 @@
 
                     <div style="display: flex; border-right: 1px solid black; border-left: 1px solid black;">
                         <div style="width: 65%; height: 90px; border-right: 1px black dotted; display: flex;">
-                        <div style="width: 38%; border-bottom: 1px solid black;">
+                            <div style="width: 35%;">
                                 <span style="display: block; padding: 5px; color: black; font-size: 11px;">
                                     Account
                                     No.
@@ -491,14 +257,14 @@
                                 </span>
                             </div>
 
-                        <div style="width: 62%;border-bottom: 1px solid black;">
-                                <input style="display: block; width: 98%; border: none;  font-size: 11px; margin-top: 3px; padding-top: 3px;"
+                            <div style="width: 65%;">
+                                <input style="display: block; width: 98%; border: none;  font-size: 11px;   height: 20px;"
                                        type="text" value="AZ21UBAZ28852351640160USD002">
-                                <input style="display: block; width: 98%; border: none;  font-size: 11px;margin-top: 3px;padding-top: 6px;"
+                                <input style="display: block; width: 98%; border: none;  font-size: 11px;height: 20px;"
                                        type="text" value="UNIBANK CB SWIFT address: UBAZAZ22">
-                                <input style="display: block; width: 98%; border: none;  font-size: 11px;margin-top: 3px;padding-top: 5px;"
+                                <input style="display: block; width: 98%; border: none;  font-size: 11px;height: 20px;"
                                        type="text" value="70-55.024.541/001 IBAN: AT253100007055024541	">
-                                <input style="display: block; width: 98%; border: none;  font-size: 9.4px;margin-top: 3px;padding-top: 8px;"
+                                <input style="display: block; width: 98%; border: none;  font-size: 9.6px;height: 20px;"
                                        type="text"
                                        value="RAIFFEISEN BANK INTERNATIONAL AG,Vienna, Austria S.W.I.F.T.: RZBAATWW">
 
@@ -512,7 +278,7 @@
 
                         </div>
                         <div style="width: 35%; height: 90px;  display: flex;">
-                        <div style="border-right: 1px solid black; width: 40%; border-bottom: 1px solid black;">
+                            <div style="border-right: 1px solid black; width: 40%;">
                                 <span style="display: block; padding: 5px; color: black; font-size: 11px;">
                                     Beneficiary
                                     customer:
@@ -521,14 +287,14 @@
                                 <span style="display: block; padding: 5px;color: black; font-size: 11px;">Code:</span>
                                 <span style="display: block; padding: 5px;color: black; font-size: 10.5px;">Mail:</span>
                             </div>
-                        <div style="width: 60%; border-bottom: 1px solid black;">
-                                <input style="display: block; width: 98%; border: none;  font-size: 11px; margin-top: 3px; padding-top: 3px;"
+                            <div style="width: 60%;">
+                                <input style="display: block; width: 98%; border: none;  font-size: 11px; height: 20px;"
                                        type="text" value="CASPIAN CHARM">
-                                <input style="display: block; width: 98%; border: none;  font-size: 10px;margin-top: 3px;padding-top: 6px;"
+                                <input style="display: block; width: 98%; border: none;  font-size: 10px;height: 20px;"
                                        type="text" value="(Baku, AZ, Azerbaijan) TIN: 1300017201">
-                                <input style="display: block; width: 98%; border: none;  font-size: 11px;margin-top: 3px;padding-top: 5px;"
+                                <input style="display: block; width: 98%; border: none;  font-size: 11px;height: 20px;"
                                        type="text" value="502058">
-                                <input style="display: block; width: 98%; border: none;  font-size: 11px;margin-top: 3px;padding-top: 8px;"
+                                <input style="display: block; width: 98%; border: none;  font-size: 11px;height: 20px;"
                                        type="text" value="info@caspiancharm.com">
                             </div>
                         </div>
@@ -540,9 +306,11 @@
 
 
             </div>
-            
-            </div>
-        <button onclick="downloadPDF()">Export as PDF</button>
+        </div>
+
     </div>
 </div>
+<button onclick="downloadPDF()">Export as PDF</button>
+
+
 

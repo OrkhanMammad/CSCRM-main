@@ -1,6 +1,7 @@
 ﻿using CSCRM.DataAccessLayers;
 using CSCRM.Models;
 using CSCRM.ViewModels.AccountVMs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,15 +28,8 @@ namespace CSCRM.Controllers
         }
 
         [HttpPost]
-        
-            //if (!ModelState.IsValid)
-            //{
-            //    return View(signInVM);
-            //}
-            //return View();
-
-            public async Task<IActionResult> SignIn(SignInVM signInVM)
-            {
+        public async Task<IActionResult> SignIn(SignInVM signInVM)
+        {
             try
             {
                 if (!ModelState.IsValid)
@@ -79,56 +73,21 @@ namespace CSCRM.Controllers
 
                 return View(signInVM);
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 ModelState.AddModelError("", "Error Occured");
                 return View(signInVM);
 
             }
         }
 
-        //[HttpGet]
-        //public async Task CreateNewAccount()
-        //{
-        //    await _roleManager.CreateAsync(new IdentityRole("Developer"));
-        //    AppUser user = new AppUser { Email = "Orkhanvm@gmail.com", UserName = "Orkhan123", Name = "Orkhan", SurName = "Mammadli" };
-        //    await _userManager.CreateAsync(user, "Orkhan6991");
-        //    await _userManager.AddToRoleAsync(user, "Developer");
+        [HttpGet]
+        public async Task<IActionResult> LogOut()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("SignIn");
+        }
 
 
-        //}
-
-
-        //[HttpGet]
-        //public async Task CreateNewAccount()
-        //{
-        //    await _roleManager.CreateAsync(new IdentityRole("Operation"));
-        //    AppUser user = new AppUser { Email = "Operation@gmail.com", UserName = "Operation123", Name = "Operation", SurName = "Operli" };
-        //    await _userManager.CreateAsync(user, "Operation123");
-        //    await _userManager.AddToRoleAsync(user, "Operation");
-
-
-        //}
-
-        //[HttpGet]
-        //public async Task CreateNewAccount()
-        //{
-        //    await _roleManager.CreateAsync(new IdentityRole("Sale"));
-        //    AppUser user = new AppUser { Email = "Sales@gmail.com", UserName = "Sales123", Name = "Sales", SurName = "Salesli" };
-        //    await _userManager.CreateAsync(user, "Sales123");
-        //    await _userManager.AddToRoleAsync(user, "Sale");
-
-
-        //}
-
-        //[HttpGet]
-        //public async Task CreateNewAccount()
-        //{
-        //    await _roleManager.CreateAsync(new IdentityRole("Reservation"));
-        //    AppUser user = new AppUser { Email = "Reservation@gmail.com", UserName = "Reservation123", Name = "Reservation", SurName = "Reservationli" };
-        //    await _userManager.CreateAsync(user, "Reservation123");
-        //    await _userManager.AddToRoleAsync(user, "Reservation");
-
-
-        //}
     }
 }

@@ -1,0 +1,38 @@
+﻿@using CSCRM.ViewModels.AccountVMs
+@model CreateUserDTO
+
+<div class="user-create-page-content">
+    <div class="user-create-page-container">
+        <h3 class="user-create-page-title">Create New User</h3>
+        <form method="post">
+            <div class="form-group">
+                <label asp-for="@Model.NewName">Name:</label>
+                <input value="" asp-for="@Model.NewName" class="user-create-page-input" required />
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.NewSurname">Surname:</label>
+                <input value="" asp-for="@Model.NewSurname" class="user-create-page-input" required />
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.NewUsername">Username:</label>
+                <input value="" asp-for="@Model.NewUsername" class="user-create-page-input" required />
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.NewPassword">Password:</label>
+                <input value="" asp-for="@Model.NewPassword" type="password" class="user-create-page-input" required />
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Role">Role:</label>
+                <select asp-for="@Model.Role" class="user-create-page-select" required>
+                    <option value="Sale">Sale</option>
+                    <option value="Admin">Admin</option>
+                    <option value="Reservation">Reservation</option>
+                    <option value="Operation">Operation</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="user-create-page-btn user-create-page-btn-primary">Create User</button>
+            </div>
+        </form>
+    </div>
+</div>

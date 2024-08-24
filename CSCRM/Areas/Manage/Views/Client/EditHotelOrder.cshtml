@@ -1,0 +1,10 @@
+﻿@using CSCRM.Models.ResponseTypes
+@using CSCRM.ViewModels.ClientOrdersVM
+@model BaseResponse
+@{
+    EditHotelOrderVM order = Model.Data;
+}
+
+<div class="edit-hotel-service-content" id="edit-hotel-service-content">
+    @await Html.PartialAsync("_EditHotelOrderPartialView", Model)
+</div>

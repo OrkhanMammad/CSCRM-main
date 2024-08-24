@@ -106,6 +106,7 @@ function updateHotel(Id) {
 
 
 
+
 function deleteCompany(companyId) {
     const confirmDelete = confirm('Are you sure you want to delete this company?');
     if (confirmDelete) {
@@ -957,6 +958,55 @@ function addNewHotelOrder(clientId) {
 }
 
 
+function editHotelOrder(HotelOrderId) {    
+    var hotelName = document.getElementById('edit-hotel-service-hotelName').value;
+    var roomType = document.getElementById('edit-hotel-service-roomTypeName').value;
+    var roomCount = document.getElementById('edit-hotel-service-roomCount').value;
+    var days = document.getElementById('edit-hotel-service-days').value;
+    var fromDate = document.getElementById('edit-hotel-service-dateFrom').value;
+    var toDate = document.getElementById('edit-hotel-service-dateTo').value;
+
+    console.log(HotelOrderId + " " + hotelName + " " + roomType + " " + roomCount + " " + days + " " + fromDate + " " + toDate)
+
+    if (!hotelName || !roomType || !roomCount || !days || !fromDate || !toDate) {
+        alert('Please Fill All Inputs.');
+        return;
+    }
+
+    var hotelOrder = {
+        HotelOrderId: HotelOrderId,
+        HotelName: hotelName,
+        RoomCount: parseInt(roomCount),
+        Days: parseInt(days),
+        RoomType: roomType,
+        DateFrom: fromDate,
+        DateTo: toDate
+    };
+
+    console.log(hotelOrder)
+
+
+    fetch('/manage/client/EditHotelOrder', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(hotelOrder)
+    })
+        .then(res => {
+            return res.text();
+        })
+        .then(data => {
+
+            document.getElementById('edit-hotel-service-content').innerHTML = data
+
+
+        });
+
+
+}
+
+
 function deleteTourOrder(tourOrderId, clientId) {
     const confirmDelete = confirm('Are you sure you want to delete this client?');
     if (confirmDelete) {
@@ -1020,6 +1070,49 @@ function addNewTourOrder(clientId) {
 }
 
 
+function updateTourService(tourOrderId) {
+    var tourId = document.getElementById('edit-tourService-tourName').value;
+    var carType = document.getElementById('edit-tourService-carTypeName').value;
+    var guide = document.getElementById('edit-tourService-guide').value;
+    var date = document.getElementById('edit-tourService-tourDate').value;
+
+    if (!tourId || !carType || !guide || !date) {
+        alert('Please Fill All Inputs.');
+        return;
+    }
+
+    var tourOrder = {
+        Id: tourOrderId,
+        TourId: parseInt(tourId),
+        CarType: carType,
+        Date: date,
+        Guide: guide === 'True'
+    };
+
+
+    fetch('/manage/client/EditTourOrder', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(tourOrder)
+    })
+        .then(res => {
+            return res.text();
+        })
+        .then(data => {
+
+            document.getElementById('EditTourServiceContent').innerHTML = data
+
+
+        });
+
+
+
+}
+
+
+
 function deleteRestaurantOrder(restaurantOrderId, clientId) {
     const confirmDelete = confirm('Are you sure you want to delete this client?');
     if (confirmDelete) {
@@ -1049,7 +1142,7 @@ function addNewRestaurantOrder(clientId) {
     var date = document.getElementById('add-new-restaurantOrder-date').value;
 
     if (!restaurantName || !mealType || !count || !date) {
-        alert('Lütfen tüm alanları doldurun.');
+        alert('Please fill all inputs.');
         return;
     }
 
@@ -1111,7 +1204,7 @@ function addNewInclusiveOrder(clientId) {
     var date = document.getElementById('add-new-inclusiveOrder-date').value;
 
     if (!inclusiveName || !count || !date) {
-        alert('Lütfen tüm alanları doldurun.');
+        alert('Please fill all inputs.');
         return;
     }
 
@@ -1163,7 +1256,7 @@ function downloadPDF() {
 
     html2canvas(document.getElementById('section-to-print'), { allowTaint: true, useCORS: true }).then(canvas => {
         html2canvas(document.getElementById('textareaId'), {
-            scale: 2,
+            scale: 1,
             logging: true,
             letterRendering: 1,
             allowTaint: false

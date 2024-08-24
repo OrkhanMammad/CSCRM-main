@@ -154,5 +154,37 @@ namespace CSCRM.Areas.Manage.Controllers
             return View(result);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> EditHotelOrder(int hotelOrderId)
+        {
+            
+            var result = await _clientService.GetHotelOrderByIdAsync(hotelOrderId);
+            return View(result);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditHotelOrder([FromBody]EditHotelOrderVM hotelOrder)
+        {
+            AppUser appUser = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
+            var result = await _clientService.EditHotelOrderAsync(hotelOrder, appUser);
+            return PartialView("_EditHotelOrderPartialView", result);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditTourOrder(int tourOrderId)
+        {
+            var result = await _clientService.GetTourOrderByIdAsync(tourOrderId);
+            return View(result);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> EditTourOrder([FromBody] EditTourOrderVM tourOrder)
+        {
+            AppUser appUser = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
+            var result = await _clientService.EditTourOrderAsync(tourOrder, appUser);
+            return PartialView("_EditTourOrderPartialView",result);
+        }
+
     }
 }

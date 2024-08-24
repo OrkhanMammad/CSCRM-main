@@ -13,9 +13,11 @@ namespace CSCRM.Concretes
     public class CompanyService : ICompanyService
     {
         readonly AppDbContext _context;
-        public CompanyService(AppDbContext context)
+        private readonly ILogger<CompanyService> _logger;
+        public CompanyService(AppDbContext context, ILogger<CompanyService> logger)
         {
-                _context = context;
+            _context = context;
+            _logger = logger;
         }
 
         private void CompanyEditor(Company company, EditCompanyVM updatedCompany, string userNmSrnm)
@@ -51,38 +53,43 @@ namespace CSCRM.Concretes
         {
             try
             {
-
                 if (string.IsNullOrEmpty(companyVM.Name))
                 {
                     List<GetCompanyVM> companiesInDb = await GetCompaniesAsync(1);
                     int companyCount = await _context.Companies.CountAsync(ct => ct.IsDeleted == false);
                     int pageSize = (int)Math.Ceiling((decimal)companyCount / 6);
-                    return new BaseResponse 
-                    { 
-                        Message = $"Company Name can not be empty", 
-                        StatusCode = "400", 
-                        Success = false, 
+
+                    _logger.LogWarning("Attempt to add a company failed due to empty company name.");
+
+                    return new BaseResponse
+                    {
+                        Message = "Company Name can not be empty",
+                        StatusCode = "400",
+                        Success = false,
                         Data = companiesInDb,
                         PageSize = pageSize,
-                        PageIndex=1
+                        PageIndex = 1
                     };
                 }
 
                 bool companyExists = await _context.Companies.AnyAsync(h => h.IsDeleted == false && h.Name.ToLower() == companyVM.Name.Trim().ToLower());
-                
+
                 if (companyExists)
                 {
                     List<GetCompanyVM> companiesInDb = await GetCompaniesAsync(1);
                     int companyCount = await _context.Companies.CountAsync(ct => ct.IsDeleted == false);
                     int pageSize = (int)Math.Ceiling((decimal)companyCount / 6);
-                    return new BaseResponse 
-                    { 
-                        Message = $"Company {companyVM.Name} is already exists", 
-                        StatusCode = "409", 
-                        Success = false, 
-                        Data=companiesInDb,
+
+                    _logger.LogWarning("Attempt to add a company failed because company {CompanyName} already exists.", companyVM.Name);
+
+                    return new BaseResponse
+                    {
+                        Message = $"Company {companyVM.Name} already exists",
+                        StatusCode = "409",
+                        Success = false,
+                        Data = companiesInDb,
                         PageSize = pageSize,
-                        PageIndex=1
+                        PageIndex = 1
                     };
                 }
 
@@ -93,146 +100,200 @@ namespace CSCRM.Concretes
                     Address = companyVM.Address.Trim(),
                     Email = companyVM.Email.Trim(),
                     Phone = companyVM.Phone.Trim(),
-                    CreatedBy = appUser.Name + " " + appUser.SurName,
+                    CreatedBy = $"{appUser.Name} {appUser.SurName}",
                 };
                 await _context.Companies.AddAsync(newCompany);
                 await _context.SaveChangesAsync();
+
                 List<GetCompanyVM> companies = await GetCompaniesAsync(1);
                 int companyCountInDb = await _context.Companies.CountAsync(ct => ct.IsDeleted == false);
                 int pageSizeForCompanies = (int)Math.Ceiling((decimal)companyCountInDb / 6);
-                return new BaseResponse 
-                { 
-                    Data = companies, 
+
+                _logger.LogInformation("Company {CompanyName} created successfully by user {UserName}.", companyVM.Name, appUser.Name);
+
+                return new BaseResponse
+                {
+                    Data = companies,
                     Message = "Company Created Successfully",
-                    StatusCode = "201", 
+                    StatusCode = "201",
                     Success = true,
                     PageIndex = 1,
                     PageSize = pageSizeForCompanies
                 };
-
-
             }
             catch (Exception ex)
             {
-                return new BaseResponse 
-                { 
-                    Message = "Company Could Not Created Successfully, Unhadled error occured", 
-                    StatusCode = "500", 
-                    Success = false, 
-                    Data=new List<GetCompanyVM>() 
+                _logger.LogError(ex, "An unhandled error occurred while creating company {CompanyName}.", companyVM.Name);
+
+                return new BaseResponse
+                {
+                    Message = "Company Could Not Be Created Successfully, Unhandled error occurred",
+                    StatusCode = "500",
+                    Success = false,
+                    Data = new List<GetCompanyVM>()
                 };
             }
         }
+
         public async Task<BaseResponse> GetAllCompaniesAsync(int pageIndex)
         {
             try
             {
+                _logger.LogInformation("Fetching companies for page index {PageIndex}.", pageIndex);
+
                 List<GetCompanyVM> companies = await GetCompaniesAsync(pageIndex);
                 int companyCount = await _context.Companies.CountAsync(ct => ct.IsDeleted == false);
                 int pageSize = (int)Math.Ceiling((decimal)companyCount / 6);
-                return companies.Any()
-                ? new BaseResponse { Data = companies, Success = true, StatusCode = "200", PageIndex=pageIndex, PageSize=pageSize }
-                : new BaseResponse { Data = new List<GetCompanyVM>(), Message = "No company found", Success = true, StatusCode = "200" };
 
+                if (companies.Any())
+                {
+                    _logger.LogInformation("Successfully fetched {CompanyCount} companies for page index {PageIndex}.", companies.Count, pageIndex);
+                    return new BaseResponse
+                    {
+                        Data = companies,
+                        Success = true,
+                        StatusCode = "200",
+                        PageIndex = pageIndex,
+                        PageSize = pageSize
+                    };
+                }
+                else
+                {
+                    _logger.LogInformation("No companies found for page index {PageIndex}.", pageIndex);
+                    return new BaseResponse
+                    {
+                        Data = new List<GetCompanyVM>(),
+                        Message = "No company found",
+                        Success = true,
+                        StatusCode = "200"
+                    };
+                }
             }
             catch (Exception ex)
             {
-                return new BaseResponse 
-                { 
-                    StatusCode = "404", 
-                    Message = "Unhandled error occured", 
-                    Success = false, 
-                    Data=new List<GetCompanyVM>() 
+                _logger.LogError(ex, "An unhandled error occurred while fetching companies for page index {PageIndex}.", pageIndex);
+
+                return new BaseResponse
+                {
+                    StatusCode = "500",
+                    Message = "Unhandled error occurred",
+                    Success = false,
+                    Data = new List<GetCompanyVM>()
                 };
             }
         }
+
         public async Task<BaseResponse> RemoveCompanyAsync(int companyId, AppUser appUser)
         {
             try
             {
+                _logger.LogInformation("Attempting to delete company with ID {CompanyId}.", companyId);
+
                 Company deletingCompany = await _context.Companies.FirstOrDefaultAsync(h => h.Id == companyId && h.IsDeleted == false);
+
                 if (deletingCompany == null)
-                    return new BaseResponse 
-                    { 
-                        Success = false, 
-                        Message = "Company Could Not Found", 
-                        StatusCode = "404", 
-                        Data= new List<GetCompanyVM>() 
-                    }; 
+                {
+                    _logger.LogWarning("Company with ID {CompanyId} could not be found.", companyId);
+                    return new BaseResponse
+                    {
+                        Success = false,
+                        Message = "Company Could Not Be Found",
+                        StatusCode = "404",
+                        Data = new List<GetCompanyVM>()
+                    };
+                }
 
                 deletingCompany.IsDeleted = true;
-                deletingCompany.DeletedBy = appUser.Name + " " + appUser.SurName;
+                deletingCompany.DeletedBy = $"{appUser.Name} {appUser.SurName}";
                 await _context.SaveChangesAsync();
+
+                _logger.LogInformation("Successfully deleted company with ID {CompanyId}.", companyId);
+
                 List<GetCompanyVM> companies = await GetCompaniesAsync(1);
                 int companyCount = await _context.Companies.CountAsync(ct => ct.IsDeleted == false);
                 int pageSize = (int)Math.Ceiling((decimal)companyCount / 6);
-                return new BaseResponse 
-                { 
-                    Success = true, 
-                    Message = $"Company {deletingCompany.Name} is deleted successfully.", 
+
+                return new BaseResponse
+                {
+                    Success = true,
+                    Message = $"Company {deletingCompany.Name} has been deleted successfully.",
                     Data = companies,
                     PageSize = pageSize,
                     PageIndex = 1
                 };
             }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while deleting company with ID {CompanyId}.", companyId);
 
-            catch (Exception ex) 
-            { 
-                return new BaseResponse 
-                { 
-                    Success = false, 
-                    StatusCode = "500", 
-                    Message = "Company Could Not Deleted Successfully", 
-                    Data= new List<GetCompanyVM>() 
-                }; 
+                return new BaseResponse
+                {
+                    Success = false,
+                    StatusCode = "500",
+                    Message = "Company Could Not Be Deleted Successfully",
+                    Data = new List<GetCompanyVM>()
+                };
             }
-
         }
+
         public async Task<BaseResponse> GetCompanyByIdAsync(int companyId)
         {
             try
             {
+                _logger.LogInformation("Attempting to retrieve company with ID {CompanyId}.", companyId);
+
                 Company companyEntity = await _context.Companies.FirstOrDefaultAsync(h => h.IsDeleted == false && h.Id == companyId);
+
                 if (companyEntity == null)
-                return new BaseResponse 
-                { 
-                    Message = "Company Could Not Found", 
-                    StatusCode = "404", 
-                    Success = false, 
-                    Data = new EditCompanyVM() 
-                };
-                
+                {
+                    _logger.LogWarning("Company with ID {CompanyId} could not be found.", companyId);
+                    return new BaseResponse
+                    {
+                        Message = "Company Could Not Be Found",
+                        StatusCode = "404",
+                        Success = false,
+                        Data = new EditCompanyVM()
+                    };
+                }
 
                 EditCompanyVM companyForEdit = new EditCompanyVM
                 {
-                   Id=companyEntity.Id,
-                   Name = companyEntity.Name,
-                   ContactPerson = companyEntity.ContactPerson,
-                   Address = companyEntity.Address,
-                   Email = companyEntity.Email,
-                   Phone = companyEntity.Phone                  
+                    Id = companyEntity.Id,
+                    Name = companyEntity.Name,
+                    ContactPerson = companyEntity.ContactPerson,
+                    Address = companyEntity.Address,
+                    Email = companyEntity.Email,
+                    Phone = companyEntity.Phone
                 };
-                return new BaseResponse 
-                { 
-                    Success = true, 
-                    Data = companyForEdit, 
-                    StatusCode = "201" 
+
+                _logger.LogInformation("Successfully retrieved company with ID {CompanyId}.", companyId);
+
+                return new BaseResponse
+                {
+                    Success = true,
+                    Data = companyForEdit,
+                    StatusCode = "200" // Changed status code to "200" for successful retrieval
                 };
             }
             catch (Exception ex)
             {
-                return new BaseResponse 
-                { 
-                    Success = false, 
-                    Data = new EditCompanyVM(), 
-                    StatusCode = "500", 
-                    Message = "Unhandled error occured" 
+                _logger.LogError(ex, "An error occurred while retrieving company with ID {CompanyId}.", companyId);
+
+                return new BaseResponse
+                {
+                    Success = false,
+                    Data = new EditCompanyVM(),
+                    StatusCode = "500",
+                    Message = "Unhandled error occurred"
                 };
             }
         }
+
         public async Task<BaseResponse> EditCompanyAsync(EditCompanyVM company, AppUser appUser)
         {
             if (company == null || company.Id <= 0)
+            {
+                _logger.LogWarning("Attempted to edit company with invalid ID: {CompanyId}.", company?.Id);
                 return new BaseResponse
                 {
                     Success = false,
@@ -240,9 +301,11 @@ namespace CSCRM.Concretes
                     StatusCode = "400",
                     Data = company
                 };
-
+            }
 
             if (string.IsNullOrWhiteSpace(company.Name))
+            {
+                _logger.LogWarning("Attempted to edit company with empty name. Company ID: {CompanyId}.", company.Id);
                 return new BaseResponse
                 {
                     Success = false,
@@ -250,28 +313,32 @@ namespace CSCRM.Concretes
                     StatusCode = "400",
                     Data = company
                 };
-
+            }
 
             try
             {
+                _logger.LogInformation("Attempting to update company with ID: {CompanyId}.", company.Id);
 
-                bool companyExists = await _context.Companies.AnyAsync(h => h.IsDeleted == false 
-                                                                            && h.Name.ToLower() == company.Name.Trim().ToLower()
-                                                                            && h.Id != company.Id);
+                bool companyExists = await _context.Companies.AnyAsync(h => h.IsDeleted == false
+                                                                             && h.Name.ToLower() == company.Name.Trim().ToLower()
+                                                                             && h.Id != company.Id);
+
                 if (companyExists)
-                {                   
-                    return new BaseResponse 
-                    { 
-                        Message = $"Company {company.Name} is already exists", 
-                        StatusCode = "409",   
-                        Success = false, 
-                        Data = company 
-
+                {
+                    _logger.LogWarning("Company with name {CompanyName} already exists. Company ID: {CompanyId}.", company.Name, company.Id);
+                    return new BaseResponse
+                    {
+                        Message = $"Company {company.Name} already exists.",
+                        StatusCode = "409",
+                        Success = false,
+                        Data = company
                     };
                 }
 
                 Company editCompany = await _context.Companies.FirstOrDefaultAsync(c => c.Id == company.Id);
                 if (editCompany == null)
+                {
+                    _logger.LogWarning("Company with ID {CompanyId} not found.", company.Id);
                     return new BaseResponse
                     {
                         Success = false,
@@ -279,16 +346,14 @@ namespace CSCRM.Concretes
                         StatusCode = "404",
                         Data = company
                     };
-                
-                
+                }
 
                 string userNmSrnm = appUser.Name + " " + appUser.SurName;
                 CompanyEditor(editCompany, company, userNmSrnm);
                 await _context.SaveChangesAsync();
 
-
                 Company companyEntity = await _context.Companies
-                                                                .FirstOrDefaultAsync(h => h.IsDeleted == false && h.Id == editCompany.Id);
+                                                        .FirstOrDefaultAsync(h => h.IsDeleted == false && h.Id == editCompany.Id);
 
                 EditCompanyVM companyEdited = new EditCompanyVM
                 {
@@ -300,18 +365,21 @@ namespace CSCRM.Concretes
                     Phone = companyEntity.Phone,
                 };
 
+                _logger.LogInformation("Company with ID {CompanyId} updated successfully.", company.Id);
+
                 return new BaseResponse
                 {
                     Data = companyEdited,
                     Message = "Company updated successfully.",
                     Success = true,
-                    StatusCode = "203"
+                    StatusCode = "200"
                 };
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "An unhandled exception occurred while updating company with ID {CompanyId}.", company.Id);
                 return new BaseResponse
-                {   
+                {
                     Data = new EditCompanyVM(),
                     Success = false,
                     Message = "An unhandled exception occurred.",
@@ -319,6 +387,7 @@ namespace CSCRM.Concretes
                 };
             }
         }
+
 
 
     }

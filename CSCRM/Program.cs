@@ -1,13 +1,25 @@
-using CSCRM.Abstractions;
+﻿using CSCRM.Abstractions;
 using CSCRM.Concretes;
 using CSCRM.DataAccessLayers;
 using CSCRM.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using Serilog;
+using Serilog.Formatting.Display;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Serilog yapılandırmasını burada ayarlıyoruz
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Information() // Sadece Information ve üstü seviyeler loglanır
+    .WriteTo.Console()
+    .WriteTo.File("logs/log.txt", rollingInterval: RollingInterval.Day)
+    .CreateLogger();
+
+// Serilog'u uygulama oluşturucusuna ekliyoruz
+builder.Host.UseSerilog();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -27,6 +39,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 });
 builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
 {
+   
     options.Password.RequiredUniqueChars = 0;
     options.Password.RequireNonAlphanumeric = false;
     options.Password.RequireDigit = true;
@@ -34,11 +47,11 @@ builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
     options.Password.RequireUppercase = true;
     options.Password.RequiredLength = 8;
 
-    options.User.RequireUniqueEmail = true;
+    //options.User.RequireUniqueEmail = true;
 
-    options.Lockout.AllowedForNewUsers = true;
-    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
-    options.Lockout.MaxFailedAccessAttempts = 3;
+    //options.Lockout.AllowedForNewUsers = true;
+    //options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
+    //options.Lockout.MaxFailedAccessAttempts = 3;
 
 
 

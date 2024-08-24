@@ -25,7 +25,7 @@
                     <td>@(tourOrder.Guide == false ? "No" : "Yes")</td>
                     <td>@tourOrder.Date</td>
                     <td>
-                        <a href="#" class="edit-link">Edit</a>
+                        <a asp-action="EditTourOrder" asp-controller="client" asp-area="manage" asp-route-tourOrderId="@tourOrder.Id" class="edit-link">Edit</a>
                         <button onclick="deleteTourOrder(@tourOrder.Id, @Model.ClientId)" class="delete-btn">Delete</button>
                     </td>
                 </tr>

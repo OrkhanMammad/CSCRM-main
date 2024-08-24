@@ -16,6 +16,7 @@ namespace CSCRM.Abstractions
         Task<BaseResponse> GetClientServicesAsync(int clientId);
         Task<HotelOrdersSectionVM> DeleteHotelOrderAsync(int clientId, int hotelOrderId, AppUser appUser);
         Task<HotelOrdersSectionVM> AddNewHotelOrderAsync(AddNewHotelOrderVM hotelOrder, AppUser appUser);
+       
         Task<TourOrdersSectionVM> DeleteTourOrderAsync(int clientId, int tourOrderId, AppUser appUser);
         Task<TourOrdersSectionVM> AddNewTourOrderAsync(AddNewTourOrderVM newOrder, AppUser appUser);
         Task<RestaurantOrdersSectionVM> DeleteRestaurantOrderAsync(int clientId, int restaurantOrderId, AppUser appUser);
@@ -24,6 +25,11 @@ namespace CSCRM.Abstractions
         Task<InclusiveOrdersSectionVM> AddNewInclusiveOrderAsync(AddNewInclusiveOrderVM newOrder, AppUser appUser);
         Task<BaseResponse> GetVoucherOfClientAsync(int clientId);
         Task<BaseResponse> GetConfirmationAsync(short pageIndex);
+        Task<BaseResponse> GetHotelOrderByIdAsync(int hotelOrderId);
+        Task<BaseResponse> EditHotelOrderAsync(EditHotelOrderVM hotelOrderVM, AppUser appUser);
+
+        Task<BaseResponse> GetTourOrderByIdAsync(int tourOrderId);
+        Task<BaseResponse> EditTourOrderAsync(EditTourOrderVM tourOrder, AppUser appUser);
 
     }
 }

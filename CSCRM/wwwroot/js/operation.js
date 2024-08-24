@@ -140,7 +140,7 @@ function addNewRestaurantOrder(clientId) {
     var date = document.getElementById('add-new-restaurantOrder-date').value;
 
     if (!restaurantName || !mealType || !count || !date) {
-        alert('Lütfen tüm alanları doldurun.');
+        alert('Please fill all inputs.');
         return;
     }
 

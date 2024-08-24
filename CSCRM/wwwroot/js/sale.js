@@ -1109,7 +1109,7 @@ function addNewInclusiveOrder(clientId) {
     var date = document.getElementById('add-new-inclusiveOrder-date').value;
 
     if (!inclusiveName || !count || !date) {
-        alert('Lütfen tüm alanları doldurun.');
+        alert('Please fill all inputs.');
         return;
     }
 
@@ -1161,7 +1161,7 @@ function downloadPDF() {
 
     html2canvas(document.getElementById('section-to-print'), { allowTaint: true, useCORS: true }).then(canvas => {
         html2canvas(document.getElementById('textareaId'), {
-            scale: 2,
+            scale: 1,
             logging: true,
             letterRendering: 1,
             allowTaint: false

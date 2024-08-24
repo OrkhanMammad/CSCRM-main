@@ -10,9 +10,11 @@ namespace CSCRM.Concretes
     public class RestaurantService : IRestaurantService
     {
         readonly AppDbContext _context;
-        public RestaurantService(AppDbContext context)
+        private readonly ILogger<RestaurantService> _logger;
+        public RestaurantService(AppDbContext context, ILogger<RestaurantService> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         private void RestaurantEditor(Restaurant restaurant, EditRestaurantVM updatedRestaurant, string userNmSrnm)
@@ -56,14 +58,21 @@ namespace CSCRM.Concretes
         {
             try
             {
+                // Log request details
+                _logger.LogInformation("Attempting to add a new restaurant. Request data: {@AddRestaurantVM}", addRestaurantVM);
+
+                // Check if the input is valid
                 if (addRestaurantVM == null || string.IsNullOrEmpty(addRestaurantVM.Name))
                 {
+                    _logger.LogWarning("Restaurant name cannot be empty. Request data: {@AddRestaurantVM}", addRestaurantVM);
+
                     List<GetRestaurantVM> restaurantsInDb = await GetRestaurantsAsync(1);
                     int restaurantsCount = await _context.Restaurants.CountAsync(r => r.IsDeleted == false);
                     int pageSize = (int)Math.Ceiling((decimal)restaurantsCount / 6);
+
                     return new BaseResponse
                     {
-                        Message = "Restaurant Name can not be empty",
+                        Message = "Restaurant Name cannot be empty",
                         StatusCode = "201",
                         Success = true,
                         Data = restaurantsInDb,
@@ -72,15 +81,23 @@ namespace CSCRM.Concretes
                     };
                 }
 
-                var restaurantNamesInDB = await _context.Restaurants.Where(r => r.IsDeleted == false).Select(r => r.Name).ToListAsync();
+                // Check if a restaurant with the same name already exists
+                var restaurantNamesInDB = await _context.Restaurants
+                    .Where(r => r.IsDeleted == false)
+                    .Select(r => r.Name)
+                    .ToListAsync();
+
                 if (restaurantNamesInDB.Any(rn => rn.ToLower() == addRestaurantVM.Name.Trim().ToLower()))
                 {
+                    _logger.LogWarning("Restaurant with name {RestaurantName} already exists. Request data: {@AddRestaurantVM}", addRestaurantVM.Name, addRestaurantVM);
+
                     List<GetRestaurantVM> restaurantsInDb = await GetRestaurantsAsync(1);
                     int restaurantsCount = await _context.Restaurants.CountAsync(r => r.IsDeleted == false);
                     int pageSize = (int)Math.Ceiling((decimal)restaurantsCount / 6);
+
                     return new BaseResponse
                     {
-                        Message = $"Restaurant {addRestaurantVM.Name} is already exists",
+                        Message = $"Restaurant {addRestaurantVM.Name} already exists",
                         StatusCode = "201",
                         Success = true,
                         Data = restaurantsInDb,
@@ -89,6 +106,7 @@ namespace CSCRM.Concretes
                     };
                 }
 
+                // Create new restaurant
                 Restaurant newRestaurant = new Restaurant
                 {
                     Name = addRestaurantVM.Name.Trim(),
@@ -102,11 +120,17 @@ namespace CSCRM.Concretes
                     TakeAway = addRestaurantVM.TakeAway,
                     CreatedBy = appUser.Name + " " + appUser.SurName
                 };
+
+                _logger.LogInformation("Adding new restaurant: {@NewRestaurant}", newRestaurant);
+
                 await _context.Restaurants.AddAsync(newRestaurant);
                 await _context.SaveChangesAsync();
+
                 List<GetRestaurantVM> restaurants = await GetRestaurantsAsync(1);
                 int restaurantsCountInDb = await _context.Restaurants.CountAsync(r => r.IsDeleted == false);
                 int pageSizeForRestaurants = (int)Math.Ceiling((decimal)restaurantsCountInDb / 6);
+
+                _logger.LogInformation("Restaurant created successfully. Restaurant data: {@NewRestaurant}", newRestaurant);
 
                 return new BaseResponse
                 {
@@ -120,49 +144,81 @@ namespace CSCRM.Concretes
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Error occurred while creating a restaurant. Request data: {@AddRestaurantVM}", addRestaurantVM);
                 return new BaseResponse
                 {
-                    Message = "Restaurant Could Not Created Successfully",
+                    Message = "Restaurant Could Not Be Created Successfully",
                     StatusCode = "500",
                     Success = false,
                     Data = new List<GetRestaurantVM>()
                 };
             }
         }
+
 
         public async Task<BaseResponse> GetAllRestaurantsAsync(short pageIndex)
         {
             try
             {
+                _logger.LogInformation("Fetching all restaurants. PageIndex: {PageIndex}", pageIndex);
+
                 List<GetRestaurantVM> restaurants = await GetRestaurantsAsync(pageIndex);
                 var restaurantsCount = await _context.Restaurants.CountAsync(r => r.IsDeleted == false);
                 int pageSize = (int)Math.Ceiling((decimal)restaurantsCount / 6);
-                return restaurants.Any()
-                ? new BaseResponse { Data = restaurants, Success = true, StatusCode = "201", PageIndex = pageIndex, PageSize = pageSize }
-                : new BaseResponse { Data = new List<GetRestaurantVM>(), Message = "No restaurant found", Success = true, StatusCode = "200" };
+
+                if (restaurants.Any())
+                {
+                    _logger.LogInformation("Successfully fetched restaurants. PageIndex: {PageIndex}, TotalRestaurants: {TotalRestaurants}", pageIndex, restaurantsCount);
+                    return new BaseResponse
+                    {
+                        Data = restaurants,
+                        Success = true,
+                        StatusCode = "201",
+                        PageIndex = pageIndex,
+                        PageSize = pageSize
+                    };
+                }
+                else
+                {
+                    _logger.LogWarning("No restaurants found. PageIndex: {PageIndex}", pageIndex);
+                    return new BaseResponse
+                    {
+                        Data = new List<GetRestaurantVM>(),
+                        Message = "No restaurant found",
+                        Success = true,
+                        StatusCode = "200"
+                    };
+                }
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Error occurred while fetching restaurants. PageIndex: {PageIndex}", pageIndex);
                 return new BaseResponse
                 {
                     StatusCode = "500",
-                    Message = "Unhandled Error Occured",
+                    Message = "Unhandled Error Occurred",
                     Success = false,
                     Data = new List<GetRestaurantVM>()
                 };
             }
         }
 
+
         public async Task<BaseResponse> RemoveRestaurantAsync(int restaurantId, AppUser appUser)
         {
             try
             {
+                _logger.LogInformation("Attempting to delete restaurant with ID: {RestaurantId}. User: {UserName}", restaurantId, appUser.Name + " " + appUser.SurName);
+
                 Restaurant deletingRestaurant = await _context.Restaurants.FirstOrDefaultAsync(r => r.Id == restaurantId && r.IsDeleted == false);
                 if (deletingRestaurant == null)
                 {
+                    _logger.LogWarning("Restaurant with ID: {RestaurantId} not found. Returning data.", restaurantId);
+
                     List<GetRestaurantVM> restaurantsInDb = await GetRestaurantsAsync(1);
                     int restaurantsCount = await _context.Restaurants.CountAsync(r => r.IsDeleted == false);
                     int pageSize = (int)Math.Ceiling((decimal)restaurantsCount / 6);
+
                     return new BaseResponse
                     {
                         Success = false,
@@ -177,9 +233,13 @@ namespace CSCRM.Concretes
                 deletingRestaurant.IsDeleted = true;
                 deletingRestaurant.DeletedBy = appUser.Name + " " + appUser.SurName;
                 await _context.SaveChangesAsync();
+
+                _logger.LogInformation("Successfully deleted restaurant with ID: {RestaurantId}. User: {UserName}", restaurantId, appUser.Name + " " + appUser.SurName);
+
                 List<GetRestaurantVM> restaurants = await GetRestaurantsAsync(1);
                 int restaurantsCountInDb = await _context.Restaurants.CountAsync(r => r.IsDeleted == false);
                 int pageSizeForRestaurants = (int)Math.Ceiling((decimal)restaurantsCountInDb / 6);
+
                 return new BaseResponse
                 {
                     Success = true,
@@ -192,6 +252,8 @@ namespace CSCRM.Concretes
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Error occurred while deleting restaurant with ID: {RestaurantId}", restaurantId);
+
                 return new BaseResponse
                 {
                     Success = false,
@@ -202,13 +264,18 @@ namespace CSCRM.Concretes
             }
         }
 
+
         public async Task<BaseResponse> GetRestaurantByIdAsync(int id)
         {
             try
             {
+                _logger.LogInformation("Fetching restaurant with ID: {RestaurantId}", id);
+
                 Restaurant restaurantEntity = await _context.Restaurants.FirstOrDefaultAsync(r => r.IsDeleted == false && r.Id == id);
                 if (restaurantEntity == null)
                 {
+                    _logger.LogWarning("Restaurant with ID: {RestaurantId} not found", id);
+
                     return new BaseResponse
                     {
                         Message = "Restaurant Could Not Found",
@@ -217,6 +284,8 @@ namespace CSCRM.Concretes
                         Data = new EditRestaurantVM()
                     };
                 }
+
+                _logger.LogInformation("Restaurant with ID: {RestaurantId} found. Preparing data for edit", id);
 
                 EditRestaurantVM restaurantForEdit = new EditRestaurantVM
                 {
@@ -231,6 +300,9 @@ namespace CSCRM.Concretes
                     Gala_Dinner_Foreign_Alc = restaurantEntity.Gala_Dinner_Foreign_Alc,
                     TakeAway = restaurantEntity.TakeAway
                 };
+
+                _logger.LogInformation("Restaurant with ID: {RestaurantId} data prepared successfully", id);
+
                 return new BaseResponse
                 {
                     Success = true,
@@ -240,6 +312,8 @@ namespace CSCRM.Concretes
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Error occurred while fetching restaurant with ID: {RestaurantId}", id);
+
                 return new BaseResponse
                 {
                     Success = false,
@@ -250,10 +324,13 @@ namespace CSCRM.Concretes
             }
         }
 
+
         public async Task<BaseResponse> EditRestaurantAsync(EditRestaurantVM restaurant, AppUser appUser)
         {
             if (string.IsNullOrWhiteSpace(restaurant.Name))
             {
+                _logger.LogWarning("Attempted to edit a restaurant with an empty name.");
+
                 return new BaseResponse
                 {
                     Success = false,
@@ -262,8 +339,11 @@ namespace CSCRM.Concretes
                     Data = restaurant
                 };
             }
+
             if (restaurant == null || restaurant.Id <= 0)
             {
+                _logger.LogWarning("Attempted to edit a restaurant with invalid ID: {RestaurantId}", restaurant?.Id);
+
                 return new BaseResponse
                 {
                     Success = false,
@@ -275,24 +355,32 @@ namespace CSCRM.Concretes
 
             try
             {
+                _logger.LogInformation("Checking if restaurant with name: {RestaurantName} already exists.", restaurant.Name);
+
                 bool restaurantExists = await _context.Restaurants.AnyAsync(r => r.Name.ToLower() == restaurant.Name.ToLower().Trim()
-                                                                            && r.IsDeleted == false
-                                                                            && r.Id != restaurant.Id);
+                                                                             && r.IsDeleted == false
+                                                                             && r.Id != restaurant.Id);
 
                 if (restaurantExists)
                 {
+                    _logger.LogWarning("Restaurant with name: {RestaurantName} already exists.", restaurant.Name);
+
                     return new BaseResponse
                     {
-                        Message = $"Restaurant {restaurant.Name} is already exists",
+                        Message = $"Restaurant {restaurant.Name} already exists",
                         StatusCode = "201",
                         Success = true,
                         Data = restaurant
                     };
                 }
 
+                _logger.LogInformation("Fetching restaurant with ID: {RestaurantId} for editing.", restaurant.Id);
+
                 Restaurant editRestaurant = await _context.Restaurants.FirstOrDefaultAsync(r => r.Id == restaurant.Id);
                 if (editRestaurant == null)
                 {
+                    _logger.LogWarning("Restaurant with ID: {RestaurantId} not found for editing.", restaurant.Id);
+
                     return new BaseResponse
                     {
                         Success = false,
@@ -303,9 +391,12 @@ namespace CSCRM.Concretes
                 }
 
                 string userNmSrnm = appUser.Name + " " + appUser.SurName;
+                _logger.LogInformation("Updating restaurant with ID: {RestaurantId} by user: {UserName}", restaurant.Id, userNmSrnm);
 
                 RestaurantEditor(editRestaurant, restaurant, userNmSrnm);
                 await _context.SaveChangesAsync();
+
+                _logger.LogInformation("Fetching updated restaurant with ID: {RestaurantId}", restaurant.Id);
 
                 Restaurant restaurantEntity = await _context.Restaurants.FirstOrDefaultAsync(r => r.IsDeleted == false && r.Id == editRestaurant.Id);
 
@@ -323,6 +414,8 @@ namespace CSCRM.Concretes
                     TakeAway = restaurantEntity.TakeAway
                 };
 
+                _logger.LogInformation("Restaurant with ID: {RestaurantId} updated successfully.", restaurant.Id);
+
                 return new BaseResponse
                 {
                     Data = restaurantEdited,
@@ -333,6 +426,8 @@ namespace CSCRM.Concretes
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "An unhandled exception occurred while updating restaurant with ID: {RestaurantId}", restaurant.Id);
+
                 return new BaseResponse
                 {
                     Data = restaurant,
@@ -342,6 +437,7 @@ namespace CSCRM.Concretes
                 };
             }
         }
+
     }
 
 }
