@@ -2990,3 +2990,137 @@ CREATE NEW USER PAGE STARTS HERE*/
     .user-create-page-btn-primary:hover {
         background-color: #218838;
     }
+
+
+
+
+
+/* EDIT RESTAURANT SERVICE STARTS HERE
+EDIT RESTAURANT SERVICE STARTS HERE
+EDIT RESTAURANT SERVICE STARTS HERE
+EDIT RESTAURANT SERVICE STARTS HERE */
+
+
+.edit-restaurant-service-content {
+    margin-left: 220px;
+    padding: 20px;
+    flex-grow: 1;
+}
+
+.EditRestaurantServicePageHead {
+    text-align: center;
+    font-size: 50px;
+}
+
+.edit-restaurant-service-container {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+    .edit-restaurant-service-container h3 {
+        margin-bottom: 20px;
+        font-size: 24px;
+        color: #333;
+        text-align: center;
+    }
+
+.edit-restaurant-service {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.edit-restaurant-service-input {
+    padding: 10px;
+    margin: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    flex: 1;
+    min-width: 150px;
+}
+
+.service-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    background-color: #218838;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px;
+}
+
+    .service-btn:hover {
+        background-color: #1e7e34;
+    }
+
+
+
+
+/*EDIT INCLUSIVE ORDER STARTS HERE
+EDIT INCLUSIVE ORDER STARTS HERE
+EDIT INCLUSIVE ORDER STARTS HERE
+EDIT INCLUSIVE ORDER STARTS HERE*/
+
+.edit-inclusive-order-content {
+    margin-left: 220px;
+    padding: 20px;
+    flex-grow: 1;
+}
+
+.EditInclusiveOrderPageHead {
+    text-align: center;
+    font-size: 50px;
+}
+
+.edit-inclusive-order-container {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+    .edit-inclusive-order-container h3 {
+        margin-bottom: 20px;
+        font-size: 24px;
+        color: #333;
+        text-align: center;
+    }
+
+.edit-inclusive-order {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.edit-inclusive-order-input {
+    padding: 10px;
+    margin: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    flex: 1;
+    min-width: 150px;
+}
+
+.order-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    background-color: #218838;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px;
+}
+
+    .order-btn:hover {
+        background-color: #218838;
+    }

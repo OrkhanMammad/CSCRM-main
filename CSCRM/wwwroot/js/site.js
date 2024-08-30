@@ -983,7 +983,6 @@ function editHotelOrder(HotelOrderId) {
         DateTo: toDate
     };
 
-    console.log(hotelOrder)
 
 
     fetch('/manage/client/EditHotelOrder', {
@@ -1174,6 +1173,48 @@ function addNewRestaurantOrder(clientId) {
     
 }
 
+function updateRestaurantService(restaurantOrderId)
+{
+    
+    var restaurantName = document.getElementById('edit-restaurant-service-restaurantName').value;
+    var mealType = document.getElementById('edit-restaurant-service-mealType').value;
+    var count = document.getElementById('edit-restaurant-service-mealCount').value;
+    var date = document.getElementById('edit-restaurant-service-mealDate').value;
+
+    if (!restaurantName || !mealType || !count || !date) {
+        alert('Please fill all inputs.');
+        return;
+    }
+
+    var restaurantOrder = {
+        Id: restaurantOrderId,
+        RestaurantName: restaurantName,
+        MealType: mealType,
+        Count: parseInt(count),
+        Date: date
+    };
+
+    fetch('/manage/client/EditRestaurantOrder', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(restaurantOrder)
+    })
+        .then(res => {
+            return res.text();
+        })
+        .then(data => {
+
+            document.getElementById('edit-restaurant-service-content').innerHTML = data
+
+
+        });
+
+
+
+}
+
 
 
 function deleteInclusiveOrder(inclusiveOrderId, clientId) {
@@ -1233,6 +1274,43 @@ function addNewInclusiveOrder(clientId) {
 
 }
 
+function updateInclusiveOrder(inclusiveOrderId) {
+    var inclusiveName = document.getElementById('edit-inclusive-order-name').value;
+    var count = document.getElementById('edit-inclusive-order-count').value;
+    var date = document.getElementById('edit-inclusive-order-date').value;
+
+    if (!inclusiveName || !count || !date) {
+        alert('Please fill all inputs.');
+        return;
+    }
+
+    var inclusiveOrder = {
+        Id: inclusiveOrderId,
+        InclusiveName: inclusiveName,
+        Count: parseInt(count),
+        Date: date
+    };
+
+    fetch('/manage/client/EditInclusiveOrder', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(inclusiveOrder)
+    })
+        .then(res => {
+            return res.text();
+        })
+        .then(data => {
+
+            document.getElementById('edit-inclusive-order-content').innerHTML = data
+        });
+
+
+
+
+}
+
 
 
 
@@ -1245,7 +1323,7 @@ function addNewInclusiveOrder(clientId) {
 
 function downloadPDF() {
     removeButtons();
-    
+
 
 
 
@@ -1256,14 +1334,14 @@ function downloadPDF() {
 
     html2canvas(document.getElementById('section-to-print'), { allowTaint: true, useCORS: true }).then(canvas => {
         html2canvas(document.getElementById('textareaId'), {
-            scale: 1,
+            scale: 2,
             logging: true,
             letterRendering: 1,
             allowTaint: false
         }).then(function (canvas) {
-            var imgdata = canvas.todataURL('image/png');
+            var imgData = canvas.toDataURL('image/png');
             var pdf = new jsPDF('p', 'mm', 'a4');
-            pdf.addImage(imgdata, 'PNG', 10, 10);
+            pdf.addImage(imgData, 'PNG', 10, 10);
             pdf.save("output.pdf");
         });
 
@@ -1271,20 +1349,20 @@ function downloadPDF() {
 
 
         const pdf = new jsPDF('p', 'mm', 'a4');
-        const imgdata = canvas.todataURL('image/png');
+        const imgData = canvas.toDataURL('image/png');
         const imgWidth = 210; // A4 width in mm
         const pageHeight = 297; // A4 height in mm
         const imgHeight = canvas.height * imgWidth / canvas.width;
         let heightLeft = imgHeight;
         let position = 0;
 
-        pdf.addImage(imgdata, 'PNG', 0, position, imgWidth, imgHeight);
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
         heightLeft -= pageHeight;
 
         while (heightLeft >= 0) {
             position = heightLeft - imgHeight;
             pdf.addPage();
-            pdf.addImage(imgdata, 'PNG', 0, position, imgWidth, imgHeight);
+            pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
             heightLeft -= pageHeight;
         }
 
@@ -1301,8 +1379,6 @@ function downloadPDF() {
     });
 }
 
-
-
 function removeBQ(orik) {
     const element = document.getElementById(orik);
     console.log(orik)
@@ -1316,8 +1392,6 @@ function removeBQ(orik) {
 
 function removeButtons() {
     const elements = document.getElementsByClassName('voucher-remove-button');
-    console.log(elements)
-
 
     if (elements) {
         for(let element of elements)

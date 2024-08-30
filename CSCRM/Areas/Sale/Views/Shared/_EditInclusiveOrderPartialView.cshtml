@@ -1,0 +1,28 @@
+﻿@using CSCRM.Models.ResponseTypes
+@using CSCRM.ViewModels.ClientOrdersVM
+@model BaseResponse
+@{
+    EditInclusiveOrderVM order = Model.data;
+}
+
+
+    <h2 class="EditInclusiveOrderPageHead">Edit Inclusive Order</h2>
+
+    <div class="edit-inclusive-order-container">
+        <h3>Edit Inclusive Order</h3>
+    <span style="color: @(Model.Success ? "green" : "red"); font-weight:600">@Model.Message</span>
+        <div class="edit-inclusive-order">
+            <select id="edit-inclusive-order-name" class="edit-inclusive-order-input">
+
+                <option value="@order.InclusiveName"  selected>@order.InclusiveName</option>
+            @foreach(string name in order.InclusivesList)
+            {
+                <option value="@name">@name</option>
+            }            
+            </select>
+            <input value="@order.Count" type="number" id="edit-inclusive-order-count" placeholder="Count" class="edit-inclusive-order-input" />
+            <input value="@order.Date" type="date" id="edit-inclusive-order-date" class="edit-inclusive-order-input" />
+            <button onclick="updateInclusiveOrder(@order.Id)" class="order-btn order-btn-primary">Update Order</button>
+        </div>
+    </div>
+

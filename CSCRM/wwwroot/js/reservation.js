@@ -115,7 +115,7 @@ function addConfirmation(hotelOrderId)
      // ID değerini buraya koyun
 
     // Değerleri ve ID'yi sunucuya JSON formatında gönderme
-    if (values.length > 0) {
+    
         fetch('/reservation/reservation/EditReservation', {
             method: 'POST',
             headers: {
@@ -134,11 +134,8 @@ function addConfirmation(hotelOrderId)
 
                 /*$('hotels-page-content').html(data)*/
             });
-    }
-    else {
-        alert('Fill The Confirmation Numbers');
-        return;
-    }
+    
+    
     
 
 }

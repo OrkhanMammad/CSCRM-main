@@ -2019,7 +2019,7 @@ namespace CSCRM.Concretes
                 hotelOrder.DateTo = hotelOrderVM.DateTo ?? hotelOrder.DateTo;
                 hotelOrder.UpdatedBy = appUser.Name + " " + appUser.SurName;
 
-                _context.HotelOrders.Update(hotelOrder);
+                
                 await _context.SaveChangesAsync();
 
 
@@ -2082,7 +2082,7 @@ namespace CSCRM.Concretes
                 return new BaseResponse
                 {
 
-                    data = new EditTourOrderPageMainVm { Cars = Cars, TourOrder = tourOrder, Tours = Tours },
+                    data = new EditTourOrderPageMainVm { Cars = Cars, TourOrder = tourOrder, Tours = Tours },                    
                     StatusCode = "200",
                     Success = true
                 };
@@ -2118,13 +2118,15 @@ namespace CSCRM.Concretes
                     };
                 }
 
-                order.TourId = tourOrder.Id;
+                order.TourId = tourOrder.TourId;
                 order.CarType = tourOrder.CarType;
                 order.Guide = tourOrder.Guide;
                 order.Date = tourOrder.Date;
                 order.UpdatedBy = appUser.Name + " " + appUser.SurName;
                 await _context.SaveChangesAsync();
                 _logger.LogInformation("Order Updated Successfully", tourOrder.Id);
+
+                
 
                 List<GetTourIdNameVM> Tours = await _context.Tours.Where(t => !t.IsDeleted)
                         .Select(t => new GetTourIdNameVM { Id = t.Id, Name = t.Name })
@@ -2158,6 +2160,235 @@ namespace CSCRM.Concretes
                 };
 
 
+            }
+        }
+
+        public async Task<BaseResponse> GetRestaurantOrderByIdAsync(int restaurantOrderId)
+        {
+            try
+            {
+                EditRestaurantOrderVM order = await _context.RestaurantOrders.Where(ro => ro.Id == restaurantOrderId).Select(ro => new EditRestaurantOrderVM
+                {
+                    Id = ro.Id,
+                    Count = ro.Count,
+                    Date = ro.Date,
+                    MealType = ro.MealType,
+                    RestaurantName = ro.RestaurantName,
+                    RestaurantsList = new List<string>()
+                }).FirstOrDefaultAsync();
+
+
+                if (order == null)
+                {
+                    _logger.LogWarning("Restaurant order with ID {RestaurantOrderId} not found.", restaurantOrderId);
+                    return new BaseResponse
+                    {
+                        Message = "Restaurant Order Could Not Be Found",
+                        StatusCode = "404",
+                        Success = false,
+                        data = new EditRestaurantOrderVM()
+                    };
+                }
+
+
+                order.RestaurantsList = await _context.Restaurants.Where(r => r.IsDeleted == false).Select(r => r.Name).ToListAsync();
+
+                _logger.LogInformation("Restaurant Order with ID {RestaurantOrderId} retrieved successfully.", restaurantOrderId);
+                return new BaseResponse
+                {
+                    Success = true,
+                    data = order,
+                    StatusCode = "201",
+                };
+            }
+            catch (Exception ex) 
+            {
+                _logger.LogError(ex, "An error occurred while retrieving restaurant order with ID {RestaurantOrderId}.", restaurantOrderId);
+                return new BaseResponse
+                {
+                    Success = false,
+                    data = new EditRestaurantOrderVM(),
+                    StatusCode = "500",
+                    Message = "Unhandled error occurred"
+                };
+            }
+
+        }
+
+        public async Task<BaseResponse> EditRestaurantOrderAsync(EditRestaurantOrderVM restaurantOrder, AppUser appUser)
+        {
+            if (restaurantOrder == null || restaurantOrder.Count <= 0 || string.IsNullOrWhiteSpace(restaurantOrder.RestaurantName) || string.IsNullOrWhiteSpace(restaurantOrder.Date) || string.IsNullOrWhiteSpace(restaurantOrder.MealType))
+            {
+                _logger.LogWarning("Invalid Restaurant Order.");
+                return new BaseResponse
+                {
+                    Success = false,
+                    Message = "Invalid Restaurant Order, Make Sure You Have Sent Datas In A proper Way.",
+                    StatusCode = "400",
+                    data = restaurantOrder
+                };
+            }
+
+            try
+            {
+                _logger.LogInformation("Retrieving Restaurant Order with ID {RestaurantOrderId}.", restaurantOrder.Id);
+                RestaurantOrder order = await _context.RestaurantOrders.FirstOrDefaultAsync(ro => ro.Id == restaurantOrder.Id);
+
+                if (order == null)
+                {
+                    _logger.LogWarning("Order with ID {RestaurantOrderId} not found.", restaurantOrder.Id);
+                    return new BaseResponse
+                    {
+                        Success = false,
+                        Message = "Restaurant Order not found.",
+                        StatusCode = "404",
+                        data = restaurantOrder
+                    };
+                }
+
+                order.RestaurantName = restaurantOrder.RestaurantName;
+                order.Count  = restaurantOrder.Count;
+                order.UpdatedBy = appUser.Name + " " + appUser.SurName;
+                order.Date = restaurantOrder.Date;
+                order.MealType = restaurantOrder.MealType;
+
+                await _context.SaveChangesAsync();
+
+                restaurantOrder.RestaurantsList = await _context.Restaurants.Where(r => r.IsDeleted == false).Select(r => r.Name).ToListAsync();
+
+               
+
+                return new BaseResponse
+                {
+                    data = restaurantOrder,
+                    Message = "Restaurant Order updated successfully.",
+                    Success = true,
+                    StatusCode = "200"
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while updating the restaurant order with ID {RestaurantOrderId}.", restaurantOrder.Id);
+                return new BaseResponse
+                {
+                    data = new EditRestaurantOrderVM(),
+                    Success = false,
+                    Message = "An error occurred while updating the restaurant order.",
+                    StatusCode = "500"
+                };
+            }
+        }
+
+        public async Task<BaseResponse> GetInclusiveOrderByIdAsync(int inclusiveOrderId)
+        {
+            try
+            {                
+                EditInclusiveOrderVM order = await _context.InclusiveOrders.Where(io => io.Id == inclusiveOrderId).Select(io => new EditInclusiveOrderVM
+                {
+                    Id = io.Id,
+                    Count = io.Count,
+                    Date = io.Date,
+                    InclusiveName = io.InclusiveName,
+                    InclusivesList = new List<string>()
+                }).FirstOrDefaultAsync();
+
+
+                if (order == null)
+                {
+                    _logger.LogWarning("Inclusive order with ID {InclusiveOrderId} not found.", inclusiveOrderId);
+                    return new BaseResponse
+                    {
+                        Message = "Inclusive Order Could Not Be Found",
+                        StatusCode = "404",
+                        Success = false,
+                        data = new EditInclusiveOrderVM()
+                    };
+                }
+
+
+                order.InclusivesList = await _context.InclusiveServices.Where(r => r.IsDeleted == false).Select(r => r.Name).ToListAsync();
+
+                _logger.LogInformation("Inclusive Order with ID {InclusiveOrderId} retrieved successfully.", inclusiveOrderId);
+                return new BaseResponse
+                {
+                    Success = true,
+                    data = order,
+                    StatusCode = "201",
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while retrieving Inclusive order with ID {InclusiveOrderId}.", inclusiveOrderId);
+                return new BaseResponse
+                {
+                    Success = false,
+                    data = new EditInclusiveOrderVM(),
+                    StatusCode = "500",
+                    Message = "Unhandled error occurred"
+                };
+            }
+        }
+
+        public async Task<BaseResponse> EditInclusiveOrderAsync(EditInclusiveOrderVM inclusiveOrder, AppUser appUser)
+        {
+            if (inclusiveOrder == null || inclusiveOrder.Count <= 0 || string.IsNullOrWhiteSpace(inclusiveOrder.InclusiveName) || string.IsNullOrWhiteSpace(inclusiveOrder.Date))
+            {
+                _logger.LogWarning("Invalid Inclusive Order.");
+                return new BaseResponse
+                {
+                    Success = false,
+                    Message = "Invalid Inclusive Order, Make Sure You Have Sent Datas In A proper Way.",
+                    StatusCode = "400",
+                    data = inclusiveOrder
+                };
+            }
+
+            try
+            {
+                _logger.LogInformation("Retrieving Inclusive Order with ID {InclusiveOrderId}.", inclusiveOrder.Id);
+                InclusiveOrder order = await _context.InclusiveOrders.FirstOrDefaultAsync(io => io.Id == inclusiveOrder.Id);
+
+                if (order == null)
+                {
+                    _logger.LogWarning("Order with ID {InclusiveOrderId} not found.", inclusiveOrder.Id);
+                    return new BaseResponse
+                    {
+                        Success = false,
+                        Message = "Inclusive Order not found.",
+                        StatusCode = "404",
+                        data = inclusiveOrder
+                    };
+                }
+
+                order.InclusiveName = inclusiveOrder.InclusiveName;
+                order.Count = inclusiveOrder.Count;
+                order.UpdatedBy = appUser.Name + " " + appUser.SurName;
+                order.Date = inclusiveOrder.Date;
+
+                await _context.SaveChangesAsync();
+
+                inclusiveOrder.InclusivesList = await _context.InclusiveServices.Where(r => r.IsDeleted == false).Select(r => r.Name).ToListAsync();
+
+
+
+                return new BaseResponse
+                {
+                    data = inclusiveOrder,
+                    Message = "Inclusive Order updated successfully.",
+                    Success = true,
+                    StatusCode = "200"
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while updating the Inclusive order with ID {InclusiveOrderId}.", inclusiveOrder.Id);
+                return new BaseResponse
+                {
+                    data = new EditInclusiveOrderVM(),
+                    Success = false,
+                    Message = "An error occurred while updating the Inclusive order.",
+                    StatusCode = "500"
+                };
             }
         }
     }

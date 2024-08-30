@@ -186,5 +186,40 @@ namespace CSCRM.Areas.Manage.Controllers
             return PartialView("_EditTourOrderPartialView",result);
         }
 
+        [HttpGet]
+        
+        public async Task<IActionResult> EditRestaurantOrder(int restaurantOrderId)
+        {
+            var result = await _clientService.GetRestaurantOrderByIdAsync(restaurantOrderId);
+            return View(result);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> EditRestaurantOrder([FromBody] EditRestaurantOrderVM restaurantOrder)
+        {
+            AppUser appUser = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
+            var result = await _clientService.EditRestaurantOrderAsync(restaurantOrder, appUser);
+            return PartialView("_EditRestaurantOrderPartialView", result);
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> EditInclusiveOrder(int inclusiveOrderId)
+        {
+            var result = await _clientService.GetInclusiveOrderByIdAsync(inclusiveOrderId);
+            return View(result);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditInclusiveOrder([FromBody] EditInclusiveOrderVM inclusiveOrder)
+        {
+            AppUser appUser = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
+            var result = await _clientService.EditInclusiveOrderAsync(inclusiveOrder, appUser);
+            return PartialView("_EditInclusiveOrderPartialView", result);
+
+
+        }
+
     }
 }

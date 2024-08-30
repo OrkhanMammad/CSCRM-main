@@ -1,0 +1,39 @@
+﻿@using CSCRM.Models.ResponseTypes
+@using CSCRM.ViewModels.ClientOrdersVM
+
+@model BaseResponse
+@{
+    EditHotelOrderVM order = Model.data;
+}
+
+<h2 class="EditHotelServicePageHead">Edit Hotel Service</h2>
+
+<div class="edit-hotel-service-container">
+    <span style="color: @(Model.Success ? "green" : "red"); font-weight:600">@Model.Message</span>
+    <h3>Edit Hotel Service</h3>
+    
+    <div class="edit-hotel-service">
+        <select id="edit-hotel-service-hotelName" class="edit-hotel-service-input">
+            <option value="@order.HotelName" selected>@order.HotelName</option>
+            @foreach (string hotelName in order.HotelNames)
+            {
+                if (hotelName != order.HotelName)
+                {
+                    <option value="@hotelName">@hotelName</option>
+                }
+            }
+        </select>
+        <select id="edit-hotel-service-roomTypeName" class="edit-hotel-service-input">
+            <option value="@order.RoomType" selected>@order.RoomType</option>
+            <option value="Single">Single</option>
+            <option value="Double">Double</option>
+            <option value="Suite">Suite</option>
+            <!-- Diğer oda tipleri buraya eklenecek -->
+        </select>
+        <input type="number" id="edit-hotel-service-roomCount" placeholder="Room Count" class="edit-hotel-service-input" value="@order.RoomCount" />
+        <input type="number" id="edit-hotel-service-days" placeholder="Days" class="edit-hotel-service-input" value="@order.Days" />
+        <input type="date" id="edit-hotel-service-dateFrom" class="edit-hotel-service-input" value="@order.DateFrom" />
+        <input type="date" id="edit-hotel-service-dateTo" class="edit-hotel-service-input" value="@order.DateTo" />
+        <button onclick="editHotelOrder(@order.HotelOrderId)" class="service-btn service-btn-primary">Update Service</button>
+    </div>
+</div>

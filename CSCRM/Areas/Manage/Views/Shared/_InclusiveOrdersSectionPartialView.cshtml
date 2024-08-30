@@ -23,7 +23,7 @@
                     <td>@inclusiveOrder.Count</td>
                     <td>@inclusiveOrder.Date</td>
                     <td>
-                        <a href="#" class="edit-link">Edit</a>
+                        <a asp-action="editinclusiveorder" asp-controller="client" asp-area="manage" asp-route-inclusiveOrderId="@inclusiveOrder.Id" class="edit-link">Edit</a>
                         <button onclick="deleteInclusiveOrder(@inclusiveOrder.Id, @Model.ClientId)" class="delete-btn">Delete</button>
                     </td>
                 </tr>

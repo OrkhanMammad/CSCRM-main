@@ -31,5 +31,10 @@ namespace CSCRM.Abstractions
         Task<BaseResponse> GetTourOrderByIdAsync(int tourOrderId);
         Task<BaseResponse> EditTourOrderAsync(EditTourOrderVM tourOrder, AppUser appUser);
 
+        Task<BaseResponse> GetRestaurantOrderByIdAsync(int restaurantOrderId);
+        Task<BaseResponse> EditRestaurantOrderAsync(EditRestaurantOrderVM restaurantOrder, AppUser appUser);
+
+        Task<BaseResponse> GetInclusiveOrderByIdAsync(int inclusiveOrderId);
+        Task<BaseResponse> EditInclusiveOrderAsync(EditInclusiveOrderVM inclusiveOrder, AppUser appUser);
     }
 }

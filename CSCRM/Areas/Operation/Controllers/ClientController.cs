@@ -88,6 +88,38 @@ namespace CSCRM.Areas.Operation.Controllers
             var result = await _clientService.GetVoucherOfClientAsync(clientId);
             return View(result);
         }
+        [HttpGet]
+        public async Task<IActionResult> EditTourOrder(int tourOrderId)
+        {
+            var result = await _clientService.GetTourOrderByIdAsync(tourOrderId);
+            return View(result);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> EditTourOrder([FromBody] EditTourOrderVM tourOrder)
+        {
+            AppUser appUser = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
+            var result = await _clientService.EditTourOrderAsync(tourOrder, appUser);
+            return PartialView("_EditTourOrderPartialView", result);
+        }
+
+        [HttpGet]
+
+        public async Task<IActionResult> EditRestaurantOrder(int restaurantOrderId)
+        {
+            var result = await _clientService.GetRestaurantOrderByIdAsync(restaurantOrderId);
+            return View(result);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> EditRestaurantOrder([FromBody] EditRestaurantOrderVM restaurantOrder)
+        {
+            AppUser appUser = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
+            var result = await _clientService.EditRestaurantOrderAsync(restaurantOrder, appUser);
+            return PartialView("_EditRestaurantOrderPartialView", result);
+        }
 
     }
 }

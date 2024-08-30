@@ -26,7 +26,7 @@
                     <td>@restOrder.Count</td>
                     <td>@restOrder.Date</td>
                     <td>
-                        <a href="#" class="edit-link">Edit</a>
+                        <a asp-action="editrestaurantorder" asp-controller="client" asp-area="manage" asp-route-restaurantOrderId="@restOrder.Id" class="edit-link">Edit</a>
                         <button onclick="deleteRestaurantOrder(@restOrder.Id, @Model.ClientId)" class="delete-btn">Delete</button>
                     </td>
                 </tr>

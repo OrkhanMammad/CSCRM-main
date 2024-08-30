@@ -1,0 +1,35 @@
+﻿@using CSCRM.Models.ResponseTypes
+@using CSCRM.ViewModels.ClientOrdersVM
+@model BaseResponse
+
+@{
+    EditRestaurantOrderVM order = Model.data;
+}
+
+<h2 class="EditRestaurantServicePageHead">Edit Restaurant Service</h2>
+
+<div class="edit-restaurant-service-container">
+    <h3>Edit Restaurant Service</h3>
+    <span style="color: @(Model.Success ? "green" : "red"); font-weight:600">@Model.Message</span>
+    <div class="edit-restaurant-service">
+        <select id="edit-restaurant-service-restaurantName" class="edit-restaurant-service-input">
+            <option value="@order.RestaurantName" selected>@order.RestaurantName</option>
+            @foreach(string name in order.RestaurantsList)
+            {
+                <option value="@name">@name</option>
+            }
+
+        </select>
+        <select id="edit-restaurant-service-mealType" class="edit-restaurant-service-input">
+            <option value="@order.MealType" selected>@order.MealType</option>
+            <option value="Lunch">Lunch</option>
+            <option value="Dinner">Dinner</option>
+            <option value="Gala Dinner">Gala Dinner</option>
+
+        </select>
+        <input value="@order.Count" type="number" id="edit-restaurant-service-mealCount" placeholder="Meal Count" class="edit-restaurant-service-input" />
+        <input value="@order.Date" type="date" id="edit-restaurant-service-mealDate" class="edit-restaurant-service-input" />
+        <button onclick="updateRestaurantService(@order.Id)" class="service-btn service-btn-primary">Update Service</button>
+    </div>
+</div>
+
