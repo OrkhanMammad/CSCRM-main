@@ -37,13 +37,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Manage\Data\" />
+    <Folder Include="Areas\Manage\data\" />
     <Folder Include="Areas\Manage\Models\" />
-    <Folder Include="Areas\Operation\Data\" />
+    <Folder Include="Areas\Operation\data\" />
     <Folder Include="Areas\Operation\Models\" />
-    <Folder Include="Areas\Reservation\Data\" />
+    <Folder Include="Areas\Reservation\data\" />
     <Folder Include="Areas\Reservation\Models\" />
-    <Folder Include="Areas\Sale\Data\" />
+    <Folder Include="Areas\Sale\data\" />
     <Folder Include="Areas\Sale\Models\" />
   </ItemGroup>
 

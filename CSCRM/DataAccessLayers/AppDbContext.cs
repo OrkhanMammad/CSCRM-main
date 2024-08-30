@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace CSCRM.DataAccessLayers
+namespace CSCRM.dataAccessLayers
 {
     public class AppDbContext : IdentityDbContext<AppUser>
     {

@@ -15,13 +15,13 @@
         </thead>
         <tbody>
             <tr>
-                <td><input type="text" id="edit-tourName-input" value="@Model.Data.Name" class="tour-edit-page-input"></td>
+                <td><input type="text" id="edit-tourName-input" value="@Model.data.Name" class="tour-edit-page-input"></td>
                 <td>
                     <div id="edit-itineraryInputs">
                         @{
                             short itineraryIndex = 0;
                         }
-                        @foreach (var itinerary in Model.Data.Itineraries)
+                        @foreach (var itinerary in Model.data.Itineraries)
                         {
                             <input type="text" name="edit-itinerary-@itineraryIndex" value="@itinerary" class="tour-edit-page-input tour-edit-page-itinerary-input">
                             itineraryIndex++;
@@ -31,7 +31,7 @@
                     <button style="margin-top: 20px" onclick="addEditItineraryInput()" class="tour-edit-page-tour-btn tour-edit-page-tour-btn-add">Add Itinerary</button>
                 </td>
                 <td>
-                    <button onclick="updateTour(@Model.Data.Id)" class="tour-edit-page-tour-btn tour-edit-page-tour-btn-primary">Update Tour</button>
+                    <button onclick="updateTour(@Model.data.Id)" class="tour-edit-page-tour-btn tour-edit-page-tour-btn-primary">Update Tour</button>
                 </td>
             </tr>
         </tbody>

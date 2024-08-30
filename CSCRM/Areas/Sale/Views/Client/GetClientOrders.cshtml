@@ -2,7 +2,7 @@
 @using CSCRM.ViewModels.ClientOrdersVM
 @model BaseResponse
 @{
-    HotelTourRestaurantInclusiveOrdersTotal hotelTourRestaurantInclusiveOrders = Model.Data;
+    HotelTourRestaurantInclusiveOrdersTotal hotelTourRestaurantInclusiveOrders = Model.data;
     HotelOrdersSectionVM hotelOrdersSectionVM = hotelTourRestaurantInclusiveOrders.HotelOrdersSection;
     TourOrdersSectionVM tourOrdersSectionVM = hotelTourRestaurantInclusiveOrders.TourOrdersSection;
     RestaurantOrdersSectionVM restaurantOrdersSectionVM = hotelTourRestaurantInclusiveOrders.RestaurantOrdersSection;
@@ -16,11 +16,11 @@
         <span style="color: @(Model.Success ? "green" : "red"); font-weight:600">@Model.Message</span>
 
         <div class="client-details">
-            <p><strong>Invoice Code:</strong> <span id="clientCode">@Model.Data.InvCode</span></p>
-            <p><strong>Mail Code:</strong> <span id="clientCode">@Model.Data.MailCode</span></p>
-            <p><strong>Name:</strong> <span id="clientName">@Model.Data.Name</span></p>
-           <p><strong>Surname:</strong> <span id="clientSurname">@Model.Data.Surname</span></p>
-            <input id="clientNameSurnameForHotelOrder" hidden type="type" name="name" value="@Model.Data.Name @Model.Data.Surname" />
+            <p><strong>Invoice Code:</strong> <span id="clientCode">@Model.data.InvCode</span></p>
+            <p><strong>Mail Code:</strong> <span id="clientCode">@Model.data.MailCode</span></p>
+            <p><strong>Name:</strong> <span id="clientName">@Model.data.Name</span></p>
+           <p><strong>Surname:</strong> <span id="clientSurname">@Model.data.Surname</span></p>
+            <input id="clientNameSurnameForHotelOrder" hidden type="type" name="name" value="@Model.data.Name @Model.data.Surname" />
 
         </div>
     </div>

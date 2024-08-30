@@ -1,5 +1,5 @@
 ﻿using CSCRM.Abstractions;
-using CSCRM.DataAccessLayers;
+using CSCRM.dataAccessLayers;
 using CSCRM.Models.ResponseTypes;
 using CSCRM.Models;
 using CSCRM.ViewModels.HotelVMs;
@@ -63,7 +63,7 @@ namespace CSCRM.Concretes
                         Message = $"Hotel Name can not be empty",
                         StatusCode = "201",
                         Success = true,
-                        Data = hotelsInDb,
+                        data = hotelsInDb,
                         PageIndex = 1,
                         PageSize = pageSize
                     };
@@ -83,7 +83,7 @@ namespace CSCRM.Concretes
                         Message = $"Hotel {addHotelVM.Name} already exists",
                         StatusCode = "201",
                         Success = true,
-                        Data = hotelsInDb,
+                        data = hotelsInDb,
                         PageIndex = 1,
                         PageSize = pageSize
                     };
@@ -113,7 +113,7 @@ namespace CSCRM.Concretes
 
                 return new BaseResponse
                 {
-                    Data = hotels,
+                    data = hotels,
                     Message = "Hotel Created Successfully",
                     StatusCode = "201",
                     Success = true,
@@ -130,7 +130,7 @@ namespace CSCRM.Concretes
                     Message = "Hotel Could Not Be Created Successfully",
                     StatusCode = "500",
                     Success = false,
-                    Data = new List<GetHotelVM>()
+                    data = new List<GetHotelVM>()
                 };
             }
         }
@@ -151,7 +151,7 @@ namespace CSCRM.Concretes
 
                     return new BaseResponse
                     {
-                        Data = hotels,
+                        data = hotels,
                         Success = true,
                         StatusCode = "201",
                         PageIndex = pageIndex,
@@ -164,7 +164,7 @@ namespace CSCRM.Concretes
 
                     return new BaseResponse
                     {
-                        Data = new List<GetHotelVM>(),
+                        data = new List<GetHotelVM>(),
                         Message = "No hotel found",
                         Success = true,
                         StatusCode = "404"
@@ -180,7 +180,7 @@ namespace CSCRM.Concretes
                     StatusCode = "500",
                     Message = "Unhandled Error Occurred",
                     Success = false,
-                    Data = new List<GetHotelVM>()
+                    data = new List<GetHotelVM>()
                 };
             }
         }
@@ -204,7 +204,7 @@ namespace CSCRM.Concretes
                         Success = false,
                         Message = "Hotel Could Not Found",
                         StatusCode = "404",
-                        Data = hotelsInDb,
+                        data = hotelsInDb,
                         PageIndex = 1,
                         PageSize = pageSize
                     };
@@ -223,7 +223,7 @@ namespace CSCRM.Concretes
                 {
                     Success = true,
                     Message = $"Hotel {deletingHotel.Name} is deleted successfully.",
-                    Data = hotels,
+                    data = hotels,
                     StatusCode = "203",
                     PageIndex = 1,
                     PageSize = pageSizeForHotels
@@ -238,7 +238,7 @@ namespace CSCRM.Concretes
                     Success = false,
                     StatusCode = "500",
                     Message = "Hotel Could Not Be Deleted Successfully",
-                    Data = new List<GetHotelVM>()
+                    data = new List<GetHotelVM>()
                 };
             }
         }
@@ -258,7 +258,7 @@ namespace CSCRM.Concretes
                         Message = "Hotel Could Not Be Found",
                         StatusCode = "404",
                         Success = false,
-                        Data = new EditHotelVM()
+                        data = new EditHotelVM()
                     };
                 }
 
@@ -277,7 +277,7 @@ namespace CSCRM.Concretes
                 return new BaseResponse
                 {
                     Success = true,
-                    Data = hotelForEdit,
+                    data = hotelForEdit,
                     StatusCode = "201"
                 };
             }
@@ -287,7 +287,7 @@ namespace CSCRM.Concretes
                 return new BaseResponse
                 {
                     Success = false,
-                    Data = new EditHotelVM(),
+                    data = new EditHotelVM(),
                     StatusCode = "500",
                     Message = "Unhandled error occurred"
                 };
@@ -304,7 +304,7 @@ namespace CSCRM.Concretes
                     Success = false,
                     Message = "Hotel name cannot be empty.",
                     StatusCode = "400",
-                    Data = hotel
+                    data = hotel
                 };
             }
             if (hotel == null || hotel.Id <= 0)
@@ -315,7 +315,7 @@ namespace CSCRM.Concretes
                     Success = false,
                     Message = "Invalid hotel ID.",
                     StatusCode = "400",
-                    Data = hotel
+                    data = hotel
                 };
             }
 
@@ -334,7 +334,7 @@ namespace CSCRM.Concretes
                         Message = $"Hotel {hotel.Name} already exists.",
                         StatusCode = "409",
                         Success = false,
-                        Data = hotel
+                        data = hotel
                     };
                 }
 
@@ -348,7 +348,7 @@ namespace CSCRM.Concretes
                         Success = false,
                         Message = "Hotel not found.",
                         StatusCode = "404",
-                        Data = hotel
+                        data = hotel
                     };
                 }
 
@@ -376,7 +376,7 @@ namespace CSCRM.Concretes
 
                 return new BaseResponse
                 {
-                    Data = hotelEdited,
+                    data = hotelEdited,
                     Message = "Hotel updated successfully.",
                     Success = true,
                     StatusCode = "200"
@@ -387,7 +387,7 @@ namespace CSCRM.Concretes
                 _logger.LogError(ex, "An error occurred while updating hotel with ID {HotelId}.", hotel?.Id);
                 return new BaseResponse
                 {
-                    Data = hotel,
+                    data = hotel,
                     Success = false,
                     Message = "An unhandled exception occurred.",
                     StatusCode = "500"

@@ -4219,7 +4219,7 @@ function fcamelCase( _all, letter ) {
 function camelCase( string ) {
 	return string.replace( rmsPrefix, "ms-" ).replace( rdashAlpha, fcamelCase );
 }
-var acceptData = function( owner ) {
+var acceptdata = function( owner ) {
 
 	// Accepts only:
 	//  - Node
@@ -4233,13 +4233,13 @@ var acceptData = function( owner ) {
 
 
 
-function Data() {
-	this.expando = jQuery.expando + Data.uid++;
+function data() {
+	this.expando = jQuery.expando + data.uid++;
 }
 
-Data.uid = 1;
+data.uid = 1;
 
-Data.prototype = {
+data.prototype = {
 
 	cache: function( owner ) {
 
@@ -4253,7 +4253,7 @@ Data.prototype = {
 			// We can accept data for non-element nodes in modern browsers,
 			// but we should not, see #8335.
 			// Always return an empty object.
-			if ( acceptData( owner ) ) {
+			if ( acceptdata( owner ) ) {
 
 				// If it is a node unlikely to be stringify-ed or looped over
 				// use plain assignment
@@ -4378,14 +4378,14 @@ Data.prototype = {
 			}
 		}
 	},
-	hasData: function( owner ) {
+	hasdata: function( owner ) {
 		var cache = owner[ this.expando ];
 		return cache !== undefined && !jQuery.isEmptyObject( cache );
 	}
 };
-var dataPriv = new Data();
+var dataPriv = new data();
 
-var dataUser = new Data();
+var dataUser = new data();
 
 
 
@@ -4395,14 +4395,14 @@ var dataUser = new Data();
 //	2. Improve the module's maintainability by reducing the storage
 //		paths to a single mechanism.
 //	3. Use the same single mechanism to support "private" and "user" data.
-//	4. _Never_ expose "private" data to user code (TODO: Drop _data, _removeData)
+//	4. _Never_ expose "private" data to user code (TODO: Drop _data, _removedata)
 //	5. Avoid exposing implementation details on user objects (eg. expando properties)
 //	6. Provide a clear path for implementation upgrade to WeakMap in 2014
 
 var rbrace = /^(?:\{[\w\W]*\}|\[[\w\W]*\])$/,
 	rmultiDash = /[A-Z]/g;
 
-function getData( data ) {
+function getdata( data ) {
 	if ( data === "true" ) {
 		return true;
 	}
@@ -4438,7 +4438,7 @@ function dataAttr( elem, key, data ) {
 
 		if ( typeof data === "string" ) {
 			try {
-				data = getData( data );
+				data = getdata( data );
 			} catch ( e ) {}
 
 			// Make sure we set the data so it isn't changed later
@@ -4451,25 +4451,25 @@ function dataAttr( elem, key, data ) {
 }
 
 jQuery.extend( {
-	hasData: function( elem ) {
-		return dataUser.hasData( elem ) || dataPriv.hasData( elem );
+	hasdata: function( elem ) {
+		return dataUser.hasdata( elem ) || dataPriv.hasdata( elem );
 	},
 
 	data: function( elem, name, data ) {
 		return dataUser.access( elem, name, data );
 	},
 
-	removeData: function( elem, name ) {
+	removedata: function( elem, name ) {
 		dataUser.remove( elem, name );
 	},
 
-	// TODO: Now that all calls to _data and _removeData have been replaced
+	// TODO: Now that all calls to _data and _removedata have been replaced
 	// with direct calls to dataPriv methods, these can be deprecated.
 	_data: function( elem, name, data ) {
 		return dataPriv.access( elem, name, data );
 	},
 
-	_removeData: function( elem, name ) {
+	_removedata: function( elem, name ) {
 		dataPriv.remove( elem, name );
 	}
 } );
@@ -4485,7 +4485,7 @@ jQuery.fn.extend( {
 			if ( this.length ) {
 				data = dataUser.get( elem );
 
-				if ( elem.nodeType === 1 && !dataPriv.get( elem, "hasDataAttrs" ) ) {
+				if ( elem.nodeType === 1 && !dataPriv.get( elem, "hasdataAttrs" ) ) {
 					i = attrs.length;
 					while ( i-- ) {
 
@@ -4499,7 +4499,7 @@ jQuery.fn.extend( {
 							}
 						}
 					}
-					dataPriv.set( elem, "hasDataAttrs", true );
+					dataPriv.set( elem, "hasdataAttrs", true );
 				}
 			}
 
@@ -4524,7 +4524,7 @@ jQuery.fn.extend( {
 			if ( elem && value === undefined ) {
 
 				// Attempt to get data from the cache
-				// The key will always be camelCased in Data
+				// The key will always be camelCased in data
 				data = dataUser.get( elem, key );
 				if ( data !== undefined ) {
 					return data;
@@ -4550,7 +4550,7 @@ jQuery.fn.extend( {
 		}, null, value, arguments.length > 1, null, true );
 	},
 
-	removeData: function( key ) {
+	removedata: function( key ) {
 		return this.each( function() {
 			dataUser.remove( this, key );
 		} );
@@ -5196,10 +5196,10 @@ jQuery.event = {
 		var handleObjIn, eventHandle, tmp,
 			events, t, handleObj,
 			special, handlers, type, namespaces, origType,
-			elemData = dataPriv.get( elem );
+			elemdata = dataPriv.get( elem );
 
 		// Only attach events to objects that accept data
-		if ( !acceptData( elem ) ) {
+		if ( !acceptdata( elem ) ) {
 			return;
 		}
 
@@ -5222,11 +5222,11 @@ jQuery.event = {
 		}
 
 		// Init the element's event structure and main handler, if this is the first
-		if ( !( events = elemData.events ) ) {
-			events = elemData.events = Object.create( null );
+		if ( !( events = elemdata.events ) ) {
+			events = elemdata.events = Object.create( null );
 		}
-		if ( !( eventHandle = elemData.handle ) ) {
-			eventHandle = elemData.handle = function( e ) {
+		if ( !( eventHandle = elemdata.handle ) ) {
+			eventHandle = elemdata.handle = function( e ) {
 
 				// Discard the second event of a jQuery.event.trigger() and
 				// when an event is called after a page has unloaded
@@ -5311,9 +5311,9 @@ jQuery.event = {
 		var j, origCount, tmp,
 			events, t, handleObj,
 			special, handlers, type, namespaces, origType,
-			elemData = dataPriv.hasData( elem ) && dataPriv.get( elem );
+			elemdata = dataPriv.hasdata( elem ) && dataPriv.get( elem );
 
-		if ( !elemData || !( events = elemData.events ) ) {
+		if ( !elemdata || !( events = elemdata.events ) ) {
 			return;
 		}
 
@@ -5364,9 +5364,9 @@ jQuery.event = {
 			// (avoids potential for endless recursion during removal of special event handlers)
 			if ( origCount && !handlers.length ) {
 				if ( !special.teardown ||
-					special.teardown.call( elem, namespaces, elemData.handle ) === false ) {
+					special.teardown.call( elem, namespaces, elemdata.handle ) === false ) {
 
-					jQuery.removeEvent( elem, type, elemData.handle );
+					jQuery.removeEvent( elem, type, elemdata.handle );
 				}
 
 				delete events[ type ];
@@ -5956,7 +5956,7 @@ var
 
 	// checked="checked" or checked
 	rchecked = /checked\s*(?:[^=]|=\s*.checked.)/i,
-	rcleanScript = /^\s*<!(?:\[CDATA\[|--)|(?:\]\]|--)>\s*$/g;
+	rcleanScript = /^\s*<!(?:\[Cdata\[|--)|(?:\]\]|--)>\s*$/g;
 
 // Prefer a tbody over its parent table for containing new rows
 function manipulationTarget( elem, content ) {
@@ -5992,7 +5992,7 @@ function cloneCopyEvent( src, dest ) {
 	}
 
 	// 1. Copy private data: events, handlers, etc.
-	if ( dataPriv.hasData( src ) ) {
+	if ( dataPriv.hasdata( src ) ) {
 		pdataOld = dataPriv.get( src );
 		events = pdataOld.events;
 
@@ -6008,7 +6008,7 @@ function cloneCopyEvent( src, dest ) {
 	}
 
 	// 2. Copy user data
-	if ( dataUser.hasData( src ) ) {
+	if ( dataUser.hasdata( src ) ) {
 		udataOld = dataUser.access( src );
 		udataCur = jQuery.extend( {}, udataOld );
 
@@ -6122,18 +6122,18 @@ function domManip( collection, args, callback, ignored ) {
 	return collection;
 }
 
-function remove( elem, selector, keepData ) {
+function remove( elem, selector, keepdata ) {
 	var node,
 		nodes = selector ? jQuery.filter( selector, elem ) : elem,
 		i = 0;
 
 	for ( ; ( node = nodes[ i ] ) != null; i++ ) {
-		if ( !keepData && node.nodeType === 1 ) {
-			jQuery.cleanData( getAll( node ) );
+		if ( !keepdata && node.nodeType === 1 ) {
+			jQuery.cleandata( getAll( node ) );
 		}
 
 		if ( node.parentNode ) {
-			if ( keepData && isAttached( node ) ) {
+			if ( keepdata && isAttached( node ) ) {
 				setGlobalEval( getAll( node, "script" ) );
 			}
 			node.parentNode.removeChild( node );
@@ -6148,7 +6148,7 @@ jQuery.extend( {
 		return html;
 	},
 
-	clone: function( elem, dataAndEvents, deepDataAndEvents ) {
+	clone: function( elem, dataAndEvents, deepdataAndEvents ) {
 		var i, l, srcElements, destElements,
 			clone = elem.cloneNode( true ),
 			inPage = isAttached( elem );
@@ -6168,7 +6168,7 @@ jQuery.extend( {
 
 		// Copy the events from the original to the clone
 		if ( dataAndEvents ) {
-			if ( deepDataAndEvents ) {
+			if ( deepdataAndEvents ) {
 				srcElements = srcElements || getAll( elem );
 				destElements = destElements || getAll( clone );
 
@@ -6190,13 +6190,13 @@ jQuery.extend( {
 		return clone;
 	},
 
-	cleanData: function( elems ) {
+	cleandata: function( elems ) {
 		var data, elem, type,
 			special = jQuery.event.special,
 			i = 0;
 
 		for ( ; ( elem = elems[ i ] ) !== undefined; i++ ) {
-			if ( acceptData( elem ) ) {
+			if ( acceptdata( elem ) ) {
 				if ( ( data = elem[ dataPriv.expando ] ) ) {
 					if ( data.events ) {
 						for ( type in data.events ) {
@@ -6211,13 +6211,13 @@ jQuery.extend( {
 					}
 
 					// Support: Chrome <=35 - 45+
-					// Assign undefined instead of using delete, see Data#remove
+					// Assign undefined instead of using delete, see data#remove
 					elem[ dataPriv.expando ] = undefined;
 				}
 				if ( elem[ dataUser.expando ] ) {
 
 					// Support: Chrome <=35 - 45+
-					// Assign undefined instead of using delete, see Data#remove
+					// Assign undefined instead of using delete, see data#remove
 					elem[ dataUser.expando ] = undefined;
 				}
 			}
@@ -6288,7 +6288,7 @@ jQuery.fn.extend( {
 			if ( elem.nodeType === 1 ) {
 
 				// Prevent memory leaks
-				jQuery.cleanData( getAll( elem, false ) );
+				jQuery.cleandata( getAll( elem, false ) );
 
 				// Remove any remaining nodes
 				elem.textContent = "";
@@ -6298,12 +6298,12 @@ jQuery.fn.extend( {
 		return this;
 	},
 
-	clone: function( dataAndEvents, deepDataAndEvents ) {
+	clone: function( dataAndEvents, deepdataAndEvents ) {
 		dataAndEvents = dataAndEvents == null ? false : dataAndEvents;
-		deepDataAndEvents = deepDataAndEvents == null ? dataAndEvents : deepDataAndEvents;
+		deepdataAndEvents = deepdataAndEvents == null ? dataAndEvents : deepdataAndEvents;
 
 		return this.map( function() {
-			return jQuery.clone( this, dataAndEvents, deepDataAndEvents );
+			return jQuery.clone( this, dataAndEvents, deepdataAndEvents );
 		} );
 	},
 
@@ -6329,7 +6329,7 @@ jQuery.fn.extend( {
 
 						// Remove element nodes and prevent memory leaks
 						if ( elem.nodeType === 1 ) {
-							jQuery.cleanData( getAll( elem, false ) );
+							jQuery.cleandata( getAll( elem, false ) );
 							elem.innerHTML = value;
 						}
 					}
@@ -6354,7 +6354,7 @@ jQuery.fn.extend( {
 			var parent = this.parentNode;
 
 			if ( jQuery.inArray( this, ignored ) < 0 ) {
-				jQuery.cleanData( getAll( this ) );
+				jQuery.cleandata( getAll( this ) );
 				if ( parent ) {
 					parent.replaceChild( elem, this );
 				}
@@ -8721,7 +8721,7 @@ jQuery.extend( jQuery.event, {
 
 			// Native handler
 			handle = ontype && cur[ ontype ];
-			if ( handle && handle.apply && acceptData( cur ) ) {
+			if ( handle && handle.apply && acceptdata( cur ) ) {
 				event.result = handle.apply( cur, data );
 				if ( event.result === false ) {
 					event.preventDefault();
@@ -8735,7 +8735,7 @@ jQuery.extend( jQuery.event, {
 
 			if ( ( !special._default ||
 				special._default.apply( eventPath.pop(), data ) === false ) &&
-				acceptData( elem ) ) {
+				acceptdata( elem ) ) {
 
 				// Call a native DOM method on the target with the same name as the event.
 				// Don't do default actions on window, that's where global variables be (#6170)
@@ -9021,7 +9021,7 @@ var
 	 * 1) They are useful to introduce custom dataTypes (see ajax/jsonp.js for an example)
 	 * 2) These are called:
 	 *    - BEFORE asking for a transport
-	 *    - AFTER param serialization (s.data is a string if s.processData is true)
+	 *    - AFTER param serialization (s.data is a string if s.processdata is true)
 	 * 3) key is the dataType
 	 * 4) the catchall symbol "*" can be used
 	 * 5) execution will start with transport dataType and THEN continue down to "*" if needed
@@ -9129,7 +9129,7 @@ function ajaxExtend( target, src ) {
  */
 function ajaxHandleResponses( s, jqXHR, responses ) {
 
-	var ct, type, finalDataType, firstDataType,
+	var ct, type, finaldataType, firstdataType,
 		contents = s.contents,
 		dataTypes = s.dataTypes;
 
@@ -9153,32 +9153,32 @@ function ajaxHandleResponses( s, jqXHR, responses ) {
 
 	// Check to see if we have a response for the expected dataType
 	if ( dataTypes[ 0 ] in responses ) {
-		finalDataType = dataTypes[ 0 ];
+		finaldataType = dataTypes[ 0 ];
 	} else {
 
 		// Try convertible dataTypes
 		for ( type in responses ) {
 			if ( !dataTypes[ 0 ] || s.converters[ type + " " + dataTypes[ 0 ] ] ) {
-				finalDataType = type;
+				finaldataType = type;
 				break;
 			}
-			if ( !firstDataType ) {
-				firstDataType = type;
+			if ( !firstdataType ) {
+				firstdataType = type;
 			}
 		}
 
 		// Or just use first one
-		finalDataType = finalDataType || firstDataType;
+		finaldataType = finaldataType || firstdataType;
 	}
 
 	// If we found a dataType
 	// We add the dataType to the list if needed
 	// and return the corresponding response
-	if ( finalDataType ) {
-		if ( finalDataType !== dataTypes[ 0 ] ) {
-			dataTypes.unshift( finalDataType );
+	if ( finaldataType ) {
+		if ( finaldataType !== dataTypes[ 0 ] ) {
+			dataTypes.unshift( finaldataType );
 		}
-		return responses[ finalDataType ];
+		return responses[ finaldataType ];
 	}
 }
 
@@ -9295,7 +9295,7 @@ jQuery.extend( {
 		type: "GET",
 		isLocal: rlocalProtocol.test( location.protocol ),
 		global: true,
-		processData: true,
+		processdata: true,
 		async: true,
 		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 
@@ -9331,7 +9331,7 @@ jQuery.extend( {
 			json: "responseJSON"
 		},
 
-		// Data converters
+		// data converters
 		// Keys separate source (or catchall "*") and destination types with a single space
 		converters: {
 
@@ -9552,7 +9552,7 @@ jQuery.extend( {
 		}
 
 		// Convert data if not already a string
-		if ( s.data && s.processData && typeof s.data !== "string" ) {
+		if ( s.data && s.processdata && typeof s.data !== "string" ) {
 			s.data = jQuery.param( s.data, s.traditional );
 		}
 
@@ -9591,7 +9591,7 @@ jQuery.extend( {
 			uncached = s.url.slice( cacheURL.length );
 
 			// If data is available and should be processed, append data to url
-			if ( s.data && ( s.processData || typeof s.data === "string" ) ) {
+			if ( s.data && ( s.processdata || typeof s.data === "string" ) ) {
 				cacheURL += ( rquery.test( cacheURL ) ? "&" : "?" ) + s.data;
 
 				// #9682: remove data so that it's not used in an eventual retry
@@ -9609,7 +9609,7 @@ jQuery.extend( {
 			s.url = cacheURL + uncached;
 
 		// Change '%20' to '+' if this is encoded form body content (gh-2658)
-		} else if ( s.data && s.processData &&
+		} else if ( s.data && s.processdata &&
 			( s.contentType || "" ).indexOf( "application/x-www-form-urlencoded" ) === 0 ) {
 			s.data = s.data.replace( r20, "+" );
 		}

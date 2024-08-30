@@ -2,7 +2,7 @@
 @using CSCRM.ViewModels.ClientVMs
 @model BaseResponse
 @{
-    EditClientInfoVM client = Model.Data.ClientForUpdate;
+    EditClientInfoVM client = Model.data.ClientForUpdate;
     
 }
 
@@ -55,7 +55,7 @@
                     <td>
                         <select id="edit-clientCarType-select" class="edit-clientInfo-client-input">
                             <option selected value="@client.CarType">@client.CarType</option>
-                            @foreach(var carType in Model.Data.CarTypes)
+                            @foreach(var carType in Model.data.CarTypes)
                             {
                                 <option value="@carType">@carType</option>
                             }
@@ -104,7 +104,7 @@
                     <td>
                         <select id="edit-company-input" class="edit-clientInfo-client-input">
                             <option selected value="@client.Company">@client.Company</option>
-                            @foreach(var company in Model.Data.CompanyNames){
+                            @foreach(var company in Model.data.CompanyNames){
                                 <option value="@company">@company</option>
                             }                                                        
                         </select>

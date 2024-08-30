@@ -1,5 +1,5 @@
 ﻿using CSCRM.Abstractions;
-using CSCRM.DataAccessLayers;
+using CSCRM.dataAccessLayers;
 using CSCRM.Models;
 using CSCRM.Models.ResponseTypes;
 using CSCRM.ViewModels.HotelVMs;
@@ -39,7 +39,7 @@ namespace CSCRM.Concretes
                         Message = "Service Name cannot be empty.",
                         StatusCode = "400",
                         Success = false,
-                        Data = inclusivesInDb
+                        data = inclusivesInDb
                     };
                 }
 
@@ -66,7 +66,7 @@ namespace CSCRM.Concretes
                         Message = $"Service {inclusiveVM.Name} already exists.",
                         StatusCode = "409",
                         Success = false,
-                        Data = inclusivesInDb
+                        data = inclusivesInDb
                     };
                 }
 
@@ -93,7 +93,7 @@ namespace CSCRM.Concretes
 
                 return new BaseResponse
                 {
-                    Data = inclusives,
+                    data = inclusives,
                     Message = "Service Created Successfully",
                     StatusCode = "201",
                     Success = true
@@ -107,7 +107,7 @@ namespace CSCRM.Concretes
                     Message = "Service could not be created successfully. Unhandled error occurred.",
                     StatusCode = "500",
                     Success = false,
-                    Data = new List<GetInclusive>()
+                    data = new List<GetInclusive>()
                 };
             }
         }
@@ -122,7 +122,7 @@ namespace CSCRM.Concretes
                     Success = false,
                     Message = "Service name cannot be empty.",
                     StatusCode = "400",
-                    Data = inclusive
+                    data = inclusive
                 };
             }
 
@@ -134,7 +134,7 @@ namespace CSCRM.Concretes
                     Success = false,
                     Message = "Invalid service ID.",
                     StatusCode = "400",
-                    Data = inclusive
+                    data = inclusive
                 };
             }
 
@@ -153,7 +153,7 @@ namespace CSCRM.Concretes
                         Message = $"Service {inclusive.Name} already exists.",
                         StatusCode = "409",
                         Success = false,
-                        Data = inclusive
+                        data = inclusive
                     };
                 }
 
@@ -167,7 +167,7 @@ namespace CSCRM.Concretes
                         Success = false,
                         Message = "Service not found.",
                         StatusCode = "404",
-                        Data = inclusive
+                        data = inclusive
                     };
                 }
 
@@ -193,7 +193,7 @@ namespace CSCRM.Concretes
 
                 return new BaseResponse
                 {
-                    Data = inclusiveEdited,
+                    data = inclusiveEdited,
                     Message = "Service updated successfully.",
                     Success = true,
                     StatusCode = "200"
@@ -204,7 +204,7 @@ namespace CSCRM.Concretes
                 _logger.LogError(ex, "An error occurred while updating inclusive service with ID {Id}.", inclusive?.Id);
                 return new BaseResponse
                 {
-                    Data = inclusive,
+                    data = inclusive,
                     Success = false,
                     Message = "An unhandled exception occurred.",
                     StatusCode = "500"
@@ -230,7 +230,7 @@ namespace CSCRM.Concretes
                     _logger.LogInformation("Retrieved all inclusive services successfully.");
                     return new BaseResponse
                     {
-                        Data = inclusiveServices,
+                        data = inclusiveServices,
                         Success = true,
                         StatusCode = "200" // Use 200 OK for successful data retrieval
                     };
@@ -240,7 +240,7 @@ namespace CSCRM.Concretes
                     _logger.LogInformation("No inclusive services found.");
                     return new BaseResponse
                     {
-                        Data = new List<GetInclusive>(),
+                        data = new List<GetInclusive>(),
                         Message = "No Inclusive Service Found",
                         Success = true,
                         StatusCode = "200" // Use 200 OK even when no data is found
@@ -255,7 +255,7 @@ namespace CSCRM.Concretes
                     StatusCode = "500",
                     Message = "Unhandled Error Occurred",
                     Success = false,
-                    Data = new List<GetInclusive>()
+                    data = new List<GetInclusive>()
                 };
             }
         }
@@ -274,7 +274,7 @@ namespace CSCRM.Concretes
                         Message = "Service not found.",
                         StatusCode = "404",
                         Success = false,
-                        Data = new EditInclusiveVM()
+                        data = new EditInclusiveVM()
                     };
                 }
 
@@ -288,7 +288,7 @@ namespace CSCRM.Concretes
                 return new BaseResponse
                 {
                     Success = true,
-                    Data = inclusiveForEdit,
+                    data = inclusiveForEdit,
                     StatusCode = "200" // Use 200 OK for successful data retrieval
                 };
             }
@@ -300,7 +300,7 @@ namespace CSCRM.Concretes
                 return new BaseResponse
                 {
                     Success = false,
-                    Data = new EditInclusiveVM(),
+                    data = new EditInclusiveVM(),
                     StatusCode = "500",
                     Message = "An unhandled error occurred while retrieving the service details."
                 };
@@ -334,7 +334,7 @@ namespace CSCRM.Concretes
                         Success = false,
                         Message = "Service not found.",
                         StatusCode = "404",
-                        Data = inclusiveServices
+                        data = inclusiveServices
                     };
                 }
 
@@ -358,7 +358,7 @@ namespace CSCRM.Concretes
                 {
                     Success = true,
                     Message = $"Service {deletingInclusive.Name} deleted successfully.",
-                    Data = inclusiveServicesInDb,
+                    data = inclusiveServicesInDb,
                     StatusCode = "200" // Changed status code to 200 for successful deletion
                 };
             }
@@ -371,7 +371,7 @@ namespace CSCRM.Concretes
                     Success = false,
                     StatusCode = "500",
                     Message = "Failed to delete the service due to an unhandled error.",
-                    Data = new List<GetInclusive>()
+                    data = new List<GetInclusive>()
                 };
             }
         }

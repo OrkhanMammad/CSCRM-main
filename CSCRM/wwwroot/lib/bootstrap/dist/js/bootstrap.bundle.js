@@ -622,7 +622,7 @@
    * ------------------------------------------------------------------------
    */
   const elementMap = new Map();
-  var Data = {
+  var data = {
     set(element, key, instance) {
       if (!elementMap.has(element)) {
         elementMap.set(element, new Map());
@@ -686,11 +686,11 @@
       }
 
       this._element = element;
-      Data.set(this._element, this.constructor.DATA_KEY, this);
+      data.set(this._element, this.constructor.data_KEY, this);
     }
 
     dispose() {
-      Data.remove(this._element, this.constructor.DATA_KEY);
+      data.remove(this._element, this.constructor.data_KEY);
       EventHandler.off(this._element, this.constructor.EVENT_KEY);
       Object.getOwnPropertyNames(this).forEach(propertyName => {
         this[propertyName] = null;
@@ -704,7 +704,7 @@
 
 
     static getInstance(element) {
-      return Data.get(getElement(element), this.DATA_KEY);
+      return data.get(getElement(element), this.data_KEY);
     }
 
     static getOrCreateInstance(element, config = {}) {
@@ -719,12 +719,12 @@
       throw new Error('You have to implement the static method "NAME", for each component!');
     }
 
-    static get DATA_KEY() {
+    static get data_KEY() {
       return `bs.${this.NAME}`;
     }
 
     static get EVENT_KEY() {
-      return `.${this.DATA_KEY}`;
+      return `.${this.data_KEY}`;
     }
 
   }
@@ -768,8 +768,8 @@
    */
 
   const NAME$d = 'alert';
-  const DATA_KEY$c = 'bs.alert';
-  const EVENT_KEY$c = `.${DATA_KEY$c}`;
+  const data_KEY$c = 'bs.alert';
+  const EVENT_KEY$c = `.${data_KEY$c}`;
   const EVENT_CLOSE = `close${EVENT_KEY$c}`;
   const EVENT_CLOSED = `closed${EVENT_KEY$c}`;
   const CLASS_NAME_FADE$5 = 'fade';
@@ -829,7 +829,7 @@
   }
   /**
    * ------------------------------------------------------------------------
-   * Data Api implementation
+   * data Api implementation
    * ------------------------------------------------------------------------
    */
 
@@ -857,12 +857,12 @@
    */
 
   const NAME$c = 'button';
-  const DATA_KEY$b = 'bs.button';
-  const EVENT_KEY$b = `.${DATA_KEY$b}`;
-  const DATA_API_KEY$7 = '.data-api';
+  const data_KEY$b = 'bs.button';
+  const EVENT_KEY$b = `.${data_KEY$b}`;
+  const data_API_KEY$7 = '.data-api';
   const CLASS_NAME_ACTIVE$3 = 'active';
-  const SELECTOR_DATA_TOGGLE$5 = '[data-bs-toggle="button"]';
-  const EVENT_CLICK_DATA_API$6 = `click${EVENT_KEY$b}${DATA_API_KEY$7}`;
+  const SELECTOR_data_TOGGLE$5 = '[data-bs-toggle="button"]';
+  const EVENT_CLICK_data_API$6 = `click${EVENT_KEY$b}${data_API_KEY$7}`;
   /**
    * ------------------------------------------------------------------------
    * Class Definition
@@ -895,14 +895,14 @@
   }
   /**
    * ------------------------------------------------------------------------
-   * Data Api implementation
+   * data Api implementation
    * ------------------------------------------------------------------------
    */
 
 
-  EventHandler.on(document, EVENT_CLICK_DATA_API$6, SELECTOR_DATA_TOGGLE$5, event => {
+  EventHandler.on(document, EVENT_CLICK_data_API$6, SELECTOR_data_TOGGLE$5, event => {
     event.preventDefault();
-    const button = event.target.closest(SELECTOR_DATA_TOGGLE$5);
+    const button = event.target.closest(SELECTOR_data_TOGGLE$5);
     const data = Button.getOrCreateInstance(button);
     data.toggle();
   });
@@ -921,7 +921,7 @@
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
-  function normalizeData(val) {
+  function normalizedata(val) {
     if (val === 'true') {
       return true;
     }
@@ -941,20 +941,20 @@
     return val;
   }
 
-  function normalizeDataKey(key) {
+  function normalizedataKey(key) {
     return key.replace(/[A-Z]/g, chr => `-${chr.toLowerCase()}`);
   }
 
   const Manipulator = {
-    setDataAttribute(element, key, value) {
-      element.setAttribute(`data-bs-${normalizeDataKey(key)}`, value);
+    setdataAttribute(element, key, value) {
+      element.setAttribute(`data-bs-${normalizedataKey(key)}`, value);
     },
 
-    removeDataAttribute(element, key) {
-      element.removeAttribute(`data-bs-${normalizeDataKey(key)}`);
+    removedataAttribute(element, key) {
+      element.removeAttribute(`data-bs-${normalizedataKey(key)}`);
     },
 
-    getDataAttributes(element) {
+    getdataAttributes(element) {
       if (!element) {
         return {};
       }
@@ -963,13 +963,13 @@
       Object.keys(element.dataset).filter(key => key.startsWith('bs')).forEach(key => {
         let pureKey = key.replace(/^bs/, '');
         pureKey = pureKey.charAt(0).toLowerCase() + pureKey.slice(1, pureKey.length);
-        attributes[pureKey] = normalizeData(element.dataset[key]);
+        attributes[pureKey] = normalizedata(element.dataset[key]);
       });
       return attributes;
     },
 
-    getDataAttribute(element, key) {
-      return normalizeData(element.getAttribute(`data-bs-${normalizeDataKey(key)}`));
+    getdataAttribute(element, key) {
+      return normalizedata(element.getAttribute(`data-bs-${normalizedataKey(key)}`));
     },
 
     offset(element) {
@@ -1072,9 +1072,9 @@
    */
 
   const NAME$b = 'carousel';
-  const DATA_KEY$a = 'bs.carousel';
-  const EVENT_KEY$a = `.${DATA_KEY$a}`;
-  const DATA_API_KEY$6 = '.data-api';
+  const data_KEY$a = 'bs.carousel';
+  const EVENT_KEY$a = `.${data_KEY$a}`;
+  const data_API_KEY$6 = '.data-api';
   const ARROW_LEFT_KEY = 'ArrowLeft';
   const ARROW_RIGHT_KEY = 'ArrowRight';
   const TOUCHEVENT_COMPAT_WAIT = 500; // Time for mouse compat events to fire after touch
@@ -1115,8 +1115,8 @@
   const EVENT_POINTERDOWN = `pointerdown${EVENT_KEY$a}`;
   const EVENT_POINTERUP = `pointerup${EVENT_KEY$a}`;
   const EVENT_DRAG_START = `dragstart${EVENT_KEY$a}`;
-  const EVENT_LOAD_DATA_API$2 = `load${EVENT_KEY$a}${DATA_API_KEY$6}`;
-  const EVENT_CLICK_DATA_API$5 = `click${EVENT_KEY$a}${DATA_API_KEY$6}`;
+  const EVENT_LOAD_data_API$2 = `load${EVENT_KEY$a}${data_API_KEY$6}`;
+  const EVENT_CLICK_data_API$5 = `click${EVENT_KEY$a}${data_API_KEY$6}`;
   const CLASS_NAME_CAROUSEL = 'carousel';
   const CLASS_NAME_ACTIVE$2 = 'active';
   const CLASS_NAME_SLIDE = 'slide';
@@ -1132,8 +1132,8 @@
   const SELECTOR_NEXT_PREV = '.carousel-item-next, .carousel-item-prev';
   const SELECTOR_INDICATORS = '.carousel-indicators';
   const SELECTOR_INDICATOR = '[data-bs-target]';
-  const SELECTOR_DATA_SLIDE = '[data-bs-slide], [data-bs-slide-to]';
-  const SELECTOR_DATA_RIDE = '[data-bs-ride="carousel"]';
+  const SELECTOR_data_SLIDE = '[data-bs-slide], [data-bs-slide-to]';
+  const SELECTOR_data_RIDE = '[data-bs-ride="carousel"]';
   const POINTER_TYPE_TOUCH = 'touch';
   const POINTER_TYPE_PEN = 'pen';
   /**
@@ -1246,7 +1246,7 @@
 
     _getConfig(config) {
       config = { ...Default$a,
-        ...Manipulator.getDataAttributes(this._element),
+        ...Manipulator.getdataAttributes(this._element),
         ...(typeof config === 'object' ? config : {})
       };
       typeCheckConfig(NAME$b, config, DefaultType$a);
@@ -1561,8 +1561,8 @@
         return;
       }
 
-      const config = { ...Manipulator.getDataAttributes(target),
-        ...Manipulator.getDataAttributes(this)
+      const config = { ...Manipulator.getdataAttributes(target),
+        ...Manipulator.getdataAttributes(this)
       };
       const slideIndex = this.getAttribute('data-bs-slide-to');
 
@@ -1582,14 +1582,14 @@
   }
   /**
    * ------------------------------------------------------------------------
-   * Data Api implementation
+   * data Api implementation
    * ------------------------------------------------------------------------
    */
 
 
-  EventHandler.on(document, EVENT_CLICK_DATA_API$5, SELECTOR_DATA_SLIDE, Carousel.dataApiClickHandler);
-  EventHandler.on(window, EVENT_LOAD_DATA_API$2, () => {
-    const carousels = SelectorEngine.find(SELECTOR_DATA_RIDE);
+  EventHandler.on(document, EVENT_CLICK_data_API$5, SELECTOR_data_SLIDE, Carousel.dataApiClickHandler);
+  EventHandler.on(window, EVENT_LOAD_data_API$2, () => {
+    const carousels = SelectorEngine.find(SELECTOR_data_RIDE);
 
     for (let i = 0, len = carousels.length; i < len; i++) {
       Carousel.carouselInterface(carousels[i], Carousel.getInstance(carousels[i]));
@@ -1617,9 +1617,9 @@
    */
 
   const NAME$a = 'collapse';
-  const DATA_KEY$9 = 'bs.collapse';
-  const EVENT_KEY$9 = `.${DATA_KEY$9}`;
-  const DATA_API_KEY$5 = '.data-api';
+  const data_KEY$9 = 'bs.collapse';
+  const EVENT_KEY$9 = `.${data_KEY$9}`;
+  const data_API_KEY$5 = '.data-api';
   const Default$9 = {
     toggle: true,
     parent: null
@@ -1632,7 +1632,7 @@
   const EVENT_SHOWN$5 = `shown${EVENT_KEY$9}`;
   const EVENT_HIDE$5 = `hide${EVENT_KEY$9}`;
   const EVENT_HIDDEN$5 = `hidden${EVENT_KEY$9}`;
-  const EVENT_CLICK_DATA_API$4 = `click${EVENT_KEY$9}${DATA_API_KEY$5}`;
+  const EVENT_CLICK_data_API$4 = `click${EVENT_KEY$9}${data_API_KEY$5}`;
   const CLASS_NAME_SHOW$7 = 'show';
   const CLASS_NAME_COLLAPSE = 'collapse';
   const CLASS_NAME_COLLAPSING = 'collapsing';
@@ -1641,7 +1641,7 @@
   const WIDTH = 'width';
   const HEIGHT = 'height';
   const SELECTOR_ACTIVES = '.show, .collapsing';
-  const SELECTOR_DATA_TOGGLE$4 = '[data-bs-toggle="collapse"]';
+  const SELECTOR_data_TOGGLE$4 = '[data-bs-toggle="collapse"]';
   /**
    * ------------------------------------------------------------------------
    * Class Definition
@@ -1654,7 +1654,7 @@
       this._isTransitioning = false;
       this._config = this._getConfig(config);
       this._triggerArray = [];
-      const toggleList = SelectorEngine.find(SELECTOR_DATA_TOGGLE$4);
+      const toggleList = SelectorEngine.find(SELECTOR_data_TOGGLE$4);
 
       for (let i = 0, len = toggleList.length; i < len; i++) {
         const elem = toggleList[i];
@@ -1703,7 +1703,7 @@
       }
 
       let actives = [];
-      let activesData;
+      let activesdata;
 
       if (this._config.parent) {
         const children = SelectorEngine.find(`.${CLASS_NAME_COLLAPSE} .${CLASS_NAME_COLLAPSE}`, this._config.parent);
@@ -1713,10 +1713,10 @@
       const container = SelectorEngine.findOne(this._selector);
 
       if (actives.length) {
-        const tempActiveData = actives.find(elem => container !== elem);
-        activesData = tempActiveData ? Collapse.getInstance(tempActiveData) : null;
+        const tempActivedata = actives.find(elem => container !== elem);
+        activesdata = tempActivedata ? Collapse.getInstance(tempActivedata) : null;
 
-        if (activesData && activesData._isTransitioning) {
+        if (activesdata && activesdata._isTransitioning) {
           return;
         }
       }
@@ -1734,8 +1734,8 @@
           }).hide();
         }
 
-        if (!activesData) {
-          Data.set(elemActive, DATA_KEY$9, null);
+        if (!activesdata) {
+          data.set(elemActive, data_KEY$9, null);
         }
       });
 
@@ -1825,7 +1825,7 @@
 
     _getConfig(config) {
       config = { ...Default$9,
-        ...Manipulator.getDataAttributes(this._element),
+        ...Manipulator.getdataAttributes(this._element),
         ...config
       };
       config.toggle = Boolean(config.toggle); // Coerce string values
@@ -1845,7 +1845,7 @@
       }
 
       const children = SelectorEngine.find(`.${CLASS_NAME_COLLAPSE} .${CLASS_NAME_COLLAPSE}`, this._config.parent);
-      SelectorEngine.find(SELECTOR_DATA_TOGGLE$4, this._config.parent).filter(elem => !children.includes(elem)).forEach(element => {
+      SelectorEngine.find(SELECTOR_data_TOGGLE$4, this._config.parent).filter(elem => !children.includes(elem)).forEach(element => {
         const selected = getElementFromSelector(element);
 
         if (selected) {
@@ -1894,12 +1894,12 @@
   }
   /**
    * ------------------------------------------------------------------------
-   * Data Api implementation
+   * data Api implementation
    * ------------------------------------------------------------------------
    */
 
 
-  EventHandler.on(document, EVENT_CLICK_DATA_API$4, SELECTOR_DATA_TOGGLE$4, function (event) {
+  EventHandler.on(document, EVENT_CLICK_data_API$4, SELECTOR_data_TOGGLE$4, function (event) {
     // preventDefault only for <a> elements (which change the URL) not inside the collapsible element
     if (event.target.tagName === 'A' || event.delegateTarget && event.delegateTarget.tagName === 'A') {
       event.preventDefault();
@@ -2283,13 +2283,13 @@
   };
 
   function arrow(_ref) {
-    var _state$modifiersData$;
+    var _state$modifiersdata$;
 
     var state = _ref.state,
         name = _ref.name,
         options = _ref.options;
     var arrowElement = state.elements.arrow;
-    var popperOffsets = state.modifiersData.popperOffsets;
+    var popperOffsets = state.modifiersdata.popperOffsets;
     var basePlacement = getBasePlacement(state.placement);
     var axis = getMainAxisFromPlacement(basePlacement);
     var isVertical = [left, right].indexOf(basePlacement) >= 0;
@@ -2316,7 +2316,7 @@
     var offset = within(min, center, max); // Prevents breaking syntax highlighting...
 
     var axisProp = axis;
-    state.modifiersData[name] = (_state$modifiersData$ = {}, _state$modifiersData$[axisProp] = offset, _state$modifiersData$.centerOffset = offset - center, _state$modifiersData$);
+    state.modifiersdata[name] = (_state$modifiersdata$ = {}, _state$modifiersdata$[axisProp] = offset, _state$modifiersdata$.centerOffset = offset - center, _state$modifiersdata$);
   }
 
   function effect$1(_ref2) {
@@ -2463,18 +2463,18 @@
       gpuAcceleration: gpuAcceleration
     };
 
-    if (state.modifiersData.popperOffsets != null) {
+    if (state.modifiersdata.popperOffsets != null) {
       state.styles.popper = Object.assign({}, state.styles.popper, mapToStyles(Object.assign({}, commonStyles, {
-        offsets: state.modifiersData.popperOffsets,
+        offsets: state.modifiersdata.popperOffsets,
         position: state.options.strategy,
         adaptive: adaptive,
         roundOffsets: roundOffsets
       })));
     }
 
-    if (state.modifiersData.arrow != null) {
+    if (state.modifiersdata.arrow != null) {
       state.styles.arrow = Object.assign({}, state.styles.arrow, mapToStyles(Object.assign({}, commonStyles, {
-        offsets: state.modifiersData.arrow,
+        offsets: state.modifiersdata.arrow,
         position: 'absolute',
         adaptive: false,
         roundOffsets: roundOffsets
@@ -2870,10 +2870,10 @@
       left: clippingClientRect.left - elementClientRect.left + paddingObject.left,
       right: elementClientRect.right - clippingClientRect.right + paddingObject.right
     };
-    var offsetData = state.modifiersData.offset; // Offsets can be applied only to the popper element
+    var offsetdata = state.modifiersdata.offset; // Offsets can be applied only to the popper element
 
-    if (elementContext === popper && offsetData) {
-      var offset = offsetData[placement];
+    if (elementContext === popper && offsetdata) {
+      var offset = offsetdata[placement];
       Object.keys(overflowOffsets).forEach(function (key) {
         var multiply = [right, bottom].indexOf(key) >= 0 ? 1 : -1;
         var axis = [top, bottom].indexOf(key) >= 0 ? 'y' : 'x';
@@ -2938,7 +2938,7 @@
         options = _ref.options,
         name = _ref.name;
 
-    if (state.modifiersData[name]._skip) {
+    if (state.modifiersdata[name]._skip) {
       return;
     }
 
@@ -3046,7 +3046,7 @@
     }
 
     if (state.placement !== firstFittingPlacement) {
-      state.modifiersData[name]._skip = true;
+      state.modifiersdata[name]._skip = true;
       state.placement = firstFittingPlacement;
       state.reset = true;
     }
@@ -3091,7 +3091,7 @@
         name = _ref.name;
     var referenceRect = state.rects.reference;
     var popperRect = state.rects.popper;
-    var preventedOffsets = state.modifiersData.preventOverflow;
+    var preventedOffsets = state.modifiersdata.preventOverflow;
     var referenceOverflow = detectOverflow(state, {
       elementContext: 'reference'
     });
@@ -3102,7 +3102,7 @@
     var popperEscapeOffsets = getSideOffsets(popperAltOverflow, popperRect, preventedOffsets);
     var isReferenceHidden = isAnySideFullyClipped(referenceClippingOffsets);
     var hasPopperEscaped = isAnySideFullyClipped(popperEscapeOffsets);
-    state.modifiersData[name] = {
+    state.modifiersdata[name] = {
       referenceClippingOffsets: referenceClippingOffsets,
       popperEscapeOffsets: popperEscapeOffsets,
       isReferenceHidden: isReferenceHidden,
@@ -3158,12 +3158,12 @@
         x = _data$state$placement.x,
         y = _data$state$placement.y;
 
-    if (state.modifiersData.popperOffsets != null) {
-      state.modifiersData.popperOffsets.x += x;
-      state.modifiersData.popperOffsets.y += y;
+    if (state.modifiersdata.popperOffsets != null) {
+      state.modifiersdata.popperOffsets.x += x;
+      state.modifiersdata.popperOffsets.y += y;
     }
 
-    state.modifiersData[name] = data;
+    state.modifiersdata[name] = data;
   } // eslint-disable-next-line import/no-unused-modules
 
 
@@ -3182,7 +3182,7 @@
     // properly positioned near its reference element
     // This is the most basic placement, and will be adjusted by
     // the modifiers in the next step
-    state.modifiersData[name] = computeOffsets({
+    state.modifiersdata[name] = computeOffsets({
       reference: state.rects.reference,
       element: state.rects.popper,
       strategy: 'absolute',
@@ -3230,7 +3230,7 @@
     var isBasePlacement = !variation;
     var mainAxis = getMainAxisFromPlacement(basePlacement);
     var altAxis = getAltAxis(mainAxis);
-    var popperOffsets = state.modifiersData.popperOffsets;
+    var popperOffsets = state.modifiersdata.popperOffsets;
     var referenceRect = state.rects.reference;
     var popperRect = state.rects.popper;
     var tetherOffsetValue = typeof tetherOffset === 'function' ? tetherOffset(Object.assign({}, state.rects, {
@@ -3262,7 +3262,7 @@
         width: 0,
         height: 0
       };
-      var arrowPaddingObject = state.modifiersData['arrow#persistent'] ? state.modifiersData['arrow#persistent'].padding : getFreshSideObject();
+      var arrowPaddingObject = state.modifiersdata['arrow#persistent'] ? state.modifiersdata['arrow#persistent'].padding : getFreshSideObject();
       var arrowPaddingMin = arrowPaddingObject[mainSide];
       var arrowPaddingMax = arrowPaddingObject[altSide]; // If the reference length is smaller than the arrow length, we don't want
       // to include its full size in the calculation. If the reference is small
@@ -3275,7 +3275,7 @@
       var maxOffset = isBasePlacement ? -referenceRect[len] / 2 + additive + arrowLen + arrowPaddingMax + tetherOffsetValue : maxLen + arrowLen + arrowPaddingMax + tetherOffsetValue;
       var arrowOffsetParent = state.elements.arrow && getOffsetParent(state.elements.arrow);
       var clientOffset = arrowOffsetParent ? mainAxis === 'y' ? arrowOffsetParent.clientTop || 0 : arrowOffsetParent.clientLeft || 0 : 0;
-      var offsetModifierValue = state.modifiersData.offset ? state.modifiersData.offset[state.placement][mainAxis] : 0;
+      var offsetModifierValue = state.modifiersdata.offset ? state.modifiersdata.offset[state.placement][mainAxis] : 0;
       var tetherMin = popperOffsets[mainAxis] + minOffset - offsetModifierValue - clientOffset;
       var tetherMax = popperOffsets[mainAxis] + maxOffset - offsetModifierValue;
 
@@ -3303,7 +3303,7 @@
       }
     }
 
-    state.modifiersData[name] = data;
+    state.modifiersdata[name] = data;
   } // eslint-disable-next-line import/no-unused-modules
 
 
@@ -3489,7 +3489,7 @@
         placement: 'bottom',
         orderedModifiers: [],
         options: Object.assign({}, DEFAULT_OPTIONS, defaultOptions),
-        modifiersData: {},
+        modifiersdata: {},
         elements: {
           reference: reference,
           popper: popper
@@ -3550,13 +3550,13 @@
           // stale/incorrect
 
           state.reset = false;
-          state.placement = state.options.placement; // On each update cycle, the `modifiersData` property for each modifier
+          state.placement = state.options.placement; // On each update cycle, the `modifiersdata` property for each modifier
           // is filled with the initial data specified by the modifier. This means
           // it doesn't persist and is fresh on each update.
           // To ensure persistent data, use `${name}#persistent`
 
           state.orderedModifiers.forEach(function (modifier) {
-            return state.modifiersData[modifier.name] = Object.assign({}, modifier.data);
+            return state.modifiersdata[modifier.name] = Object.assign({}, modifier.data);
           });
 
           for (var index = 0; index < state.orderedModifiers.length; index++) {
@@ -3711,9 +3711,9 @@
    */
 
   const NAME$9 = 'dropdown';
-  const DATA_KEY$8 = 'bs.dropdown';
-  const EVENT_KEY$8 = `.${DATA_KEY$8}`;
-  const DATA_API_KEY$4 = '.data-api';
+  const data_KEY$8 = 'bs.dropdown';
+  const EVENT_KEY$8 = `.${data_KEY$8}`;
+  const data_API_KEY$4 = '.data-api';
   const ESCAPE_KEY$2 = 'Escape';
   const SPACE_KEY = 'Space';
   const TAB_KEY$1 = 'Tab';
@@ -3726,15 +3726,15 @@
   const EVENT_HIDDEN$4 = `hidden${EVENT_KEY$8}`;
   const EVENT_SHOW$4 = `show${EVENT_KEY$8}`;
   const EVENT_SHOWN$4 = `shown${EVENT_KEY$8}`;
-  const EVENT_CLICK_DATA_API$3 = `click${EVENT_KEY$8}${DATA_API_KEY$4}`;
-  const EVENT_KEYDOWN_DATA_API = `keydown${EVENT_KEY$8}${DATA_API_KEY$4}`;
-  const EVENT_KEYUP_DATA_API = `keyup${EVENT_KEY$8}${DATA_API_KEY$4}`;
+  const EVENT_CLICK_data_API$3 = `click${EVENT_KEY$8}${data_API_KEY$4}`;
+  const EVENT_KEYDOWN_data_API = `keydown${EVENT_KEY$8}${data_API_KEY$4}`;
+  const EVENT_KEYUP_data_API = `keyup${EVENT_KEY$8}${data_API_KEY$4}`;
   const CLASS_NAME_SHOW$6 = 'show';
   const CLASS_NAME_DROPUP = 'dropup';
   const CLASS_NAME_DROPEND = 'dropend';
   const CLASS_NAME_DROPSTART = 'dropstart';
   const CLASS_NAME_NAVBAR = 'navbar';
-  const SELECTOR_DATA_TOGGLE$3 = '[data-bs-toggle="dropdown"]';
+  const SELECTOR_data_TOGGLE$3 = '[data-bs-toggle="dropdown"]';
   const SELECTOR_MENU = '.dropdown-menu';
   const SELECTOR_NAVBAR_NAV = '.navbar-nav';
   const SELECTOR_VISIBLE_ITEMS = '.dropdown-menu .dropdown-item:not(.disabled):not(:disabled)';
@@ -3810,7 +3810,7 @@
       const parent = Dropdown.getParentFromElement(this._element); // Totally disable Popper for Dropdowns in Navbar
 
       if (this._inNavbar) {
-        Manipulator.setDataAttribute(this._menu, 'popper', 'none');
+        Manipulator.setdataAttribute(this._menu, 'popper', 'none');
       } else {
         this._createPopper(parent);
       } // If this is a touch-enabled device we add extra
@@ -3886,13 +3886,13 @@
 
       this._element.setAttribute('aria-expanded', 'false');
 
-      Manipulator.removeDataAttribute(this._menu, 'popper');
+      Manipulator.removedataAttribute(this._menu, 'popper');
       EventHandler.trigger(this._element, EVENT_HIDDEN$4, relatedTarget);
     }
 
     _getConfig(config) {
       config = { ...this.constructor.Default,
-        ...Manipulator.getDataAttributes(this._element),
+        ...Manipulator.getdataAttributes(this._element),
         ...config
       };
       typeCheckConfig(NAME$9, config, this.constructor.DefaultType);
@@ -3926,7 +3926,7 @@
       this._popper = createPopper(referenceElement, this._menu, popperConfig);
 
       if (isDisplayStatic) {
-        Manipulator.setDataAttribute(this._menu, 'popper', 'static');
+        Manipulator.setdataAttribute(this._menu, 'popper', 'static');
       }
     }
 
@@ -3973,7 +3973,7 @@
       }
 
       if (typeof offset === 'function') {
-        return popperData => offset(popperData, this._element);
+        return popperdata => offset(popperdata, this._element);
       }
 
       return offset;
@@ -4044,7 +4044,7 @@
         return;
       }
 
-      const toggles = SelectorEngine.find(SELECTOR_DATA_TOGGLE$3);
+      const toggles = SelectorEngine.find(SELECTOR_data_TOGGLE$3);
 
       for (let i = 0, len = toggles.length; i < len; i++) {
         const context = Dropdown.getInstance(toggles[i]);
@@ -4112,7 +4112,7 @@
         return;
       }
 
-      const getToggleButton = this.matches(SELECTOR_DATA_TOGGLE$3) ? this : SelectorEngine.prev(this, SELECTOR_DATA_TOGGLE$3)[0];
+      const getToggleButton = this.matches(SELECTOR_data_TOGGLE$3) ? this : SelectorEngine.prev(this, SELECTOR_data_TOGGLE$3)[0];
       const instance = Dropdown.getOrCreateInstance(getToggleButton);
 
       if (event.key === ESCAPE_KEY$2) {
@@ -4138,16 +4138,16 @@
   }
   /**
    * ------------------------------------------------------------------------
-   * Data Api implementation
+   * data Api implementation
    * ------------------------------------------------------------------------
    */
 
 
-  EventHandler.on(document, EVENT_KEYDOWN_DATA_API, SELECTOR_DATA_TOGGLE$3, Dropdown.dataApiKeydownHandler);
-  EventHandler.on(document, EVENT_KEYDOWN_DATA_API, SELECTOR_MENU, Dropdown.dataApiKeydownHandler);
-  EventHandler.on(document, EVENT_CLICK_DATA_API$3, Dropdown.clearMenus);
-  EventHandler.on(document, EVENT_KEYUP_DATA_API, Dropdown.clearMenus);
-  EventHandler.on(document, EVENT_CLICK_DATA_API$3, SELECTOR_DATA_TOGGLE$3, function (event) {
+  EventHandler.on(document, EVENT_KEYDOWN_data_API, SELECTOR_data_TOGGLE$3, Dropdown.dataApiKeydownHandler);
+  EventHandler.on(document, EVENT_KEYDOWN_data_API, SELECTOR_MENU, Dropdown.dataApiKeydownHandler);
+  EventHandler.on(document, EVENT_CLICK_data_API$3, Dropdown.clearMenus);
+  EventHandler.on(document, EVENT_KEYUP_data_API, Dropdown.clearMenus);
+  EventHandler.on(document, EVENT_CLICK_data_API$3, SELECTOR_data_TOGGLE$3, function (event) {
     event.preventDefault();
     Dropdown.getOrCreateInstance(this).toggle();
   });
@@ -4231,18 +4231,18 @@
       const actualValue = element.style[styleProp];
 
       if (actualValue) {
-        Manipulator.setDataAttribute(element, styleProp, actualValue);
+        Manipulator.setdataAttribute(element, styleProp, actualValue);
       }
     }
 
     _resetElementAttributes(selector, styleProp) {
       const manipulationCallBack = element => {
-        const value = Manipulator.getDataAttribute(element, styleProp);
+        const value = Manipulator.getdataAttribute(element, styleProp);
 
         if (typeof value === 'undefined') {
           element.style.removeProperty(styleProp);
         } else {
-          Manipulator.removeDataAttribute(element, styleProp);
+          Manipulator.removedataAttribute(element, styleProp);
           element.style[styleProp] = value;
         }
       };
@@ -4404,8 +4404,8 @@
     autofocus: 'boolean'
   };
   const NAME$7 = 'focustrap';
-  const DATA_KEY$7 = 'bs.focustrap';
-  const EVENT_KEY$7 = `.${DATA_KEY$7}`;
+  const data_KEY$7 = 'bs.focustrap';
+  const EVENT_KEY$7 = `.${data_KEY$7}`;
   const EVENT_FOCUSIN$1 = `focusin${EVENT_KEY$7}`;
   const EVENT_KEYDOWN_TAB = `keydown.tab${EVENT_KEY$7}`;
   const TAB_KEY = 'Tab';
@@ -4504,9 +4504,9 @@
    */
 
   const NAME$6 = 'modal';
-  const DATA_KEY$6 = 'bs.modal';
-  const EVENT_KEY$6 = `.${DATA_KEY$6}`;
-  const DATA_API_KEY$3 = '.data-api';
+  const data_KEY$6 = 'bs.modal';
+  const EVENT_KEY$6 = `.${data_KEY$6}`;
+  const data_API_KEY$3 = '.data-api';
   const ESCAPE_KEY$1 = 'Escape';
   const Default$5 = {
     backdrop: true,
@@ -4528,14 +4528,14 @@
   const EVENT_KEYDOWN_DISMISS$1 = `keydown.dismiss${EVENT_KEY$6}`;
   const EVENT_MOUSEUP_DISMISS = `mouseup.dismiss${EVENT_KEY$6}`;
   const EVENT_MOUSEDOWN_DISMISS = `mousedown.dismiss${EVENT_KEY$6}`;
-  const EVENT_CLICK_DATA_API$2 = `click${EVENT_KEY$6}${DATA_API_KEY$3}`;
+  const EVENT_CLICK_data_API$2 = `click${EVENT_KEY$6}${data_API_KEY$3}`;
   const CLASS_NAME_OPEN = 'modal-open';
   const CLASS_NAME_FADE$3 = 'fade';
   const CLASS_NAME_SHOW$4 = 'show';
   const CLASS_NAME_STATIC = 'modal-static';
   const SELECTOR_DIALOG = '.modal-dialog';
   const SELECTOR_MODAL_BODY = '.modal-body';
-  const SELECTOR_DATA_TOGGLE$2 = '[data-bs-toggle="modal"]';
+  const SELECTOR_data_TOGGLE$2 = '[data-bs-toggle="modal"]';
   /**
    * ------------------------------------------------------------------------
    * Class Definition
@@ -4673,7 +4673,7 @@
 
     _getConfig(config) {
       config = { ...Default$5,
-        ...Manipulator.getDataAttributes(this._element),
+        ...Manipulator.getdataAttributes(this._element),
         ...(typeof config === 'object' ? config : {})
       };
       typeCheckConfig(NAME$6, config, DefaultType$5);
@@ -4875,12 +4875,12 @@
   }
   /**
    * ------------------------------------------------------------------------
-   * Data Api implementation
+   * data Api implementation
    * ------------------------------------------------------------------------
    */
 
 
-  EventHandler.on(document, EVENT_CLICK_DATA_API$2, SELECTOR_DATA_TOGGLE$2, function (event) {
+  EventHandler.on(document, EVENT_CLICK_data_API$2, SELECTOR_data_TOGGLE$2, function (event) {
     const target = getElementFromSelector(this);
 
     if (['A', 'AREA'].includes(this.tagName)) {
@@ -4925,10 +4925,10 @@
    */
 
   const NAME$5 = 'offcanvas';
-  const DATA_KEY$5 = 'bs.offcanvas';
-  const EVENT_KEY$5 = `.${DATA_KEY$5}`;
-  const DATA_API_KEY$2 = '.data-api';
-  const EVENT_LOAD_DATA_API$1 = `load${EVENT_KEY$5}${DATA_API_KEY$2}`;
+  const data_KEY$5 = 'bs.offcanvas';
+  const EVENT_KEY$5 = `.${data_KEY$5}`;
+  const data_API_KEY$2 = '.data-api';
+  const EVENT_LOAD_data_API$1 = `load${EVENT_KEY$5}${data_API_KEY$2}`;
   const ESCAPE_KEY = 'Escape';
   const Default$4 = {
     backdrop: true,
@@ -4947,9 +4947,9 @@
   const EVENT_SHOWN$2 = `shown${EVENT_KEY$5}`;
   const EVENT_HIDE$2 = `hide${EVENT_KEY$5}`;
   const EVENT_HIDDEN$2 = `hidden${EVENT_KEY$5}`;
-  const EVENT_CLICK_DATA_API$1 = `click${EVENT_KEY$5}${DATA_API_KEY$2}`;
+  const EVENT_CLICK_data_API$1 = `click${EVENT_KEY$5}${data_API_KEY$2}`;
   const EVENT_KEYDOWN_DISMISS = `keydown.dismiss${EVENT_KEY$5}`;
-  const SELECTOR_DATA_TOGGLE$1 = '[data-bs-toggle="offcanvas"]';
+  const SELECTOR_data_TOGGLE$1 = '[data-bs-toggle="offcanvas"]';
   /**
    * ------------------------------------------------------------------------
    * Class Definition
@@ -5075,7 +5075,7 @@
 
     _getConfig(config) {
       config = { ...Default$4,
-        ...Manipulator.getDataAttributes(this._element),
+        ...Manipulator.getdataAttributes(this._element),
         ...(typeof config === 'object' ? config : {})
       };
       typeCheckConfig(NAME$5, config, DefaultType$4);
@@ -5126,12 +5126,12 @@
   }
   /**
    * ------------------------------------------------------------------------
-   * Data Api implementation
+   * data Api implementation
    * ------------------------------------------------------------------------
    */
 
 
-  EventHandler.on(document, EVENT_CLICK_DATA_API$1, SELECTOR_DATA_TOGGLE$1, function (event) {
+  EventHandler.on(document, EVENT_CLICK_data_API$1, SELECTOR_data_TOGGLE$1, function (event) {
     const target = getElementFromSelector(this);
 
     if (['A', 'AREA'].includes(this.tagName)) {
@@ -5158,7 +5158,7 @@
     const data = Offcanvas.getOrCreateInstance(target);
     data.toggle(this);
   });
-  EventHandler.on(window, EVENT_LOAD_DATA_API$1, () => SelectorEngine.find(OPEN_SELECTOR).forEach(el => Offcanvas.getOrCreateInstance(el).show()));
+  EventHandler.on(window, EVENT_LOAD_data_API$1, () => SelectorEngine.find(OPEN_SELECTOR).forEach(el => Offcanvas.getOrCreateInstance(el).show()));
   enableDismissTrigger(Offcanvas);
   /**
    * ------------------------------------------------------------------------
@@ -5189,14 +5189,14 @@
    * Shoutout to Angular 7 https://github.com/angular/angular/blob/7.2.4/packages/core/src/sanitization/url_sanitizer.ts
    */
 
-  const DATA_URL_PATTERN = /^data:(?:image\/(?:bmp|gif|jpeg|jpg|png|tiff|webp)|video\/(?:mpeg|mp4|ogg|webm)|audio\/(?:mp3|oga|ogg|opus));base64,[\d+/a-z]+=*$/i;
+  const data_URL_PATTERN = /^data:(?:image\/(?:bmp|gif|jpeg|jpg|png|tiff|webp)|video\/(?:mpeg|mp4|ogg|webm)|audio\/(?:mp3|oga|ogg|opus));base64,[\d+/a-z]+=*$/i;
 
   const allowedAttribute = (attr, allowedAttributeList) => {
     const attrName = attr.nodeName.toLowerCase();
 
     if (allowedAttributeList.includes(attrName)) {
       if (uriAttrs.has(attrName)) {
-        return Boolean(SAFE_URL_PATTERN.test(attr.nodeValue) || DATA_URL_PATTERN.test(attr.nodeValue));
+        return Boolean(SAFE_URL_PATTERN.test(attr.nodeValue) || data_URL_PATTERN.test(attr.nodeValue));
       }
 
       return true;
@@ -5294,8 +5294,8 @@
    */
 
   const NAME$4 = 'tooltip';
-  const DATA_KEY$4 = 'bs.tooltip';
-  const EVENT_KEY$4 = `.${DATA_KEY$4}`;
+  const data_KEY$4 = 'bs.tooltip';
+  const EVENT_KEY$4 = `.${data_KEY$4}`;
   const CLASS_PREFIX$1 = 'bs-tooltip';
   const DISALLOWED_ATTRIBUTES = new Set(['sanitize', 'allowList', 'sanitizeFn']);
   const DefaultType$3 = {
@@ -5500,7 +5500,7 @@
       const {
         container
       } = this._config;
-      Data.set(tip, this.constructor.DATA_KEY, this);
+      data.set(tip, this.constructor.data_KEY, this);
 
       if (!this._element.ownerDocument.documentElement.contains(this.tip)) {
         container.append(tip);
@@ -5703,7 +5703,7 @@
       }
 
       if (typeof offset === 'function') {
-        return popperData => offset(popperData, this._element);
+        return popperdata => offset(popperdata, this._element);
       }
 
       return offset;
@@ -5873,7 +5873,7 @@
     }
 
     _getConfig(config) {
-      const dataAttributes = Manipulator.getDataAttributes(this._element);
+      const dataAttributes = Manipulator.getdataAttributes(this._element);
       Object.keys(dataAttributes).forEach(dataAttr => {
         if (DISALLOWED_ATTRIBUTES.has(dataAttr)) {
           delete dataAttributes[dataAttr];
@@ -5938,10 +5938,10 @@
       return CLASS_PREFIX$1;
     }
 
-    _handlePopperPlacementChange(popperData) {
+    _handlePopperPlacementChange(popperdata) {
       const {
         state
-      } = popperData;
+      } = popperdata;
 
       if (!state) {
         return;
@@ -5993,8 +5993,8 @@
    */
 
   const NAME$3 = 'popover';
-  const DATA_KEY$3 = 'bs.popover';
-  const EVENT_KEY$3 = `.${DATA_KEY$3}`;
+  const data_KEY$3 = 'bs.popover';
+  const EVENT_KEY$3 = `.${data_KEY$3}`;
   const CLASS_PREFIX = 'bs-popover';
   const Default$2 = { ...Tooltip.Default,
     placement: 'right',
@@ -6103,9 +6103,9 @@
    */
 
   const NAME$2 = 'scrollspy';
-  const DATA_KEY$2 = 'bs.scrollspy';
-  const EVENT_KEY$2 = `.${DATA_KEY$2}`;
-  const DATA_API_KEY$1 = '.data-api';
+  const data_KEY$2 = 'bs.scrollspy';
+  const EVENT_KEY$2 = `.${data_KEY$2}`;
+  const data_API_KEY$1 = '.data-api';
   const Default$1 = {
     offset: 10,
     method: 'auto',
@@ -6118,10 +6118,10 @@
   };
   const EVENT_ACTIVATE = `activate${EVENT_KEY$2}`;
   const EVENT_SCROLL = `scroll${EVENT_KEY$2}`;
-  const EVENT_LOAD_DATA_API = `load${EVENT_KEY$2}${DATA_API_KEY$1}`;
+  const EVENT_LOAD_data_API = `load${EVENT_KEY$2}${data_API_KEY$1}`;
   const CLASS_NAME_DROPDOWN_ITEM = 'dropdown-item';
   const CLASS_NAME_ACTIVE$1 = 'active';
-  const SELECTOR_DATA_SPY = '[data-bs-spy="scroll"]';
+  const SELECTOR_data_SPY = '[data-bs-spy="scroll"]';
   const SELECTOR_NAV_LIST_GROUP$1 = '.nav, .list-group';
   const SELECTOR_NAV_LINKS = '.nav-link';
   const SELECTOR_NAV_ITEMS = '.nav-item';
@@ -6198,7 +6198,7 @@
 
     _getConfig(config) {
       config = { ...Default$1,
-        ...Manipulator.getDataAttributes(this._element),
+        ...Manipulator.getdataAttributes(this._element),
         ...(typeof config === 'object' && config ? config : {})
       };
       config.target = getElement(config.target) || document.documentElement;
@@ -6308,13 +6308,13 @@
   }
   /**
    * ------------------------------------------------------------------------
-   * Data Api implementation
+   * data Api implementation
    * ------------------------------------------------------------------------
    */
 
 
-  EventHandler.on(window, EVENT_LOAD_DATA_API, () => {
-    SelectorEngine.find(SELECTOR_DATA_SPY).forEach(spy => new ScrollSpy(spy));
+  EventHandler.on(window, EVENT_LOAD_data_API, () => {
+    SelectorEngine.find(SELECTOR_data_SPY).forEach(spy => new ScrollSpy(spy));
   });
   /**
    * ------------------------------------------------------------------------
@@ -6338,14 +6338,14 @@
    */
 
   const NAME$1 = 'tab';
-  const DATA_KEY$1 = 'bs.tab';
-  const EVENT_KEY$1 = `.${DATA_KEY$1}`;
-  const DATA_API_KEY = '.data-api';
+  const data_KEY$1 = 'bs.tab';
+  const EVENT_KEY$1 = `.${data_KEY$1}`;
+  const data_API_KEY = '.data-api';
   const EVENT_HIDE$1 = `hide${EVENT_KEY$1}`;
   const EVENT_HIDDEN$1 = `hidden${EVENT_KEY$1}`;
   const EVENT_SHOW$1 = `show${EVENT_KEY$1}`;
   const EVENT_SHOWN$1 = `shown${EVENT_KEY$1}`;
-  const EVENT_CLICK_DATA_API = `click${EVENT_KEY$1}${DATA_API_KEY}`;
+  const EVENT_CLICK_data_API = `click${EVENT_KEY$1}${data_API_KEY}`;
   const CLASS_NAME_DROPDOWN_MENU = 'dropdown-menu';
   const CLASS_NAME_ACTIVE = 'active';
   const CLASS_NAME_FADE$1 = 'fade';
@@ -6354,7 +6354,7 @@
   const SELECTOR_NAV_LIST_GROUP = '.nav, .list-group';
   const SELECTOR_ACTIVE = '.active';
   const SELECTOR_ACTIVE_UL = ':scope > li > .active';
-  const SELECTOR_DATA_TOGGLE = '[data-bs-toggle="tab"], [data-bs-toggle="pill"], [data-bs-toggle="list"]';
+  const SELECTOR_data_TOGGLE = '[data-bs-toggle="tab"], [data-bs-toggle="pill"], [data-bs-toggle="list"]';
   const SELECTOR_DROPDOWN_TOGGLE = '.dropdown-toggle';
   const SELECTOR_DROPDOWN_ACTIVE_CHILD = ':scope > .dropdown-menu .active';
   /**
@@ -6497,12 +6497,12 @@
   }
   /**
    * ------------------------------------------------------------------------
-   * Data Api implementation
+   * data Api implementation
    * ------------------------------------------------------------------------
    */
 
 
-  EventHandler.on(document, EVENT_CLICK_DATA_API, SELECTOR_DATA_TOGGLE, function (event) {
+  EventHandler.on(document, EVENT_CLICK_data_API, SELECTOR_data_TOGGLE, function (event) {
     if (['A', 'AREA'].includes(this.tagName)) {
       event.preventDefault();
     }
@@ -6536,8 +6536,8 @@
    */
 
   const NAME = 'toast';
-  const DATA_KEY = 'bs.toast';
-  const EVENT_KEY = `.${DATA_KEY}`;
+  const data_KEY = 'bs.toast';
+  const EVENT_KEY = `.${data_KEY}`;
   const EVENT_MOUSEOVER = `mouseover${EVENT_KEY}`;
   const EVENT_MOUSEOUT = `mouseout${EVENT_KEY}`;
   const EVENT_FOCUSIN = `focusin${EVENT_KEY}`;
@@ -6665,7 +6665,7 @@
 
     _getConfig(config) {
       config = { ...Default,
-        ...Manipulator.getDataAttributes(this._element),
+        ...Manipulator.getdataAttributes(this._element),
         ...(typeof config === 'object' && config ? config : {})
       };
       typeCheckConfig(NAME, config, this.constructor.DefaultType);

@@ -1,5 +1,5 @@
 ﻿using CSCRM.Abstractions;
-using CSCRM.DataAccessLayers;
+using CSCRM.dataAccessLayers;
 using CSCRM.Models;
 using CSCRM.Models.ResponseTypes;
 using CSCRM.ViewModels.CompanyVMs;
@@ -66,7 +66,7 @@ namespace CSCRM.Concretes
                         Message = "Company Name can not be empty",
                         StatusCode = "400",
                         Success = false,
-                        Data = companiesInDb,
+                        data = companiesInDb,
                         PageSize = pageSize,
                         PageIndex = 1
                     };
@@ -87,7 +87,7 @@ namespace CSCRM.Concretes
                         Message = $"Company {companyVM.Name} already exists",
                         StatusCode = "409",
                         Success = false,
-                        Data = companiesInDb,
+                        data = companiesInDb,
                         PageSize = pageSize,
                         PageIndex = 1
                     };
@@ -113,7 +113,7 @@ namespace CSCRM.Concretes
 
                 return new BaseResponse
                 {
-                    Data = companies,
+                    data = companies,
                     Message = "Company Created Successfully",
                     StatusCode = "201",
                     Success = true,
@@ -130,7 +130,7 @@ namespace CSCRM.Concretes
                     Message = "Company Could Not Be Created Successfully, Unhandled error occurred",
                     StatusCode = "500",
                     Success = false,
-                    Data = new List<GetCompanyVM>()
+                    data = new List<GetCompanyVM>()
                 };
             }
         }
@@ -150,7 +150,7 @@ namespace CSCRM.Concretes
                     _logger.LogInformation("Successfully fetched {CompanyCount} companies for page index {PageIndex}.", companies.Count, pageIndex);
                     return new BaseResponse
                     {
-                        Data = companies,
+                        data = companies,
                         Success = true,
                         StatusCode = "200",
                         PageIndex = pageIndex,
@@ -162,7 +162,7 @@ namespace CSCRM.Concretes
                     _logger.LogInformation("No companies found for page index {PageIndex}.", pageIndex);
                     return new BaseResponse
                     {
-                        Data = new List<GetCompanyVM>(),
+                        data = new List<GetCompanyVM>(),
                         Message = "No company found",
                         Success = true,
                         StatusCode = "200"
@@ -178,7 +178,7 @@ namespace CSCRM.Concretes
                     StatusCode = "500",
                     Message = "Unhandled error occurred",
                     Success = false,
-                    Data = new List<GetCompanyVM>()
+                    data = new List<GetCompanyVM>()
                 };
             }
         }
@@ -199,7 +199,7 @@ namespace CSCRM.Concretes
                         Success = false,
                         Message = "Company Could Not Be Found",
                         StatusCode = "404",
-                        Data = new List<GetCompanyVM>()
+                        data = new List<GetCompanyVM>()
                     };
                 }
 
@@ -217,7 +217,7 @@ namespace CSCRM.Concretes
                 {
                     Success = true,
                     Message = $"Company {deletingCompany.Name} has been deleted successfully.",
-                    Data = companies,
+                    data = companies,
                     PageSize = pageSize,
                     PageIndex = 1
                 };
@@ -231,7 +231,7 @@ namespace CSCRM.Concretes
                     Success = false,
                     StatusCode = "500",
                     Message = "Company Could Not Be Deleted Successfully",
-                    Data = new List<GetCompanyVM>()
+                    data = new List<GetCompanyVM>()
                 };
             }
         }
@@ -252,7 +252,7 @@ namespace CSCRM.Concretes
                         Message = "Company Could Not Be Found",
                         StatusCode = "404",
                         Success = false,
-                        Data = new EditCompanyVM()
+                        data = new EditCompanyVM()
                     };
                 }
 
@@ -271,7 +271,7 @@ namespace CSCRM.Concretes
                 return new BaseResponse
                 {
                     Success = true,
-                    Data = companyForEdit,
+                    data = companyForEdit,
                     StatusCode = "200" // Changed status code to "200" for successful retrieval
                 };
             }
@@ -282,7 +282,7 @@ namespace CSCRM.Concretes
                 return new BaseResponse
                 {
                     Success = false,
-                    Data = new EditCompanyVM(),
+                    data = new EditCompanyVM(),
                     StatusCode = "500",
                     Message = "Unhandled error occurred"
                 };
@@ -299,7 +299,7 @@ namespace CSCRM.Concretes
                     Success = false,
                     Message = "Invalid company ID.",
                     StatusCode = "400",
-                    Data = company
+                    data = company
                 };
             }
 
@@ -311,7 +311,7 @@ namespace CSCRM.Concretes
                     Success = false,
                     Message = "Company name cannot be empty.",
                     StatusCode = "400",
-                    Data = company
+                    data = company
                 };
             }
 
@@ -331,7 +331,7 @@ namespace CSCRM.Concretes
                         Message = $"Company {company.Name} already exists.",
                         StatusCode = "409",
                         Success = false,
-                        Data = company
+                        data = company
                     };
                 }
 
@@ -344,7 +344,7 @@ namespace CSCRM.Concretes
                         Success = false,
                         Message = "Company not found.",
                         StatusCode = "404",
-                        Data = company
+                        data = company
                     };
                 }
 
@@ -369,7 +369,7 @@ namespace CSCRM.Concretes
 
                 return new BaseResponse
                 {
-                    Data = companyEdited,
+                    data = companyEdited,
                     Message = "Company updated successfully.",
                     Success = true,
                     StatusCode = "200"
@@ -380,7 +380,7 @@ namespace CSCRM.Concretes
                 _logger.LogError(ex, "An unhandled exception occurred while updating company with ID {CompanyId}.", company.Id);
                 return new BaseResponse
                 {
-                    Data = new EditCompanyVM(),
+                    data = new EditCompanyVM(),
                     Success = false,
                     Message = "An unhandled exception occurred.",
                     StatusCode = "500"

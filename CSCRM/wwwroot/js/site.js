@@ -1261,9 +1261,9 @@ function downloadPDF() {
             letterRendering: 1,
             allowTaint: false
         }).then(function (canvas) {
-            var imgData = canvas.toDataURL('image/png');
+            var imgdata = canvas.todataURL('image/png');
             var pdf = new jsPDF('p', 'mm', 'a4');
-            pdf.addImage(imgData, 'PNG', 10, 10);
+            pdf.addImage(imgdata, 'PNG', 10, 10);
             pdf.save("output.pdf");
         });
 
@@ -1271,20 +1271,20 @@ function downloadPDF() {
 
 
         const pdf = new jsPDF('p', 'mm', 'a4');
-        const imgData = canvas.toDataURL('image/png');
+        const imgdata = canvas.todataURL('image/png');
         const imgWidth = 210; // A4 width in mm
         const pageHeight = 297; // A4 height in mm
         const imgHeight = canvas.height * imgWidth / canvas.width;
         let heightLeft = imgHeight;
         let position = 0;
 
-        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        pdf.addImage(imgdata, 'PNG', 0, position, imgWidth, imgHeight);
         heightLeft -= pageHeight;
 
         while (heightLeft >= 0) {
             position = heightLeft - imgHeight;
             pdf.addPage();
-            pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+            pdf.addImage(imgdata, 'PNG', 0, position, imgWidth, imgHeight);
             heightLeft -= pageHeight;
         }
 

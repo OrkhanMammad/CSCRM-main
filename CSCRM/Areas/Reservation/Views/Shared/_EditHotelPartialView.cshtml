@@ -19,14 +19,14 @@
         </thead>
         <tbody>
             <tr>
-                <td><input id="editHotelNameInput" type="text" class="hotel-edit-page-input" value="@Model.Data.Name"></td>
-                <td><input id="editHotelSnglPriceInput" type="text" class="hotel-edit-page-input" value="@Model.Data.SinglePrice"></td>
-                <td><input id="editHotelDblPriceInput" type="text" class="hotel-edit-page-input" value="@Model.Data.DoublePrice"></td>
-                <td><input id="editHotelTrplPriceInput" type="text" class="hotel-edit-page-input" value="@Model.Data.TriplePrice"></td>
-                <td><input id="editHotelContPersonInput" type="text" class="hotel-edit-page-input" value="@Model.Data.ContactPerson"></td>
-                <td><input id="editHotelContNumInput" type="text" class="hotel-edit-page-input" value="@Model.Data.ContactNumber"></td>
+                <td><input id="editHotelNameInput" type="text" class="hotel-edit-page-input" value="@Model.data.Name"></td>
+                <td><input id="editHotelSnglPriceInput" type="text" class="hotel-edit-page-input" value="@Model.data.SinglePrice"></td>
+                <td><input id="editHotelDblPriceInput" type="text" class="hotel-edit-page-input" value="@Model.data.DoublePrice"></td>
+                <td><input id="editHotelTrplPriceInput" type="text" class="hotel-edit-page-input" value="@Model.data.TriplePrice"></td>
+                <td><input id="editHotelContPersonInput" type="text" class="hotel-edit-page-input" value="@Model.data.ContactPerson"></td>
+                <td><input id="editHotelContNumInput" type="text" class="hotel-edit-page-input" value="@Model.data.ContactNumber"></td>
                 <td>
-                    <button onclick="updateHotel(@Model.Data.Id)" id="updateHotelBtn" class="hotel-edit-page-hotel-btn hotel-edit-page-hotel-btn-primary">Update Hotel</button>
+                    <button onclick="updateHotel(@Model.data.Id)" id="updateHotelBtn" class="hotel-edit-page-hotel-btn hotel-edit-page-hotel-btn-primary">Update Hotel</button>
                 </td>
             </tr>
         </tbody>

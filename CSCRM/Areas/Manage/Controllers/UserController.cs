@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using CSCRM.ViewModels.AccountVMs;
 using CSCRM.Models;
 using Microsoft.AspNetCore.Identity;
-using CSCRM.DataAccessLayers;
+using CSCRM.dataAccessLayers;
 
 namespace CSCRM.Areas.Manage.Controllers
 {

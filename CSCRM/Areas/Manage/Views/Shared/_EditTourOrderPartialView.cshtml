@@ -3,7 +3,8 @@
 @model BaseResponse
 
 @{
-    EditTourOrderPageMainVm data = Model.Data;
+    EditTourOrderPageMainVm order = Model.data;
+
 }
 
 <h2 class="EditTourServicePageHead">Edit Tour Order</h2>
@@ -13,21 +14,21 @@
     <span style="color: @(Model.Success ? "green" : "red"); font-weight:600">@Model.Message</span>
     <div class="EditTourService">
         <select id="edit-tourService-tourName" class="EditTourServiceInput">
-            <option value="@data.TourOrder.TourId" selected>@data.Tours.FirstOrDefault(testc => testc.Id == data.TourOrder.TourId).Name</option>
-            @foreach (var tour in data.Tours)
+            <option value="@order.TourOrder.TourId" selected>@order.Tours.FirstOrDefault(testc => testc.Id == order.TourOrder.TourId).Name</option>
+            @foreach (var tour in order.Tours)
             {
                 <option value="@tour.Id">@tour.Name</option>
             }
         </select>
         <select id="edit-tourService-carTypeName" class="EditTourServiceInput">
-            <option value="@data.TourOrder.CarType" disabled selected>@data.TourOrder.CarType</option>
-            @foreach (var car in data.Cars)
+            <option value="@order.TourOrder.CarType" disabled selected>@order.TourOrder.CarType</option>
+            @foreach (var car in order.Cars)
             {
                 <option value="@car.Name">@car.Name</option>
             }
         </select>
         <select id="edit-tourService-guide" class="EditTourServiceInput">
-            @if (data.TourOrder.Guide == true)
+            @if (order.TourOrder.Guide == true)
             {
                 <option value="True" selected>Yes</option>
             }
@@ -39,7 +40,7 @@
             <option value="True">Yes</option>
             <option value="False">No</option>
         </select>
-        <input value="@data.TourOrder.Date" type="date" id="edit-tourService-tourDate" class="EditTourServiceInput" />
-        <button onclick="updateTourService(@data.TourOrder.Id)" class="EditTourServiceBtn EditTourServiceBtnPrimary">Update Service</button>
+        <input value="@order.TourOrder.Date" type="date" id="edit-tourService-tourDate" class="EditTourServiceInput" />
+        <button onclick="updateTourService(@order.TourOrder.Id)" class="EditTourServiceBtn EditTourServiceBtnPrimary">Update Service</button>
     </div>
 </div>

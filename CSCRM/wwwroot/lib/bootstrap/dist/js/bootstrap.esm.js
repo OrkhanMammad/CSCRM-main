@@ -618,7 +618,7 @@ const EventHandler = {
  * ------------------------------------------------------------------------
  */
 const elementMap = new Map();
-var Data = {
+var data = {
   set(element, key, instance) {
     if (!elementMap.has(element)) {
       elementMap.set(element, new Map());
@@ -682,11 +682,11 @@ class BaseComponent {
     }
 
     this._element = element;
-    Data.set(this._element, this.constructor.DATA_KEY, this);
+    data.set(this._element, this.constructor.data_KEY, this);
   }
 
   dispose() {
-    Data.remove(this._element, this.constructor.DATA_KEY);
+    data.remove(this._element, this.constructor.data_KEY);
     EventHandler.off(this._element, this.constructor.EVENT_KEY);
     Object.getOwnPropertyNames(this).forEach(propertyName => {
       this[propertyName] = null;
@@ -700,7 +700,7 @@ class BaseComponent {
 
 
   static getInstance(element) {
-    return Data.get(getElement(element), this.DATA_KEY);
+    return data.get(getElement(element), this.data_KEY);
   }
 
   static getOrCreateInstance(element, config = {}) {
@@ -715,12 +715,12 @@ class BaseComponent {
     throw new Error('You have to implement the static method "NAME", for each component!');
   }
 
-  static get DATA_KEY() {
+  static get data_KEY() {
     return `bs.${this.NAME}`;
   }
 
   static get EVENT_KEY() {
-    return `.${this.DATA_KEY}`;
+    return `.${this.data_KEY}`;
   }
 
 }
@@ -764,8 +764,8 @@ const enableDismissTrigger = (component, method = 'hide') => {
  */
 
 const NAME$d = 'alert';
-const DATA_KEY$c = 'bs.alert';
-const EVENT_KEY$c = `.${DATA_KEY$c}`;
+const data_KEY$c = 'bs.alert';
+const EVENT_KEY$c = `.${data_KEY$c}`;
 const EVENT_CLOSE = `close${EVENT_KEY$c}`;
 const EVENT_CLOSED = `closed${EVENT_KEY$c}`;
 const CLASS_NAME_FADE$5 = 'fade';
@@ -825,7 +825,7 @@ class Alert extends BaseComponent {
 }
 /**
  * ------------------------------------------------------------------------
- * Data Api implementation
+ * data Api implementation
  * ------------------------------------------------------------------------
  */
 
@@ -853,12 +853,12 @@ defineJQueryPlugin(Alert);
  */
 
 const NAME$c = 'button';
-const DATA_KEY$b = 'bs.button';
-const EVENT_KEY$b = `.${DATA_KEY$b}`;
-const DATA_API_KEY$7 = '.data-api';
+const data_KEY$b = 'bs.button';
+const EVENT_KEY$b = `.${data_KEY$b}`;
+const data_API_KEY$7 = '.data-api';
 const CLASS_NAME_ACTIVE$3 = 'active';
-const SELECTOR_DATA_TOGGLE$5 = '[data-bs-toggle="button"]';
-const EVENT_CLICK_DATA_API$6 = `click${EVENT_KEY$b}${DATA_API_KEY$7}`;
+const SELECTOR_data_TOGGLE$5 = '[data-bs-toggle="button"]';
+const EVENT_CLICK_data_API$6 = `click${EVENT_KEY$b}${data_API_KEY$7}`;
 /**
  * ------------------------------------------------------------------------
  * Class Definition
@@ -891,14 +891,14 @@ class Button extends BaseComponent {
 }
 /**
  * ------------------------------------------------------------------------
- * Data Api implementation
+ * data Api implementation
  * ------------------------------------------------------------------------
  */
 
 
-EventHandler.on(document, EVENT_CLICK_DATA_API$6, SELECTOR_DATA_TOGGLE$5, event => {
+EventHandler.on(document, EVENT_CLICK_data_API$6, SELECTOR_data_TOGGLE$5, event => {
   event.preventDefault();
-  const button = event.target.closest(SELECTOR_DATA_TOGGLE$5);
+  const button = event.target.closest(SELECTOR_data_TOGGLE$5);
   const data = Button.getOrCreateInstance(button);
   data.toggle();
 });
@@ -917,7 +917,7 @@ defineJQueryPlugin(Button);
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
-function normalizeData(val) {
+function normalizedata(val) {
   if (val === 'true') {
     return true;
   }
@@ -937,20 +937,20 @@ function normalizeData(val) {
   return val;
 }
 
-function normalizeDataKey(key) {
+function normalizedataKey(key) {
   return key.replace(/[A-Z]/g, chr => `-${chr.toLowerCase()}`);
 }
 
 const Manipulator = {
-  setDataAttribute(element, key, value) {
-    element.setAttribute(`data-bs-${normalizeDataKey(key)}`, value);
+  setdataAttribute(element, key, value) {
+    element.setAttribute(`data-bs-${normalizedataKey(key)}`, value);
   },
 
-  removeDataAttribute(element, key) {
-    element.removeAttribute(`data-bs-${normalizeDataKey(key)}`);
+  removedataAttribute(element, key) {
+    element.removeAttribute(`data-bs-${normalizedataKey(key)}`);
   },
 
-  getDataAttributes(element) {
+  getdataAttributes(element) {
     if (!element) {
       return {};
     }
@@ -959,13 +959,13 @@ const Manipulator = {
     Object.keys(element.dataset).filter(key => key.startsWith('bs')).forEach(key => {
       let pureKey = key.replace(/^bs/, '');
       pureKey = pureKey.charAt(0).toLowerCase() + pureKey.slice(1, pureKey.length);
-      attributes[pureKey] = normalizeData(element.dataset[key]);
+      attributes[pureKey] = normalizedata(element.dataset[key]);
     });
     return attributes;
   },
 
-  getDataAttribute(element, key) {
-    return normalizeData(element.getAttribute(`data-bs-${normalizeDataKey(key)}`));
+  getdataAttribute(element, key) {
+    return normalizedata(element.getAttribute(`data-bs-${normalizedataKey(key)}`));
   },
 
   offset(element) {
@@ -1068,9 +1068,9 @@ const SelectorEngine = {
  */
 
 const NAME$b = 'carousel';
-const DATA_KEY$a = 'bs.carousel';
-const EVENT_KEY$a = `.${DATA_KEY$a}`;
-const DATA_API_KEY$6 = '.data-api';
+const data_KEY$a = 'bs.carousel';
+const EVENT_KEY$a = `.${data_KEY$a}`;
+const data_API_KEY$6 = '.data-api';
 const ARROW_LEFT_KEY = 'ArrowLeft';
 const ARROW_RIGHT_KEY = 'ArrowRight';
 const TOUCHEVENT_COMPAT_WAIT = 500; // Time for mouse compat events to fire after touch
@@ -1111,8 +1111,8 @@ const EVENT_TOUCHEND = `touchend${EVENT_KEY$a}`;
 const EVENT_POINTERDOWN = `pointerdown${EVENT_KEY$a}`;
 const EVENT_POINTERUP = `pointerup${EVENT_KEY$a}`;
 const EVENT_DRAG_START = `dragstart${EVENT_KEY$a}`;
-const EVENT_LOAD_DATA_API$2 = `load${EVENT_KEY$a}${DATA_API_KEY$6}`;
-const EVENT_CLICK_DATA_API$5 = `click${EVENT_KEY$a}${DATA_API_KEY$6}`;
+const EVENT_LOAD_data_API$2 = `load${EVENT_KEY$a}${data_API_KEY$6}`;
+const EVENT_CLICK_data_API$5 = `click${EVENT_KEY$a}${data_API_KEY$6}`;
 const CLASS_NAME_CAROUSEL = 'carousel';
 const CLASS_NAME_ACTIVE$2 = 'active';
 const CLASS_NAME_SLIDE = 'slide';
@@ -1128,8 +1128,8 @@ const SELECTOR_ITEM_IMG = '.carousel-item img';
 const SELECTOR_NEXT_PREV = '.carousel-item-next, .carousel-item-prev';
 const SELECTOR_INDICATORS = '.carousel-indicators';
 const SELECTOR_INDICATOR = '[data-bs-target]';
-const SELECTOR_DATA_SLIDE = '[data-bs-slide], [data-bs-slide-to]';
-const SELECTOR_DATA_RIDE = '[data-bs-ride="carousel"]';
+const SELECTOR_data_SLIDE = '[data-bs-slide], [data-bs-slide-to]';
+const SELECTOR_data_RIDE = '[data-bs-ride="carousel"]';
 const POINTER_TYPE_TOUCH = 'touch';
 const POINTER_TYPE_PEN = 'pen';
 /**
@@ -1242,7 +1242,7 @@ class Carousel extends BaseComponent {
 
   _getConfig(config) {
     config = { ...Default$a,
-      ...Manipulator.getDataAttributes(this._element),
+      ...Manipulator.getdataAttributes(this._element),
       ...(typeof config === 'object' ? config : {})
     };
     typeCheckConfig(NAME$b, config, DefaultType$a);
@@ -1557,8 +1557,8 @@ class Carousel extends BaseComponent {
       return;
     }
 
-    const config = { ...Manipulator.getDataAttributes(target),
-      ...Manipulator.getDataAttributes(this)
+    const config = { ...Manipulator.getdataAttributes(target),
+      ...Manipulator.getdataAttributes(this)
     };
     const slideIndex = this.getAttribute('data-bs-slide-to');
 
@@ -1578,14 +1578,14 @@ class Carousel extends BaseComponent {
 }
 /**
  * ------------------------------------------------------------------------
- * Data Api implementation
+ * data Api implementation
  * ------------------------------------------------------------------------
  */
 
 
-EventHandler.on(document, EVENT_CLICK_DATA_API$5, SELECTOR_DATA_SLIDE, Carousel.dataApiClickHandler);
-EventHandler.on(window, EVENT_LOAD_DATA_API$2, () => {
-  const carousels = SelectorEngine.find(SELECTOR_DATA_RIDE);
+EventHandler.on(document, EVENT_CLICK_data_API$5, SELECTOR_data_SLIDE, Carousel.dataApiClickHandler);
+EventHandler.on(window, EVENT_LOAD_data_API$2, () => {
+  const carousels = SelectorEngine.find(SELECTOR_data_RIDE);
 
   for (let i = 0, len = carousels.length; i < len; i++) {
     Carousel.carouselInterface(carousels[i], Carousel.getInstance(carousels[i]));
@@ -1613,9 +1613,9 @@ defineJQueryPlugin(Carousel);
  */
 
 const NAME$a = 'collapse';
-const DATA_KEY$9 = 'bs.collapse';
-const EVENT_KEY$9 = `.${DATA_KEY$9}`;
-const DATA_API_KEY$5 = '.data-api';
+const data_KEY$9 = 'bs.collapse';
+const EVENT_KEY$9 = `.${data_KEY$9}`;
+const data_API_KEY$5 = '.data-api';
 const Default$9 = {
   toggle: true,
   parent: null
@@ -1628,7 +1628,7 @@ const EVENT_SHOW$5 = `show${EVENT_KEY$9}`;
 const EVENT_SHOWN$5 = `shown${EVENT_KEY$9}`;
 const EVENT_HIDE$5 = `hide${EVENT_KEY$9}`;
 const EVENT_HIDDEN$5 = `hidden${EVENT_KEY$9}`;
-const EVENT_CLICK_DATA_API$4 = `click${EVENT_KEY$9}${DATA_API_KEY$5}`;
+const EVENT_CLICK_data_API$4 = `click${EVENT_KEY$9}${data_API_KEY$5}`;
 const CLASS_NAME_SHOW$7 = 'show';
 const CLASS_NAME_COLLAPSE = 'collapse';
 const CLASS_NAME_COLLAPSING = 'collapsing';
@@ -1637,7 +1637,7 @@ const CLASS_NAME_HORIZONTAL = 'collapse-horizontal';
 const WIDTH = 'width';
 const HEIGHT = 'height';
 const SELECTOR_ACTIVES = '.show, .collapsing';
-const SELECTOR_DATA_TOGGLE$4 = '[data-bs-toggle="collapse"]';
+const SELECTOR_data_TOGGLE$4 = '[data-bs-toggle="collapse"]';
 /**
  * ------------------------------------------------------------------------
  * Class Definition
@@ -1650,7 +1650,7 @@ class Collapse extends BaseComponent {
     this._isTransitioning = false;
     this._config = this._getConfig(config);
     this._triggerArray = [];
-    const toggleList = SelectorEngine.find(SELECTOR_DATA_TOGGLE$4);
+    const toggleList = SelectorEngine.find(SELECTOR_data_TOGGLE$4);
 
     for (let i = 0, len = toggleList.length; i < len; i++) {
       const elem = toggleList[i];
@@ -1699,7 +1699,7 @@ class Collapse extends BaseComponent {
     }
 
     let actives = [];
-    let activesData;
+    let activesdata;
 
     if (this._config.parent) {
       const children = SelectorEngine.find(`.${CLASS_NAME_COLLAPSE} .${CLASS_NAME_COLLAPSE}`, this._config.parent);
@@ -1709,10 +1709,10 @@ class Collapse extends BaseComponent {
     const container = SelectorEngine.findOne(this._selector);
 
     if (actives.length) {
-      const tempActiveData = actives.find(elem => container !== elem);
-      activesData = tempActiveData ? Collapse.getInstance(tempActiveData) : null;
+      const tempActivedata = actives.find(elem => container !== elem);
+      activesdata = tempActivedata ? Collapse.getInstance(tempActivedata) : null;
 
-      if (activesData && activesData._isTransitioning) {
+      if (activesdata && activesdata._isTransitioning) {
         return;
       }
     }
@@ -1730,8 +1730,8 @@ class Collapse extends BaseComponent {
         }).hide();
       }
 
-      if (!activesData) {
-        Data.set(elemActive, DATA_KEY$9, null);
+      if (!activesdata) {
+        data.set(elemActive, data_KEY$9, null);
       }
     });
 
@@ -1821,7 +1821,7 @@ class Collapse extends BaseComponent {
 
   _getConfig(config) {
     config = { ...Default$9,
-      ...Manipulator.getDataAttributes(this._element),
+      ...Manipulator.getdataAttributes(this._element),
       ...config
     };
     config.toggle = Boolean(config.toggle); // Coerce string values
@@ -1841,7 +1841,7 @@ class Collapse extends BaseComponent {
     }
 
     const children = SelectorEngine.find(`.${CLASS_NAME_COLLAPSE} .${CLASS_NAME_COLLAPSE}`, this._config.parent);
-    SelectorEngine.find(SELECTOR_DATA_TOGGLE$4, this._config.parent).filter(elem => !children.includes(elem)).forEach(element => {
+    SelectorEngine.find(SELECTOR_data_TOGGLE$4, this._config.parent).filter(elem => !children.includes(elem)).forEach(element => {
       const selected = getElementFromSelector(element);
 
       if (selected) {
@@ -1890,12 +1890,12 @@ class Collapse extends BaseComponent {
 }
 /**
  * ------------------------------------------------------------------------
- * Data Api implementation
+ * data Api implementation
  * ------------------------------------------------------------------------
  */
 
 
-EventHandler.on(document, EVENT_CLICK_DATA_API$4, SELECTOR_DATA_TOGGLE$4, function (event) {
+EventHandler.on(document, EVENT_CLICK_data_API$4, SELECTOR_data_TOGGLE$4, function (event) {
   // preventDefault only for <a> elements (which change the URL) not inside the collapsible element
   if (event.target.tagName === 'A' || event.delegateTarget && event.delegateTarget.tagName === 'A') {
     event.preventDefault();
@@ -1931,9 +1931,9 @@ defineJQueryPlugin(Collapse);
  */
 
 const NAME$9 = 'dropdown';
-const DATA_KEY$8 = 'bs.dropdown';
-const EVENT_KEY$8 = `.${DATA_KEY$8}`;
-const DATA_API_KEY$4 = '.data-api';
+const data_KEY$8 = 'bs.dropdown';
+const EVENT_KEY$8 = `.${data_KEY$8}`;
+const data_API_KEY$4 = '.data-api';
 const ESCAPE_KEY$2 = 'Escape';
 const SPACE_KEY = 'Space';
 const TAB_KEY$1 = 'Tab';
@@ -1946,15 +1946,15 @@ const EVENT_HIDE$4 = `hide${EVENT_KEY$8}`;
 const EVENT_HIDDEN$4 = `hidden${EVENT_KEY$8}`;
 const EVENT_SHOW$4 = `show${EVENT_KEY$8}`;
 const EVENT_SHOWN$4 = `shown${EVENT_KEY$8}`;
-const EVENT_CLICK_DATA_API$3 = `click${EVENT_KEY$8}${DATA_API_KEY$4}`;
-const EVENT_KEYDOWN_DATA_API = `keydown${EVENT_KEY$8}${DATA_API_KEY$4}`;
-const EVENT_KEYUP_DATA_API = `keyup${EVENT_KEY$8}${DATA_API_KEY$4}`;
+const EVENT_CLICK_data_API$3 = `click${EVENT_KEY$8}${data_API_KEY$4}`;
+const EVENT_KEYDOWN_data_API = `keydown${EVENT_KEY$8}${data_API_KEY$4}`;
+const EVENT_KEYUP_data_API = `keyup${EVENT_KEY$8}${data_API_KEY$4}`;
 const CLASS_NAME_SHOW$6 = 'show';
 const CLASS_NAME_DROPUP = 'dropup';
 const CLASS_NAME_DROPEND = 'dropend';
 const CLASS_NAME_DROPSTART = 'dropstart';
 const CLASS_NAME_NAVBAR = 'navbar';
-const SELECTOR_DATA_TOGGLE$3 = '[data-bs-toggle="dropdown"]';
+const SELECTOR_data_TOGGLE$3 = '[data-bs-toggle="dropdown"]';
 const SELECTOR_MENU = '.dropdown-menu';
 const SELECTOR_NAVBAR_NAV = '.navbar-nav';
 const SELECTOR_VISIBLE_ITEMS = '.dropdown-menu .dropdown-item:not(.disabled):not(:disabled)';
@@ -2030,7 +2030,7 @@ class Dropdown extends BaseComponent {
     const parent = Dropdown.getParentFromElement(this._element); // Totally disable Popper for Dropdowns in Navbar
 
     if (this._inNavbar) {
-      Manipulator.setDataAttribute(this._menu, 'popper', 'none');
+      Manipulator.setdataAttribute(this._menu, 'popper', 'none');
     } else {
       this._createPopper(parent);
     } // If this is a touch-enabled device we add extra
@@ -2106,13 +2106,13 @@ class Dropdown extends BaseComponent {
 
     this._element.setAttribute('aria-expanded', 'false');
 
-    Manipulator.removeDataAttribute(this._menu, 'popper');
+    Manipulator.removedataAttribute(this._menu, 'popper');
     EventHandler.trigger(this._element, EVENT_HIDDEN$4, relatedTarget);
   }
 
   _getConfig(config) {
     config = { ...this.constructor.Default,
-      ...Manipulator.getDataAttributes(this._element),
+      ...Manipulator.getdataAttributes(this._element),
       ...config
     };
     typeCheckConfig(NAME$9, config, this.constructor.DefaultType);
@@ -2146,7 +2146,7 @@ class Dropdown extends BaseComponent {
     this._popper = Popper.createPopper(referenceElement, this._menu, popperConfig);
 
     if (isDisplayStatic) {
-      Manipulator.setDataAttribute(this._menu, 'popper', 'static');
+      Manipulator.setdataAttribute(this._menu, 'popper', 'static');
     }
   }
 
@@ -2193,7 +2193,7 @@ class Dropdown extends BaseComponent {
     }
 
     if (typeof offset === 'function') {
-      return popperData => offset(popperData, this._element);
+      return popperdata => offset(popperdata, this._element);
     }
 
     return offset;
@@ -2264,7 +2264,7 @@ class Dropdown extends BaseComponent {
       return;
     }
 
-    const toggles = SelectorEngine.find(SELECTOR_DATA_TOGGLE$3);
+    const toggles = SelectorEngine.find(SELECTOR_data_TOGGLE$3);
 
     for (let i = 0, len = toggles.length; i < len; i++) {
       const context = Dropdown.getInstance(toggles[i]);
@@ -2332,7 +2332,7 @@ class Dropdown extends BaseComponent {
       return;
     }
 
-    const getToggleButton = this.matches(SELECTOR_DATA_TOGGLE$3) ? this : SelectorEngine.prev(this, SELECTOR_DATA_TOGGLE$3)[0];
+    const getToggleButton = this.matches(SELECTOR_data_TOGGLE$3) ? this : SelectorEngine.prev(this, SELECTOR_data_TOGGLE$3)[0];
     const instance = Dropdown.getOrCreateInstance(getToggleButton);
 
     if (event.key === ESCAPE_KEY$2) {
@@ -2358,16 +2358,16 @@ class Dropdown extends BaseComponent {
 }
 /**
  * ------------------------------------------------------------------------
- * Data Api implementation
+ * data Api implementation
  * ------------------------------------------------------------------------
  */
 
 
-EventHandler.on(document, EVENT_KEYDOWN_DATA_API, SELECTOR_DATA_TOGGLE$3, Dropdown.dataApiKeydownHandler);
-EventHandler.on(document, EVENT_KEYDOWN_DATA_API, SELECTOR_MENU, Dropdown.dataApiKeydownHandler);
-EventHandler.on(document, EVENT_CLICK_DATA_API$3, Dropdown.clearMenus);
-EventHandler.on(document, EVENT_KEYUP_DATA_API, Dropdown.clearMenus);
-EventHandler.on(document, EVENT_CLICK_DATA_API$3, SELECTOR_DATA_TOGGLE$3, function (event) {
+EventHandler.on(document, EVENT_KEYDOWN_data_API, SELECTOR_data_TOGGLE$3, Dropdown.dataApiKeydownHandler);
+EventHandler.on(document, EVENT_KEYDOWN_data_API, SELECTOR_MENU, Dropdown.dataApiKeydownHandler);
+EventHandler.on(document, EVENT_CLICK_data_API$3, Dropdown.clearMenus);
+EventHandler.on(document, EVENT_KEYUP_data_API, Dropdown.clearMenus);
+EventHandler.on(document, EVENT_CLICK_data_API$3, SELECTOR_data_TOGGLE$3, function (event) {
   event.preventDefault();
   Dropdown.getOrCreateInstance(this).toggle();
 });
@@ -2451,18 +2451,18 @@ class ScrollBarHelper {
     const actualValue = element.style[styleProp];
 
     if (actualValue) {
-      Manipulator.setDataAttribute(element, styleProp, actualValue);
+      Manipulator.setdataAttribute(element, styleProp, actualValue);
     }
   }
 
   _resetElementAttributes(selector, styleProp) {
     const manipulationCallBack = element => {
-      const value = Manipulator.getDataAttribute(element, styleProp);
+      const value = Manipulator.getdataAttribute(element, styleProp);
 
       if (typeof value === 'undefined') {
         element.style.removeProperty(styleProp);
       } else {
-        Manipulator.removeDataAttribute(element, styleProp);
+        Manipulator.removedataAttribute(element, styleProp);
         element.style[styleProp] = value;
       }
     };
@@ -2624,8 +2624,8 @@ const DefaultType$6 = {
   autofocus: 'boolean'
 };
 const NAME$7 = 'focustrap';
-const DATA_KEY$7 = 'bs.focustrap';
-const EVENT_KEY$7 = `.${DATA_KEY$7}`;
+const data_KEY$7 = 'bs.focustrap';
+const EVENT_KEY$7 = `.${data_KEY$7}`;
 const EVENT_FOCUSIN$1 = `focusin${EVENT_KEY$7}`;
 const EVENT_KEYDOWN_TAB = `keydown.tab${EVENT_KEY$7}`;
 const TAB_KEY = 'Tab';
@@ -2724,9 +2724,9 @@ class FocusTrap {
  */
 
 const NAME$6 = 'modal';
-const DATA_KEY$6 = 'bs.modal';
-const EVENT_KEY$6 = `.${DATA_KEY$6}`;
-const DATA_API_KEY$3 = '.data-api';
+const data_KEY$6 = 'bs.modal';
+const EVENT_KEY$6 = `.${data_KEY$6}`;
+const data_API_KEY$3 = '.data-api';
 const ESCAPE_KEY$1 = 'Escape';
 const Default$5 = {
   backdrop: true,
@@ -2748,14 +2748,14 @@ const EVENT_CLICK_DISMISS = `click.dismiss${EVENT_KEY$6}`;
 const EVENT_KEYDOWN_DISMISS$1 = `keydown.dismiss${EVENT_KEY$6}`;
 const EVENT_MOUSEUP_DISMISS = `mouseup.dismiss${EVENT_KEY$6}`;
 const EVENT_MOUSEDOWN_DISMISS = `mousedown.dismiss${EVENT_KEY$6}`;
-const EVENT_CLICK_DATA_API$2 = `click${EVENT_KEY$6}${DATA_API_KEY$3}`;
+const EVENT_CLICK_data_API$2 = `click${EVENT_KEY$6}${data_API_KEY$3}`;
 const CLASS_NAME_OPEN = 'modal-open';
 const CLASS_NAME_FADE$3 = 'fade';
 const CLASS_NAME_SHOW$4 = 'show';
 const CLASS_NAME_STATIC = 'modal-static';
 const SELECTOR_DIALOG = '.modal-dialog';
 const SELECTOR_MODAL_BODY = '.modal-body';
-const SELECTOR_DATA_TOGGLE$2 = '[data-bs-toggle="modal"]';
+const SELECTOR_data_TOGGLE$2 = '[data-bs-toggle="modal"]';
 /**
  * ------------------------------------------------------------------------
  * Class Definition
@@ -2893,7 +2893,7 @@ class Modal extends BaseComponent {
 
   _getConfig(config) {
     config = { ...Default$5,
-      ...Manipulator.getDataAttributes(this._element),
+      ...Manipulator.getdataAttributes(this._element),
       ...(typeof config === 'object' ? config : {})
     };
     typeCheckConfig(NAME$6, config, DefaultType$5);
@@ -3095,12 +3095,12 @@ class Modal extends BaseComponent {
 }
 /**
  * ------------------------------------------------------------------------
- * Data Api implementation
+ * data Api implementation
  * ------------------------------------------------------------------------
  */
 
 
-EventHandler.on(document, EVENT_CLICK_DATA_API$2, SELECTOR_DATA_TOGGLE$2, function (event) {
+EventHandler.on(document, EVENT_CLICK_data_API$2, SELECTOR_data_TOGGLE$2, function (event) {
   const target = getElementFromSelector(this);
 
   if (['A', 'AREA'].includes(this.tagName)) {
@@ -3145,10 +3145,10 @@ defineJQueryPlugin(Modal);
  */
 
 const NAME$5 = 'offcanvas';
-const DATA_KEY$5 = 'bs.offcanvas';
-const EVENT_KEY$5 = `.${DATA_KEY$5}`;
-const DATA_API_KEY$2 = '.data-api';
-const EVENT_LOAD_DATA_API$1 = `load${EVENT_KEY$5}${DATA_API_KEY$2}`;
+const data_KEY$5 = 'bs.offcanvas';
+const EVENT_KEY$5 = `.${data_KEY$5}`;
+const data_API_KEY$2 = '.data-api';
+const EVENT_LOAD_data_API$1 = `load${EVENT_KEY$5}${data_API_KEY$2}`;
 const ESCAPE_KEY = 'Escape';
 const Default$4 = {
   backdrop: true,
@@ -3167,9 +3167,9 @@ const EVENT_SHOW$2 = `show${EVENT_KEY$5}`;
 const EVENT_SHOWN$2 = `shown${EVENT_KEY$5}`;
 const EVENT_HIDE$2 = `hide${EVENT_KEY$5}`;
 const EVENT_HIDDEN$2 = `hidden${EVENT_KEY$5}`;
-const EVENT_CLICK_DATA_API$1 = `click${EVENT_KEY$5}${DATA_API_KEY$2}`;
+const EVENT_CLICK_data_API$1 = `click${EVENT_KEY$5}${data_API_KEY$2}`;
 const EVENT_KEYDOWN_DISMISS = `keydown.dismiss${EVENT_KEY$5}`;
-const SELECTOR_DATA_TOGGLE$1 = '[data-bs-toggle="offcanvas"]';
+const SELECTOR_data_TOGGLE$1 = '[data-bs-toggle="offcanvas"]';
 /**
  * ------------------------------------------------------------------------
  * Class Definition
@@ -3295,7 +3295,7 @@ class Offcanvas extends BaseComponent {
 
   _getConfig(config) {
     config = { ...Default$4,
-      ...Manipulator.getDataAttributes(this._element),
+      ...Manipulator.getdataAttributes(this._element),
       ...(typeof config === 'object' ? config : {})
     };
     typeCheckConfig(NAME$5, config, DefaultType$4);
@@ -3346,12 +3346,12 @@ class Offcanvas extends BaseComponent {
 }
 /**
  * ------------------------------------------------------------------------
- * Data Api implementation
+ * data Api implementation
  * ------------------------------------------------------------------------
  */
 
 
-EventHandler.on(document, EVENT_CLICK_DATA_API$1, SELECTOR_DATA_TOGGLE$1, function (event) {
+EventHandler.on(document, EVENT_CLICK_data_API$1, SELECTOR_data_TOGGLE$1, function (event) {
   const target = getElementFromSelector(this);
 
   if (['A', 'AREA'].includes(this.tagName)) {
@@ -3378,7 +3378,7 @@ EventHandler.on(document, EVENT_CLICK_DATA_API$1, SELECTOR_DATA_TOGGLE$1, functi
   const data = Offcanvas.getOrCreateInstance(target);
   data.toggle(this);
 });
-EventHandler.on(window, EVENT_LOAD_DATA_API$1, () => SelectorEngine.find(OPEN_SELECTOR).forEach(el => Offcanvas.getOrCreateInstance(el).show()));
+EventHandler.on(window, EVENT_LOAD_data_API$1, () => SelectorEngine.find(OPEN_SELECTOR).forEach(el => Offcanvas.getOrCreateInstance(el).show()));
 enableDismissTrigger(Offcanvas);
 /**
  * ------------------------------------------------------------------------
@@ -3409,14 +3409,14 @@ const SAFE_URL_PATTERN = /^(?:(?:https?|mailto|ftp|tel|file):|[^#&/:?]*(?:[#/?]|
  * Shoutout to Angular 7 https://github.com/angular/angular/blob/7.2.4/packages/core/src/sanitization/url_sanitizer.ts
  */
 
-const DATA_URL_PATTERN = /^data:(?:image\/(?:bmp|gif|jpeg|jpg|png|tiff|webp)|video\/(?:mpeg|mp4|ogg|webm)|audio\/(?:mp3|oga|ogg|opus));base64,[\d+/a-z]+=*$/i;
+const data_URL_PATTERN = /^data:(?:image\/(?:bmp|gif|jpeg|jpg|png|tiff|webp)|video\/(?:mpeg|mp4|ogg|webm)|audio\/(?:mp3|oga|ogg|opus));base64,[\d+/a-z]+=*$/i;
 
 const allowedAttribute = (attr, allowedAttributeList) => {
   const attrName = attr.nodeName.toLowerCase();
 
   if (allowedAttributeList.includes(attrName)) {
     if (uriAttrs.has(attrName)) {
-      return Boolean(SAFE_URL_PATTERN.test(attr.nodeValue) || DATA_URL_PATTERN.test(attr.nodeValue));
+      return Boolean(SAFE_URL_PATTERN.test(attr.nodeValue) || data_URL_PATTERN.test(attr.nodeValue));
     }
 
     return true;
@@ -3514,8 +3514,8 @@ function sanitizeHtml(unsafeHtml, allowList, sanitizeFn) {
  */
 
 const NAME$4 = 'tooltip';
-const DATA_KEY$4 = 'bs.tooltip';
-const EVENT_KEY$4 = `.${DATA_KEY$4}`;
+const data_KEY$4 = 'bs.tooltip';
+const EVENT_KEY$4 = `.${data_KEY$4}`;
 const CLASS_PREFIX$1 = 'bs-tooltip';
 const DISALLOWED_ATTRIBUTES = new Set(['sanitize', 'allowList', 'sanitizeFn']);
 const DefaultType$3 = {
@@ -3720,7 +3720,7 @@ class Tooltip extends BaseComponent {
     const {
       container
     } = this._config;
-    Data.set(tip, this.constructor.DATA_KEY, this);
+    data.set(tip, this.constructor.data_KEY, this);
 
     if (!this._element.ownerDocument.documentElement.contains(this.tip)) {
       container.append(tip);
@@ -3923,7 +3923,7 @@ class Tooltip extends BaseComponent {
     }
 
     if (typeof offset === 'function') {
-      return popperData => offset(popperData, this._element);
+      return popperdata => offset(popperdata, this._element);
     }
 
     return offset;
@@ -4093,7 +4093,7 @@ class Tooltip extends BaseComponent {
   }
 
   _getConfig(config) {
-    const dataAttributes = Manipulator.getDataAttributes(this._element);
+    const dataAttributes = Manipulator.getdataAttributes(this._element);
     Object.keys(dataAttributes).forEach(dataAttr => {
       if (DISALLOWED_ATTRIBUTES.has(dataAttr)) {
         delete dataAttributes[dataAttr];
@@ -4158,10 +4158,10 @@ class Tooltip extends BaseComponent {
     return CLASS_PREFIX$1;
   }
 
-  _handlePopperPlacementChange(popperData) {
+  _handlePopperPlacementChange(popperdata) {
     const {
       state
-    } = popperData;
+    } = popperdata;
 
     if (!state) {
       return;
@@ -4213,8 +4213,8 @@ defineJQueryPlugin(Tooltip);
  */
 
 const NAME$3 = 'popover';
-const DATA_KEY$3 = 'bs.popover';
-const EVENT_KEY$3 = `.${DATA_KEY$3}`;
+const data_KEY$3 = 'bs.popover';
+const EVENT_KEY$3 = `.${data_KEY$3}`;
 const CLASS_PREFIX = 'bs-popover';
 const Default$2 = { ...Tooltip.Default,
   placement: 'right',
@@ -4323,9 +4323,9 @@ defineJQueryPlugin(Popover);
  */
 
 const NAME$2 = 'scrollspy';
-const DATA_KEY$2 = 'bs.scrollspy';
-const EVENT_KEY$2 = `.${DATA_KEY$2}`;
-const DATA_API_KEY$1 = '.data-api';
+const data_KEY$2 = 'bs.scrollspy';
+const EVENT_KEY$2 = `.${data_KEY$2}`;
+const data_API_KEY$1 = '.data-api';
 const Default$1 = {
   offset: 10,
   method: 'auto',
@@ -4338,10 +4338,10 @@ const DefaultType$1 = {
 };
 const EVENT_ACTIVATE = `activate${EVENT_KEY$2}`;
 const EVENT_SCROLL = `scroll${EVENT_KEY$2}`;
-const EVENT_LOAD_DATA_API = `load${EVENT_KEY$2}${DATA_API_KEY$1}`;
+const EVENT_LOAD_data_API = `load${EVENT_KEY$2}${data_API_KEY$1}`;
 const CLASS_NAME_DROPDOWN_ITEM = 'dropdown-item';
 const CLASS_NAME_ACTIVE$1 = 'active';
-const SELECTOR_DATA_SPY = '[data-bs-spy="scroll"]';
+const SELECTOR_data_SPY = '[data-bs-spy="scroll"]';
 const SELECTOR_NAV_LIST_GROUP$1 = '.nav, .list-group';
 const SELECTOR_NAV_LINKS = '.nav-link';
 const SELECTOR_NAV_ITEMS = '.nav-item';
@@ -4418,7 +4418,7 @@ class ScrollSpy extends BaseComponent {
 
   _getConfig(config) {
     config = { ...Default$1,
-      ...Manipulator.getDataAttributes(this._element),
+      ...Manipulator.getdataAttributes(this._element),
       ...(typeof config === 'object' && config ? config : {})
     };
     config.target = getElement(config.target) || document.documentElement;
@@ -4528,13 +4528,13 @@ class ScrollSpy extends BaseComponent {
 }
 /**
  * ------------------------------------------------------------------------
- * Data Api implementation
+ * data Api implementation
  * ------------------------------------------------------------------------
  */
 
 
-EventHandler.on(window, EVENT_LOAD_DATA_API, () => {
-  SelectorEngine.find(SELECTOR_DATA_SPY).forEach(spy => new ScrollSpy(spy));
+EventHandler.on(window, EVENT_LOAD_data_API, () => {
+  SelectorEngine.find(SELECTOR_data_SPY).forEach(spy => new ScrollSpy(spy));
 });
 /**
  * ------------------------------------------------------------------------
@@ -4558,14 +4558,14 @@ defineJQueryPlugin(ScrollSpy);
  */
 
 const NAME$1 = 'tab';
-const DATA_KEY$1 = 'bs.tab';
-const EVENT_KEY$1 = `.${DATA_KEY$1}`;
-const DATA_API_KEY = '.data-api';
+const data_KEY$1 = 'bs.tab';
+const EVENT_KEY$1 = `.${data_KEY$1}`;
+const data_API_KEY = '.data-api';
 const EVENT_HIDE$1 = `hide${EVENT_KEY$1}`;
 const EVENT_HIDDEN$1 = `hidden${EVENT_KEY$1}`;
 const EVENT_SHOW$1 = `show${EVENT_KEY$1}`;
 const EVENT_SHOWN$1 = `shown${EVENT_KEY$1}`;
-const EVENT_CLICK_DATA_API = `click${EVENT_KEY$1}${DATA_API_KEY}`;
+const EVENT_CLICK_data_API = `click${EVENT_KEY$1}${data_API_KEY}`;
 const CLASS_NAME_DROPDOWN_MENU = 'dropdown-menu';
 const CLASS_NAME_ACTIVE = 'active';
 const CLASS_NAME_FADE$1 = 'fade';
@@ -4574,7 +4574,7 @@ const SELECTOR_DROPDOWN = '.dropdown';
 const SELECTOR_NAV_LIST_GROUP = '.nav, .list-group';
 const SELECTOR_ACTIVE = '.active';
 const SELECTOR_ACTIVE_UL = ':scope > li > .active';
-const SELECTOR_DATA_TOGGLE = '[data-bs-toggle="tab"], [data-bs-toggle="pill"], [data-bs-toggle="list"]';
+const SELECTOR_data_TOGGLE = '[data-bs-toggle="tab"], [data-bs-toggle="pill"], [data-bs-toggle="list"]';
 const SELECTOR_DROPDOWN_TOGGLE = '.dropdown-toggle';
 const SELECTOR_DROPDOWN_ACTIVE_CHILD = ':scope > .dropdown-menu .active';
 /**
@@ -4717,12 +4717,12 @@ class Tab extends BaseComponent {
 }
 /**
  * ------------------------------------------------------------------------
- * Data Api implementation
+ * data Api implementation
  * ------------------------------------------------------------------------
  */
 
 
-EventHandler.on(document, EVENT_CLICK_DATA_API, SELECTOR_DATA_TOGGLE, function (event) {
+EventHandler.on(document, EVENT_CLICK_data_API, SELECTOR_data_TOGGLE, function (event) {
   if (['A', 'AREA'].includes(this.tagName)) {
     event.preventDefault();
   }
@@ -4756,8 +4756,8 @@ defineJQueryPlugin(Tab);
  */
 
 const NAME = 'toast';
-const DATA_KEY = 'bs.toast';
-const EVENT_KEY = `.${DATA_KEY}`;
+const data_KEY = 'bs.toast';
+const EVENT_KEY = `.${data_KEY}`;
 const EVENT_MOUSEOVER = `mouseover${EVENT_KEY}`;
 const EVENT_MOUSEOUT = `mouseout${EVENT_KEY}`;
 const EVENT_FOCUSIN = `focusin${EVENT_KEY}`;
@@ -4885,7 +4885,7 @@ class Toast extends BaseComponent {
 
   _getConfig(config) {
     config = { ...Default,
-      ...Manipulator.getDataAttributes(this._element),
+      ...Manipulator.getdataAttributes(this._element),
       ...(typeof config === 'object' && config ? config : {})
     };
     typeCheckConfig(NAME, config, this.constructor.DefaultType);

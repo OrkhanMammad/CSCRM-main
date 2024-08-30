@@ -91,7 +91,7 @@
                 replace = replaceAttrValue ? $.parseJSON(replaceAttrValue) : null;
 
             container.addClass("field-validation-valid").removeClass("field-validation-error");
-            error.removeData("unobtrusiveContainer");
+            error.removedata("unobtrusiveContainer");
 
             if (replace) {
                 container.empty();
@@ -110,7 +110,7 @@
         try {
             $form.data("validator").resetForm();
         } finally {
-            $form.removeData(key);
+            $form.removedata(key);
         }
 
         $form.find(".validation-summary-errors")
@@ -119,9 +119,9 @@
         $form.find(".field-validation-error")
             .addClass("field-validation-valid")
             .removeClass("field-validation-error")
-            .removeData("unobtrusiveContainer")
+            .removedata("unobtrusiveContainer")
             .find(">*")  // If we were using valmsg-replace, get the underlying error
-            .removeData("unobtrusiveContainer");
+            .removedata("unobtrusiveContainer");
     }
 
     function validationInfo(form) {

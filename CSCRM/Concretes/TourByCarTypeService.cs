@@ -1,6 +1,6 @@
 ﻿using CSCRM.Abstractions;
 using CSCRM.Areas.Manage.Controllers;
-using CSCRM.DataAccessLayers;
+using CSCRM.dataAccessLayers;
 using CSCRM.Models;
 using CSCRM.Models.ResponseTypes;
 using CSCRM.ViewModels.TourCarVMs;
@@ -62,7 +62,7 @@ namespace CSCRM.Concretes
 
                     return new ResponseForTourByCarPage
                     {
-                        Data = new TourCarPageMainVM(),
+                        data = new TourCarPageMainVM(),
                         Success = false,
                         StatusCode = "404",
                         Message = "No Tour Found"
@@ -100,7 +100,7 @@ namespace CSCRM.Concretes
 
                 return new ResponseForTourByCarPage
                 {
-                    Data = tourCarPageMainVM,
+                    data = tourCarPageMainVM,
                     Success = true,
                     StatusCode = "200"
                 };
@@ -111,7 +111,7 @@ namespace CSCRM.Concretes
 
                 return new ResponseForTourByCarPage
                 {
-                    Data = new TourCarPageMainVM(),
+                    data = new TourCarPageMainVM(),
                     Success = false,
                     StatusCode = "500",
                     Message = "Unhandled error occurred"
@@ -163,7 +163,7 @@ namespace CSCRM.Concretes
 
                     return new ResponseForTourByCarPage
                     {
-                        Data = new TourCarPageMainVM(),
+                        data = new TourCarPageMainVM(),
                         Success = false,
                         StatusCode = "404",
                         Message = "No Tour Found"
@@ -201,7 +201,7 @@ namespace CSCRM.Concretes
 
                 return new ResponseForTourByCarPage
                 {
-                    Data = tourCarPageMainVM,
+                    data = tourCarPageMainVM,
                     Success = true,
                     StatusCode = "200"
                 };
@@ -212,7 +212,7 @@ namespace CSCRM.Concretes
 
                 return new ResponseForTourByCarPage
                 {
-                    Data = new TourCarPageMainVM(),
+                    data = new TourCarPageMainVM(),
                     Success = false,
                     StatusCode = "500",
                     Message = "Unhandled error occurred"
@@ -233,7 +233,7 @@ namespace CSCRM.Concretes
 
                     return new ResponseForTourByCarPage
                     {
-                        Data = new TourCarPageMainVM(),
+                        data = new TourCarPageMainVM(),
                         Success = false,
                         StatusCode = "404",
                         Message = "Tour Could Not Be Found"
@@ -279,7 +279,7 @@ namespace CSCRM.Concretes
 
                     return new ResponseForTourByCarPage
                     {
-                        Data = new TourCarPageMainVM(),
+                        data = new TourCarPageMainVM(),
                         Success = false,
                         StatusCode = "404",
                         Message = "No Tour Found"
@@ -315,7 +315,7 @@ namespace CSCRM.Concretes
 
                 return new ResponseForTourByCarPage
                 {
-                    Data = tourCarPageMainVM,
+                    data = tourCarPageMainVM,
                     Success = true,
                     StatusCode = "200",
                     Message = "Tour Prices Updated Successfully"
@@ -327,7 +327,7 @@ namespace CSCRM.Concretes
 
                 return new ResponseForTourByCarPage
                 {
-                    Data = new TourCarPageMainVM(),
+                    data = new TourCarPageMainVM(),
                     Success = false,
                     StatusCode = "500",
                     Message = "Unhandled Error Occurred"

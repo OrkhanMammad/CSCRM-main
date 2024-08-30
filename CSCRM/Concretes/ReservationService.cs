@@ -1,5 +1,5 @@
 ﻿using CSCRM.Abstractions;
-using CSCRM.DataAccessLayers;
+using CSCRM.dataAccessLayers;
 using CSCRM.Models;
 using CSCRM.Models.ResponseTypes;
 using CSCRM.ViewModels.ClientOrdersVM;
@@ -73,7 +73,7 @@ namespace CSCRM.Concretes
 
                     return new BaseResponse
                     {
-                        Data = reservation,
+                        data = reservation,
                         Message = "Confirmation Numbers Added Successfully",
                         StatusCode = "200",
                         Success = true
@@ -85,7 +85,7 @@ namespace CSCRM.Concretes
 
                     return new BaseResponse
                     {
-                        Data = new GetReservationVM(),
+                        data = new GetReservationVM(),
                         Success = false,
                         Message = "Confirmation Numbers Added, But Reservation Could not be found",
                         StatusCode = "404",
@@ -98,7 +98,7 @@ namespace CSCRM.Concretes
 
                 return new BaseResponse
                 {
-                    Data = new GetReservationVM(),
+                    data = new GetReservationVM(),
                     Message = "Unhandled Error Occurred",
                     StatusCode = "500",
                     Success = false
@@ -140,7 +140,7 @@ namespace CSCRM.Concretes
 
                     return new BaseResponse
                     {
-                        Data = new List<GetReservationVM>(),
+                        data = new List<GetReservationVM>(),
                         Message = "Hotel Orders Could Not Be Found",
                         StatusCode = "404",
                         Success = false
@@ -155,7 +155,7 @@ namespace CSCRM.Concretes
 
                     return new BaseResponse
                     {
-                        Data = Reservations,
+                        data = Reservations,
                         StatusCode = "200",
                         Success = true,
                         PageIndex = pageIndex,
@@ -169,7 +169,7 @@ namespace CSCRM.Concretes
 
                 return new BaseResponse
                 {
-                    Data = new List<GetReservationVM>(),
+                    data = new List<GetReservationVM>(),
                     Message = "Unhandled Error Occurred",
                     StatusCode = "500",
                     Success = false
@@ -206,7 +206,7 @@ namespace CSCRM.Concretes
 
                     return new BaseResponse
                     {
-                        Data = new GetReservationVM(),
+                        data = new GetReservationVM(),
                         Message = "Hotel Order Could Not Be Found",
                         StatusCode = "404",
                         Success = false
@@ -218,7 +218,7 @@ namespace CSCRM.Concretes
 
                     return new BaseResponse
                     {
-                        Data = reservation,
+                        data = reservation,
                         StatusCode = "200",
                         Success = true
                     };
@@ -230,7 +230,7 @@ namespace CSCRM.Concretes
 
                 return new BaseResponse
                 {
-                    Data = new GetReservationVM(),
+                    data = new GetReservationVM(),
                     Message = "Unhandled Error Occurred",
                     StatusCode = "500",
                     Success = false

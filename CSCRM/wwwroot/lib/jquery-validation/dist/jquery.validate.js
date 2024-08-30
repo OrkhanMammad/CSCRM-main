@@ -564,7 +564,7 @@ $.extend( $.validator, {
 			this.prepareForm();
 			this.hideErrors();
 			var elements = this.elements()
-				.removeData( "previousValue" )
+				.removedata( "previousValue" )
 				.removeAttr( "aria-invalid" );
 
 			this.resetElements( elements );
@@ -837,7 +837,7 @@ $.extend( $.validator, {
 		// Return the custom message for the given element and validation method
 		// specified in the element's HTML5 data attribute
 		// return the generic message if present and no method specific message is present
-		customDataMessage: function( element, method ) {
+		customdataMessage: function( element, method ) {
 			return $( element ).data( "msg" + method.charAt( 0 ).toUpperCase() +
 				method.substring( 1 ).toLowerCase() ) || $( element ).data( "msg" );
 		},
@@ -874,7 +874,7 @@ $.extend( $.validator, {
 
 			var message = this.findDefined(
 					this.customMessage( element.name, rule.method ),
-					this.customDataMessage( element, rule.method ),
+					this.customdataMessage( element, rule.method ),
 
 					// 'title' is never undefined, so handle empty string as undefined
 					!this.settings.ignoreTitle && element.title || undefined,
@@ -1164,7 +1164,7 @@ $.extend( $.validator, {
 
 			$( this.currentForm )
 				.off( ".validate" )
-				.removeData( "validator" )
+				.removedata( "validator" )
 				.find( ".validate-equalTo-blur" )
 					.off( ".validate-equalTo" )
 					.removeClass( "validate-equalTo-blur" )
@@ -1567,7 +1567,7 @@ $.extend( $.validator, {
 			method = typeof method === "string" && method || "remote";
 
 			var previous = this.previousValue( element, method ),
-				validator, data, optionDataString;
+				validator, data, optiondataString;
 
 			if ( !this.settings.messages[ element.name ] ) {
 				this.settings.messages[ element.name ] = {};
@@ -1576,12 +1576,12 @@ $.extend( $.validator, {
 			this.settings.messages[ element.name ][ method ] = previous.message;
 
 			param = typeof param === "string" && { url: param } || param;
-			optionDataString = $.param( $.extend( { data: value }, param.data ) );
-			if ( previous.old === optionDataString ) {
+			optiondataString = $.param( $.extend( { data: value }, param.data ) );
+			if ( previous.old === optiondataString ) {
 				return previous.valid;
 			}
 
-			previous.old = optionDataString;
+			previous.old = optiondataString;
 			validator = this;
 			this.startRequest( element );
 			data = {};

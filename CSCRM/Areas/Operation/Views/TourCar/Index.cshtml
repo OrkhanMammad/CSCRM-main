@@ -11,11 +11,11 @@
     <div class="tour-car-types-table-container">
         <table class="tour-car-types-table">
             <thead class="tour-car-types-thead">
-                @if (Model.Data.CarIdNameVM.Any())
+                @if (Model.data.CarIdNameVM.Any())
                 {
                     <tr>
                         <th></th>
-                        @foreach (GetCarIdNameVM car in Model.Data.CarIdNameVM)
+                        @foreach (GetCarIdNameVM car in Model.data.CarIdNameVM)
                         {
                             <th>@car.Name</th>
                         }
@@ -26,11 +26,11 @@
             </thead>
             <tbody>
                 
-                @foreach (GetTourCarVM tourCarVM in Model.Data.TourCarVM)
+                @foreach (GetTourCarVM tourCarVM in Model.data.TourCarVM)
                 {
                     <tr>
                 <td>@tourCarVM.TourName</td>
-                    @foreach (GetCarIdNameVM car in Model.Data.CarIdNameVM)
+                    @foreach (GetCarIdNameVM car in Model.data.CarIdNameVM)
                     {
                     <td>@(tourCarVM.CarPrices.ContainsKey(car.Name) ? @tourCarVM.CarPrices[car.Name] : ("N/A"))</td>
                     }

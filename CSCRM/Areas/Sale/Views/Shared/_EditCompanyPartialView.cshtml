@@ -18,13 +18,13 @@
         </thead>
         <tbody>
             <tr>
-                <td><input id="company-edit-name-input" type="text" class="company-edit-page-input" value="@Model.Data.Name"></td>
-                <td><input id="company-edit-contactName-input" type="text" class="company-edit-page-input" value="@Model.Data.ContactPerson"></td>
-                <td><input id="company-edit-address-input" type="text" class="company-edit-page-input" value="@Model.Data.Address"></td>
-                <td><input id="company-edit-email-input" type="text" class="company-edit-page-input" value="@Model.Data.Email"></td>
-                <td><input id="company-edit-phone-input" type="text" class="company-edit-page-input" value="@Model.Data.Phone"></td>
+                <td><input id="company-edit-name-input" type="text" class="company-edit-page-input" value="@Model.data.Name"></td>
+                <td><input id="company-edit-contactName-input" type="text" class="company-edit-page-input" value="@Model.data.ContactPerson"></td>
+                <td><input id="company-edit-address-input" type="text" class="company-edit-page-input" value="@Model.data.Address"></td>
+                <td><input id="company-edit-email-input" type="text" class="company-edit-page-input" value="@Model.data.Email"></td>
+                <td><input id="company-edit-phone-input" type="text" class="company-edit-page-input" value="@Model.data.Phone"></td>
                 <td>
-                    <button onclick="editCompany(@Model.Data.Id)" id="updateCompanyBtn" class="company-edit-page-company-btn company-edit-page-company-btn-primary">Update Company</button>
+                    <button onclick="editCompany(@Model.data.Id)" id="updateCompanyBtn" class="company-edit-page-company-btn company-edit-page-company-btn-primary">Update Company</button>
                 </td>
             </tr>
         </tbody>

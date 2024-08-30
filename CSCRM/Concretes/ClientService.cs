@@ -1,5 +1,5 @@
 ﻿using CSCRM.Abstractions;
-using CSCRM.DataAccessLayers;
+using CSCRM.dataAccessLayers;
 using CSCRM.Models;
 using CSCRM.Models.ResponseTypes;
 using CSCRM.ViewModels.ClientOrdersVM;
@@ -182,7 +182,7 @@ namespace CSCRM.Concretes
 
                     return new BaseResponse
                     {
-                        Data = clientsPageMainVm,
+                        data = clientsPageMainVm,
                         Message = "No Client Found",
                         StatusCode = "404",
                         Success = false,
@@ -196,7 +196,7 @@ namespace CSCRM.Concretes
 
                 return new BaseResponse
                 {
-                    Data = clientsPageMainVm,
+                    data = clientsPageMainVm,
                     StatusCode = "200",
                     Success = false,
                     PageIndex = pageIndex,
@@ -209,7 +209,7 @@ namespace CSCRM.Concretes
 
                 return new BaseResponse
                 {
-                    Data = new ClientsPageMainVm(),
+                    data = new ClientsPageMainVm(),
                     Message = $"Unhandled Error Occured",
                     StatusCode = "500",
                     Success = false,
@@ -234,7 +234,7 @@ namespace CSCRM.Concretes
 
                 return new BaseResponse
                 {
-                    Data = clientsPageMainVm,
+                    data = clientsPageMainVm,
                     Message = "Invoice Code, Mail Code, Client Name and Client Surname are REQUIRED",
                     StatusCode = "400",
                     Success = false,
@@ -259,7 +259,7 @@ namespace CSCRM.Concretes
 
                     return new BaseResponse
                     {
-                        Data = clientsPageMainVm,
+                        data = clientsPageMainVm,
                         Message = $"Client By Invoice Code({clientVM.InvCode}) is already exists",
                         StatusCode = "409",
                         Success = false,
@@ -282,7 +282,7 @@ namespace CSCRM.Concretes
 
                     return new BaseResponse
                     {
-                        Data = clientsPageMainVm,
+                        data = clientsPageMainVm,
                         Message = $"Client By Mail Code({clientVM.MailCode}) is already exists",
                         StatusCode = "409",
                         Success = false,
@@ -330,7 +330,7 @@ namespace CSCRM.Concretes
 
                 return new BaseResponse
                 {
-                    Data = clientsPageMain,
+                    data = clientsPageMain,
                     StatusCode = "201",
                     Message = "New Client Added",
                     Success = true,
@@ -344,7 +344,7 @@ namespace CSCRM.Concretes
 
                 return new BaseResponse
                 {
-                    Data = new ClientsPageMainVm(),
+                    data = new ClientsPageMainVm(),
                     Message = "Unhandled Error Occured",
                     StatusCode = "500",
                     Success = false,
@@ -371,7 +371,7 @@ namespace CSCRM.Concretes
 
                     return new BaseResponse
                     {
-                        Data = clientsPageMainVm,
+                        data = clientsPageMainVm,
                         StatusCode = "404",
                         Message = "Client by its property could not found",
                         Success = false,
@@ -396,7 +396,7 @@ namespace CSCRM.Concretes
 
                 return new BaseResponse
                 {
-                    Data = clientsPageMain,
+                    data = clientsPageMain,
                     StatusCode = "203",
                     Message = "Client Deleted Successfully",
                     Success = true,
@@ -411,7 +411,7 @@ namespace CSCRM.Concretes
 
                 return new BaseResponse
                 {
-                    Data = new ClientsPageMainVm(),
+                    data = new ClientsPageMainVm(),
                     StatusCode = "500",
                     Message = "Unhandled error occurred",
                     Success = false,
@@ -431,7 +431,7 @@ namespace CSCRM.Concretes
 
                     return new BaseResponse
                     {
-                        Data = new EditClientInfoPageMainVM(),
+                        data = new EditClientInfoPageMainVM(),
                         Success = false,
                         Message = "Client By Its Property Could Not Found",
                         StatusCode = "404"
@@ -476,7 +476,7 @@ namespace CSCRM.Concretes
 
                 return new BaseResponse
                 {
-                    Data = editClientInfoPageMain,
+                    data = editClientInfoPageMain,
                     StatusCode = "200",
                     Success = true,
                 };
@@ -488,7 +488,7 @@ namespace CSCRM.Concretes
 
                 return new BaseResponse
                 {
-                    Data = new EditClientInfoPageMainVM(),
+                    data = new EditClientInfoPageMainVM(),
                     Success = false,
                     Message = "Unhandled error occurred",
                     StatusCode = "500"
@@ -511,7 +511,7 @@ namespace CSCRM.Concretes
 
                 BaseResponse errorResponse = new BaseResponse
                 {
-                    Data = editClientInfoPageMain,
+                    data = editClientInfoPageMain,
                     Message = "",
                     StatusCode = "400",
                     Success = false,
@@ -582,7 +582,7 @@ namespace CSCRM.Concretes
 
                 return new BaseResponse
                 {
-                    Data = editClientInfoPageMain,
+                    data = editClientInfoPageMain,
                     Message = "Client's Info Updated Successfully",
                     StatusCode = "203",
                     Success = true,
@@ -594,7 +594,7 @@ namespace CSCRM.Concretes
 
                 return new BaseResponse
                 {
-                    Data = new EditClientInfoPageMainVM(),
+                    data = new EditClientInfoPageMainVM(),
                     Message = "Unhandled Error Occurred",
                     StatusCode = "500",
                     Success = false,
@@ -663,7 +663,7 @@ namespace CSCRM.Concretes
                 {
                     return new BaseResponse
                     {
-                        Data = new HotelTourRestaurantInclusiveOrdersTotal(),
+                        data = new HotelTourRestaurantInclusiveOrdersTotal(),
                         Message = "Client Could Not Found By Its Property",
                         StatusCode = "404",
                         Success = false,
@@ -768,7 +768,7 @@ namespace CSCRM.Concretes
 
                 return new BaseResponse
                 {
-                    Data = hotelTourRestaurantInclusiveOrders,
+                    data = hotelTourRestaurantInclusiveOrders,
                 };
             }
             catch (Exception ex)
@@ -778,7 +778,7 @@ namespace CSCRM.Concretes
 
                 return new BaseResponse
                 {
-                    Data = new HotelTourRestaurantInclusiveOrdersTotal(),
+                    data = new HotelTourRestaurantInclusiveOrdersTotal(),
                     Message = "Unhandled Error Occurred",
                     StatusCode = "500",
                     Success = false
@@ -1132,7 +1132,7 @@ namespace CSCRM.Concretes
                     return new TourOrdersSectionVM
                     {
                         TourOrders = new List<GetTourOrdersVM>(),
-                        Message = "Insert Datas in a Right Way",
+                        Message = "Insert datas in a Right Way",
                         StatusCode = "404",
                         Success = false,
                         Tours = new List<GetTourIdNameVM>(),
@@ -1341,7 +1341,7 @@ namespace CSCRM.Concretes
                     return new RestaurantOrdersSectionVM
                     {
                         RestaurantOrders = new List<GetRestaurantOrdersVM>(),
-                        Message = "Insert Data in a Right Way",
+                        Message = "Insert data in a Right Way",
                         StatusCode = "404",
                         Success = false,
                         RestaurantNames = new List<string>(),
@@ -1542,7 +1542,7 @@ namespace CSCRM.Concretes
                     return new InclusiveOrdersSectionVM
                     {
                         InclusiveOrders = new List<GetInclusiveOrdersVM>(),
-                        Message = "Insert Data in the Right Way",
+                        Message = "Insert data in the Right Way",
                         StatusCode = "404",
                         Success = false,
                         InclusiveNames = new List<string>(),
@@ -1670,7 +1670,7 @@ namespace CSCRM.Concretes
                     _logger.LogInformation("Client orders fetched successfully. PageIndex: {PageIndex}, TotalClients: {ClientsCount}", pageIndex, clientsCount);
                     return new BaseResponse
                     {
-                        Data = clientOrders,
+                        data = clientOrders,
                         PageIndex = pageIndex,
                         StatusCode = "200",
                         PageSize = pageSize,
@@ -1682,7 +1682,7 @@ namespace CSCRM.Concretes
                     _logger.LogInformation("No client orders found for the given page index. PageIndex: {PageIndex}", pageIndex);
                     return new BaseResponse
                     {
-                        Data = clientOrders,
+                        data = clientOrders,
                         PageIndex = 1,
                         PageSize = 1,
                         StatusCode = "404",
@@ -1698,7 +1698,7 @@ namespace CSCRM.Concretes
 
                 return new BaseResponse
                 {
-                    Data = new List<GetClientOrdersForConfirmationVM>(),
+                    data = new List<GetClientOrdersForConfirmationVM>(),
                     Success = false,
                     Message = "Unhandled Error Occurred",
                     PageIndex = 1,
@@ -1772,7 +1772,7 @@ namespace CSCRM.Concretes
                     _logger.LogWarning("Client with ID {ClientId} not found", clientId);
                     return new BaseResponse
                     {
-                        Data = new GetClientOrdersForVoucherVM(),
+                        data = new GetClientOrdersForVoucherVM(),
                         Message = "Client could not be found by its property",
                         StatusCode = "404",
                         Success = false
@@ -1801,7 +1801,7 @@ namespace CSCRM.Concretes
 
                 return new BaseResponse
                 {
-                    Data = clientOrders,
+                    data = clientOrders,
                     Success = true,
                     StatusCode = "200"
                 };
@@ -1813,7 +1813,7 @@ namespace CSCRM.Concretes
 
                 return new BaseResponse
                 {
-                    Data = new GetClientOrdersForVoucherVM(),
+                    data = new GetClientOrdersForVoucherVM(),
                     Success = false,
                     StatusCode = "500",
                     Message = "Unhandled error occurred"
@@ -1880,7 +1880,7 @@ namespace CSCRM.Concretes
                     _logger.LogInformation("No client found for code: {Code}", code);
                     return new BaseResponse
                     {
-                        Data = clientsPageMainVm,
+                        data = clientsPageMainVm,
                         Message = "No Client Found",
                         PageIndex = 1,
                         PageSize = 1,
@@ -1892,7 +1892,7 @@ namespace CSCRM.Concretes
                 _logger.LogInformation("Clients found for code: {Code}", code);
                 return new BaseResponse
                 {
-                    Data = clientsPageMainVm,
+                    data = clientsPageMainVm,
                     Success = true,
                     PageIndex = 1,
                     PageSize = 1,
@@ -1904,7 +1904,7 @@ namespace CSCRM.Concretes
                 _logger.LogError(ex, "Unhandled error occurred while fetching client by MailCode or InvCode: {Code}", code);
                 return new BaseResponse
                 {
-                    Data = new ClientsPageMainVm(),
+                    data = new ClientsPageMainVm(),
                     Message = "Unhandled Error Occurred",
                     PageIndex = 1,
                     PageSize = 1,
@@ -1948,7 +1948,7 @@ namespace CSCRM.Concretes
                         Message = "Hotel Order Could Not Be Found",
                         StatusCode = "404",
                         Success = false,
-                        Data = new EditHotelOrderVM()
+                        data = new EditHotelOrderVM()
                     };
                 }
 
@@ -1960,10 +1960,8 @@ namespace CSCRM.Concretes
                 return new BaseResponse
                 {
                     Success = true,
-                    Data = hotelOrder,
-                    StatusCode = "201",
-                    
-
+                    data = hotelOrder,
+                    StatusCode = "201",                  
                 };
             }
             
@@ -1974,7 +1972,7 @@ namespace CSCRM.Concretes
                 return new BaseResponse
                 {
                     Success = false,
-                    Data = new EditHotelOrderVM(),
+                    data = new EditHotelOrderVM(),
                     StatusCode = "500",
                     Message = "Unhandled error occurred"
                 };
@@ -1991,7 +1989,7 @@ namespace CSCRM.Concretes
                     Success = false,
                     Message = "Invalid Hotel Order ID.",
                     StatusCode = "400",
-                    Data = hotelOrderVM
+                    data = hotelOrderVM
                 };
             }
 
@@ -2008,7 +2006,7 @@ namespace CSCRM.Concretes
                         Success = false,
                         Message = "Hotel Order not found.",
                         StatusCode = "404",
-                        Data = hotelOrderVM
+                        data = hotelOrderVM
                     };
                 }
 
@@ -2040,7 +2038,7 @@ namespace CSCRM.Concretes
 
                 return new BaseResponse
                 {
-                    Data = responseVM,
+                    data = responseVM,
                     Message = "Hotel Order updated successfully.",
                     Success = true,
                     StatusCode = "200"
@@ -2051,7 +2049,7 @@ namespace CSCRM.Concretes
                 _logger.LogError(ex, "An error occurred while updating the hotel order with ID {HotelOrderId}.", hotelOrderVM.HotelOrderId);
                 return new BaseResponse
                 {
-                    Data = hotelOrderVM,
+                    data = hotelOrderVM,
                     Success = false,
                     Message = "An error occurred while updating the hotel order.",
                     StatusCode = "500"
@@ -2084,7 +2082,7 @@ namespace CSCRM.Concretes
                 return new BaseResponse
                 {
 
-                    Data = new EditTourOrderPageMainVm { Cars = Cars, TourOrder = tourOrder, Tours = Tours },
+                    data = new EditTourOrderPageMainVm { Cars = Cars, TourOrder = tourOrder, Tours = Tours },
                     StatusCode = "200",
                     Success = true
                 };
@@ -2094,7 +2092,7 @@ namespace CSCRM.Concretes
                 _logger.LogError(ex, "An error occurred while retrieving tour order with ID {TourOrderId}.", tourOrderId);
                 return new BaseResponse
                 {
-                    Data = new EditTourOrderPageMainVm(),
+                    data = new EditTourOrderPageMainVm(),
                     Message = "Unhandled Error Occured",
                     StatusCode = "500",
                     Success = false
@@ -2113,7 +2111,7 @@ namespace CSCRM.Concretes
                     _logger.LogWarning("Order Could Not Found By Its Property", tourOrder.Id);
                     return new BaseResponse
                     {
-                        Data = new EditTourOrderPageMainVm(),
+                        data = new EditTourOrderPageMainVm(),
                         Message = "Order Could Not Found By Its Property",
                         StatusCode = "404",
                         Success = false
@@ -2139,7 +2137,7 @@ namespace CSCRM.Concretes
                 return new BaseResponse
                 {
 
-                    Data = new EditTourOrderPageMainVm { Cars = Cars, TourOrder = tourOrder, Tours = Tours },
+                    data = new EditTourOrderPageMainVm { Cars = Cars, TourOrder = tourOrder, Tours = Tours },
                     StatusCode = "200",
                     Success = true,
                     Message = "Tour Order Updated Successfully"
@@ -2153,7 +2151,7 @@ namespace CSCRM.Concretes
                 _logger.LogError(ex, "An error occurred");
                 return new BaseResponse
                 {
-                    Data = new EditTourOrderPageMainVm(),
+                    data = new EditTourOrderPageMainVm(),
                     Message = "Unhandled Error Occured",
                     StatusCode = "500",
                     Success = false

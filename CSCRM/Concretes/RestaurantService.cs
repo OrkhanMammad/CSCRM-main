@@ -1,5 +1,5 @@
 ﻿using CSCRM.Abstractions;
-using CSCRM.DataAccessLayers;
+using CSCRM.dataAccessLayers;
 using CSCRM.Models.ResponseTypes;
 using CSCRM.Models;
 using CSCRM.ViewModels.RestaurantVMs;
@@ -75,7 +75,7 @@ namespace CSCRM.Concretes
                         Message = "Restaurant Name cannot be empty",
                         StatusCode = "201",
                         Success = true,
-                        Data = restaurantsInDb,
+                        data = restaurantsInDb,
                         PageIndex = 1,
                         PageSize = pageSize
                     };
@@ -100,7 +100,7 @@ namespace CSCRM.Concretes
                         Message = $"Restaurant {addRestaurantVM.Name} already exists",
                         StatusCode = "201",
                         Success = true,
-                        Data = restaurantsInDb,
+                        data = restaurantsInDb,
                         PageIndex = 1,
                         PageSize = pageSize
                     };
@@ -134,7 +134,7 @@ namespace CSCRM.Concretes
 
                 return new BaseResponse
                 {
-                    Data = restaurants,
+                    data = restaurants,
                     Message = "Restaurant Created Successfully",
                     StatusCode = "201",
                     Success = true,
@@ -150,7 +150,7 @@ namespace CSCRM.Concretes
                     Message = "Restaurant Could Not Be Created Successfully",
                     StatusCode = "500",
                     Success = false,
-                    Data = new List<GetRestaurantVM>()
+                    data = new List<GetRestaurantVM>()
                 };
             }
         }
@@ -171,7 +171,7 @@ namespace CSCRM.Concretes
                     _logger.LogInformation("Successfully fetched restaurants. PageIndex: {PageIndex}, TotalRestaurants: {TotalRestaurants}", pageIndex, restaurantsCount);
                     return new BaseResponse
                     {
-                        Data = restaurants,
+                        data = restaurants,
                         Success = true,
                         StatusCode = "201",
                         PageIndex = pageIndex,
@@ -183,7 +183,7 @@ namespace CSCRM.Concretes
                     _logger.LogWarning("No restaurants found. PageIndex: {PageIndex}", pageIndex);
                     return new BaseResponse
                     {
-                        Data = new List<GetRestaurantVM>(),
+                        data = new List<GetRestaurantVM>(),
                         Message = "No restaurant found",
                         Success = true,
                         StatusCode = "200"
@@ -198,7 +198,7 @@ namespace CSCRM.Concretes
                     StatusCode = "500",
                     Message = "Unhandled Error Occurred",
                     Success = false,
-                    Data = new List<GetRestaurantVM>()
+                    data = new List<GetRestaurantVM>()
                 };
             }
         }
@@ -224,7 +224,7 @@ namespace CSCRM.Concretes
                         Success = false,
                         Message = "Restaurant Could Not Found",
                         StatusCode = "404",
-                        Data = restaurantsInDb,
+                        data = restaurantsInDb,
                         PageIndex = 1,
                         PageSize = pageSize
                     };
@@ -244,7 +244,7 @@ namespace CSCRM.Concretes
                 {
                     Success = true,
                     Message = $"Restaurant {deletingRestaurant.Name} is deleted successfully.",
-                    Data = restaurants,
+                    data = restaurants,
                     StatusCode = "203",
                     PageIndex = 1,
                     PageSize = pageSizeForRestaurants
@@ -259,7 +259,7 @@ namespace CSCRM.Concretes
                     Success = false,
                     StatusCode = "500",
                     Message = "Restaurant Could Not Deleted Successfully",
-                    Data = new List<GetRestaurantVM>()
+                    data = new List<GetRestaurantVM>()
                 };
             }
         }
@@ -281,7 +281,7 @@ namespace CSCRM.Concretes
                         Message = "Restaurant Could Not Found",
                         StatusCode = "404",
                         Success = false,
-                        Data = new EditRestaurantVM()
+                        data = new EditRestaurantVM()
                     };
                 }
 
@@ -306,7 +306,7 @@ namespace CSCRM.Concretes
                 return new BaseResponse
                 {
                     Success = true,
-                    Data = restaurantForEdit,
+                    data = restaurantForEdit,
                     StatusCode = "201"
                 };
             }
@@ -317,7 +317,7 @@ namespace CSCRM.Concretes
                 return new BaseResponse
                 {
                     Success = false,
-                    Data = new EditRestaurantVM(),
+                    data = new EditRestaurantVM(),
                     StatusCode = "500",
                     Message = "Unhandled error occured"
                 };
@@ -336,7 +336,7 @@ namespace CSCRM.Concretes
                     Success = false,
                     Message = "Restaurant name cannot be empty.",
                     StatusCode = "400",
-                    Data = restaurant
+                    data = restaurant
                 };
             }
 
@@ -349,7 +349,7 @@ namespace CSCRM.Concretes
                     Success = false,
                     Message = "Invalid restaurant ID.",
                     StatusCode = "400",
-                    Data = restaurant
+                    data = restaurant
                 };
             }
 
@@ -370,7 +370,7 @@ namespace CSCRM.Concretes
                         Message = $"Restaurant {restaurant.Name} already exists",
                         StatusCode = "201",
                         Success = true,
-                        Data = restaurant
+                        data = restaurant
                     };
                 }
 
@@ -386,7 +386,7 @@ namespace CSCRM.Concretes
                         Success = false,
                         Message = "Restaurant not found.",
                         StatusCode = "404",
-                        Data = restaurant
+                        data = restaurant
                     };
                 }
 
@@ -418,7 +418,7 @@ namespace CSCRM.Concretes
 
                 return new BaseResponse
                 {
-                    Data = restaurantEdited,
+                    data = restaurantEdited,
                     Message = "Restaurant updated successfully.",
                     Success = true,
                     StatusCode = "200"
@@ -430,7 +430,7 @@ namespace CSCRM.Concretes
 
                 return new BaseResponse
                 {
-                    Data = restaurant,
+                    data = restaurant,
                     Success = false,
                     Message = "An unhandled exception occurred.",
                     StatusCode = "500"

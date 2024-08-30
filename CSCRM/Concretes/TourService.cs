@@ -1,5 +1,5 @@
 ﻿using CSCRM.Abstractions;
-using CSCRM.DataAccessLayers;
+using CSCRM.dataAccessLayers;
 using CSCRM.Models;
 using CSCRM.Models.ResponseTypes;
 using CSCRM.ViewModels.ItineraryVMS;
@@ -66,7 +66,7 @@ namespace CSCRM.Concretes
                 return tours.Any()
                     ? new BaseResponse
                     {
-                        Data = tours,
+                        data = tours,
                         Success = true,
                         StatusCode = "200",
                         PageIndex = pageIndex,
@@ -74,7 +74,7 @@ namespace CSCRM.Concretes
                     }
                     : new BaseResponse
                     {
-                        Data = new List<GetTourVM>(),
+                        data = new List<GetTourVM>(),
                         Message = "No tours found",
                         Success = true,
                         StatusCode = "200"
@@ -89,7 +89,7 @@ namespace CSCRM.Concretes
                     StatusCode = "500",
                     Message = "Unhandled error occurred",
                     Success = false,
-                    Data = new List<GetTourVM>()
+                    data = new List<GetTourVM>()
                 };
             }
         }
@@ -110,7 +110,7 @@ namespace CSCRM.Concretes
                         Success = false,
                         Message = "Tour Could Not Found",
                         StatusCode = "404",
-                        Data = new List<GetTourVM>()
+                        data = new List<GetTourVM>()
                     };
                 }
 
@@ -152,7 +152,7 @@ namespace CSCRM.Concretes
                 {
                     Success = true,
                     Message = $"Tour {deletingTour.Name} is deleted successfully.",
-                    Data = tours,
+                    data = tours,
                     PageSize = pageSize,
                     PageIndex = 1
                 };
@@ -165,7 +165,7 @@ namespace CSCRM.Concretes
                     Success = false,
                     StatusCode = "500",
                     Message = "Tour Could Not Deleted Successfully, Unhandled error occurred",
-                    Data = new List<GetTourVM>()
+                    data = new List<GetTourVM>()
                 };
             }
         }
@@ -189,7 +189,7 @@ namespace CSCRM.Concretes
                         Message = "Tour Name cannot be empty",
                         StatusCode = "200",
                         Success = false,
-                        Data = toursInDb,
+                        data = toursInDb,
                         PageIndex = 1,
                         PageSize = pageSize
                     };
@@ -213,7 +213,7 @@ namespace CSCRM.Concretes
                         Message = $"Tour {tourVM.Name} already exists",
                         StatusCode = "200",
                         Success = false,
-                        Data = toursInDb,
+                        data = toursInDb,
                         PageIndex = 1,
                         PageSize = pageSize
                     };
@@ -267,7 +267,7 @@ namespace CSCRM.Concretes
 
                 return new BaseResponse
                 {
-                    Data = tours,
+                    data = tours,
                     Message = "Tour Created Successfully",
                     StatusCode = "201",
                     Success = true,
@@ -283,7 +283,7 @@ namespace CSCRM.Concretes
                     Message = "Tour Could Not Be Created Successfully, Unhandled error occurred",
                     StatusCode = "500",
                     Success = false,
-                    Data = new List<GetTourVM>()
+                    data = new List<GetTourVM>()
                 };
             }
         }
@@ -306,7 +306,7 @@ namespace CSCRM.Concretes
                         Message = "Tour could not be found by its ID",
                         StatusCode = "404",
                         Success = false,
-                        Data = new EditTourVM()
+                        data = new EditTourVM()
                     };
                 }
 
@@ -332,7 +332,7 @@ namespace CSCRM.Concretes
                 return new BaseResponse
                 {
                     Success = true,
-                    Data = tourForEdit,
+                    data = tourForEdit,
                     StatusCode = "200"
                 };
             }
@@ -343,7 +343,7 @@ namespace CSCRM.Concretes
                 return new BaseResponse
                 {
                     Success = false,
-                    Data = new EditTourVM(),
+                    data = new EditTourVM(),
                     StatusCode = "500",
                     Message = "Unhandled error occurred"
                 };
@@ -359,7 +359,7 @@ namespace CSCRM.Concretes
                     Success = false,
                     Message = "Invalid tour ID.",
                     StatusCode = "400",
-                    Data = tour
+                    data = tour
                 };
             }
 
@@ -370,7 +370,7 @@ namespace CSCRM.Concretes
                     Success = false,
                     Message = "Tour name cannot be empty.",
                     StatusCode = "400",
-                    Data = tour
+                    data = tour
                 };
             }
 
@@ -387,7 +387,7 @@ namespace CSCRM.Concretes
                         Message = $"Tour {tour.Name} already exists.",
                         StatusCode = "400",
                         Success = false,
-                        Data = tour
+                        data = tour
                     };
                 }
 
@@ -402,7 +402,7 @@ namespace CSCRM.Concretes
                         Success = false,
                         Message = "Tour not found.",
                         StatusCode = "404",
-                        Data = tour
+                        data = tour
                     };
                 }
 
@@ -448,7 +448,7 @@ namespace CSCRM.Concretes
 
                 return new BaseResponse
                 {
-                    Data = updatedTour,
+                    data = updatedTour,
                     Message = "Tour updated successfully.",
                     Success = true,
                     StatusCode = "200"
@@ -460,7 +460,7 @@ namespace CSCRM.Concretes
 
                 return new BaseResponse
                 {
-                    Data = tour,
+                    data = tour,
                     Success = false,
                     Message = "An unhandled exception occurred.",
                     StatusCode = "500"

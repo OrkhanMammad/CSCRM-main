@@ -8,7 +8,7 @@
         <thead class="tourCarType-edit-page-tour-thead">
             <tr>
                 <th>Tour Name</th>
-                @foreach (var car in Model.Data.CarIdNameVM)
+                @foreach (var car in Model.data.CarIdNameVM)
                 {
                     <th>@car.Name</th>
                 }
@@ -16,13 +16,13 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var tourCar in Model.Data.TourCarVM)
+            @foreach (var tourCar in Model.data.TourCarVM)
             {
                 <tr>
                     <td>
                         @tourCar.TourName
                     </td>
-                    @foreach (var car in Model.Data.CarIdNameVM)
+                    @foreach (var car in Model.data.CarIdNameVM)
                     {
                         <td><input type="number" name="@car.Id" value="@tourCar.CarPrices[car.Name]" min="0" class="tourCarType-edit-page-input" required></td>
 

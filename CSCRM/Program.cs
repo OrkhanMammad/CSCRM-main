@@ -1,6 +1,6 @@
 ﻿using CSCRM.Abstractions;
 using CSCRM.Concretes;
-using CSCRM.DataAccessLayers;
+using CSCRM.dataAccessLayers;
 using CSCRM.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

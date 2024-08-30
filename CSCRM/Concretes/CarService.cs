@@ -1,5 +1,5 @@
 ﻿using CSCRM.Abstractions;
-using CSCRM.DataAccessLayers;
+using CSCRM.dataAccessLayers;
 using CSCRM.Models;
 using CSCRM.Models.ResponseTypes;
 using CSCRM.ViewModels.CarVMs;
@@ -62,7 +62,7 @@ namespace CSCRM.Concretes
 
                     return new BaseResponse
                     {
-                        Data = cars,
+                        data = cars,
                         Success = true,
                         StatusCode = "201",
                         PageIndex = pageIndex,
@@ -75,7 +75,7 @@ namespace CSCRM.Concretes
 
                     return new BaseResponse
                     {
-                        Data = new List<GetCarVM>(),
+                        data = new List<GetCarVM>(),
                         Message = "No car found",
                         Success = true,
                         StatusCode = "200"
@@ -91,7 +91,7 @@ namespace CSCRM.Concretes
                     StatusCode = "404",
                     Message = "Unhandled error occurred",
                     Success = false,
-                    Data = new List<GetCarVM>()
+                    data = new List<GetCarVM>()
                 };
             }
         }
@@ -115,7 +115,7 @@ namespace CSCRM.Concretes
                         Message = "Car Type Name cannot be empty",
                         StatusCode = "400",
                         Success = false,
-                        Data = carsInDb,
+                        data = carsInDb,
                         PageSize = pageSize,
                         PageIndex = 1
                     };
@@ -139,7 +139,7 @@ namespace CSCRM.Concretes
                         Message = $"Car {carVM.Name} already exists",
                         StatusCode = "409",
                         Success = false,
-                        Data = carsInDb,
+                        data = carsInDb,
                         PageSize = pageSize,
                         PageIndex = 1
                     };
@@ -184,7 +184,7 @@ namespace CSCRM.Concretes
 
                 return new BaseResponse
                 {
-                    Data = cars,
+                    data = cars,
                     Message = "Car Type Created Successfully",
                     StatusCode = "201",
                     Success = true,
@@ -201,7 +201,7 @@ namespace CSCRM.Concretes
                     Message = "Car Type Could Not Be Created Successfully, Unhandled error occurred",
                     StatusCode = "500",
                     Success = false,
-                    Data = new List<GetCarVM>()
+                    data = new List<GetCarVM>()
                 };
             }
         }
@@ -229,7 +229,7 @@ namespace CSCRM.Concretes
                         Success = false,
                         Message = "Car Could Not Be Found By Its Property",
                         StatusCode = "404",
-                        Data = carsInDb,
+                        data = carsInDb,
                         PageIndex = 1,
                         PageSize = pageSize
                     };
@@ -268,7 +268,7 @@ namespace CSCRM.Concretes
                 {
                     Success = true,
                     Message = $"Car {deletingCar.Name} is deleted successfully.",
-                    Data = cars,
+                    data = cars,
                     PageIndex = 1,
                     PageSize = pageSizeForCars
                 };
@@ -282,7 +282,7 @@ namespace CSCRM.Concretes
                     Success = false,
                     StatusCode = "500",
                     Message = "Car Could Not Be Deleted Successfully, Unhandled error occurred",
-                    Data = new List<GetCarVM>()
+                    data = new List<GetCarVM>()
                 };
             }
         }
@@ -305,7 +305,7 @@ namespace CSCRM.Concretes
                         Message = "Car Could Not Be Found by Its Property",
                         StatusCode = "404",
                         Success = false,
-                        Data = new EditCarVM()
+                        data = new EditCarVM()
                     };
                 }
 
@@ -321,7 +321,7 @@ namespace CSCRM.Concretes
                 return new BaseResponse
                 {
                     Success = true,
-                    Data = carForEdit,
+                    data = carForEdit,
                     StatusCode = "200"
                 };
             }
@@ -332,7 +332,7 @@ namespace CSCRM.Concretes
                 return new BaseResponse
                 {
                     Success = false,
-                    Data = new EditCarVM(),
+                    data = new EditCarVM(),
                     StatusCode = "500",
                     Message = "Unhandled error occurred"
                 };
@@ -352,7 +352,7 @@ namespace CSCRM.Concretes
                     Success = false,
                     Message = "Invalid car ID.",
                     StatusCode = "400",
-                    Data = car
+                    data = car
                 };
             }
 
@@ -365,7 +365,7 @@ namespace CSCRM.Concretes
                     Success = false,
                     Message = "Car name cannot be empty.",
                     StatusCode = "400",
-                    Data = car
+                    data = car
                 };
             }
 
@@ -385,7 +385,7 @@ namespace CSCRM.Concretes
                         Message = $"Car {car.Name} already exists, please change the name!",
                         StatusCode = "409",
                         Success = false,
-                        Data = car
+                        data = car
                     };
                 }
 
@@ -401,7 +401,7 @@ namespace CSCRM.Concretes
                         Success = false,
                         Message = "Car not found.",
                         StatusCode = "404",
-                        Data = car
+                        data = car
                     };
                 }
 
@@ -422,7 +422,7 @@ namespace CSCRM.Concretes
 
                 return new BaseResponse
                 {
-                    Data = carEdited,
+                    data = carEdited,
                     Message = "Car updated successfully.",
                     Success = true,
                     StatusCode = "200"
@@ -434,7 +434,7 @@ namespace CSCRM.Concretes
 
                 return new BaseResponse
                 {
-                    Data = new EditCarVM(),
+                    data = new EditCarVM(),
                     Success = false,
                     Message = "An unhandled exception occurred.",
                     StatusCode = "500"

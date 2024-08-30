@@ -35,7 +35,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (GetClientVM client in Model.Data.Clients)
+            @foreach (GetClientVM client in Model.data.Clients)
             {
                 <tr>
                     <td>@client.InvCode</td>
@@ -103,7 +103,7 @@
                    />
             <select id="add-carType-input" class="clients-input">
                 <option value="" disabled selected>Car <br /> Type</option>
-                @foreach (var cartype in Model.Data.CarTypes)
+                @foreach (var cartype in Model.data.CarTypes)
                 {
                     <option value="@cartype">@cartype</option>
                 }                
@@ -141,7 +141,7 @@
 
             <select id="add-company-input" class="clients-input" >
                 <option value="" disabled selected>Company</option>
-                @foreach (string company in Model.Data.CompanyNames)
+                @foreach (string company in Model.data.CompanyNames)
                 {
                     <option value="@company">@company</option>
                 }
