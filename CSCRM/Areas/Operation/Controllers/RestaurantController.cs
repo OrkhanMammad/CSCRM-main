@@ -11,7 +11,6 @@ namespace CSCRM.Areas.Operation.Controllers
     [Area("Operation")]
     [Authorize(Roles = "Operation")]
 
-    //[Authorize(Roles = "Developer")]
     public class RestaurantController : Controller
     {
         readonly IRestaurantService _restaurantService;

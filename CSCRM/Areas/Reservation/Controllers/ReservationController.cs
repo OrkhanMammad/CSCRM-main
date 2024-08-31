@@ -1,10 +1,12 @@
 ﻿using CSCRM.Abstractions;
 using CSCRM.ViewModels.ReservationVMs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CSCRM.Areas.Reservation.Controllers
 {
     [Area("Reservation")]
+    [Authorize(Roles = "Reservation")]
     public class ReservationController : Controller
     {
         readonly IReservationService _service;

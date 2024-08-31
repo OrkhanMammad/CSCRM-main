@@ -64,7 +64,7 @@ namespace CSCRM.Concretes
                     {
                         data = cars,
                         Success = true,
-                        StatusCode = "201",
+                        StatusCode = "200",
                         PageIndex = pageIndex,
                         PageSize = pageSize
                     };
@@ -88,7 +88,7 @@ namespace CSCRM.Concretes
 
                 return new BaseResponse
                 {
-                    StatusCode = "404",
+                    StatusCode = "500",
                     Message = "Unhandled error occurred",
                     Success = false,
                     data = new List<GetCarVM>()
@@ -113,7 +113,7 @@ namespace CSCRM.Concretes
                     return new BaseResponse
                     {
                         Message = "Car Type Name cannot be empty",
-                        StatusCode = "400",
+                        StatusCode = "400 Bad Request",
                         Success = false,
                         data = carsInDb,
                         PageSize = pageSize,
@@ -137,7 +137,7 @@ namespace CSCRM.Concretes
                     return new BaseResponse
                     {
                         Message = $"Car {carVM.Name} already exists",
-                        StatusCode = "409",
+                        StatusCode = "409 Conflict",
                         Success = false,
                         data = carsInDb,
                         PageSize = pageSize,
@@ -186,7 +186,7 @@ namespace CSCRM.Concretes
                 {
                     data = cars,
                     Message = "Car Type Created Successfully",
-                    StatusCode = "201",
+                    StatusCode = "201 Created",
                     Success = true,
                     PageIndex = 1,
                     PageSize = pageSizeForCars
