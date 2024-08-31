@@ -49,7 +49,7 @@ function searchClients() {
 
 
 function deleteTourOrder(tourOrderId, clientId) {
-    const confirmDelete = confirm('Are you sure you want to delete this client?');
+    const confirmDelete = confirm('Are you sure you want to delete this order?');
     if (confirmDelete) {
         fetch(`/operation/client/DeleteTourOrderOfClient?clientId=${clientId}&tourOrderId=${tourOrderId}`, {
             method: 'POST',
@@ -112,7 +112,7 @@ function addNewTourOrder(clientId) {
 
 
 function deleteRestaurantOrder(restaurantOrderId, clientId) {
-    const confirmDelete = confirm('Are you sure you want to delete this client?');
+    const confirmDelete = confirm('Are you sure you want to delete this order?');
     if (confirmDelete) {
         fetch(`/operation/client/DeleteRestaurantOrderOfClient?clientId=${clientId}&restaurantOrderId=${restaurantOrderId}`, {
             method: 'POST',

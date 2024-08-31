@@ -889,7 +889,7 @@ function searchClients() {
 
 
 function deleteHotelOrder(hotelOrderId, clientId) {
-    const confirmDelete = confirm('Are you sure you want to delete this client?');
+    const confirmDelete = confirm('Are you sure you want to delete this order?');
     if (confirmDelete) {
         fetch(`/sale/client/DeleteHotelOrderOfClient?clientId=${clientId}&hotelOrderId=${hotelOrderId}`, {
             method: 'POST',
@@ -956,7 +956,7 @@ function addNewHotelOrder(clientId) {
 
 
 function deleteTourOrder(tourOrderId, clientId) {
-    const confirmDelete = confirm('Are you sure you want to delete this client?');
+    const confirmDelete = confirm('Are you sure you want to delete this order?');
     if (confirmDelete) {
         fetch(`/sale/client/DeleteTourOrderOfClient?clientId=${clientId}&tourOrderId=${tourOrderId}`, {
             method: 'POST',
@@ -1082,7 +1082,7 @@ function addNewTourOrder(clientId) {
 
 
 function deleteInclusiveOrder(inclusiveOrderId, clientId) {
-    const confirmDelete = confirm('Are you sure you want to delete this client?');
+    const confirmDelete = confirm('Are you sure you want to delete this order?');
     if (confirmDelete) {
         fetch(`/sale/client/DeleteInclusiveOrderOfClient?clientId=${clientId}&inclusiveOrderId=${inclusiveOrderId}`, {
             method: 'POST',

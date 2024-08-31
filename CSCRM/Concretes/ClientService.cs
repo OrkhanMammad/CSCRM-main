@@ -1735,6 +1735,7 @@ namespace CSCRM.Concretes
                         InclusiveOrderNames = c.InclusiveOrders
                             .Where(io => !io.IsDeleted)
                             .Select(io => io.InclusiveName)
+                            .Distinct()
                             .ToList(),
                         HotelOrders = c.HotelOrders
                             .Where(ho => !ho.IsDeleted)
@@ -1778,6 +1779,8 @@ namespace CSCRM.Concretes
                         Success = false
                     };
                 }
+
+             
 
                 // Retrieve company contact information
                 GetCompanyForVoucherVM company = await _context.Companies
