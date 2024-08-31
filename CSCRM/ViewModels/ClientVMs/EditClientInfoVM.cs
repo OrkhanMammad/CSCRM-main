@@ -9,7 +9,7 @@
         public string Surname { get; set; }
         public string? PaySituation { get; set; }
         public decimal? SalesAmount { get; set; }
-        public decimal? Received { get; set; }
+        public decimal? Received { get; set; } = 0;
         public string? VisaSituation { get; set; }
         public string? Country { get; set; }
         public string? Company { get; set; }

@@ -829,7 +829,7 @@ function updateClientInfo(clientId) {
             Name: name,
             Surname: surname,
             SalesAmount: salesAmount,
-            Received: received,
+            Received: received ? received : 0,
             PaySituation: paymentSituation,
             VisaSituation: visaSituation,
             Country: country,
